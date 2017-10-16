@@ -6,6 +6,9 @@
 - Mapping Libraries: Leaflet vs. Openlayers
 - Testing: MochaJS vs. other Testing Frameworks
 - Package Dependency Libraries: yarn | bower | grunt
+- Server-side caching: redis | memcached | node-cache
 
+- Proxy for static data: nginx 
+  - To reduce load on node Server
 - jpg2000 conversion to other formats
 - map library input formats
