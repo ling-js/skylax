@@ -1,0 +1,108 @@
+/**
+ * Geosoftware I, SoSe 2017, final
+ * @author Jan Speckamp (428367)
+ */
+
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+a, a:active, a:focus{
+  color: #00B7FF;
+  outline: none;
+  border: 0;
+}
+
+#search {
+  padding-top: 20px;
+}
+
+.panel-heading:hover {
+  cursor: pointer;
+}
+
+.rightmargin {
+  margin-right: 20px;
+}
+
+/* Adapted from https://www.w3schools.com/howto/howto_css_animated_search.asp */
+input[type=search] {
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  background-image: url('geocoder.png');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+input[type=search]:focus {
+  width: 80%;
+}
+
+.ui-resizable-handle {
+  background: linear-gradient(
+          to bottom,
+          white,
+          white 50%,
+          lightgray 50%,
+          lightgray
+  );
+  background-size: 100% 20px;
+}
+html, body, #map {
+  height: 100%;
+}
+.scroll {
+  overflow: scroll;
+  margin: auto;
+}
+
+#searchform {
+  padding-bottom: 10px;
+}
+
+.tabledisplay {
+  display: table;
+}
+
+.tabledisplay p {
+  display: table-row;
+}
+
+.tabledisplay input, label, button{
+  display: table-cell;
+}
+
+.blue {
+  background-color:lightskyblue !important;
+}
+/*
+.leaflet-routing-container {
+  display:none;
+}*/
+.readonly {
+  background-color: #b4b4b4;
+}
+/*
+.sidebar-left {
+  width: 35%;
+}*/
+.leaflet-popup-content-wrapper{
+  text-align: center;
+}
+
+.add-field-button{
+  margin-bottom: 10px;
+}
+img {
+  width: auto;
+  height: 200px;
+  margin: auto;
+}
+
