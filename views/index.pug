@@ -1,0 +1,177 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name='author', content='Jan Speckamp (428367),Jasper Buß,Jens Seifert,Benjamin Karic , Eric Thieme-Garmann')
+    title Skylax - a 'ling Project
+
+    // Page Content [parsed by Pug]
+    script.
+        if("#{objects}" !== "") {
+            var loaded_object_id = "#{objects}".split(',');
+        } else {
+            var loaded_object_id = [];
+        }
+    // JAVASCRIPTS
+    script(src='https://code.jquery.com/jquery-3.2.1.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js')
+    script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")
+    script(src='https://unpkg.com/leaflet@1.0.3/dist/leaflet.js')
+    script(src="https://use.fontawesome.com/31a5e4392a.js")
+    script(src='/javascripts/leaflet-sidebar.min.js')
+
+    script(src='/javascripts/turfnearest.min.js')
+
+
+    // Leaflet draw plugin
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.css')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.js')
+
+
+    script(src = '/javascripts/index.js')
+    script(src = '/javascripts/map.js')
+
+    // STYLESHEETS
+    link(rel='stylesheet', href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u', crossorigin='anonymous')
+    link(rel='stylesheet', href='https://unpkg.com/leaflet@1.0.3/dist/leaflet.css')
+    link(rel='stylesheet', href='/stylesheets/leaflet-sidebar.min.css')
+
+    link(rel='stylesheet', href='/stylesheets/style.css')
+
+  body
+    #map
+    #sidebar.sidebar.collapsed
+      .sidebar-tabs
+        ul(role='tablist')
+          li
+            a(href='#home' , role='tab')
+              i.fa.fa-home
+          li
+            a(href='#search', role='tab')
+              i.fa.fa-bars
+        ul(role='tablist')
+          li
+            a(href='#imprint', role='tab')
+              i.fa.fa-institution
+      .sidebar-content
+        #home.sidebar-pane
+          h2 Skylax
+          p The Project Name: “Skylax” is chosen with reference to the german name of Scylax of Caryanda (Greek: Σκύλαξ ο Καρυανδεύς) who was a renowned Greek explorer and writer of the late 6th and early 5th centuries BCE. (source: Wikipedia).
+        #search.sidebar-pane
+            form#searchformbyterm
+            input(id='searchformbyterm_input' type='search', placeholder="Search by term", autocomplete="off", onchange="search_items(this.value)", oninput="this.onchange();", onkeypress="this.onchange();", onpaste="this.onchange();")
+            form#searchformbydate
+              input(id='searchformbydate_input' type='search', placeholder="Search by date", autocomplete="off", onchange="search_items(this.value)", oninput="this.onchange();", onkeypress="this.onchange();", onpaste="this.onchange();")
+            form#searchformbybbox
+              input(id='searchformbybbox_input' type='search', placeholder="Search by Bbox", autocomplete="off", onchange="search_items(this.value)", oninput="this.onchange();", onkeypress="this.onchange();", onpaste="this.onchange();")
+            .form-group
+              button.btn.btn-primary(id ='searchbutton' onclick='')
+                span.glyphicon.glyphicon-search
+                |  Search
+            p ________________________________________________________________________________________
+            #resultpanel.panel-panel-default
+
+              .panel.panel-default
+                .panel-heading
+                  a.text-muted(data-toggle='collapse' data-target='#dataset')
+                    span.glyphicon.glyphicon-open(aria-hidden='true')
+                    |                  Dataset 1
+                span.panel-body.panel-collapse.collapse.out(id='dataset')
+                    p#resolution Resolution :
+                    p#quality Quality :
+                    form
+                      input(type='radio', name='type', value='RGB', checked='')
+                      |  RGB
+                      br
+                      input(type='radio', name='type', value='Greyscale')
+                      |  Greyscale
+                      input(type='range' min='0' max='100' value='O')
+                    .form-group
+                      button.btn.btn-primary(id ='show' onclick='')
+                        span.glyphicon.glyphicon-search
+                        |  Show this dataset
+              .panel.panel-default
+                .panel-heading
+                  a.text-muted(data-toggle='collapse' data-target='#dataset2')
+                    span.glyphicon.glyphicon-open(aria-hidden='true')
+                    |                  Dataset 2
+                span.panel-body.panel-collapse.collapse.out(id='dataset2')
+                    p#resolution2 Resolution :
+                    p#qualitiy2 Quality :
+
+                    form
+                      input(type='radio', name='type', value='RGB', checked='')
+                      |  RGB
+                      br
+                      input(type='radio', name='type', value='Greyscale')
+                      |  Greyscale
+
+                      .form-group
+                        button.btn.btn-primary(id ='show2' onclick='')
+                          span.glyphicon.glyphicon-search
+                          |  Show this dataset
+              .panel.panel-default
+                .panel-heading
+                  a.text-muted(data-toggle='collapse' data-target='#dataset3')
+                    span.glyphicon.glyphicon-open(aria-hidden='true')
+                    |                  Dataset 3
+                span.panel-body.panel-collapse.collapse.out(id='dataset3')
+                    p#resolution3 Resolution :
+                    p#quality3 Quality :
+
+                    form
+                      input(type='radio', name='type', value='RGB', checked='')
+                      |  RGB
+                      br
+                      input(type='radio', name='type', value='Greyscale')
+                      |  Greyscale
+
+
+                      .form-group
+                        button.btn.btn-primary(id ='shows' onclick='')
+                          span.glyphicon.glyphicon-search
+                          |  Show this dataset
+        #imprint.sidebar-pane
+          h1 Legal Disclosure
+          | Information in accordance with section 5 TMG
+          br
+          br
+          | Jan Speckamp und Jens Seifert und Jasper Buß und Benjamin Karic und Eric Thieme-Garmann
+          br
+          | 127.0.0.1
+          br
+          | eth0
+          br
+          h2 Contact
+          | ICQ: 123456789
+          br
+          | E-Mail:
+          a(href='mailto:noreply.muster@mail.de') max.muster@mail.de
+          br
+          | Website:
+          a(href='http://3g2upl4pq6kufc4m.onion/', target='_blank') http://3g2upl4pq6kufc4m.onion/
+          br
+          h2 Disclaimer
+          | Accountability for content
+          br
+          | The contents of our pages have been created with the utmost care. However, we cannot guarantee the contents' accuracy, completeness or topicality. According to statutory provisions, we are furthermore responsible for our own content on these web pages. In this context, please note that we are accordingly not obliged to monitor merely the transmitted or saved information of third parties, or investigate circumstances pointing to illegal activity. Our obligations to remove or block the use of information under generally applicable laws remain unaffected by this as per §§ 8 to 10 of the Telemedia Act (TMG).
+          br
+          br
+          | Accountability for links
+          br
+          | Responsibility for the content of external links (to web pages of third parties) lies solely with the operators of the linked pages. No violations were evident to us at the time of linking. Should any legal infringement become known to us, we will remove the respective link immediately.
+          br
+          br
+          | Copyright
+          br
+          |  Our web pages and their contents are subject to German copyright law. Unless expressly permitted by law (§ 44a et seq. of the copyright law), every form of utilizing, reproducing or processing works subject to copyright protection on our web pages requires the prior consent of the respective owner of the rights. Individual reproductions of a work are allowed only for private use, so must not serve either directly or indirectly for earnings. Unauthorized utilization of copyrighted works is punishable (§ 106 of the copyright law).
+          br
+          br
+          i Source:
+          a(href='https://www.twigg.de', target='_blank') twiggs translations
+          br
+          br
+
