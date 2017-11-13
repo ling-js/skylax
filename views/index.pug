@@ -22,7 +22,6 @@ html
     script(src="https://use.fontawesome.com/31a5e4392a.js")
     script(src='/javascripts/leaflet-sidebar.min.js')
 
-    script(src='/javascripts/turfnearest.min.js')
 
 
     // Leaflet draw plugin
@@ -65,15 +64,25 @@ html
             input(id='searchformbyterm_input' type='search', placeholder="Search by term", autocomplete="off", onchange="search_items(this.value)", oninput="this.onchange();", onkeypress="this.onchange();", onpaste="this.onchange();")
             form#searchformbydate
               input(id='searchformbydate_input' type='search', placeholder="Search by date", autocomplete="off", onchange="search_items(this.value)", oninput="this.onchange();", onkeypress="this.onchange();", onpaste="this.onchange();")
+            button.btn.btn-primary(id ='searchbutton' onclick='')
+              span.glyphicon.glyphicon-search
+              |  Search
             form#searchformbybbox
-              input(id='searchformbybbox_input' type='search', placeholder="Search by Bbox", autocomplete="off", onchange="search_items(this.value)", oninput="this.onchange();", onkeypress="this.onchange();", onpaste="this.onchange();")
-            .form-group
-              button.btn.btn-primary(id ='searchbutton' onclick='')
-                span.glyphicon.glyphicon-search
-                |  Search
+              input(id='searchformbybbox_topleft' type='string', placeholder="GPS of top left corner ")
+              input(id='searchformbybbox_topright' type='string', placeholder="GPS of top right corner")
+              input(id='searchformbybbox_bottomleft' type='string', placeholder="GPS of bottom left corner")
+              input(id='searchformbybbox_bottomright' type='string', placeholder="GPS of bottom right corner")
+            button.btn.btn-primary(id ='deleteDrawing' onclick='')
+              span.glyphicon.glyphicon-trash
+              |  Click to delete your drawing
+            button.btn.btn-primary(id ='bboxbutton' onclick='')
+              span.glyphicon.glyphicon-pencil
+              |  Click to draw a Bounding Box on the Map
+            button.btn.btn-primary(id ='submit' onclick='')
+              span.glyphicon.glyphicon-send
+              |  Submit
             p ________________________________________________________________________________________
             #resultpanel.panel-panel-default
-
               .panel.panel-default
                 .panel-heading
                   a.text-muted(data-toggle='collapse' data-target='#dataset')
