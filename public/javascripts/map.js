@@ -52,10 +52,10 @@ function initMap() {
 
         // Each time a feaute is created, it's added to the over arching feature group
         drawnItems.addLayer(e.layer);
-        document.getElementById("searchformbybbox_topleft").value = getRectangle(1);
-        document.getElementById("searchformbybbox_topright").value = getRectangle(2);
-        document.getElementById("searchformbybbox_bottomleft").value = getRectangle(4);
-        document.getElementById("searchformbybbox_bottomright").value = getRectangle(3);
+        document.getElementById("searchformbybbox_topleft").value = getRectangle(2)[0];
+        document.getElementById("searchformbybbox_topright").value = getRectangle(2)[1];
+        document.getElementById("searchformbybbox_bottomleft").value = getRectangle(4)[0];
+        document.getElementById("searchformbybbox_bottomright").value = getRectangle(4)[1];
 
         });
 
@@ -79,6 +79,7 @@ function initMap() {
 function getRectangle(corner){
     var data = drawnItems.toGeoJSON();
     var output = data.features[0].geometry.coordinates[0][corner].reverse();
+    console.log(output);
     return output;
 }
 

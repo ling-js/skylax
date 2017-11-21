@@ -68,10 +68,20 @@ html
               span.glyphicon.glyphicon-search
               |  Search
             form#searchformbybbox
-              input(id='searchformbybbox_topleft' type='string', placeholder="GPS of top left corner ")
-              input(id='searchformbybbox_topright' type='string', placeholder="GPS of top right corner")
-              input(id='searchformbybbox_bottomleft' type='string', placeholder="GPS of bottom left corner")
-              input(id='searchformbybbox_bottomright' type='string', placeholder="GPS of bottom right corner")
+              | Top Right Corner: 
+              br
+              | Lat:
+              input(id='searchformbybbox_topleft' type='string', placeholder="Latidude of top left corner") 
+              | &nbsp; Long:
+              input(id='searchformbybbox_topright' type='string', placeholder="Longitude of top left corner")
+              br
+              br
+              | Bottom Left Corner: 
+              br
+              | Lat:
+              input(id='searchformbybbox_bottomleft' type='string', placeholder="Latidude of bottom right corner")
+              | &nbsp; Long:
+              input(id='searchformbybbox_bottomright' type='string', placeholder="Longitude of bottom right corner")
             button.btn.btn-primary(id ='deleteDrawing' onclick='')
               span.glyphicon.glyphicon-trash
               |  Click to delete your drawing
