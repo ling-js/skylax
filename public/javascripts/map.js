@@ -6,8 +6,6 @@ var map, // Map Object
     editableLayers ,//Layer to draw onto
     drawnItems,
     rectangleDrawer;
-
-
 /**
  * Geosoftware I, SoSe 2017, final
  * @author Jan Speckamp (428367) ,Jens Seifert ,Jasper Buß, Benjamin Karic , Eric Thieme-Garmann
@@ -22,22 +20,18 @@ function initMap() {
     map = L.map('map', {
         center: [48.748945343432936, 11.733398437500002], // Europe
         zoom: 5,
-
+        zoomControl: false
     });
     L.control.zoom({
         position: 'bottomright'
     }).addTo(map);
-
     // Handler that is used in order to get rid of the draw control
     rectangleDrawer = new L.Draw.Rectangle(map);
-
 
     // add standard OSM tiles as basemap
     layerControl = L.control.layers().addBaseLayer(L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map), 'OpenStreetMap (Tiles)').addTo(map).expand();
-
-
 
     //Feature group where drawn items are saved
     drawnItems = L.featureGroup().addTo(map);
@@ -68,8 +62,6 @@ function initMap() {
 
 
         // Set up Sidebar and Startpage
-
-
     sidebar = L.control.sidebar('sidebar').addTo(map);
     sidebar.open('home');
 
@@ -126,3 +118,4 @@ $( document ).ready(function() {
 
     });
 });
+
