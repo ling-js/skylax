@@ -10,6 +10,7 @@ $(document).ready(function() {
     // Show all Items when initially opening Search Bar
     sidebar.on('content', function(e) {
     });
+<<<<<<< HEAD
 
 
     $('#searchform').submit(function(e) {
@@ -42,4 +43,6 @@ $(document).ready(function() {
         }); //end ajax
     });//end getMetaData()
 
+=======
+>>>>>>> 92019e2a1121c63bbc864c8b1070dceeadfd4bb4
 });
