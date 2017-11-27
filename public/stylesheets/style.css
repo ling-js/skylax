@@ -105,8 +105,6 @@ img {
   margin: auto;
 }
 
-a {color: black;margin: 5px; text-decoration: none;}
-
 .dropdown-menu li:hover .sub-menu {
     visibility: visible;
 }
