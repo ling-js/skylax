@@ -5,7 +5,13 @@ var map, // Map Object
     drawControl,
     editableLayers ,//Layer to draw onto
     drawnItems,
-    rectangleDrawer;
+    rectangleDrawer,
+    spinner,
+    target;
+
+    //SpinnerToggler
+    var toggler = false;
+
 /**
  * Geosoftware I, SoSe 2017, final
  * @author Jan Speckamp (428367) ,Jens Seifert ,Jasper Buß, Benjamin Karic , Eric Thieme-Garmann
@@ -16,12 +22,14 @@ var map, // Map Object
 /**
  * Initialises Map Object
  */
+
 function initMap() {
     map = L.map('map', {
         center: [48.748945343432936, 11.733398437500002], // Europe
         zoom: 5,
         zoomControl: false
     });
+
     L.control.zoom({
         position: 'bottomright'
     }).addTo(map);
@@ -44,6 +52,7 @@ function initMap() {
     });
 
     map.on('click', function(e) {
+      spinnerHide();
         console.log(e.latlng);
     } );
 
@@ -118,3 +127,28 @@ $( document ).ready(function() {
     });
 });
 
+function spinnerShow(){
+      //Spinner Zeugs
+      target = document.getElementById('sidebar');
+      spinner = new Spinner().spin();
+      var spinnerList = target.childNodes;
+      for(var i = 0; i < spinnerList.length; i++){
+        if(i == spinnerList.length-1 && toggler == false){
+          target.appendChild(spinner.el);
+          toggler = true;
+          break;
+        }
+      }
+}
+
+function spinnerHide(){
+      //Spinner Zeugs
+      var spinnerList = target.childNodes;
+      for(var i = 0; i < spinnerList.length; i++){
+        if(spinnerList[i].className == "spinner" && toggler == true){
+          target.removeChild(spinnerList[i]);
+          toggler = false;
+          break;
+        }
+      }
+}

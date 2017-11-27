@@ -31,6 +31,9 @@ html
 
     script(src = '/javascripts/index.js')
     script(src = '/javascripts/map.js')
+    
+    // Spinner from https://github.com/fgnass/spin.js
+    script(src = '/javascripts/spin.js')
 
     // STYLESHEETS
     link(rel='stylesheet', href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css')
@@ -64,7 +67,7 @@ html
             input(id='searchformbyterm_input' type='search', placeholder="Search by term", autocomplete="off", onchange="search_items(this.value)", oninput="this.onchange();", onkeypress="this.onchange();", onpaste="this.onchange();")
             form#searchformbydate
               input(id='searchformbydate_input' type='search', placeholder="Search by date", autocomplete="off", onchange="search_items(this.value)", oninput="this.onchange();", onkeypress="this.onchange();", onpaste="this.onchange();")
-            button.btn.btn-primary(id ='searchbutton' onclick='')
+            button.btn.btn-primary(id ='searchbutton' onclick='spinnerShow()')
               span.glyphicon.glyphicon-search
               |  Search
             form#searchformbybbox
@@ -193,4 +196,3 @@ html
           a(href='https://www.twigg.de', target='_blank') twiggs translations
           br
           br
-
