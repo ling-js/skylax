@@ -139,6 +139,37 @@ $( document ).ready(function() {
         $('#deleteDrawing').hide();
 
     });
+
+    $('#searchform').submit(function(e) {
+        // Prevent default html form handling
+        e.preventDefault();
+        var that = this;
+        console.log("function gets called properly awaiting ajax...");
+        var substring = $("#searchformbyname_input").val();
+        var startdate = $("#searchformbydate_input").val();
+        var enddate="";
+        var page = 0;
+        var bbox="";
+
+        var url = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page="+page;
+        console.log(url);
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            data:'',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            statusCode: {
+                404: function() {
+                    console.log("something went wrong(404)");
+                }},
+            success: function (res) {
+                console.dir(res[0]);
+            }
+        }); //end ajax
+    });//end getMetaData()
+
 });
 
 function spinnerShow(){
