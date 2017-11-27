@@ -52,7 +52,7 @@ function initMap() {
     });
 
     map.on('click', function(e) {
-      spinnerHide();
+        spinnerHide();
         console.log(e.latlng);
     } );
 
@@ -89,9 +89,23 @@ function getRectangle(corner){
     var data = drawnItems.toGeoJSON();
     var output = data.features[0].geometry.coordinates[0][corner].reverse();
     console.log(output);
+    output[1] = correctCoordinates(output[1]);
+    console.log(output);
     return output;
 }
 
+function correctCoordinates(coord){
+  if(coord < -180){
+    coord += 360;
+  }else if(coord > 180){
+    coord -= 360;
+  }
+  if(coord > -180 && coord < 180){
+    return coord;
+  }else{
+    correctCoordinates(coord);
+  }
+}
 /**
  * Function that is called whenever the inputs need to be
  * erased from the web page (cache)
@@ -144,6 +158,7 @@ function spinnerShow(){
 
 function spinnerHide(){
       //Spinner Zeugs
+      target = document.getElementById('sidebar');
       var spinnerList = target.childNodes;
       for(var i = 0; i < spinnerList.length; i++){
         if(spinnerList[i].className == "spinner" && toggler == true){
