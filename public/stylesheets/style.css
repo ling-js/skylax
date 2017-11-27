@@ -121,3 +121,8 @@ img {
     visibility: hidden;
     margin-top: -1px;
 }
+
+.dropd {
+  display: none;
+}
+

@@ -39,7 +39,8 @@ $(document).ready(function() {
                     console.log("something went wrong(404)");
                 }},
             success: function (res) {
-            	$('#resultpanel').show();
+            	createHTML2(res.length);
+            	//$('#resultpanel').show();
             	console.dir(res);
             	visualizeMetadata(res);
                 
