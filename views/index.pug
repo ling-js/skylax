@@ -23,7 +23,6 @@ html
     script(src='/javascripts/leaflet-sidebar.min.js')
 
 
-
     // Leaflet draw plugin
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.css')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.js')
@@ -65,6 +64,7 @@ html
             form#searchformbydate
               input(id='searchformbydate_input' type='search', placeholder="Search by date", autocomplete="off", onchange="search_items(this.value)", oninput="this.onchange();", onkeypress="this.onchange();", onpaste="this.onchange();")
 
+
             button.btn.btn-primary(id ='searchbutton' onclick='')
               span.glyphicon.glyphicon-search
               |  Search
@@ -104,11 +104,92 @@ html
                     p#quality Quality :
                     form
                       input(type='radio', name='type', value='RGB', checked='')
-                      |  RGB
+                      |  RGB 
+                      a.text-muted(data-toggle='collapse' data-target='#dropd')
+                        span.glyphicon.glyphicon-open(aria-hidden='true')
+                        |  Click me to choose your options
                       br
+                      span.panel-body.panel-collapse.collapse.out(id='dropd')
+                        |  Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") action
+                            li 
+                              a(href="#") another action
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", id='minRed', placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65000, value=65000)
+                        br
+                        br
+                        |  Green band:&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") action
+                            li 
+                              a(href="#") another action
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65000, value=65000)
+                        br
+                        br
+                        |  Blue band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") action
+                            li 
+                              a(href="#") another action
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65000, value=65000)
+                        br
+                        br
                       input(type='radio', name='type', value='Greyscale')
                       |  Greyscale
-                      input(type='range' min='0' max='100' value='O')
+                      br
+                      span.panel-body.panel-collapse(id='dropd2')
+                        |  Choose a band:&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") action
+                            li 
+                              a(href="#") another action
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65000, value=65000)
+                        br
+                      br
+                      |Choose your opacity:
+                      input(type='range', name="ageInputName", id="ageInputId", value="0", min="0", max="100", oninput="ageOutputId.value= 'Opacity Level:' + ageInputId.value")
+                      output(name="ageOutputName", id="ageOutputId")
+                        | Opacity Level: 0
                     .form-group
                       button.btn.btn-primary(id ='show' onclick='')
                         span.glyphicon.glyphicon-search

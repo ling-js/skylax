@@ -7,6 +7,7 @@ var map, // Map Object
     drawnItems,
     rectangleDrawer;
 
+
 /**
  * Geosoftware I, SoSe 2017, final
  * @author Jan Speckamp (428367) ,Jens Seifert ,Jasper Buß, Benjamin Karic , Eric Thieme-Garmann
@@ -19,20 +20,28 @@ var map, // Map Object
  */
 function initMap() {
     map = L.map('map', {
+<<<<<<< HEAD
         center: [48.748945343432936, 11.733398437500002], // Europe
         zoom: 5,
+=======
+        center: [40.416775, -3.703790], // Madrid
+        zoom: 6,
+>>>>>>> origin/TestUIB
         zoomControl: false
     });
     L.control.zoom({
         position: 'bottomright'
     }).addTo(map);
+
     // Handler that is used in order to get rid of the draw control
     rectangleDrawer = new L.Draw.Rectangle(map);
+
 
     // add standard OSM tiles as basemap
     layerControl = L.control.layers().addBaseLayer(L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map), 'OpenStreetMap (Tiles)').addTo(map).expand();
+
 
 
     //Feature group where drawn items are saved
@@ -64,6 +73,7 @@ function initMap() {
 
 
         // Set up Sidebar and Startpage
+
 
     sidebar = L.control.sidebar('sidebar').addTo(map);
     sidebar.open('home');
@@ -121,5 +131,3 @@ $( document ).ready(function() {
 
     });
 });
-
-
