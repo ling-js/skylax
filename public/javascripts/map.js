@@ -3,14 +3,10 @@ var map, // Map Object
     layerControl,
     sidebar,
     drawControl,
-<<<<<<< HEAD
-    editableLayers ;//Layer to draw onto
-
-=======
     editableLayers ,//Layer to draw onto
     drawnItems,
     rectangleDrawer;
->>>>>>> newERIC
+
 /**
  * Geosoftware I, SoSe 2017, final
  * @author Jan Speckamp (428367) ,Jens Seifert ,Jasper Buß, Benjamin Karic , Eric Thieme-Garmann
@@ -35,35 +31,15 @@ function initMap() {
     L.control.zoom({
         position: 'bottomright'
     }).addTo(map);
-<<<<<<< HEAD
-    // Leaflet.draw options
-
-    editableLayers = new L.FeatureGroup();
-
-    var options = {
-        position: 'bottomright',
-        edit: {
-            featureGroup: editableLayers, //REQUIRED!!
-            remove: false
-        }
-    };
-    // add controls to map
-    drawControl = new L.Control.Draw(options);
-
-    map.addControl(drawControl);
-=======
     // Handler that is used in order to get rid of the draw control
     rectangleDrawer = new L.Draw.Rectangle(map);
 
->>>>>>> newERIC
     // add standard OSM tiles as basemap
     layerControl = L.control.layers().addBaseLayer(L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map), 'OpenStreetMap (Tiles)').addTo(map).expand();
 
-<<<<<<< HEAD
-    // Set up Sidebar and Startpage
-=======
+
     //Feature group where drawn items are saved
     drawnItems = L.featureGroup().addTo(map);
 
@@ -93,29 +69,12 @@ function initMap() {
 
 
         // Set up Sidebar and Startpage
->>>>>>> newERIC
+
     sidebar = L.control.sidebar('sidebar').addTo(map);
     sidebar.open('home');
 
 }
-<<<<<<< HEAD
-/**
- * Modified the toolbar in order to only show the rectangle function
- */
 
-
-L.DrawToolbar.include({
-    getModeHandlers: function(map) {
-        return [
-            {
-                enabled: true,
-                handler: new L.Draw.Rectangle(map),
-                title: 'Create Rectangle'
-            }
-        ];
-    }
-});
-=======
 
 /**
  * Helper function that gets the GPS-Coordinates of the drawn rectangle used for further calculations
@@ -168,4 +127,4 @@ $( document ).ready(function() {
     });
 });
 
->>>>>>> newERIC
+
