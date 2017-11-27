@@ -1,4 +1,3 @@
-<<<<<<< current
 // Global vars;
 var map, // Map Object
     layerControl,
