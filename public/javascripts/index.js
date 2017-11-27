@@ -11,6 +11,8 @@ $(document).ready(function() {
     sidebar.on('content', function(e) {
     });
 
+    $('#resultpanel').hide();
+
 
     $('#searchform').submit(function(e) {
         // Prevent default html form handling
@@ -37,6 +39,7 @@ $(document).ready(function() {
                     console.log("something went wrong(404)");
                 }},
             success: function (res) {
+            	$('#resultpanel').show();
             	console.dir(res);
             	visualizeMetadata(res);
                 

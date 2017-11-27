@@ -44,6 +44,14 @@ $('#resolution' + (i+1)  ).html(
 
 }
 
+
+function toggleDrop(){
+	$('#dropd1').toggle();
+}
+
+function toggleDrop2(){
+	$('#dropd2').toggle();
+}
 /*function detectLong(output){
     var vorzeichen;
   if(output< 0){
