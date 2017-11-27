@@ -34,7 +34,6 @@ input[type=search] {
   border-radius: 4px;
   font-size: 16px;
   background-color: white;
-  background-image: url('geocoder.png');
   background-position: 10px 10px;
   background-repeat: no-repeat;
   padding: 12px 20px 12px 40px;
@@ -124,4 +123,3 @@ a {color: black;margin: 5px; text-decoration: none;}
     visibility: hidden;
     margin-top: -1px;
 }
-
