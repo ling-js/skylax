@@ -27,7 +27,7 @@ html
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.css')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.js')
 
-
+    script(src = '/javascripts/Load.js')
     script(src = '/javascripts/index.js')
     script(src = '/javascripts/map.js')
 
@@ -89,19 +89,20 @@ html
             button.btn.btn-primary(id ='bboxbutton' onclick='')
               span.glyphicon.glyphicon-pencil
               |  Click to draw a Bounding Box on the Map
-            button.btn.btn-primary(id ='submit' onclick='')
+            button.btn.btn-primary(id ='submit' onclick='visualizeMetadata()')
               span.glyphicon.glyphicon-send
               |  Submit
             p ________________________________________________________________________________________
             #resultpanel.panel-panel-default
               .panel.panel-default
                 .panel-heading
-                  a.text-muted(data-toggle='collapse' data-target='#dataset')
+                  a.text-muted(data-toggle='collapse' data-target='#dataset1')
                     span.glyphicon.glyphicon-open(aria-hidden='true')
                     |                  Dataset 1
-                span.panel-body.panel-collapse.collapse.out(id='dataset')
-                    p#resolution Resolution :
-                    p#quality Quality :
+                span.panel-body.panel-collapse.collapse.out(id='dataset1')
+                    p#quality Metadata:
+                    p#resolution1
+                    
                     form
                       input(type='radio', name='type', value='RGB', checked='')
                       |  RGB 
@@ -117,15 +118,38 @@ html
                             span.caret
                           ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
                             li
-                              a(href="#") action
+                              a(href="#") Band 1
                             li 
-                              a(href="#") another action
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                            
                         br
                         | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
                         input(type="number", name="minValue", id='minRed', placeholder=0, value=0)
                         br
                         | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
-                        input(type="number", name="maxValue", maxlength="5", placeholder=65000, value=65000)
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
                         br
                         br
                         |  Green band:&nbsp;&nbsp;
@@ -135,15 +159,37 @@ html
                             span.caret
                           ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
                             li
-                              a(href="#") action
+                              a(href="#") Band 1
                             li 
-                              a(href="#") another action
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
                         br
                         | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
                         input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
                         br
                         | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
-                        input(type="number", name="maxValue", maxlength="5", placeholder=65000, value=65000)
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
                         br
                         br
                         |  Blue band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -153,15 +199,37 @@ html
                             span.caret
                           ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
                             li
-                              a(href="#") action
+                              a(href="#") Band 1
                             li 
-                              a(href="#") another action
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
                         br
                         | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
                         input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
                         br
                         | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
-                        input(type="number", name="maxValue", maxlength="5", placeholder=65000, value=65000)
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
                         br
                         br
                       input(type='radio', name='type', value='Greyscale')
@@ -175,9 +243,31 @@ html
                             span.caret
                           ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
                             li
-                              a(href="#") action
+                              a(href="#") Band 1
                             li 
-                              a(href="#") another action
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
                         br
                         | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
                         input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
@@ -200,41 +290,1330 @@ html
                     span.glyphicon.glyphicon-open(aria-hidden='true')
                     |                  Dataset 2
                 span.panel-body.panel-collapse.collapse.out(id='dataset2')
-                    p#resolution2 Resolution :
-                    p#qualitiy2 Quality :
-
+                    p#quality Metadata:
+                    p#resolution2 
+                   
                     form
                       input(type='radio', name='type', value='RGB', checked='')
-                      |  RGB
+                      |  RGB 
+                      a.text-muted(data-toggle='collapse' data-target='#dropd')
+                        span.glyphicon.glyphicon-open(aria-hidden='true')
+                        |  Click me to choose your options
                       br
+                      span.panel-body.panel-collapse.collapse.out(id='dropd')
+                        |  Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                            
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", id='minRed', placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
+                        br
+                        br
+                        |  Green band:&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
+                        br
+                        br
+                        |  Blue band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
+                        br
+                        br
                       input(type='radio', name='type', value='Greyscale')
                       |  Greyscale
-
-                      .form-group
-                        button.btn.btn-primary(id ='show2' onclick='')
-                          span.glyphicon.glyphicon-search
-                          |  Show this dataset
+                      br
+                      span.panel-body.panel-collapse(id='dropd2')
+                        |  Choose a band:&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65000, value=65000)
+                        br
+                      br
+                      |Choose your opacity:
+                      input(type='range', name="ageInputName", id="ageInputId", value="0", min="0", max="100", oninput="ageOutputId.value= 'Opacity Level:' + ageInputId.value")
+                      output(name="ageOutputName", id="ageOutputId")
+                        | Opacity Level: 0
+                    .form-group
+                      button.btn.btn-primary(id ='show' onclick='')
+                        span.glyphicon.glyphicon-search
+                        |  Show this dataset
               .panel.panel-default
                 .panel-heading
                   a.text-muted(data-toggle='collapse' data-target='#dataset3')
                     span.glyphicon.glyphicon-open(aria-hidden='true')
                     |                  Dataset 3
                 span.panel-body.panel-collapse.collapse.out(id='dataset3')
-                    p#resolution3 Resolution :
-                    p#quality3 Quality :
-
+                    p#quality Metadata:
+                    p#resolution3 
+                    
                     form
                       input(type='radio', name='type', value='RGB', checked='')
-                      |  RGB
+                      |  RGB 
+                      a.text-muted(data-toggle='collapse' data-target='#dropd')
+                        span.glyphicon.glyphicon-open(aria-hidden='true')
+                        |  Click me to choose your options
                       br
+                      span.panel-body.panel-collapse.collapse.out(id='dropd')
+                        |  Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                            
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", id='minRed', placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
+                        br
+                        br
+                        |  Green band:&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
+                        br
+                        br
+                        |  Blue band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
+                        br
+                        br
                       input(type='radio', name='type', value='Greyscale')
                       |  Greyscale
-
-
-                      .form-group
-                        button.btn.btn-primary(id ='shows' onclick='')
-                          span.glyphicon.glyphicon-search
-                          |  Show this dataset
+                      br
+                      span.panel-body.panel-collapse(id='dropd2')
+                        |  Choose a band:&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65000, value=65000)
+                        br
+                      br
+                      |Choose your opacity:
+                      input(type='range', name="ageInputName", id="ageInputId", value="0", min="0", max="100", oninput="ageOutputId.value= 'Opacity Level:' + ageInputId.value")
+                      output(name="ageOutputName", id="ageOutputId")
+                        | Opacity Level: 0
+                    .form-group
+                      button.btn.btn-primary(id ='show' onclick='')
+                        span.glyphicon.glyphicon-search
+                        |  Show this dataset
+              .panel.panel-default
+                .panel-heading
+                  a.text-muted(data-toggle='collapse' data-target='#dataset4')
+                    span.glyphicon.glyphicon-open(aria-hidden='true')
+                    |                  Dataset 4
+                span.panel-body.panel-collapse.collapse.out(id='dataset4')
+                    p#quality Metadata:
+                    p#resolution4 
+                    
+                    form
+                      input(type='radio', name='type', value='RGB', checked='')
+                      |  RGB 
+                      a.text-muted(data-toggle='collapse' data-target='#dropd')
+                        span.glyphicon.glyphicon-open(aria-hidden='true')
+                        |  Click me to choose your options
+                      br
+                      span.panel-body.panel-collapse.collapse.out(id='dropd')
+                        |  Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                            
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", id='minRed', placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
+                        br
+                        br
+                        |  Green band:&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
+                        br
+                        br
+                        |  Blue band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
+                        br
+                        br
+                      input(type='radio', name='type', value='Greyscale')
+                      |  Greyscale
+                      br
+                      span.panel-body.panel-collapse(id='dropd2')
+                        |  Choose a band:&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65000, value=65000)
+                        br
+                      br
+                      |Choose your opacity:
+                      input(type='range', name="ageInputName", id="ageInputId", value="0", min="0", max="100", oninput="ageOutputId.value= 'Opacity Level:' + ageInputId.value")
+                      output(name="ageOutputName", id="ageOutputId")
+                        | Opacity Level: 0
+                    .form-group
+                      button.btn.btn-primary(id ='show' onclick='')
+                        span.glyphicon.glyphicon-search
+                        |  Show this dataset
+              .panel.panel-default
+                .panel-heading
+                  a.text-muted(data-toggle='collapse' data-target='#dataset5')
+                    span.glyphicon.glyphicon-open(aria-hidden='true')
+                    |                  Dataset 5
+                span.panel-body.panel-collapse.collapse.out(id='dataset5')
+                    p#quality Metadata :
+                    p#resolution5
+                    
+                    form
+                      input(type='radio', name='type', value='RGB', checked='')
+                      |  RGB 
+                      a.text-muted(data-toggle='collapse' data-target='#dropd')
+                        span.glyphicon.glyphicon-open(aria-hidden='true')
+                        |  Click me to choose your options
+                      br
+                      span.panel-body.panel-collapse.collapse.out(id='dropd')
+                        |  Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                            
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", id='minRed', placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
+                        br
+                        br
+                        |  Green band:&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
+                        br
+                        br
+                        |  Blue band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
+                        br
+                        br
+                      input(type='radio', name='type', value='Greyscale')
+                      |  Greyscale
+                      br
+                      span.panel-body.panel-collapse(id='dropd2')
+                        |  Choose a band:&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65000, value=65000)
+                        br
+                      br
+                      |Choose your opacity:
+                      input(type='range', name="ageInputName", id="ageInputId", value="0", min="0", max="100", oninput="ageOutputId.value= 'Opacity Level:' + ageInputId.value")
+                      output(name="ageOutputName", id="ageOutputId")
+                        | Opacity Level: 0
+                    .form-group
+                      button.btn.btn-primary(id ='show' onclick='')
+                        span.glyphicon.glyphicon-search
+                        |  Show this dataset
+              .panel.panel-default
+                .panel-heading
+                  a.text-muted(data-toggle='collapse' data-target='#dataset6')
+                    span.glyphicon.glyphicon-open(aria-hidden='true')
+                    |                  Dataset 6
+                span.panel-body.panel-collapse.collapse.out(id='dataset6')
+                    p#quality Metadata:
+                    p#resolution6 
+                    
+                    form
+                      input(type='radio', name='type', value='RGB', checked='')
+                      |  RGB 
+                      a.text-muted(data-toggle='collapse' data-target='#dropd')
+                        span.glyphicon.glyphicon-open(aria-hidden='true')
+                        |  Click me to choose your options
+                      br
+                      span.panel-body.panel-collapse.collapse.out(id='dropd')
+                        |  Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                            
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", id='minRed', placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
+                        br
+                        br
+                        |  Green band:&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
+                        br
+                        br
+                        |  Blue band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
+                        br
+                        br
+                      input(type='radio', name='type', value='Greyscale')
+                      |  Greyscale
+                      br
+                      span.panel-body.panel-collapse(id='dropd2')
+                        |  Choose a band:&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65000, value=65000)
+                        br
+                      br
+                      |Choose your opacity:
+                      input(type='range', name="ageInputName", id="ageInputId", value="0", min="0", max="100", oninput="ageOutputId.value= 'Opacity Level:' + ageInputId.value")
+                      output(name="ageOutputName", id="ageOutputId")
+                        | Opacity Level: 0
+                    .form-group
+                      button.btn.btn-primary(id ='show' onclick='')
+                        span.glyphicon.glyphicon-search
+                        |  Show this dataset
+              .panel.panel-default
+                .panel-heading
+                  a.text-muted(data-toggle='collapse' data-target='#dataset7')
+                    span.glyphicon.glyphicon-open(aria-hidden='true')
+                    |                  Dataset 7
+                span.panel-body.panel-collapse.collapse.out(id='dataset7')
+                    p#quality Metadata:
+                    p#resolution7
+                    
+                    form
+                      input(type='radio', name='type', value='RGB', checked='')
+                      |  RGB 
+                      a.text-muted(data-toggle='collapse' data-target='#dropd')
+                        span.glyphicon.glyphicon-open(aria-hidden='true')
+                        |  Click me to choose your options
+                      br
+                      span.panel-body.panel-collapse.collapse.out(id='dropd')
+                        |  Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                            
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", id='minRed', placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
+                        br
+                        br
+                        |  Green band:&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
+                        br
+                        br
+                        |  Blue band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
+                        br
+                        br
+                      input(type='radio', name='type', value='Greyscale')
+                      |  Greyscale
+                      br
+                      span.panel-body.panel-collapse(id='dropd2')
+                        |  Choose a band:&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65000, value=65000)
+                        br
+                      br
+                      |Choose your opacity:
+                      input(type='range', name="ageInputName", id="ageInputId", value="0", min="0", max="100", oninput="ageOutputId.value= 'Opacity Level:' + ageInputId.value")
+                      output(name="ageOutputName", id="ageOutputId")
+                        | Opacity Level: 0
+                    .form-group
+                      button.btn.btn-primary(id ='show' onclick='')
+                        span.glyphicon.glyphicon-search
+                        |  Show this dataset
+              .panel.panel-default
+                .panel-heading
+                  a.text-muted(data-toggle='collapse' data-target='#dataset8')
+                    span.glyphicon.glyphicon-open(aria-hidden='true')
+                    |                  Dataset 8
+                span.panel-body.panel-collapse.collapse.out(id='dataset8')
+                    p#quality Metadata:
+                    p#resolution7
+                    
+                    form
+                      input(type='radio', name='type', value='RGB', checked='')
+                      |  RGB 
+                      a.text-muted(data-toggle='collapse' data-target='#dropd')
+                        span.glyphicon.glyphicon-open(aria-hidden='true')
+                        |  Click me to choose your options
+                      br
+                      span.panel-body.panel-collapse.collapse.out(id='dropd')
+                        |  Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                            
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", id='minRed', placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
+                        br
+                        br
+                        |  Green band:&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
+                        br
+                        br
+                        |  Blue band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65536, value=65536)
+                        br
+                        br
+                      input(type='radio', name='type', value='Greyscale')
+                      |  Greyscale
+                      br
+                      span.panel-body.panel-collapse(id='dropd2')
+                        |  Choose a band:&nbsp;&nbsp;
+                        li.dropdown.btn.btn-default
+                          span.glyphicon.glyphicon-th-list
+                            |  Select 
+                            span.caret
+                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
+                            li
+                              a(href="#") Band 1
+                            li 
+                              a(href="#") Band 2
+                            li
+                              a(href="#") Band 3
+                            li 
+                              a(href="#") Band 4
+                            li
+                              a(href="#") Band 5
+                            li 
+                              a(href="#") Band 6
+                            li
+                              a(href="#") Band 7
+                            li 
+                              a(href="#") Band 8
+                            li
+                              a(href="#") Band 8a
+                            li
+                              a(href="#") Band 9
+                            li 
+                              a(href="#") Band 10
+                            li
+                              a(href="#") Band 11
+                            li 
+                              a(href="#") Band 12
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
+                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
+                        br
+                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
+                        input(type="number", name="maxValue", maxlength="5", placeholder=65000, value=65000)
+                        br
+                      br
+                      |Choose your opacity:
+                      input(type='range', name="ageInputName", id="ageInputId", value="0", min="0", max="100", oninput="ageOutputId.value= 'Opacity Level:' + ageInputId.value")
+                      output(name="ageOutputName", id="ageOutputId")
+                        | Opacity Level: 0
+                    .form-group
+                      button.btn.btn-primary(id ='show' onclick='')
+                        span.glyphicon.glyphicon-search
+                        |  Show this dataset
         #imprint.sidebar-pane
           h1 Legal Disclosure
           | Information in accordance with section 5 TMG
