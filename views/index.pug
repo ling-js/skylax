@@ -23,6 +23,7 @@ html
     script(src='/javascripts/leaflet-sidebar.min.js')
 
 
+
     // Leaflet draw plugin
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.css')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.js')
@@ -59,15 +60,11 @@ html
           h2 Skylax
           p The Project Name: “Skylax” is chosen with reference to the german name of Scylax of Caryanda (Greek: Σκύλαξ ο Καρυανδεύς) who was a renowned Greek explorer and writer of the late 6th and early 5th centuries BCE. (source: Wikipedia).
         #search.sidebar-pane
-            form#searchformbyterm
-            input(id='searchformbyterm_input' type='search', placeholder="Search by term", autocomplete="off", onchange="search_items(this.value)", oninput="this.onchange();", onkeypress="this.onchange();", onpaste="this.onchange();")
-            form#searchformbydate
-              input(id='searchformbydate_input' type='search', placeholder="Search by date", autocomplete="off", onchange="search_items(this.value)", oninput="this.onchange();", onkeypress="this.onchange();", onpaste="this.onchange();")
-
-
-            button.btn.btn-primary(id ='searchbutton' onclick='')
-              span.glyphicon.glyphicon-search
-              |  Search
+            //Input für einzelne Daten Tage etc.
+            form#searchform(method='GET')
+              input(id='searchformbyname_input' type='search' placeholder="by name")
+              input(id='searchformbydate_input' type='search' placeholder="YYYY-MM-DDTHH:MM:SSZ")
+              input.btn.btn-primary(type='submit', id='searchIt', value='Search for datasets')
             form#searchformbybbox
               | Top Right Corner: 
               br
@@ -104,92 +101,11 @@ html
                     p#quality Quality :
                     form
                       input(type='radio', name='type', value='RGB', checked='')
-                      |  RGB 
-                      a.text-muted(data-toggle='collapse' data-target='#dropd')
-                        span.glyphicon.glyphicon-open(aria-hidden='true')
-                        |  Click me to choose your options
+                      |  RGB
                       br
-                      span.panel-body.panel-collapse.collapse.out(id='dropd')
-                        |  Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        li.dropdown.btn.btn-default
-                          span.glyphicon.glyphicon-th-list
-                            |  Select 
-                            span.caret
-                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
-                            li
-                              a(href="#") action
-                            li 
-                              a(href="#") another action
-                        br
-                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
-                        input(type="number", name="minValue", id='minRed', placeholder=0, value=0)
-                        br
-                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
-                        input(type="number", name="maxValue", maxlength="5", placeholder=65000, value=65000)
-                        br
-                        br
-                        |  Green band:&nbsp;&nbsp;
-                        li.dropdown.btn.btn-default
-                          span.glyphicon.glyphicon-th-list
-                            |  Select 
-                            span.caret
-                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
-                            li
-                              a(href="#") action
-                            li 
-                              a(href="#") another action
-                        br
-                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
-                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
-                        br
-                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
-                        input(type="number", name="maxValue", maxlength="5", placeholder=65000, value=65000)
-                        br
-                        br
-                        |  Blue band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        li.dropdown.btn.btn-default
-                          span.glyphicon.glyphicon-th-list
-                            |  Select 
-                            span.caret
-                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
-                            li
-                              a(href="#") action
-                            li 
-                              a(href="#") another action
-                        br
-                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
-                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
-                        br
-                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
-                        input(type="number", name="maxValue", maxlength="5", placeholder=65000, value=65000)
-                        br
-                        br
                       input(type='radio', name='type', value='Greyscale')
                       |  Greyscale
-                      br
-                      span.panel-body.panel-collapse(id='dropd2')
-                        |  Choose a band:&nbsp;&nbsp;
-                        li.dropdown.btn.btn-default
-                          span.glyphicon.glyphicon-th-list
-                            |  Select 
-                            span.caret
-                          ul.dropdown-menu.dropdown-toggle(data-toggle="dropdown")
-                            li
-                              a(href="#") action
-                            li 
-                              a(href="#") another action
-                        br
-                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Min-Value:
-                        input(type="number", name="minValue", maxlength="5", placeholder=0, value=0)
-                        br
-                        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Max-Value:
-                        input(type="number", name="maxValue", maxlength="5", placeholder=65000, value=65000)
-                        br
-                      br
-                      |Choose your opacity:
-                      input(type='range', name="ageInputName", id="ageInputId", value="0", min="0", max="100", oninput="ageOutputId.value= 'Opacity Level:' + ageInputId.value")
-                      output(name="ageOutputName", id="ageOutputId")
-                        | Opacity Level: 0
+                      input(type='range' min='0' max='100' value='O')
                     .form-group
                       button.btn.btn-primary(id ='show' onclick='')
                         span.glyphicon.glyphicon-search
