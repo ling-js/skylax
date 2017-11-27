@@ -20,14 +20,9 @@ var map, // Map Object
  */
 function initMap() {
     map = L.map('map', {
-<<<<<<< HEAD
         center: [48.748945343432936, 11.733398437500002], // Europe
         zoom: 5,
-=======
-        center: [40.416775, -3.703790], // Madrid
-        zoom: 6,
->>>>>>> origin/TestUIB
-        zoomControl: false
+
     });
     L.control.zoom({
         position: 'bottomright'
