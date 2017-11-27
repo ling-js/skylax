@@ -22,7 +22,10 @@ html
     script(src="https://use.fontawesome.com/31a5e4392a.js")
     script(src='/javascripts/leaflet-sidebar.min.js')
 
+<<<<<<< HEAD
     script(src='/javascripts/turfnearest.min.js')
+=======
+>>>>>>> newERIC
 
 
     // Leaflet draw plugin
@@ -65,6 +68,7 @@ html
             input(id='searchformbyterm_input' type='search', placeholder="Search by term", autocomplete="off", onchange="search_items(this.value)", oninput="this.onchange();", onkeypress="this.onchange();", onpaste="this.onchange();")
             form#searchformbydate
               input(id='searchformbydate_input' type='search', placeholder="Search by date", autocomplete="off", onchange="search_items(this.value)", oninput="this.onchange();", onkeypress="this.onchange();", onpaste="this.onchange();")
+<<<<<<< HEAD
             form#searchformbybbox
               input(id='searchformbybbox_input' type='search', placeholder="Search by Bbox", autocomplete="off", onchange="search_items(this.value)", oninput="this.onchange();", onkeypress="this.onchange();", onpaste="this.onchange();")
             .form-group
@@ -74,6 +78,37 @@ html
             p ________________________________________________________________________________________
             #resultpanel.panel-panel-default
 
+=======
+            button.btn.btn-primary(id ='searchbutton' onclick='')
+              span.glyphicon.glyphicon-search
+              |  Search
+            form#searchformbybbox
+              | Top Right Corner: 
+              br
+              | Lat:
+              input(id='searchformbybbox_topleft' type='string', placeholder="Latidude of top left corner") 
+              | &nbsp; Long:
+              input(id='searchformbybbox_topright' type='string', placeholder="Longitude of top left corner")
+              br
+              br
+              | Bottom Left Corner: 
+              br
+              | Lat:
+              input(id='searchformbybbox_bottomleft' type='string', placeholder="Latidude of bottom right corner")
+              | &nbsp; Long:
+              input(id='searchformbybbox_bottomright' type='string', placeholder="Longitude of bottom right corner")
+            button.btn.btn-primary(id ='deleteDrawing' onclick='')
+              span.glyphicon.glyphicon-trash
+              |  Click to delete your drawing
+            button.btn.btn-primary(id ='bboxbutton' onclick='')
+              span.glyphicon.glyphicon-pencil
+              |  Click to draw a Bounding Box on the Map
+            button.btn.btn-primary(id ='submit' onclick='')
+              span.glyphicon.glyphicon-send
+              |  Submit
+            p ________________________________________________________________________________________
+            #resultpanel.panel-panel-default
+>>>>>>> newERIC
               .panel.panel-default
                 .panel-heading
                   a.text-muted(data-toggle='collapse' data-target='#dataset')
