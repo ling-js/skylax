@@ -60,21 +60,20 @@ html
           h2 Skylax
           p The Project Name: “Skylax” is chosen with reference to the german name of Scylax of Caryanda (Greek: Σκύλαξ ο Καρυανδεύς) who was a renowned Greek explorer and writer of the late 6th and early 5th centuries BCE. (source: Wikipedia).
         #search.sidebar-pane
-            //Input für einzelne Daten Tage etc.
-            form#searchform(method='GET')
-              input(id='searchformbyname_input' type='search' placeholder="by name")
-              input(id='searchformbydate_input' type='search' placeholder="YYYY-MM-DDTHH:MM:SSZ")
-              input.btn.btn-primary(type='submit', id='searchIt', value='Search for datasets')
+          form#searchform(method='GET')
+            input(id='searchformbyname_input' type='search' placeholder="by name")
+            input(id='searchformbydate_input' type='search' placeholder="YYYY-MM-DDTHH:MM:SSZ")
+            input.btn.btn-primary(type='submit', id='searchIt', value='Search for datasets')
             form#searchformbybbox
-              | Top Right Corner: 
+              | Top Right Corner:
               br
               | Lat:
-              input(id='searchformbybbox_topleft' type='string', placeholder="Latidude of top left corner") 
+              input(id='searchformbybbox_topleft' type='string', placeholder="Latidude of top left corner")
               | &nbsp; Long:
               input(id='searchformbybbox_topright' type='string', placeholder="Longitude of top left corner")
               br
               br
-              | Bottom Left Corner: 
+              | Bottom Left Corner:
               br
               | Lat:
               input(id='searchformbybbox_bottomleft' type='string', placeholder="Latidude of bottom right corner")
