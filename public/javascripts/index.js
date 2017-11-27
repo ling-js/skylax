@@ -37,7 +37,9 @@ $(document).ready(function() {
                     console.log("something went wrong(404)");
                 }},
             success: function (res) {
-                console.dir(res[0]);
+            	console.dir(res);
+            	visualizeMetadata(res);
+                
             }
         }); //end ajax
     });//end getMetaData()
