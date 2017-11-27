@@ -10,5 +10,4 @@ $(document).ready(function() {
     // Show all Items when initially opening Search Bar
     sidebar.on('content', function(e) {
     });
-
 });
