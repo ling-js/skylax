@@ -135,6 +135,7 @@ function spinnerShow(){
       for(var i = 0; i < spinnerList.length; i++){
         if(i == spinnerList.length-1 && toggler == false){
           target.appendChild(spinner.el);
+          document.getElementById("searchbutton").disabled = true;
           toggler = true;
           break;
         }
@@ -147,6 +148,7 @@ function spinnerHide(){
       for(var i = 0; i < spinnerList.length; i++){
         if(spinnerList[i].className == "spinner" && toggler == true){
           target.removeChild(spinnerList[i]);
+          document.getElementById("searchbutton").disabled = false;
           toggler = false;
           break;
         }
