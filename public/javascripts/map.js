@@ -53,9 +53,9 @@ function initMap() {
         // Each time a feaute is created, it's added to the over arching feature group
         drawnItems.addLayer(e.layer);
         document.getElementById("searchformbybbox_topleft").value = getRectangle(2)[0];
-        document.getElementById("searchformbybbox_topright").value = getRectangle(2)[1];
+        document.getElementById("searchformbybbox_topright").value = detectLong(getRectangle(2)[1]);
         document.getElementById("searchformbybbox_bottomleft").value = getRectangle(4)[0];
-        document.getElementById("searchformbybbox_bottomright").value = getRectangle(4)[1];
+        document.getElementById("searchformbybbox_bottomright").value = detectLong(getRectangle(4)[1]);
 
         });
 
