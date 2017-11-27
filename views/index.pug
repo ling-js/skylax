@@ -5,6 +5,7 @@ html
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     meta(name='author', content='Jan Speckamp (428367),Jasper Buß,Jens Seifert,Benjamin Karic , Eric Thieme-Garmann')
+    link(rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico")
     title Skylax - a 'ling Project
 
     // Page Content [parsed by Pug]
@@ -31,6 +32,9 @@ html
     script(src = '/javascripts/Load.js')
     script(src = '/javascripts/index.js')
     script(src = '/javascripts/map.js')
+    
+    // Spinner from https://github.com/fgnass/spin.js
+    script(src = '/javascripts/spin.js')
 
     // STYLESHEETS
     link(rel='stylesheet', href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css')
@@ -60,10 +64,20 @@ html
           h2 Skylax
           p The Project Name: “Skylax” is chosen with reference to the german name of Scylax of Caryanda (Greek: Σκύλαξ ο Καρυανδεύς) who was a renowned Greek explorer and writer of the late 6th and early 5th centuries BCE. (source: Wikipedia).
         #search.sidebar-pane
+<<<<<<< HEAD
           form#searchform(method='GET')
             input(id='searchformbyname_input' type='search' placeholder="by name")
             input(id='searchformbydate_input' type='search' placeholder="YYYY-MM-DDTHH:MM:SSZ")
             input.btn.btn-primary(type='submit', id='searchIt', value='Search for datasets')
+=======
+            form#searchformbyterm
+            input(id='searchformbyterm_input' type='search', placeholder="Search by term", autocomplete="off", onchange="search_items(this.value)", oninput="this.onchange();", onkeypress="this.onchange();", onpaste="this.onchange();")
+            form#searchformbydate
+              input(id='searchformbydate_input' type='search', placeholder="Search by date", autocomplete="off", onchange="search_items(this.value)", oninput="this.onchange();", onkeypress="this.onchange();", onpaste="this.onchange();")
+            button.btn.btn-primary(id ='searchbutton' onclick='spinnerShow()')
+              span.glyphicon.glyphicon-search
+              |  Search
+>>>>>>> origin/Spinner
             form#searchformbybbox
               | Top Right Corner:
               br
@@ -1647,4 +1661,3 @@ html
           a(href='https://www.twigg.de', target='_blank') twiggs translations
           br
           br
-
