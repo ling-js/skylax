@@ -118,7 +118,7 @@ function createInnerHTML(length){
 										+ ' Min-Value: <input type="number" name="bcmin" maxlength="5" placeholder="0" value="0"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' 
 										+ ' Max-Value: <input type="number" name="bcmax" maxlength="5" placeholder="65536" value="65536"/><br/> </label><br/> ' 
 										+ ' <input id="grey'+i+'" type="radio" name="rgbbool'+ i +'" value="false" onclick="toggleDrop('+((i*2)+1)+','+(i*2)+')"/> Greyscale<br/> <label for="grey" class="dropd" id="dropd'+((i*2)+1)+'"> ' 
-										+ ' Choose a band:&nbsp;&nbsp; <select name="gsc" id="greyselect" value="0"> <option selected="selected" disabled="disabled" value="0">Pick a band</option> <option value="B1">Band 1</option> <option value="B2">Band 2</option> <option value="B3">Band 3</option> <option value="B4">Band 4</option> <option value="B5">Band 5</option> <option value="B6">Band 6</option> <option value="B7">Band 7</option> <option value="B8">Band 8</option> <option value="B8a">Band 8a</option> <option value="B9">Band 9</option> <option value="B10">Band 10</option> <option value="B11">Band 11</option> <option value="B12">Band 12</option> </select><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' 
+										+ ' Choose a band:&nbsp;&nbsp; <select name="gsc" id="greyselect'+i+'" value="0"> <option selected="selected" disabled="disabled" value="0">Pick a band</option> <option value="B1">Band 1</option> <option value="B2">Band 2</option> <option value="B3">Band 3</option> <option value="B4">Band 4</option> <option value="B5">Band 5</option> <option value="B6">Band 6</option> <option value="B7">Band 7</option> <option value="B8">Band 8</option> <option value="B8a">Band 8a</option> <option value="B9">Band 9</option> <option value="B10">Band 10</option> <option value="B11">Band 11</option> <option value="B12">Band 12</option> </select><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' 
 										+ ' Min-Value: <input type="number" name="gcmin" maxlength="5" placeholder="0" value="0"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ' 
 										+ ' Max-Value: <input type="number" name="gcmax" maxlength="5" placeholder="65536" value="65536"/><br/><br/> </label> </container> <br/> ' 
 										+ ' <p>Choose your opacity:</p> <input type="range" name="ageInputName" id="ageInputId'+i+'" value="0" min="0" max="100" oninput="showOpacityLevel('+i+')"/><output name="ageOutputName" id="ageOutputId'+i+'">Opacity Level: 0</output> <br/> ' 
@@ -130,15 +130,43 @@ function createInnerHTML(length){
 function createHTML(length){
 	$('#one').html('<div class="panel-panel-default" id="resultpanel">'
 	+ createInnerHTML(length) + '</div>');
-	for(var j=1; j<(length+1); j++){
+	for(j=1; j<(length+1); j++){
+		 createSubmitHandler(j);
+	}
+	console.dir($('#one').html());
+}
+
+
+//<select> <option selected="selected" disabled="disabled">Pick a band</option> <option value="1">Band 1</option> <option value="2">Band 2</option> <option value="3">Band 3</option> <option value="4">Band 4</option> <option value="5">Band 5</option> <option value="6">Band 6</option> <option value="7">Band 7</option> <option value="8">Band 8</option> <option value="8a">Band 8a</option> <option value="9">Band 9</option> <option value="10">Band 10</option> <option value="11">Band 11</option> <option value="12">Band 12</option> </select>
+
+//<li class="dropdown btn btn-default"><span class="glyphicon glyphicon-th-list"> Select <span class="caret"></span></span> <ul class="dropdown-menu dropdown-toggle" data-toggle="dropdown"> <li><a href="#">Band 1</a></li> <li> <a href="#">Band 2</a></li> <li><a href="#">Band 3</a></li> <li> <a href="#">Band 4</a></li> <li><a href="#">Band 5</a></li> <li> <a href="#">Band 6</a></li> <li><a href="#">Band 7</a></li> <li> <a href="#">Band 8</a></li> <li><a href="#">Band 8a</a></li> <li><a href="#">Band 9</a></li> <li> <a href="#">Band 10</a></li> <li><a href="#">Band 11</a></li> <li> <a href="#">Band 12</a></li> </ul> </li>
+function radioValue(radios){
+
+	for (var i = 0, length = radios.length; i < length; i++)
+	{
+		if (radios[i].checked)
+		{
+		  return(radios[i].value);
+		}	
+	}
+	return "unknown";
+}
+
+
+function createSubmitHandler(j){
+		console.log("Aktuelles j_1 = " + j);
 		$('#showData'+ j).submit(function(e) {
 		    e.preventDefault();
-		    console.log($('#rgbselect1').val());
-		    console.dir(radioValue(document.getElementsByName('rgbbool3')));
+		    console.log("Aktuelles j_2 = " + j);
+		    console.log("greyselect= "+$('#greyselect'+ j).val());
+		    console.log("redselect= "+$('#rgbselect'+ ((j*3)-2)).val());
+		    console.log("greenyselect= "+$('#rgbselect'+ ((j*3)-1)).val());
+		    console.log("blueselect= "+$('#rgbselect'+ (j*3)).val());
+		    console.dir("radioValue= "+radioValue(document.getElementsByName('rgbbool' + j)));
 		    //Prüfe ob die Eingabefelder für die Marker nicht leer sind
 		    if (  
 		    		(((radioValue(document.getElementsByName('rgbbool'+ j))) == "true") && ($('#rgbselect'+ ((j*3)-2)).val()  !== null) && ($('#rgbselect'+ ((j*3)-1)).val()  !== null) && ($('#rgbselect'+ (j*3)).val()  !== null)) 
-		    	|| 	(((radioValue(document.getElementsByName('rgbbool'+ j))) == "false") && ($('#greyselect').val() !== null))){
+		    	|| 	(((radioValue(document.getElementsByName('rgbbool'+ j))) == "false") && ($('#greyselect'+ j).val() !== null))){
 		    		console.log("trueee: " + j); 
 			        var that = this;
 			        // submit via ajax
@@ -161,25 +189,14 @@ function createHTML(length){
 			}
 		});
 		console.log("Submit overwritten.")
-	}
-	console.dir($('#one').html());
+
+
 }
 
 
-//<select> <option selected="selected" disabled="disabled">Pick a band</option> <option value="1">Band 1</option> <option value="2">Band 2</option> <option value="3">Band 3</option> <option value="4">Band 4</option> <option value="5">Band 5</option> <option value="6">Band 6</option> <option value="7">Band 7</option> <option value="8">Band 8</option> <option value="8a">Band 8a</option> <option value="9">Band 9</option> <option value="10">Band 10</option> <option value="11">Band 11</option> <option value="12">Band 12</option> </select>
 
-//<li class="dropdown btn btn-default"><span class="glyphicon glyphicon-th-list"> Select <span class="caret"></span></span> <ul class="dropdown-menu dropdown-toggle" data-toggle="dropdown"> <li><a href="#">Band 1</a></li> <li> <a href="#">Band 2</a></li> <li><a href="#">Band 3</a></li> <li> <a href="#">Band 4</a></li> <li><a href="#">Band 5</a></li> <li> <a href="#">Band 6</a></li> <li><a href="#">Band 7</a></li> <li> <a href="#">Band 8</a></li> <li><a href="#">Band 8a</a></li> <li><a href="#">Band 9</a></li> <li> <a href="#">Band 10</a></li> <li><a href="#">Band 11</a></li> <li> <a href="#">Band 12</a></li> </ul> </li>
-function radioValue(radios){
 
-	for (var i = 0, length = radios.length; i < length; i++)
-	{
-		if (radios[i].checked)
-		{
-		  return(radios[i].value);
-		}	
-	}
-	return "unknown";
-}
+
 
 
 function showOpacityLevel(i){
