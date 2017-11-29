@@ -141,7 +141,6 @@ function createHTML(res){
 
 //<li class="dropdown btn btn-default"><span class="glyphicon glyphicon-th-list"> Select <span class="caret"></span></span> <ul class="dropdown-menu dropdown-toggle" data-toggle="dropdown"> <li><a href="#">Band 1</a></li> <li> <a href="#">Band 2</a></li> <li><a href="#">Band 3</a></li> <li> <a href="#">Band 4</a></li> <li><a href="#">Band 5</a></li> <li> <a href="#">Band 6</a></li> <li><a href="#">Band 7</a></li> <li> <a href="#">Band 8</a></li> <li><a href="#">Band 8a</a></li> <li><a href="#">Band 9</a></li> <li> <a href="#">Band 10</a></li> <li><a href="#">Band 11</a></li> <li> <a href="#">Band 12</a></li> </ul> </li>
 function radioValue(radios, j){
-
 	for (var i = ((j-1)*2); i < (((j-1)*2)+2); i++)
 	{
 		if (radios[i].checked)
@@ -166,65 +165,63 @@ function subdataName(res, value, j){
 	else if (index > 9) {
 		return res[j-1].SUBDATASET_3_NAME;
 	}
-	else 
+	else
 		return res[j-1].SUBDATASET_2_NAME;
-
 }
 
 
 
 function createSubmitHandler(res, j){
-		console.log("Aktuelles j_1 = " + j);
-		$('#showData'+ j).submit(function(e) {
-		    e.preventDefault();
-		    console.log("Aktuelles j_2 = " + j);
-		    console.log("greyselect= "+$('#greyselect'+ j).val());
-		    console.log("redselect= "+$('#rgbselect'+ ((j*3)-2)).val());
-		    console.log("greenyselect= "+$('#rgbselect'+ ((j*3)-1)).val());
-		    console.log("blueselect= "+$('#rgbselect'+ (j*3)).val());
-		    console.dir(document.getElementsByName('rgbbool'));
-		    console.dir(radioValue(document.getElementsByName('rgbbool'),j));
-		    //Prüfe ob die Eingabefelder für die Marker nicht leer sind
-		    if (  
-		    		(((radioValue(document.getElementsByName('rgbbool'),j)) == "true") && ($('#rgbselect'+ ((j*3)-2)).val()  !== null) && ($('#rgbselect'+ ((j*3)-1)).val()  !== null) && ($('#rgbselect'+ (j*3)).val()  !== null)) 
-		    	|| 	(((radioValue(document.getElementsByName('rgbbool'),j)) == "false") && ($('#greyselect'+ j).val() !== null))){
-		    		console.log("trueee: " + j); 
-		    		console.log(subdataName(res, $('#rgbselect'+ ((j*3)-2)).val(), j));
-		    		var redSDNInput = $('<input type="hidden" name="rcdn" value=' + subdataName(res, $('#rgbselect'+ ((j*3)-2)).val(), j) + '>');
-			        var greenSDNInput = $('<input type="hidden" name="gcdn" value=' + subdataName(res, $('#rgbselect'+ ((j*3)-1)).val(), j) + '>');
-			        var blueSDNInput = $('<input type="hidden" name="bcdn" value=' + subdataName(res, $('#rgbselect'+ ((j*3))).val(), j) + '>');
-			        var greySDNInput = $('<input type="hidden" name="gscdn1" value=' + subdataName(res, $('#greyselect'+ j).val(), j) + '>');
-			        console.log("Variablen erstellet.");
-			        $(this).append(redSDNInput);
-			        $(this).append(greenSDNInput);
-			        $(this).append(blueSDNInput);
-			        $(this).append(greySDNInput);
-			        var that = this;
-			        var newThat = $(that).serialize(); 
-			       console.dir("newThat means: " + newThat);
-			       console.dir("That serialized: " + $(that).serialize());
-			        // submit via ajax
-			        $.ajax({
-			          data: $(that).serialize(),
-			          type: $(that).attr('method'),
-			          url:  'gis-bigdata.uni-muenster.de:14014/generate?',
-			          error: function(xhr, status, err) {
-			            console.log("Error while loading Data");
-			            alert("Error while loading Data");
-			          },
-			          success: function(res) {
-			             console.log("Data successfully loaded.");
-			          }
-			        });
-		    	}	
-		    else {
-		    	console.log("falseeeee: " + j);
-		    	alert("Please define requested values before clicking the Show this dataset -Button");
-			}
-		});
-		console.log("Submit overwritten.")
-
-
+	//console.log("Aktuelles j_1 = " + j);
+	$('#showData'+ j).submit(function(e) {
+		e.preventDefault();
+	    /*console.log("Aktuelles j_2 = " + j);
+	    console.log("greyselect= "+$('#greyselect'+ j).val());
+	    console.log("redselect= "+$('#rgbselect'+ ((j*3)-2)).val());
+	    console.log("greenyselect= "+$('#rgbselect'+ ((j*3)-1)).val());
+	    console.log("blueselect= "+$('#rgbselect'+ (j*3)).val());
+	    console.dir(document.getElementsByName('rgbbool'));
+	    console.dir(radioValue(document.getElementsByName('rgbbool'),j));*/
+	    //Prüfe ob die Eingabefelder für die Marker nicht leer sind
+	    if ((((radioValue(document.getElementsByName('rgbbool'),j)) == "true") && ($('#rgbselect'+ ((j*3)-2)).val()  !== null) && ($('#rgbselect'+ ((j*3)-1)).val()  !== null) && ($('#rgbselect'+ (j*3)).val()  !== null)) 
+	    	|| 	(((radioValue(document.getElementsByName('rgbbool'),j)) == "false") && ($('#greyselect'+ j).val() !== null)))
+	    {
+    		//console.log("trueee: " + j); 
+    		//console.log(subdataName(res, $('#rgbselect'+ ((j*3)-2)).val(), j));
+    		var redSDNInput = $('<input type="hidden" name="rcdn" value=' + subdataName(res, $('#rgbselect'+ ((j*3)-2)).val(), j) + '>');
+	        var greenSDNInput = $('<input type="hidden" name="gcdn" value=' + subdataName(res, $('#rgbselect'+ ((j*3)-1)).val(), j) + '>');
+	        var blueSDNInput = $('<input type="hidden" name="bcdn" value=' + subdataName(res, $('#rgbselect'+ ((j*3))).val(), j) + '>');
+	        var greySDNInput = $('<input type="hidden" name="gscdn1" value=' + subdataName(res, $('#greyselect'+ j).val(), j) + '>');
+	        //console.log("Variablen erstellet.");
+	        $(this).append(redSDNInput);
+	        $(this).append(greenSDNInput);
+	        $(this).append(blueSDNInput);
+	        $(this).append(greySDNInput);
+	        var that = this;
+	        var newThat = $(that).serialize(); 
+	       //console.dir("newThat means: " + newThat);
+	       //console.dir("That serialized: " + $(that).serialize());
+	        // submit via ajax
+	        $.ajax({
+	          data: $(that).serialize(),
+	          type: $(that).attr('method'),
+	          url:  'gis-bigdata.uni-muenster.de:14014/generate?',
+	          error: function(xhr, status, err) {
+	            console.log("Error while loading Data");
+	            alert("Error while loading Data");
+	          },
+	          success: function(res) {
+	             console.log("Data successfully loaded.");
+	          }
+	        });
+	    }	
+		else 
+		{
+    		//console.log("falseeeee: " + j);
+	    	alert("Please define requested values before clicking the Show this dataset -Button");
+		}
+	});
+		//console.log("Submit overwritten.")
 }
 
 
@@ -242,53 +239,47 @@ function showOpacityLevel(i){
 
 
 function visualizeMetadata(res){
-
-
-
-
-
-  for(i=0; i < res.length; i++){
-  	console.log(i)
-$('#resolution' + (i+1)  ).html(
-"<b> Cloud Coverage Assesment: </b>" + res[i].CLOUD_COVERAGE_ASSESSMENT +  "</br>" +
-"<b> Datatake Sensing Start: </b>" + res[i].DATATAKE_1_DATATAKE_SENSING_START + "</br>" +
-"<b> Datatkae Type: </b>" + res[i].DATATAKE_1_DATATAKE_TYPE + "</br>" +
-"<b> Datatake ID: </b>" + res[i].DATATAKE_1_ID + "</br>" +
-"<b> Sensing Orbit Direction: </b>" + res[i].DATATAKE_1_SENSING_ORBIT_DIRECTION + "</br>" +
-"<b> Sensing Orbit Number: </b>" + res[i].DATATAKE_1_SENSING_ORBIT_NUMBER + "</br>" +
-"<b> Spacecraft Name: </b>" + res[i].DATATAKE_1_SPACECRAFT_NAME + "</br>" +
-"<b> Degraded ANC Data Percentage: </b>" + res[i].DEGRADED_ANC_DATA_PERCENTAGE + "</br>" +
-"<b> Degraded MSI Data Percentage: </b>" + res[i].DEGRADED_MSI_DATA_PERCENTAGE + "</br>" +
-"<b> Footprint: </b>" + res[i].FOOTPRINT + "</br>" +
-"<b> Format Correctness Flag: </b>" + res[i].FORMAT_CORRECTNESS_FLAG + "</br>" +
-"<b> General Quality Flag: </b>" + res[i].GENERAL_QUALITY_FLAG + "</br>" +
-"<b> Generation Time: </b>" + res[i].GENERATION_TIME + "</br>" +
-"<b> Geometric Quality Flag: </b>" + res[i].GEOMETRIC_QUALITY_FLAG + "</br>" +
-"<b> Preview Geo Info: </b>" + res[i].PREVIEW_GEO_INFO + "</br>" +
-"<b> Preview Image-Url: </b>" + res[i].PREVIEW_IMAGE_URL +"</br>" +
-"<b> Processing Baseline: </b>" + res[i].PROCESSING_BASELINE + "</br>" +
-"<b> Processing Level: </b>" + res[i].PROCESSING_LEVEL + "</br>" +
-"<b> Product Start Time: </b>" + res[i].PRODUCT_START_TIME + "</br>" +
-"<b> Product Stop Time: </b>" + res[i].PRODUCT_STOP_TIME + "</br>" +
-"<b> PRODUCT_TYPE: </b>" + res[i].PRODUCT_TYPE + "</br>" +
-"<b> PRODUCT_URI: </b>" + res[i].PRODUCT_URI + "</br>" +
-"<b> Quantification Value: </b>" + res[i].QUANTIFICATION_VALUE + "</br>" +
-"<b> Radiometric Quality Flag: </b>" + res[i].RADIOMETRIC_QUALITY_FLAG + "</br>"+
-"<b> Reference Band: </b>" + res[i].REFERENCE_BAND + "</br>" +
-"<b> Reflectance Conversion U: </b>" + res[i].REFLECTANCE_CONVERSION_U + "</br>" +
-"<b> Sensor Quality Flag: </b>" + res[i].SENSOR_QUALITY_FLAG + "</br>" +
-"<b> Special Value Nodata: </b>" + res[i].SPECIAL_VALUE_NODATA + "</br>" +
-"<b> Special Value Saturated: </b>" + res[i].SPECIAL_VALUE_SATURATED + "</br>" +
-"<b> Subdataset 1 Description: </b>" + res[i].SUBDATASET_1_DESC + "</br>" +
-"<b> Subdataset 1 Name: </b>" + res[i].SUBDATASET_1_NAME + "</br>" +
-"<b> Subdataset 2 Description: </b>" + res[i].SUBDATASET_2_DESC + "</br>" +
-"<b> Subdataset 2 Name: </b>" + res[i].SUBDATASET_2_NAME + "</br>" +
-"<b> Subdataset 3 Description: </b>" + res[i].SUBDATASET_3_DESC + "</br>" +
-"<b> Subdataset 3 Name: </b>" + res[i].SUBDATASET_3_NAME + "</br>" +
-"<b> Subdataset 4 Description: </b>" + res[i].SUBDATASET_4_DESC + "</br>" +
-"<b> Subdataset 4 Name: </b>" + res[i].SUBDATASET_4_NAME + "</br>");
-};
-
+	for(i=0; i < res.length; i++){
+	  	console.log(i)
+		$('#resolution' + (i+1)  ).html(
+		"<b> Cloud Coverage Assesment: </b>" + res[i].CLOUD_COVERAGE_ASSESSMENT +  "</br>" +
+		"<b> Datatake Sensing Start: </b>" + res[i].DATATAKE_1_DATATAKE_SENSING_START + "</br>" +
+		"<b> Datatkae Type: </b>" + res[i].DATATAKE_1_DATATAKE_TYPE + "</br>" +
+		"<b> Datatake ID: </b>" + res[i].DATATAKE_1_ID + "</br>" +
+		"<b> Sensing Orbit Direction: </b>" + res[i].DATATAKE_1_SENSING_ORBIT_DIRECTION + "</br>" +
+		"<b> Sensing Orbit Number: </b>" + res[i].DATATAKE_1_SENSING_ORBIT_NUMBER + "</br>" +
+		"<b> Spacecraft Name: </b>" + res[i].DATATAKE_1_SPACECRAFT_NAME + "</br>" +
+		"<b> Degraded ANC Data Percentage: </b>" + res[i].DEGRADED_ANC_DATA_PERCENTAGE + "</br>" +
+		"<b> Degraded MSI Data Percentage: </b>" + res[i].DEGRADED_MSI_DATA_PERCENTAGE + "</br>" +
+		"<b> Footprint: </b>" + res[i].FOOTPRINT + "</br>" +
+		"<b> Format Correctness Flag: </b>" + res[i].FORMAT_CORRECTNESS_FLAG + "</br>" +
+		"<b> General Quality Flag: </b>" + res[i].GENERAL_QUALITY_FLAG + "</br>" +
+		"<b> Generation Time: </b>" + res[i].GENERATION_TIME + "</br>" +
+		"<b> Geometric Quality Flag: </b>" + res[i].GEOMETRIC_QUALITY_FLAG + "</br>" +
+		"<b> Preview Geo Info: </b>" + res[i].PREVIEW_GEO_INFO + "</br>" +
+		"<b> Preview Image-Url: </b>" + res[i].PREVIEW_IMAGE_URL +"</br>" +
+		"<b> Processing Baseline: </b>" + res[i].PROCESSING_BASELINE + "</br>" +
+		"<b> Processing Level: </b>" + res[i].PROCESSING_LEVEL + "</br>" +
+		"<b> Product Start Time: </b>" + res[i].PRODUCT_START_TIME + "</br>" +
+		"<b> Product Stop Time: </b>" + res[i].PRODUCT_STOP_TIME + "</br>" +
+		"<b> PRODUCT_TYPE: </b>" + res[i].PRODUCT_TYPE + "</br>" +
+		"<b> PRODUCT_URI: </b>" + res[i].PRODUCT_URI + "</br>" +
+		"<b> Quantification Value: </b>" + res[i].QUANTIFICATION_VALUE + "</br>" +
+		"<b> Radiometric Quality Flag: </b>" + res[i].RADIOMETRIC_QUALITY_FLAG + "</br>"+
+		"<b> Reference Band: </b>" + res[i].REFERENCE_BAND + "</br>" +
+		"<b> Reflectance Conversion U: </b>" + res[i].REFLECTANCE_CONVERSION_U + "</br>" +
+		"<b> Sensor Quality Flag: </b>" + res[i].SENSOR_QUALITY_FLAG + "</br>" +
+		"<b> Special Value Nodata: </b>" + res[i].SPECIAL_VALUE_NODATA + "</br>" +
+		"<b> Special Value Saturated: </b>" + res[i].SPECIAL_VALUE_SATURATED + "</br>" +
+		"<b> Subdataset 1 Description: </b>" + res[i].SUBDATASET_1_DESC + "</br>" +
+		"<b> Subdataset 1 Name: </b>" + res[i].SUBDATASET_1_NAME + "</br>" +
+		"<b> Subdataset 2 Description: </b>" + res[i].SUBDATASET_2_DESC + "</br>" +
+		"<b> Subdataset 2 Name: </b>" + res[i].SUBDATASET_2_NAME + "</br>" +
+		"<b> Subdataset 3 Description: </b>" + res[i].SUBDATASET_3_DESC + "</br>" +
+		"<b> Subdataset 3 Name: </b>" + res[i].SUBDATASET_3_NAME + "</br>" +
+		"<b> Subdataset 4 Description: </b>" + res[i].SUBDATASET_4_DESC + "</br>" +
+		"<b> Subdataset 4 Name: </b>" + res[i].SUBDATASET_4_NAME + "</br>");
+	};
 }
 
 
