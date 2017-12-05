@@ -66,7 +66,28 @@ html
         #search.sidebar-pane
           form#searchform(method='GET')
             input(id='searchformbyname_input' type='search' placeholder="by name")
-            input(id='searchformbydate_input' type='search' placeholder="YYYY-MM-DDTHH:MM:SSZ")
+            input(id='searchformbydate_input' type='search' placeholder="YYYY-MM-DDTHH:MM:SSZ") 
+            br
+            //| date
+            //input(id='searchformbydate_input' type='date' placeholder="YYYY")
+              br
+              | Year
+              input(id='searchformbydate_input' type='number' placeholder="YYYY")
+              br
+              | Month
+              input(id='searchformbydate_input' type='number' placeholder="MM")
+              br
+              | Day
+              input(id='searchformbydate_input' type='number' placeholder="DD")
+              br
+              | Hours
+              input(id='searchformbydate_input' type='number' placeholder="HH")
+              br
+              | Minutes
+              input(id='searchformbydate_input' type='number' placeholder="MM")
+              br
+            //| Seconds
+            //input(id='searchformbydate_input' type='number' placeholder="SS")
             input.btn.btn-primary(type='submit', id='searchIt', value='Search for datasets')
             br
             form#searchformbybbox

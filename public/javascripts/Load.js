@@ -191,8 +191,9 @@ function createSubmitHandler(res, j){
     		var redSDNInput = $('<input type="hidden" name="rcdn" value=' + subdataName(res, $('#rgbselect'+ ((j*3)-2)).val(), j) + '>');
 	        var greenSDNInput = $('<input type="hidden" name="gcdn" value=' + subdataName(res, $('#rgbselect'+ ((j*3)-1)).val(), j) + '>');
 	        var blueSDNInput = $('<input type="hidden" name="bcdn" value=' + subdataName(res, $('#rgbselect'+ ((j*3))).val(), j) + '>');
-	        var greySDNInput = $('<input type="hidden" name="gscdn1" value=' + subdataName(res, $('#greyselect'+ j).val(), j) + '>');
+	        var greySDNInput = $('<input type="hidden" name="gscdn" value=' + subdataName(res, $('#greyselect'+ j).val(), j) + '>');
 	        //console.log("Variablen erstellet.");
+
 	        $(this).append(redSDNInput);
 	        $(this).append(greenSDNInput);
 	        $(this).append(blueSDNInput);
@@ -200,20 +201,26 @@ function createSubmitHandler(res, j){
 	        var that = this;
 	        var newThat = $(that).serialize(); 
 	       //console.dir("newThat means: " + newThat);
-	       //console.dir("That serialized: " + $(that).serialize());
+	       console.dir("That serialized: " + $(that).serialize());
 	        // submit via ajax
 	        $.ajax({
 	          data: $(that).serialize(),
 	          type: $(that).attr('method'),
-	          url:  'gis-bigdata.uni-muenster.de:14014/generate?',
+	          url:  'http://10.67.6.112:8080/generate?',
 	          error: function(xhr, status, err) {
 	            console.log("Error while loading Data");
 	            alert("Error while loading Data");
 	          },
 	          success: function(res) {
 	             console.log("Data successfully loaded.");
+	             L.tileLayer('http://10.67.6.112:8080/data/tmp/{z}/{x}/{-y}.png').addTo(map);
 	          }
 	        });
+	        redSDNInput.remove();
+	        greenSDNInput.remove();
+	        blueSDNInput.remove();
+	        greenSDNInput.remove();
+
 	    }	
 		else 
 		{
@@ -312,6 +319,8 @@ function toggleDrop(i,j){
   return output; 
 
   }*/
+
+  
 /*$(document).ready(function() {	
 	$('.showData1').submit(function(e) {
 	    e.preventDefault();
