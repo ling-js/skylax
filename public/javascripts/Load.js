@@ -133,7 +133,6 @@ function createHTML(res){
 	for(j=1; j<(res.length+1); j++){
 		 createSubmitHandler(res, j);
 	}
-	console.dir($('#one').html());
 }
 
 
@@ -172,48 +171,50 @@ function subdataName(res, value, j){
 
 
 function createSubmitHandler(res, j){
-	//console.log("Aktuelles j_1 = " + j);
 	$('#showData'+ j).submit(function(e) {
 		e.preventDefault();
-	    /*console.log("Aktuelles j_2 = " + j);
-	    console.log("greyselect= "+$('#greyselect'+ j).val());
-	    console.log("redselect= "+$('#rgbselect'+ ((j*3)-2)).val());
-	    console.log("greenyselect= "+$('#rgbselect'+ ((j*3)-1)).val());
-	    console.log("blueselect= "+$('#rgbselect'+ (j*3)).val());
-	    console.dir(document.getElementsByName('rgbbool'));
-	    console.dir(radioValue(document.getElementsByName('rgbbool'),j));*/
 	    //Prüfe ob die Eingabefelder für die Marker nicht leer sind
-	    if ((((radioValue(document.getElementsByName('rgbbool'),j)) == "true") && ($('#rgbselect'+ ((j*3)-2)).val()  !== null) && ($('#rgbselect'+ ((j*3)-1)).val()  !== null) && ($('#rgbselect'+ (j*3)).val()  !== null)) 
-	    	|| 	(((radioValue(document.getElementsByName('rgbbool'),j)) == "false") && ($('#greyselect'+ j).val() !== null)))
+	    if (
+	    (
+			((radioValue(document.getElementsByName('rgbbool'),j)) == "true") &&
+			($('#rgbselect'+ ((j*3)-2)).val()  !== null) &&
+			($('#rgbselect'+ ((j*3)-1)).val() !== null) &&
+			($('#rgbselect'+ (j*3)).val()  !== null)
+	    ) || (
+			((radioValue(document.getElementsByName('rgbbool'),j)) == "false") &&
+	        ($('#greyselect'+ j).val() !== null))
+		)
 	    {
-    		//console.log("trueee: " + j); 
-    		//console.log(subdataName(res, $('#rgbselect'+ ((j*3)-2)).val(), j));
     		var redSDNInput = $('<input type="hidden" name="rcdn" value=' + subdataName(res, $('#rgbselect'+ ((j*3)-2)).val(), j) + '>');
 	        var greenSDNInput = $('<input type="hidden" name="gcdn" value=' + subdataName(res, $('#rgbselect'+ ((j*3)-1)).val(), j) + '>');
 	        var blueSDNInput = $('<input type="hidden" name="bcdn" value=' + subdataName(res, $('#rgbselect'+ ((j*3))).val(), j) + '>');
 	        var greySDNInput = $('<input type="hidden" name="gscdn" value=' + subdataName(res, $('#greyselect'+ j).val(), j) + '>');
-	        //console.log("Variablen erstellet.");
 
 	        $(this).append(redSDNInput);
 	        $(this).append(greenSDNInput);
 	        $(this).append(blueSDNInput);
 	        $(this).append(greySDNInput);
 	        var that = this;
-	        var newThat = $(that).serialize(); 
-	       //console.dir("newThat means: " + newThat);
-	       console.dir("That serialized: " + $(that).serialize());
+	        
 	        // submit via ajax
 	        $.ajax({
 	          data: $(that).serialize(),
 	          type: $(that).attr('method'),
-	          url:  'http://10.67.6.112:8080/generate?',
+	          url:  'http://gis-bigdata.uni-muenster.de:14014/generate?',
 	          error: function(xhr, status, err) {
 	            console.log("Error while loading Data");
 	            alert("Error while loading Data");
 	          },
 	          success: function(res) {
-	             console.log("Data successfully loaded.");
-	             L.tileLayer('http://10.67.6.112:8080/data/tmp/{z}/{x}/{-y}.png').addTo(map);
+	              console.log("Data successfully loaded.");
+	              lyr = L.tileLayer(
+					'http://gis-bigdata.uni-muenster.de:14014/data/' + res + '/{z}/{x}/{-y}.png',
+					{
+					  tms: true,
+					  continuousWorld: true,
+					}
+				  );
+				  layerControl.addOverlay(lyr, res);
 	          }
 	        });
 	        redSDNInput.remove();

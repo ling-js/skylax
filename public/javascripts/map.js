@@ -1,79 +1,88 @@
 // Global vars;
 var map, // Map Object
-    layerControl,
-    sidebar,
-    drawControl,
-    editableLayers ,//Layer to draw onto
-    drawnItems,
-    rectangleDrawer,
-    spinner,
-    target;
+  layerControl,
+  sidebar,
+  drawControl,
+  editableLayers, //Layer to draw onto
+  drawnItems,
+  rectangleDrawer,
+  spinner,
+  target;
 
-    //SpinnerToggler
-    var toggler = false;
+//SpinnerToggler
+var toggler = false;
 
 /**
  * Geosoftware I, SoSe 2017, final
  * @author Jan Speckamp (428367) ,Jens Seifert ,Jasper Buß, Benjamin Karic , Eric Thieme-Garmann
  */
 
-'use strict';
+('use strict');
 
 /**
  * Initialises Map Object
  */
 
 function initMap() {
-    map = L.map('map', {
-        center: [48.748945343432936, 11.733398437500002], // Europe
-        zoom: 5,
-        zoomControl: false
-    });
+  map = L.map('map', {
+    center: [48.748945343432936, 11.733398437500002], // Europe
+    zoom: 5,
+    zoomControl: false,
+  });
 
-    L.control.zoom({
-        position: 'bottomright'
-    }).addTo(map);
-    // Handler that is used in order to get rid of the draw control
-    rectangleDrawer = new L.Draw.Rectangle(map);
+  L.control
+    .zoom({
+      position: 'bottomright',
+    })
+    .addTo(map);
 
-    // add standard OSM tiles as basemap
-    layerControl = L.control.layers().addBaseLayer(L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map), 'OpenStreetMap (Tiles)').addTo(map).expand();
+  // Handler that is used in order to get rid of the draw control
+  rectangleDrawer = new L.Draw.Rectangle(map);
 
-    //Feature group where drawn items are saved
-    drawnItems = L.featureGroup().addTo(map);
+  var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution:
+      '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+  }).addTo(map);
 
+  var basemaps = { OpenStreetMap: osm };
+  var overlaymaps = {};
 
-    map.on(L.Draw.Event.CREATED, function (event) {
-        var layer = event.layer;
+  layerControl = L.control.layers(basemaps, overlaymaps, { collapsed: false }).addTo(map);
 
-        drawnItems.addLayer(layer);
-    });
+  //Feature group where drawn items are saved
+  drawnItems = L.featureGroup().addTo(map);
 
-    map.on('click', function(e) {
-        spinnerHide();
-        console.log(e.latlng);
-    } );
+  map.on(L.Draw.Event.CREATED, function(event) {
+    var layer = event.layer;
 
-    map.on('draw:created', function(e) {
+    drawnItems.addLayer(layer);
+  });
 
+  map.on('click', function(e) {
+    spinnerHide();
+    console.log(e.latlng);
+  });
 
-        // Each time a feaute is created, it's added to the over arching feature group
-        drawnItems.addLayer(e.layer);
-        document.getElementById("searchformbybbox_topleft").value = getRectangle(2)[0];
-        document.getElementById("searchformbybbox_topright").value = getRectangle(2)[1];
-        document.getElementById("searchformbybbox_bottomleft").value = getRectangle(4)[0];
-        document.getElementById("searchformbybbox_bottomright").value = getRectangle(4)[1];
+  map.on('draw:created', function(e) {
+    // Each time a feaute is created, it's added to the over arching feature group
+    drawnItems.addLayer(e.layer);
+    document.getElementById('searchformbybbox_topleft').value = getRectangle(
+      2
+    )[0];
+    document.getElementById('searchformbybbox_topright').value = getRectangle(
+      2
+    )[1];
+    document.getElementById('searchformbybbox_bottomleft').value = getRectangle(
+      4
+    )[0];
+    document.getElementById(
+      'searchformbybbox_bottomright'
+    ).value = getRectangle(4)[1];
+  });
 
-        });
-
-
-
-        // Set up Sidebar and Startpage
-    sidebar = L.control.sidebar('sidebar').addTo(map);
-    sidebar.open('home');
-
+  // Set up Sidebar and Startpage
+  sidebar = L.control.sidebar('sidebar').addTo(map);
+  sidebar.open('home');
 }
 
 /**
@@ -85,24 +94,24 @@ function initMap() {
  *               4 - bottom right corner
  * @returns output - the given coordinates for the corresponding corner
  */
-function getRectangle(corner){
-    var data = drawnItems.toGeoJSON();
-    var output = data.features[0].geometry.coordinates[0][corner].reverse();
-    console.log(output);
-    output[1] = correctCoordinates(output[1]);
-    console.log(output);
-    return output;
+function getRectangle(corner) {
+  var data = drawnItems.toGeoJSON();
+  var output = data.features[0].geometry.coordinates[0][corner].reverse();
+  console.log(output);
+  output[1] = correctCoordinates(output[1]);
+  console.log(output);
+  return output;
 }
 
-function correctCoordinates(coord){
-  if(coord < -180){
+function correctCoordinates(coord) {
+  if (coord < -180) {
     coord += 360;
-  }else if(coord > 180){
+  } else if (coord > 180) {
     coord -= 360;
   }
-  if(coord > -180 && coord < 180){
+  if (coord > -180 && coord < 180) {
     return coord;
-  }else{
+  } else {
     correctCoordinates(coord);
   }
 }
@@ -110,64 +119,59 @@ function correctCoordinates(coord){
  * Function that is called whenever the inputs need to be
  * erased from the web page (cache)
  */
-function resetInput(){
-    document.getElementById("searchformbybbox_topleft").value = "";
-    document.getElementById("searchformbybbox_topright").value = "";
-    document.getElementById("searchformbybbox_bottomleft").value = "";
-    document.getElementById("searchformbybbox_bottomright").value = "";
+function resetInput() {
+  document.getElementById('searchformbybbox_topleft').value = '';
+  document.getElementById('searchformbybbox_topright').value = '';
+  document.getElementById('searchformbybbox_bottomleft').value = '';
+  document.getElementById('searchformbybbox_bottomright').value = '';
 }
 
 // Click handler for you button to start drawing polygons
-$( document ).ready(function() {
+$(document).ready(function() {
+  // Hide the delete button until the draw button is clicked once
+  $('#deleteDrawing').hide();
 
-    // Hide the delete button until the draw button is clicked once
-    $('#deleteDrawing').hide();
+  resetInput();
 
+  $('#bboxbutton').click(function() {
+    rectangleDrawer.enable();
+    $('#bboxbutton').hide();
+    $('#deleteDrawing').show();
+  });
+
+  $('#deleteDrawing').click(function() {
     resetInput();
-
-    $('#bboxbutton').click(function () {
-        rectangleDrawer.enable();
-        $('#bboxbutton').hide();
-        $('#deleteDrawing').show();
-
-    });
-
-    $('#deleteDrawing').click(function () {
-        resetInput();
-        drawnItems.clearLayers();
-        $('#bboxbutton').show();
-        $('#deleteDrawing').hide();
-
-    });
-
-
+    drawnItems.clearLayers();
+    $('#bboxbutton').show();
+    $('#deleteDrawing').hide();
+  });
 });
 
-function spinnerShow(){
-      //Spinner Zeugs
-      target = document.getElementById('sidebar');
-      spinner = new Spinner().spin();
-      var spinnerList = target.childNodes;
-      for(var i = 0; i < spinnerList.length; i++){
-        if(i == spinnerList.length-1 && toggler == false){
-          target.appendChild(spinner.el);
-          document.getElementById("searchbutton").disabled = true;
-          toggler = true;
-          break;
-        }
-      }
+function spinnerShow() {
+  //Spinner Zeugs
+  target = document.getElementById('sidebar');
+  spinner = new Spinner().spin();
+  var spinnerList = target.childNodes;
+  for (var i = 0; i < spinnerList.length; i++) {
+    if (i == spinnerList.length - 1 && toggler == false) {
+      target.appendChild(spinner.el);
+      document.getElementById('searchbutton').disabled = true;
+      toggler = true;
+      break;
+    }
+  }
 }
 
-function spinnerHide(){
-      //Spinner Zeugs
-      target = document.getElementById('sidebar');
-      var spinnerList = target.childNodes;
-      for(var i = 0; i < spinnerList.length; i++){
-        if(spinnerList[i].className == "spinner" && toggler == true){
-          target.removeChild(spinnerList[i]);
-          document.getElementById("searchbutton").disabled = false;
-          toggler = false;
-          break;
-        }
-      }
+function spinnerHide() {
+  //Spinner Zeugs
+  target = document.getElementById('sidebar');
+  var spinnerList = target.childNodes;
+  for (var i = 0; i < spinnerList.length; i++) {
+    if (spinnerList[i].className == 'spinner' && toggler == true) {
+      target.removeChild(spinnerList[i]);
+      document.getElementById('searchbutton').disabled = false;
+      toggler = false;
+      break;
+    }
+  }
 }

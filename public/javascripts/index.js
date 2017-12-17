@@ -29,7 +29,7 @@ $(document).ready(function() {
             bbox=('"' + $(searchformbybbox_bottomright).val()+','+ $(searchformbybbox_bottomleft).val() +','+ $(searchformbybbox_topright).val()+',' +$(searchformbybbox_topleft).val() + '"');
         }
         console.log(bbox);
-        var url = "http://10.67.6.112:8080/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page="+page;
+        var url = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page="+page;
         console.log(url);
 
         $.ajax({
@@ -43,13 +43,14 @@ $(document).ready(function() {
                     console.log("something went wrong(404)");
                 }},
             success: function (res) {
-            	//console.dir(res);
                 createHTML(res);
             	//$('#resultpanel').show();
             	
             	visualizeMetadata(res);
-                
-            }
+            },
+			error: function(xhr, status, error) {
+			  alert(xhr.responseText);
+			}
         }); //end ajax
     });//end getMetaData()
 
