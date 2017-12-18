@@ -15,6 +15,7 @@ $(document).ready(function() {
 
 
   $('#searchform').submit(function(e) {
+    spinnerShow();
     // Prevent default html form handling
     e.preventDefault();
     var that = this;
@@ -31,8 +32,8 @@ $(document).ready(function() {
     }
     console.log(bbox);
     var templateurl = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
+    pagerInit(templateurl);
     ajaxrequest(templateurl, pagetoview);
-
   });//end getMetaData()
 });
 
@@ -45,8 +46,35 @@ function pageCalculator(allContents){
   return allContents;
 }
 
+function pagerInit(templateurl){
+  $('#page-selection').bootpag({
+    total: 0,
+    page: 0,
+    maxVisible: 5,
+    leaps: true,
+    firstLastUse: true,
+    first: '←',
+    last: '→',
+    wrapClass: 'pagination',
+    activeClass: 'active',
+    disabledClass: 'disabled',
+    next: 'next',
+    prev: 'prev',
+    lastClass: 'last',
+    firstClass: 'first'
+  }).on("page", function(event, /* page number here */ num){
+    spinnerShow();
+
+    //Könnte weg, sieht aber besser aus
+    res = "";
+    $('#one').html("");
+    $('#page-selction').html("");
+
+    ajaxrequest(templateurl, num); // some ajax content loading...
+  });
+  console.log($('#page-selection'));
+}
 function ajaxrequest(templateurl, pagetoview){
-  console.log("aufruf");
   $.ajax({
     type: "GET",
     url: templateurl+(pagetoview-1),
@@ -56,9 +84,10 @@ function ajaxrequest(templateurl, pagetoview){
     statusCode: {
       404: function() {
         console.log("something went wrong(404)");
+          spinnerHide();
       }},
       success: function (res, status, request) {
-        createHTML(res);
+        createHTML(res, pagetoview);
         page = pageCalculator(request.getResponseHeader('X-Dataset-Count'));
         //$('#resultpanel').show();
         visualizeMetadata(res);
@@ -77,16 +106,12 @@ function ajaxrequest(templateurl, pagetoview){
           prev: 'prev',
           lastClass: 'last',
           firstClass: 'first'
-        }).on("page", function(event, /* page number here */ num){
-          res = "";
-          $('#one').html("");
-          $('#page-selction').html("");
-          console.log("Bruttoinlandsprodukt");
-          ajaxrequest(templateurl, num); // some ajax content loading...
         });
+        spinnerHide();
       },
       error: function(xhr, status, error) {
         alert(xhr.responseText);
+        spinnerHide();
       }
     }); //end ajax
   }

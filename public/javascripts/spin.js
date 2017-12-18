@@ -250,3 +250,32 @@ function convertOffset(x, y, degrees) {
         Math.round((-x * sin + y * cos) * 1000) / 1000,
     ];
 }
+
+function spinnerShow() {
+  //Spinner Zeugs
+  target = document.getElementById('sidebar');
+  spinner = new Spinner().spin();
+  var spinnerList = target.childNodes;
+  for (var i = 0; i < spinnerList.length; i++) {
+    if (i == spinnerList.length - 1 && toggler == false) {
+      target.appendChild(spinner.el);
+      document.getElementById('searchIt').disabled = true;
+      toggler = true;
+      break;
+    }
+  }
+}
+
+function spinnerHide() {
+  //Spinner Zeugs
+  target = document.getElementById('sidebar');
+  var spinnerList = target.childNodes;
+  for (var i = 0; i < spinnerList.length; i++) {
+    if (spinnerList[i].className == 'spinner' && toggler == true) {
+      target.removeChild(spinnerList[i]);
+      document.getElementById('searchIt').disabled = false;
+      toggler = false;
+      break;
+    }
+  }
+}
