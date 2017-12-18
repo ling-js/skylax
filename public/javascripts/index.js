@@ -23,7 +23,7 @@ $(document).ready(function() {
     var startdate = $("#searchformbydate_input").val();
     var enddate="";
     var page = 0;
-    var pagetoview = 0;
+    var pagetoview = 1;
     var bbox="";
     console.log("searchbox= " + $(searchformbybbox_bottomright).val());
     if ($(searchformbybbox_bottomright).val() != ""){
@@ -49,7 +49,7 @@ function ajaxrequest(templateurl, pagetoview){
   console.log("aufruf");
   $.ajax({
     type: "GET",
-    url: templateurl+pagetoview,
+    url: templateurl+(pagetoview-1),
     data:'',
     contentType: "application/json; charset=utf-8",
     dataType: "json",
@@ -64,7 +64,7 @@ function ajaxrequest(templateurl, pagetoview){
         visualizeMetadata(res);
         $('#page-selection').bootpag({
           total: page,
-          page: pagetoview+1,
+          page: pagetoview,
           maxVisible: 5,
           leaps: true,
           firstLastUse: true,
