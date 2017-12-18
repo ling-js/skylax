@@ -66,8 +66,9 @@ html
           p The Project Name: “Skylax” is chosen with reference to the german name of Scylax of Caryanda (Greek: Σκύλαξ ο Καρυανδεύς) who was a renowned Greek explorer and writer of the late 6th and early 5th centuries BCE. (source: Wikipedia).
         #search.sidebar-pane
           form#searchform(method='GET')
-            input(id='searchformbyname_input' type='search' placeholder="by name")
-            input(id='searchformbydate_input' type='search' placeholder="YYYY-MM-DDTHH:MM:SSZ")
+            | <b>Search by name:</b>
+            br
+            input(id='searchformbyname_input' type='search' placeholder="Enter a search-string")
             br
             | <b>Select start date:</b> 
             br       
@@ -510,32 +511,35 @@ html
                 option(value='57')  57
                 option(value='58')  58
                 option(selected="selected" value='59')  59
-              br
-            
-            input.btn.btn-primary(type='submit', id='searchIt', value='Search for datasets')
+            br    
+            | Top Right Corner:
             br
-            form#searchformbybbox
-              | Top Right Corner:
-              br
-              | Lat:
-              input(id='searchformbybbox_topleft' type='string', placeholder="Latidude of top left corner")
-              | &nbsp; Long:
-              input(id='searchformbybbox_topright' type='string', placeholder="Longitude of top left corner")
-              br
-              br
-              | Bottom Left Corner:
-              br
-              | Lat:
-              input(id='searchformbybbox_bottomleft' type='string', placeholder="Latidude of bottom right corner")
-              | &nbsp; Long:
-              input(id='searchformbybbox_bottomright' type='string', placeholder="Longitude of bottom right corner")
-            button.btn.btn-primary(id ='deleteDrawing' onclick='')
+            | &nbsp; Lat:&nbsp;&nbsp;&nbsp;&nbsp; 
+            input(id='searchformbybbox_topleft' type='string', placeholder="Latidude of top left corner" size="25")
+            br
+            | &nbsp; Long:&nbsp; 
+            input(id='searchformbybbox_topright' type='string', placeholder="Longitude of top left corner" size="25")
+            br
+            br
+            | Bottom Left Corner:
+            br
+            | &nbsp; Lat:&nbsp;&nbsp;&nbsp;&nbsp; 
+            input(id='searchformbybbox_bottomleft' type='string', placeholder="Latidude of bottom right corner" size="28")
+            br
+            | &nbsp; Long:&nbsp; 
+            input(id='searchformbybbox_bottomright' type='string', placeholder="Longitude of bottom right corner" size="28")
+            br
+            br
+            button.btn.btn-info.btn-xs(id ='deleteDrawing' onclick='')
               span.glyphicon.glyphicon-trash
               |  Click to delete your drawing
-            button.btn.btn-primary(id ='bboxbutton' onclick='')
+            button.btn.btn-info.btn-xs(id ='bboxbutton' onclick='')
               span.glyphicon.glyphicon-pencil
               |  Click to draw a Bounding Box on the Map
-            button.btn.btn-primary(id ='submit' onclick='visualizeMetadata()')
+            br
+            br
+            input.btn.btn-success(type='submit', id='searchIt', value='Search for datasets')  
+            //button.btn.btn-primary(id ='submit' onclick='visualizeMetadata()')
               span.glyphicon.glyphicon-send
               |  Submit
             p ________________________________________________________________________________________
