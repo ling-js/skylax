@@ -191,7 +191,14 @@ function toggleDrop(i,j){
 	$('#dropd'+i).show();
 	$('#dropd'+j).hide();
 }
-
+function toggleIt(i){
+    var x = document.getElementById(i);
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
 /*function detectLong(output){
     var vorzeichen;
   if(output< 0){

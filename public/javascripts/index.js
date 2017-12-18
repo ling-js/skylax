@@ -20,8 +20,10 @@ $(document).ready(function() {
     var that = this;
     console.log("function gets called properly awaiting ajax...");
     var substring = $("#searchformbyname_input").val();
-    var startdate = $("#searchformbydate_input").val();
-    var enddate="";
+    var startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
+    //var enddate= $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
+    var enddate= "";
+    console.log( $("#startyear").val() + " value "+ startdate + " starttime and endtime " + enddate);
     var page = 0;
     var pagetoview = 1;
     var bbox="";
