@@ -222,34 +222,3 @@ function toggleIt(i){
   return output;
 
   }*/
-
-
-/*$(document).ready(function() {
-	$('.showData1').submit(function(e) {
-	    e.preventDefault();
-	    console.log("Document Ready");
-	    console.log($('.rgbselect').val());
-	    //Prüfe ob die Eingabefelder für die Marker nicht leer sind
-	    if (
-	    		((rgbbool == true) && ($('.rgbselect').val()  !== "0"))
-	    	|| 	((rgbbool == false) && ($('#greyselect').val() !== "0"))){
-		        var that = this;
-		        // submit via ajax
-		        $.ajax({
-		          data: $(that).serialize(),
-		          type: $(that).attr('method'),
-		          url:  $(that).attr('action'),
-		          error: function(xhr, status, err) {
-		            console.log("Error while loading Data");
-		            alert("Error while loading Data");
-		          },
-		          success: function(res) {
-		             console.log("Data successfully loaded.");
-		          }
-		        });
-	    	}
-	    else {
-	    	alert("Please define requested values before clicking the Show this dataset -Button");
-		}
-	});
-});*/
