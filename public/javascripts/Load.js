@@ -144,6 +144,7 @@ function showOpacityLevel(i){
 
 function visualizeMetadata(res){
 	for(i=0; i < res.length; i++){
+		console.log(res);	
 		$('#resolution' + (i+1)  ).html(
 		"<b> Cloud Coverage Assesment: </b>" + res[i].CLOUD_COVERAGE_ASSESSMENT +  "</br>" +
 		"<b> Datatake Sensing Start: </b>" + res[i].DATATAKE_1_DATATAKE_SENSING_START + "</br>" +
