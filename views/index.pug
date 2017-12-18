@@ -32,7 +32,8 @@ html
     script(src = '/javascripts/Load.js')
     script(src = '/javascripts/index.js')
     script(src = '/javascripts/map.js')
-    
+    script(src = '/javascripts/jquery.bootpag.min.js')
+
     // Spinner from https://github.com/fgnass/spin.js
     script(src = '/javascripts/spin.js')
 
@@ -66,7 +67,7 @@ html
         #search.sidebar-pane
           form#searchform(method='GET')
             input(id='searchformbyname_input' type='search' placeholder="by name")
-            input(id='searchformbydate_input' type='search' placeholder="YYYY-MM-DDTHH:MM:SSZ") 
+            input(id='searchformbydate_input' type='search' placeholder="YYYY-MM-DDTHH:MM:SSZ")
             br
             //| date
             //input(id='searchformbydate_input' type='date' placeholder="YYYY")
@@ -116,7 +117,7 @@ html
               |  Submit
             p ________________________________________________________________________________________
             p#one
-            
+             #page-selection
         #imprint.sidebar-pane
           h1 Legal Disclosure
           | Information in accordance with section 5 TMG
