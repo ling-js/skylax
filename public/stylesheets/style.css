@@ -50,6 +50,15 @@ input[type=search]:focus {
   width: 80%;
 }
 
+.panel-body{
+  padding: 0px;
+}
+
+.colorform{
+  padding: 15px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
 .ui-resizable-handle {
   background: linear-gradient(
           to bottom,
