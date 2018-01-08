@@ -19,6 +19,12 @@ a, a:active, a:focus{
   padding-top: 20px;
 }
 
+
+.panel-heading {
+  background-color: lightgray;
+  background: lightgray;
+}
+
 .panel-heading:hover {
   cursor: pointer;
 }
@@ -125,4 +131,3 @@ img {
 .dropd {
   display: none;
 }
-
