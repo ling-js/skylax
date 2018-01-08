@@ -15,7 +15,7 @@ $(document).ready(function() {
 
 
   $('#searchform').submit(function(e) {
-    spinnerShow();
+    spinnerShow(document.getElementById('sidebar'));
     // Prevent default html form handling
     e.preventDefault();
     var that = this;
@@ -65,7 +65,7 @@ function pagerInit(templateurl){
     lastClass: 'last',
     firstClass: 'first'
   }).on("page", function(event, /* page number here */ num){
-    spinnerShow();
+    spinnerShow(document.getElementById('sidebar'));
 
     ajaxrequest(templateurl, num); // some ajax content loading...
   });
@@ -81,7 +81,7 @@ function ajaxrequest(templateurl, pagetoview){
     statusCode: {
       404: function() {
         console.log("something went wrong(404)");
-          spinnerHide();
+          spinnerHide(document.getElementById('sidebar'));
       }},
       success: function (res, status, request) {
         createHTML(res, pagetoview);
@@ -104,11 +104,11 @@ function ajaxrequest(templateurl, pagetoview){
           lastClass: 'last',
           firstClass: 'first'
         });
-        spinnerHide();
+        spinnerHide(document.getElementById('sidebar'));
       },
       error: function(xhr, status, error) {
         alert(xhr.responseText);
-        spinnerHide();
+        spinnerHide(document.getElementById('sidebar'));
       }
     }); //end ajax
   }

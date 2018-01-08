@@ -16,7 +16,7 @@ function createInnerHTML(length, pagetoview){
 										+ ' Min-Value: <input type="number" name="greymin" maxlength="5" placeholder="0" value="0"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
 										+ ' Max-Value: <input type="number" name="greymax" maxlength="5" placeholder="65536" value="65536"/><br/><br/> </label> </container> <br/> '
 										+ ' <p>Choose your opacity:</p> <input type="range" name="ageInputName" id="ageInputId'+i+'" value="0" min="0" max="100" oninput="showOpacityLevel('+i+')"/><output name="ageOutputName" id="ageOutputId'+i+'">Opacity Level: 0</output> <br/> '
-										+ ' <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Show this dataset</button> </form> </span> </div>');
+										+ ' <button type="submit" id="formSubmiter" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Show this dataset</button> </form> </span> </div>');
 	}
 
 	return $('#one').html();
@@ -68,6 +68,7 @@ function subdataName(res, value, j){
 
 function createSubmitHandler(res, j){
 	$('#showData'+ j).submit(function(e) {
+		spinnerShow(document.getElementById('map'));
 		e.preventDefault();
 	    //Prüfe ob die Eingabefelder für die Marker nicht leer sind
 	    if (
@@ -99,9 +100,11 @@ function createSubmitHandler(res, j){
 	          url:  'http://gis-bigdata.uni-muenster.de:14014/generate?',
 	          error: function(xhr, status, err) {
 	            console.log("Error while loading Data");
+							spinnerHide(document.getElementById('map'));
 	            alert("Error while loading Data");
 	          },
 	          success: function(res) {
+							spinnerHide(document.getElementById('map'));
 	              console.log("Data successfully loaded.");
 	              lyr = L.tileLayer(
 					'http://gis-bigdata.uni-muenster.de:14014/data/' + res + '/{z}/{x}/{-y}.png',
@@ -122,6 +125,7 @@ function createSubmitHandler(res, j){
 		else
 		{
     		//console.log("falseeeee: " + j);
+				spinnerHide(document.getElementById('map'));
 	    	alert("Please define requested values before clicking the Show this dataset -Button");
 		}
 	});

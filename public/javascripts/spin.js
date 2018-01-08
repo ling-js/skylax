@@ -251,29 +251,33 @@ function convertOffset(x, y, degrees) {
     ];
 }
 
-function spinnerShow() {
+function spinnerShow(target) {
   //Spinner Zeugs
-  target = document.getElementById('sidebar');
   spinner = new Spinner().spin();
   var spinnerList = target.childNodes;
   for (var i = 0; i < spinnerList.length; i++) {
     if (i == spinnerList.length - 1 && toggler == false) {
       target.appendChild(spinner.el);
-      document.getElementById('searchIt').disabled = true;
+      if(target == document.getElementById('sidebar')){
+        document.getElementById('searchIt').disabled = true;
+      }
+      if(target == document.getElementById('map')){
+        document.getElementById('formSubmiter').disabled = true;
+      }
       toggler = true;
       break;
     }
   }
 }
 
-function spinnerHide() {
+function spinnerHide(target) {
   //Spinner Zeugs
-  target = document.getElementById('sidebar');
   var spinnerList = target.childNodes;
   for (var i = 0; i < spinnerList.length; i++) {
     if (spinnerList[i].className == 'spinner' && toggler == true) {
       target.removeChild(spinnerList[i]);
       document.getElementById('searchIt').disabled = false;
+      document.getElementById('formSubmiter').disabled = false;
       toggler = false;
       break;
     }
