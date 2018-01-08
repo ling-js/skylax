@@ -1,6 +1,6 @@
 function createInnerHTML(length, pagetoview){
 	for(i=1;i < length+1; i++){
-		$('#one').html($('#one').html() + '<div class="panel panel-default"> <a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"><div class="panel-heading"><span class="glyphicon glyphicon-open" aria-hidden="true"></span> Dataset '+ (8*(pagetoview-1)+i) +'</div></a><span class="panel-body panel-collapse collapse out" id="dataset'+i+'"> <p id="quality" style="padding: 15px; padding-bottom:0px">Metadata:</p> <p id="resolution'+i+'" style="padding: 15px; padding-top: 0px"></p> '
+		$('#one').html($('#one').html() + '<div class="panel"> <button type="button" class="btn btn-danger" data-toggle="collapse" data-target="#dataset' + i + '"data-parent="#resultpanel">Dataset '+ (8*(pagetoview-1)+i) +'</button><div class="collapse" id="dataset'+i+'"> <p id="quality" style="padding: 15px; padding-bottom:0px">Metadata:</p> <p id="resolution'+i+'" style="padding: 15px; padding-top: 0px"></p> '
 										+ ' <form class="colorform" id="showData' + i + '" method="POST"> <container> <input id="rgb'+i+'" type="radio" name="rgbbool" value="true" onclick="toggleDrop('+(i*2)+','+((i*2)+1)+')"/> RGB<br/> <label for="rgb" class="dropd" id="dropd'+(i*2)+'"> '
 										+ ' Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <select name="rcn" id="rgbselect' + ((i*3)-2)+ '"> <option selected="selected" disabled="disabled">Pick a band</option> <option value="B1">Band 1</option> <option value="B2">Band 2</option> <option value="B3">Band 3</option> <option value="B4">Band 4</option> <option value="B5">Band 5</option> <option value="B6">Band 6</option> <option value="B7">Band 7</option> <option value="B8">Band 8</option> <option value="B8a">Band 8a</option> <option value="B9">Band 9</option> <option value="B10">Band 10</option> <option value="B11">Band 11</option> <option value="B12">Band 12</option> </select> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
 										+ ' Min-Value: <input type="number" name="rcmin" id="minRed" placeholder="0" value="0"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
@@ -16,7 +16,7 @@ function createInnerHTML(length, pagetoview){
 										+ ' Min-Value: <input type="number" name="greymin" maxlength="5" placeholder="0" value="0"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
 										+ ' Max-Value: <input type="number" name="greymax" maxlength="5" placeholder="65536" value="65536"/><br/><br/> </label> </container> <br/> '
 										+ ' <p>Choose your opacity:</p> <input type="range" name="ageInputName" id="ageInputId'+i+'" value="0" min="0" max="100" oninput="showOpacityLevel('+i+')"/><output name="ageOutputName" id="ageOutputId'+i+'">Opacity Level: 0</output> <br/> '
-										+ ' <button type="submit" id="formSubmiter" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Show this dataset</button> </form> </span> </div>');
+										+ ' <button type="submit" id="formSubmiter" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Show this dataset</button> </form> </div> </div>');
 	}
 
 	return $('#one').html();
@@ -24,7 +24,7 @@ function createInnerHTML(length, pagetoview){
 
 function createHTML(res, pagetoview){
 	$('#one').html("");
-	$('#one').html('<div class="panel-panel-default" id="resultpanel">'
+	$('#one').html('<div class="accordion" id="resultpanel">'
 	+ createInnerHTML(res.length, pagetoview) + '</div>');
 	for(j=1; j<(res.length+1); j++){
 		 createSubmitHandler(res, j);
