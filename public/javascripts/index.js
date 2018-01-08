@@ -67,11 +67,6 @@ function pagerInit(templateurl){
   }).on("page", function(event, /* page number here */ num){
     spinnerShow();
 
-    //Könnte weg, sieht aber besser aus
-    res = "";
-    $('#one').html("");
-    $('#page-selction').html("");
-
     ajaxrequest(templateurl, num); // some ajax content loading...
   });
   console.log($('#page-selection'));
