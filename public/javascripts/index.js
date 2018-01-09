@@ -27,11 +27,11 @@ $(document).ready(function() {
     console.log(startdate + " starttime and endtime " + enddate);
     var page = 0;
     var pagetoview = 1;
-    //var bbox="";
-    //console.log("searchbox= " + $(searchformbybbox_bottomright).val());
-    //if ($(searchformbybbox_bottomright).val() != ""){
-      var bbox=('"' + $(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val() + '"');
-    //}
+    var bbox="";
+    console.log("searchbox= " + $(searchformbybbox_bottomLong).val());
+    if ($(searchformbybbox_bottomLong).val() != ""){
+      bbox=('"' + $(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val() + '"');
+    }
     console.log(bbox);
     var templateurl = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
     pagerInit(templateurl);
