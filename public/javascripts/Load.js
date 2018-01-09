@@ -142,6 +142,41 @@ function showOpacityLevel(i){
 	$('#ageOutputId'+ i ).html('Opacity Level:' + $('#ageInputId'+ i ).val());
 }
 
+/**Helper function for dispkayBoundingBox that takes the coordinates and proccesses it to WGS84 in
+	in order to correctly show on the map
+ 	takes northing easting number and letter to
+ 	Koordinaten vertauschen
+ */
+
+function transformCoordinates(lat,lng){
+
+
+
+
+}
+/** Function that displays the bounding box */
+function displayBoundingBox(res){
+
+
+    var polygon = res;
+
+    //Remove unnecessary characters in order to transform it into an array
+    polygon = polygon.replace(/([POLYGON()])/g,"");
+    polygon = polygon.split(',');
+
+    //Back to String again in order to remove all "," to get it in a proper form
+    polygon = polygon.toString();
+    polygon = polygon.replace(/(,)/g,"");
+
+    polygon = polygon.split(' ');
+    console.dir(polygon);
+    // create a red polygon from an array of LatLng points
+    var latlngs = [[polygon[0], polygon[1]],[polygon[2], polygon[3]],[polygon[4], polygon[5]],[polygon[6], polygon[7]],[polygon[8],polygon[9]],[polygon[10],polygon[11]]];
+
+    L.polygon(latlngs, {color: 'green'}).addTo(map);
+// zoom the map to the polygon
+
+}
 
 
 

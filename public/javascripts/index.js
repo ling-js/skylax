@@ -105,6 +105,7 @@ function ajaxrequest(templateurl, pagetoview){
           firstClass: 'first'
         });
         spinnerHide(document.getElementById('sidebar'));
+        displayBoundingBox(res[0].FOOTPRINT);
       },
       error: function(xhr, status, error) {
         alert(xhr.responseText);
