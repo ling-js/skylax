@@ -276,8 +276,12 @@ function spinnerHide(target) {
   for (var i = 0; i < spinnerList.length; i++) {
     if (spinnerList[i].className == 'spinner' && toggler == true) {
       target.removeChild(spinnerList[i]);
-      document.getElementById('searchIt').disabled = false;
-      //document.getElementById('formSubmiter').disabled = false;
+      if(target == document.getElementById('sidebar')){
+        document.getElementById('searchIt').disabled = false;
+      }
+      if(target == document.getElementById('map')){
+        document.getElementById('formSubmiter').disabled = false;
+      }
       toggler = false;
       break;
     }
