@@ -1,3 +1,4 @@
+var datasetCounter = 1;
 function createInnerHTML(length, pagetoview){
 	for(i=1;i < length+1; i++){
 		$('#one').html($('#one').html() + '<div class="panel panel-default"> <a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"><div class="panel-heading"><span class="glyphicon glyphicon-open" aria-hidden="true"></span> Dataset '+ (8*(pagetoview-1)+i) +'</div></a><span class="panel-body panel-collapse collapse out" id="dataset'+i+'"> <p id="quality" style="padding: 15px; padding-bottom:0px">Metadata:</p> <p id="resolution'+i+'" style="padding: 15px; padding-top: 0px"></p> '
@@ -112,8 +113,10 @@ function createSubmitHandler(res, j){
 					  tms: true,
 					  continuousWorld: true,
 					}
-				  );
-				  layerControl.addOverlay(lyr, res);
+				);
+				  layerControl.addOverlay(lyr, "Dataset "+ datasetCounter);
+					datasetCounter++;
+					map.addLayer(lyr);
 	          }
 	        });
 	        redSDNInput.remove();
