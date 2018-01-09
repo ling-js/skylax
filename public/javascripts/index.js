@@ -107,7 +107,8 @@ function ajaxrequest(templateurl, pagetoview){
         spinnerHide(document.getElementById('sidebar'));
       },
       error: function(xhr, status, error) {
-        alert(xhr.responseText);
+        console.log("Achtung:Es gab einen Fehler bei der AJAX-Anfrage der Fehlercode lautet :" + ""+ xhr.responseText);
+        //alert(xhr.responseText);
         spinnerHide(document.getElementById('sidebar'));
       }
     }); //end ajax
