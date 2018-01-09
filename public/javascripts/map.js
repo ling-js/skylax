@@ -68,24 +68,23 @@ function initMap() {
   });
 
   map.on('click', function(e) {
-    spinnerHide();
     console.log(e.latlng);
   });
 
   map.on('draw:created', function(e) {
     // Each time a feaute is created, it's added to the over arching feature group
     drawnItems.addLayer(e.layer);
-    document.getElementById('searchformbybbox_topleft').value = getRectangle(
+    document.getElementById('searchformbybbox_topLat').value = getRectangle(
       2
     )[0];
-    document.getElementById('searchformbybbox_topright').value = getRectangle(
+    document.getElementById('searchformbybbox_topLong').value = getRectangle(
       2
     )[1];
-    document.getElementById('searchformbybbox_bottomleft').value = getRectangle(
+    document.getElementById('searchformbybbox_bottomLat').value = getRectangle(
       4
     )[0];
     document.getElementById(
-      'searchformbybbox_bottomright'
+      'searchformbybbox_bottomLong'
     ).value = getRectangle(4)[1];
   });
 
@@ -106,9 +105,7 @@ function initMap() {
 function getRectangle(corner) {
   var data = drawnItems.toGeoJSON();
   var output = data.features[0].geometry.coordinates[0][corner].reverse();
-  console.log(output);
   output[1] = correctCoordinates(output[1]);
-  console.log(output);
   return output;
 }
 
@@ -129,10 +126,10 @@ function correctCoordinates(coord) {
  * erased from the web page (cache)
  */
 function resetInput() {
-  document.getElementById('searchformbybbox_topleft').value = '';
-  document.getElementById('searchformbybbox_topright').value = '';
-  document.getElementById('searchformbybbox_bottomleft').value = '';
-  document.getElementById('searchformbybbox_bottomright').value = '';
+  document.getElementById('searchformbybbox_topLat').value = '';
+  document.getElementById('searchformbybbox_topLong').value = '';
+  document.getElementById('searchformbybbox_bottomLat').value = '';
+  document.getElementById('searchformbybbox_bottomLong').value = '';
 }
 
 // Click handler for you button to start drawing polygons

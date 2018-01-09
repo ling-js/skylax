@@ -22,16 +22,16 @@ $(document).ready(function() {
     console.log("function gets called properly awaiting ajax...");
     var substring = $("#searchformbyname_input").val();
     var startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
-    //var enddate= $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
+    //var enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
     var enddate= "";
-    console.log( $("#startyear").val() + " value "+ startdate + " starttime and endtime " + enddate);
+    console.log(startdate + " starttime and endtime " + enddate);
     var page = 0;
     var pagetoview = 1;
-    var bbox="";
-    console.log("searchbox= " + $(searchformbybbox_bottomright).val());
-    if ($(searchformbybbox_bottomright).val() != ""){
-      bbox=('"' + $(searchformbybbox_bottomright).val()+','+ $(searchformbybbox_bottomleft).val() +','+ $(searchformbybbox_topright).val()+',' +$(searchformbybbox_topleft).val() + '"');
-    }
+    //var bbox="";
+    //console.log("searchbox= " + $(searchformbybbox_bottomright).val());
+    //if ($(searchformbybbox_bottomright).val() != ""){
+      var bbox=('"' + $(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val() + '"');
+    //}
     console.log(bbox);
     var templateurl = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
     pagerInit(templateurl);
