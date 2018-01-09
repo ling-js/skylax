@@ -19,7 +19,6 @@ $(document).ready(function() {
     // Prevent default html form handling
     e.preventDefault();
     var that = this;
-    console.log("function gets called properly awaiting ajax...");
     var substring = $("#searchformbyname_input").val();
     var startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
     //var enddate= $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
@@ -28,11 +27,9 @@ $(document).ready(function() {
     var page = 0;
     var pagetoview = 1;
     var bbox="";
-    console.log("searchbox= " + $(searchformbybbox_bottomright).val());
     if ($(searchformbybbox_bottomright).val() != ""){
       bbox=('"' + $(searchformbybbox_bottomright).val()+','+ $(searchformbybbox_bottomleft).val() +','+ $(searchformbybbox_topright).val()+',' +$(searchformbybbox_topleft).val() + '"');
     }
-    console.log(bbox);
     var templateurl = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
     pagerInit(templateurl);
     ajaxrequest(templateurl, pagetoview);
@@ -69,7 +66,6 @@ function pagerInit(templateurl){
 
     ajaxrequest(templateurl, num); // some ajax content loading...
   });
-  console.log($('#page-selection'));
 }
 function ajaxrequest(templateurl, pagetoview){
   $.ajax({
@@ -105,7 +101,12 @@ function ajaxrequest(templateurl, pagetoview){
           firstClass: 'first'
         });
         spinnerHide(document.getElementById('sidebar'));
-        displayBoundingBox(res[0].FOOTPRINT);
+          drawnPolygons.clearLayers();
+
+          for(k=0;k< res.length;k+=1){
+          displayBoundingBox(res[k].FOOTPRINT)
+        };
+
       },
       error: function(xhr, status, error) {
         alert(xhr.responseText);

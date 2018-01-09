@@ -1,3 +1,5 @@
+var drawnPolygons =L.layerGroup([]);
+
 function createInnerHTML(length, pagetoview){
 	for(i=1;i < length+1; i++){
 		$('#one').html($('#one').html() + '<div class="panel panel-default"> <a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"><div class="panel-heading"><span class="glyphicon glyphicon-open" aria-hidden="true"></span> Dataset '+ (8*(pagetoview-1)+i) +'</div></a><span class="panel-body panel-collapse collapse out" id="dataset'+i+'"> <p id="quality" style="padding: 15px; padding-bottom:0px">Metadata:</p> <p id="resolution'+i+'" style="padding: 15px; padding-top: 0px"></p> '
@@ -142,22 +144,10 @@ function showOpacityLevel(i){
 	$('#ageOutputId'+ i ).html('Opacity Level:' + $('#ageInputId'+ i ).val());
 }
 
-/**Helper function for dispkayBoundingBox that takes the coordinates and proccesses it to WGS84 in
-	in order to correctly show on the map
- 	takes northing easting number and letter to
- 	Koordinaten vertauschen
- */
-
-function transformCoordinates(lat,lng){
-
-
-
-
-}
-/** Function that displays the bounding box */
+/** Function that displays the bounding box
+ *	for Schleife das Array durchgeht und Variable lat/lngs mit Werten füllt
+ 	*/
 function displayBoundingBox(res){
-
-
     var polygon = res;
 
     //Remove unnecessary characters in order to transform it into an array
@@ -169,13 +159,17 @@ function displayBoundingBox(res){
     polygon = polygon.replace(/(,)/g,"");
 
     polygon = polygon.split(' ');
-    console.dir(polygon);
-    // create a red polygon from an array of LatLng points
-    var latlngs = [[polygon[0], polygon[1]],[polygon[2], polygon[3]],[polygon[4], polygon[5]],[polygon[6], polygon[7]],[polygon[8],polygon[9]],[polygon[10],polygon[11]]];
 
-    L.polygon(latlngs, {color: 'green'}).addTo(map);
-// zoom the map to the polygon
+	var latlng=[];
+	//Loop over the FOOTPRINT and fill the array with our coordinates
+	for(i=0;i<polygon.length;i+=2) {
 
+        latlng.push([polygon[i + 1], polygon[i]]);
+    }
+
+
+    L.polygon(latlng, {color: 'green'}).addTo(drawnPolygons);
+	drawnPolygons.addTo(map);
 }
 
 
@@ -261,3 +255,4 @@ function toggleIt(i){
   return output;
 
   }*/
+
