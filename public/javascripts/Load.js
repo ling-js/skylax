@@ -220,9 +220,12 @@ function drawPolygon(coordArray, info, number, resultLength){
 	}
 }
 
-function showPolygonInfo(){
-console.log(this.options.label);
-
+function showPolygonInfo(e){
+	var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
+	var popup = L.popup()
+    .setLatLng(coords)
+    .setContent('<p>'+this.options.label+'</p>')
+    .openOn(map);
 }
 
 function openAccordion(){
