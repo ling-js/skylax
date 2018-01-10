@@ -7,6 +7,7 @@ var map, // Map Object
   drawnItems,
   rectangleDrawer,
   spinner,
+  polyLayer,
   target;
 
 //SpinnerToggler
@@ -65,6 +66,9 @@ function initMap() {
 
   //Feature group where drawn items are saved
   drawnItems = L.featureGroup().addTo(map);
+
+  polyLayer = L.featureGroup().addTo(map);
+
 
   map.on(L.Draw.Event.CREATED, function(event) {
     var layer = event.layer;
@@ -138,7 +142,7 @@ function resetInput() {
   document.getElementById('searchformbybbox_bottomLong').value = '';
 }
 
-// Click handler for you button to start drawing polygons
+// Click handler for your button to start drawing polygons
 $(document).ready(function() {
   // Hide the delete button until the draw button is clicked once
   $('#deleteDrawing').hide();
