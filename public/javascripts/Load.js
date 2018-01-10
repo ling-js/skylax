@@ -122,7 +122,7 @@ function createSubmitHandler(res, j){
 				  layerControl.addOverlay(lyr, "Dataset");
 					console.log(layerControl);
 					map.addLayer(lyr);
-					$('#showData'+j).html($('#showData'+j).html() + '<br> <br> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="100" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: 100%</output> <br/> ');
+					$('#dataset'+j).append('<div  style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="100" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: 100%</output> </div>');
 				  }
 	        });
 	        redSDNInput.remove();
