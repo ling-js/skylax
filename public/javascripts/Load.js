@@ -103,11 +103,7 @@ function createSubmitHandler(res, j){
 	            alert("Error while loading Data");
 	          },
 	          success: function(res) {
-							if (layerControl._layers.length == 4) {
-								layerControl.removeLayer(lyr);
-								map.removeLayer(lyr);
-								$("#opacitySlider").remove();
-							}
+							removeDatasets();
 							spinnerHide(document.getElementById('map'));
 	              console.log("Data successfully loaded.");
 	              lyr = L.tileLayer(
@@ -151,6 +147,15 @@ function showOpacityLevel(i){
 function updateLyr(){
 	map.removeLayer(lyr);
 	map.addLayer(lyr);
+}
+
+function removeDatasets(){
+	if (layerControl._layers.length == 4) {
+		layerControl.removeLayer(lyr);
+		map.removeLayer(lyr);
+		$("#opacitySlider").remove();
+		console.log("baba");
+	}
 }
 
 function visualizeMetadata(res){
