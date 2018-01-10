@@ -21,14 +21,14 @@ $(document).ready(function() {
     var that = this;
     var substring = $("#searchformbyname_input").val();
     var startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
-    //var enddate= $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
-    var enddate= "";
-    console.log( $("#startyear").val() + " value "+ startdate + " starttime and endtime " + enddate);
+    var enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
+    //var enddate= "";
+    console.log(startdate + " starttime and endtime " + enddate);
     var page = 0;
     var pagetoview = 1;
     var bbox="";
     if ($(searchformbybbox_bottomright).val() != ""){
-      bbox=('"' + $(searchformbybbox_bottomright).val()+','+ $(searchformbybbox_bottomleft).val() +','+ $(searchformbybbox_topright).val()+',' +$(searchformbybbox_topleft).val() + '"');
+      bbox=($(searchformbybbox_bottomright).val()+','+ $(searchformbybbox_bottomleft).val() +','+ $(searchformbybbox_topright).val()+',' +$(searchformbybbox_topleft).val());
     }
     var templateurl = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
     pagerInit(templateurl);
