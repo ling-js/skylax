@@ -229,9 +229,9 @@ function showPolygonInfo(e){
 
 function zoomToLayer(j){
 	polyLayer.eachLayer(function(layer){
-		console.log(layer);
 		if(layer.options.number == (j-1)){
 			map.fitBounds(layer.getBounds());
+			polyLayer.clearLayers();
 		}
 });
 }
