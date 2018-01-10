@@ -260,9 +260,10 @@ function spinnerShow(target) {
       target.appendChild(spinner.el);
       if(target == document.getElementById('sidebar')){
         document.getElementById('searchIt').disabled = true;
-      }
-      if(target == document.getElementById('map')){
-        document.getElementById('formSubmiter').disabled = true;
+      }else if(target == document.getElementById('map')){
+        for(var i = 1; i < ($("#resultpanel > div").length)+1; i++){
+          document.getElementById('formSubmiter'+i).disabled = true;
+        }
       }
       toggler = true;
       break;
@@ -276,8 +277,13 @@ function spinnerHide(target) {
   for (var i = 0; i < spinnerList.length; i++) {
     if (spinnerList[i].className == 'spinner' && toggler == true) {
       target.removeChild(spinnerList[i]);
-      document.getElementById('searchIt').disabled = false;
-      //document.getElementById('formSubmiter').disabled = false;
+      if(target == document.getElementById('sidebar')){
+        document.getElementById('searchIt').disabled = false;
+      }else if(target == document.getElementById('map')){
+        for(var i = 1; i < ($("#resultpanel > div").length)+1; i++){
+          document.getElementById('formSubmiter'+i).disabled = false;
+        }
+      }
       toggler = false;
       break;
     }

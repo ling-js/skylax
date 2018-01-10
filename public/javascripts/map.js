@@ -73,7 +73,8 @@ function initMap() {
   });
 
   map.on('click', function(e) {
-    console.log(e.latlng);
+    var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
+    console.log(coords);
   });
 
   map.on('draw:created', function(e) {
