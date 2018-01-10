@@ -11,8 +11,9 @@ $(document).ready(function() {
   sidebar.on('content', function(e) {
   });
 
-  $('#resultpanel').hide();
+  initOptions();
 
+  $('#resultpanel').hide();
 
   $('#searchform').submit(function(e) {
     spinnerShow(document.getElementById('sidebar'));
@@ -46,6 +47,34 @@ function pageCalculator(allContents){
     allContents = (Math.floor(allContents/8)+1);
   }
   return allContents;
+}
+
+function addOption(id, startInt, endInt, selectedInt){
+  for(var i = startInt; i < endInt+1; i++){
+    var val = i;
+    if(i<10){
+      val="0"+i;
+    }
+   (id).options[(id).options.length] = new Option(i, val);
+   if(i == selectedInt){
+     (id).options[(id).options.length-1].selected = "selected";
+   }
+  }
+}
+
+function initOptions(){
+  addOption(startday,1,31,1);
+  addOption(startmonth,1,12,1);
+  addOption(startyear,2015,2026,1);
+  addOption(starthour,0,23,0);
+  addOption(startmin,0,59,0);
+  addOption(startsec,0,59,0);
+  addOption(endday,1,31,31);
+  addOption(endmonth,1,12,12);
+  addOption(endyear,2015,2026,2017);
+  addOption(endhour,0,23,23);
+  addOption(endmin,0,59,59);
+  addOption(endsec,0,59,59);
 }
 
 function pagerInit(templateurl){
