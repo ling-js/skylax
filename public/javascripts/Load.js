@@ -120,7 +120,7 @@ function createSubmitHandler(res, j){
 								});
 				  layerControl.addOverlay(lyr, "Dataset");
 					map.addLayer(lyr);
-
+					zoomToLayer(j);
 					$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="100" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: 100%</output> </div>');
 				  }
 	        });
@@ -212,8 +212,8 @@ function stringToCoordArray(coordString){
 
 function drawPolygon(coordArray, info, number, resultLength){
 	if(coordArray != null){
-		var polygon = L.polygon(coordArray, {label: 'Hier kommt der Name hin', color: 'red', number:number, resultLength:resultLength});
-		console.log(polygon);
+		var polygon = L.polygon(coordArray, {color: 'red', number:number, resultLength:resultLength});
+		polyLayer._layers.length = resultLength;
 		polygon.on('mouseover', showPolygonInfo);
 		polygon.on('click', openAccordion);
 		polygon.addTo(polyLayer);
@@ -224,15 +224,25 @@ function showPolygonInfo(e){
 	var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
 	var popup = L.popup()
     .setLatLng(coords)
-    .setContent('<p>'+this.options.label+'</p>')
+    .setContent('<p> Dataset '+(this.options.number+1)+'</p>')
     .openOn(map);
 }
 
+function zoomToLayer(j){
+	console.log(polyLayer);
+	polyLayer.eachLayer(function(layer){
+		console.log(layer);
+		if(layer.options.number == (j-1)){
+			console.log(layer.getBounds());
+			map.fitBounds(layer.getBounds());
+		}
+});
+}
+
 function openAccordion(){
-	console.log(this.options.number);
 	for(var i = 1; i < this.options.resultLength+1; i++){
-		if(i == this.options.number){
-			$("#dataset"+this.options.number).collapse('show');
+		if(i == (this.options.number+1)){
+			$("#dataset"+(this.options.number+1)).collapse('show');
 		}else{
 			$("#dataset"+i).collapse('hide');
 		}
