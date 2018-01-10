@@ -213,7 +213,6 @@ function stringToCoordArray(coordString){
 function drawPolygon(coordArray, info, number, resultLength){
 	if(coordArray != null){
 		var polygon = L.polygon(coordArray, {color: 'red', number:number, resultLength:resultLength});
-		polyLayer._layers.length = resultLength;
 		polygon.on('mouseover', showPolygonInfo);
 		polygon.on('click', openAccordion);
 		polygon.addTo(polyLayer);
@@ -229,11 +228,9 @@ function showPolygonInfo(e){
 }
 
 function zoomToLayer(j){
-	console.log(polyLayer);
 	polyLayer.eachLayer(function(layer){
 		console.log(layer);
 		if(layer.options.number == (j-1)){
-			console.log(layer.getBounds());
 			map.fitBounds(layer.getBounds());
 		}
 });
