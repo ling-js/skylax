@@ -106,7 +106,8 @@ function createSubmitHandler(res, j){
 							if (layerControl._layers.length == 4) {
 								layerControl.removeLayer(lyr);
 								map.removeLayer(lyr);
-								console.log("dudu");
+								console.log($("#opacitySlider"));
+								$("#opacitySlider").remove();
 							}
 							spinnerHide(document.getElementById('map'));
 	              console.log("Data successfully loaded.");
@@ -118,11 +119,9 @@ function createSubmitHandler(res, j){
 						opacity: 100,
 					}
 				);
-					console.log(layerControl._layers.length);
 				  layerControl.addOverlay(lyr, "Dataset");
-					console.log(layerControl);
 					map.addLayer(lyr);
-					$('#dataset'+j).append('<div  style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="100" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: 100%</output> </div>');
+					$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="100" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: 100%</output> </div>');
 				  }
 	        });
 	        redSDNInput.remove();
