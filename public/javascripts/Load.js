@@ -113,7 +113,7 @@ function createSubmitHandler(res, j){
 					  continuousWorld: true,
 					}
 				  );
-				  layerControl.addOverlay(lyr, res);
+				  layerControl.addOverlay(lyr, j);
 	          }
 	        });
 	        redSDNInput.remove();

@@ -30,7 +30,7 @@ $(document).ready(function() {
     var bbox="";
     console.log("searchbox= " + $(searchformbybbox_bottomLong).val());
     if ($(searchformbybbox_bottomLong).val() != ""){
-      bbox=('"' + $(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val() + '"');
+      bbox=($(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val());
     }
     console.log(bbox);
     var templateurl = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
