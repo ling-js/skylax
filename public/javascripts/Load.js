@@ -214,7 +214,7 @@ function stringToCoordArray(coordString){
 
 function drawPolygon(coordArray, info, number){
 	if(coordArray != null){
-		var polygon = L.polygon(coordArray, {label: 'Hier kommt der Name hin', color: 'red', number: number});
+		var polygon = L.polygon(coordArray, {label: 'Hier kommt der Name hin', color: 'red', number:number});
 		console.log(polygon);
 		polygon.on('mouseover', showPolygonInfo);
 		polygon.on('click', openAccordion);
@@ -223,14 +223,15 @@ function drawPolygon(coordArray, info, number){
 }
 
 function showPolygonInfo(){
-	console.log(this.options.label);
+console.log(this.options.label);
+
 }
 
 function openAccordion(){
 $("#databutton" + this.options.number).collapse('show');
 
+alert(this.options.label);
 
-	console.log("Hier kommt");
 }
 
 function toggleDrop(i,j){
