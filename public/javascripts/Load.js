@@ -140,16 +140,17 @@ function createSubmitHandler(res, j){
 
 function opacityChanger(j){
 	lyr.options.opacity = $('#opacityId'+ j ).val()/100;
-	map.removeLayer(lyr);
-	map.addLayer(lyr);
+	updateLyr();
 }
+
 function showOpacityLevel(i){
 	$('#opacityOutputId'+ i ).html('Opacity Level:' + $('#opacityId'+ i ).val()+'%');
 }
 
-
-
-
+function updateLyr(){
+	map.removeLayer(lyr);
+	map.addLayer(lyr);
+}
 
 function visualizeMetadata(res){
 	for(i=0; i < res.length; i++){
