@@ -261,7 +261,7 @@ function openAccordion(){
 function openSearchInSidebar() {
 	$(".sidebar-tabs").find(".active").removeClass("active");
 	$("#sidebar").removeClass("collapsed");
-	$("#home").removeClass("active");
+	$(".sidebar-content").find(".active").removeClass("active");
 	$("#search").addClass("active");
 	$("#searchTabButton").addClass("active");
 }
