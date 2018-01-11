@@ -60,26 +60,26 @@ function addOption(id, startInt, endInt, selectedInt){
     if(i<10){
       val="0"+i;
     }
-   (id).options[(id).options.length] = new Option(i, val);
+   $("#"+id)[0].options[$("#"+id)[0].options.length] = new Option(i, val);
    if(i == selectedInt){
-     (id).options[(id).options.length-1].selected = "selected";
+     $("#"+id)[0].options[$("#"+id)[0].options.length-1].selected = "selected";
    }
   }
 }
 
 function initOptions(){
-  addOption(startday,1,31,1);
-  addOption(startmonth,1,12,1);
-  addOption(startyear,2015,2026,1);
-  addOption(starthour,0,23,0);
-  addOption(startmin,0,59,0);
-  addOption(startsec,0,59,0);
-  addOption(endday,1,31,31);
-  addOption(endmonth,1,12,12);
-  addOption(endyear,2015,2026,2017);
-  addOption(endhour,0,23,23);
-  addOption(endmin,0,59,59);
-  addOption(endsec,0,59,59);
+  addOption("startday",1,31,1);
+  addOption("startmonth",1,12,1);
+  addOption("startyear",2015,2026,1);
+  addOption("starthour",0,23,0);
+  addOption("startmin",0,59,0);
+  addOption("startsec",0,59,0);
+  addOption("endday",1,31,31);
+  addOption("endmonth",1,12,12);
+  addOption("endyear",2015,2026,2017);
+  addOption("endhour",0,23,23);
+  addOption("endmin",0,59,59);
+  addOption("endsec",0,59,59);
 }
 
 function compareDates(){
@@ -98,6 +98,55 @@ function createDate(str){
   return date;
 }
 
+function updateDay(str){
+  if(lessDayMonth(str) == true){
+    if($("#"+str+"day")[0].options.length == 31){
+      $("#"+str+"day")[0].options[30].remove();
+    }else if($("#"+str+"day")[0].options.length < 30){
+      addOption(str+"day", $("#"+str+"day")[0].options.length+1, 30);
+    }
+  }else if($("#"+str+"month").val() == 2){
+    if(feburaryCalc(str) == true){
+      if($("#"+str+"day")[0].options.length == 28){
+        addOption(str+"day", 29, 29);
+      }else{
+        for(var i = $("#"+str+"day")[0].options.length; i > 29; i--){
+          $("#"+str+"day")[0].options[i-1].remove();
+        }
+      }
+    }else{
+      for(var i = $("#"+str+"day")[0].options.length; i > 28; i--){
+        $("#"+str+"day")[0].options[i-1].remove();
+      }
+    }
+  }else if($("#"+str+"day")[0].options.length < 31){
+    addOption(str+"day", $("#"+str+"day")[0].options.length+1, 31, 1);
+  }
+}
+
+function lessDayMonth(str){
+  var months = [4, 6, 9, 11];
+  for (var i = 0; i < months.length; i++) {
+    if(months[i] == $("#"+str+"month").val()){
+      return true;
+    }
+  }
+  return false;
+}
+
+function feburaryCalc(str){
+  if($("#"+str+"year").val() % 4 == 0){
+    if($("#"+str+"year").val() % 100 == 0){
+      if($("#"+str+"year").val() % 400 == 0){
+        return true;
+      }else{
+        return false;
+      }
+    }
+    return true;
+  }
+  return false;
+}
 function pagerInit(templateurl){
   $('#page-selection').bootpag({
     total: 0,
@@ -119,7 +168,6 @@ function pagerInit(templateurl){
 
     ajaxrequest(templateurl, num); // some ajax content loading...
   });
-  console.log($('#page-selection'));
 }
 function ajaxrequest(templateurl, pagetoview){
   $.ajax({

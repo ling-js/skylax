@@ -75,10 +75,10 @@ html
             |&nbsp;Day:&nbsp;
             select(name='selectsday', id="startday")
             |&nbsp;Month:&nbsp;
-            select(name='selectsmonth', id="startmonth")
+            select(name='selectsmonth', id="startmonth", onchange="updateDay('start')")
             //input(id='searchformbydate_input' type='date' placeholder="YYYY")
             |&nbsp;Year:&nbsp;
-            select(name='selectsyear', id="startyear")
+            select(name='selectsyear', id="startyear", onchange="updateDay('start')")
             a(style=" font-size: 9px" onclick="toggleIt('detailedstarttime')")|&nbsp;Detailed Start-Time
             br
             p#detailedstarttime(style=" display: none")
@@ -98,10 +98,10 @@ html
             select(name='selecteday', id="endday")
 
             |&nbsp;Month:&nbsp;
-            select(name='selectemonth', id="endmonth")
+            select(name='selectemonth', id="endmonth", onchange="updateDay('end')")
 
             |&nbsp;Year:&nbsp;
-            select(name='selecteyear', id="endyear")
+            select(name='selecteyear', id="endyear", onchange="updateDay('end')")
             a(style=" font-size: 9px" onclick="toggleIt('detailedendtime')")|&nbsp;Detailed End-Time
             br  
             p#detailedendtime(style=" display: none")
