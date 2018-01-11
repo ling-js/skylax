@@ -154,7 +154,6 @@ function removeDatasets(){
 		layerControl.removeLayer(lyr);
 		map.removeLayer(lyr);
 		$("#opacitySlider").remove();
-		console.log("baba");
 	}
 }
 

@@ -11,31 +11,37 @@ $(document).ready(function() {
   sidebar.on('content', function(e) {
   });
 
-  $('#resultpanel').hide();
+  initOptions();
 
+  $('#resultpanel').hide();
 
   $('#searchform').submit(function(e) {
     spinnerShow(document.getElementById('sidebar'));
     // Prevent default html form handling
     e.preventDefault();
     var that = this;
-    console.log("function gets called properly awaiting ajax...");
-    var substring = $("#searchformbyname_input").val();
-    var startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
-    //var enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
-    var enddate= "";
-    console.log(startdate + " starttime and endtime " + enddate);
-    var page = 0;
-    var pagetoview = 1;
-    var bbox="";
-    console.log("searchbox= " + $(searchformbybbox_bottomLong).val());
-    if ($(searchformbybbox_bottomLong).val() != ""){
-      bbox=($(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val());
-    }
-    console.log(bbox);
-    var templateurl = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
-    pagerInit(templateurl);
-    ajaxrequest(templateurl, pagetoview);
+    if(compareDates() == true){
+      console.log("function gets called properly awaiting ajax...");
+      var substring = $("#searchformbyname_input").val();
+      var startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
+      //var enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
+      var enddate= "";
+      console.log(startdate + " starttime and endtime " + enddate);
+      var page = 0;
+      var pagetoview = 1;
+      var bbox="";
+      console.log("searchbox= " + $(searchformbybbox_bottomLong).val());
+      if ($(searchformbybbox_bottomLong).val() != ""){
+        bbox=($(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val());
+      }
+      console.log(bbox);
+      var templateurl = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
+      pagerInit(templateurl);
+      ajaxrequest(templateurl, pagetoview);
+  }else{
+    alert("Startdate must be before Enddate");
+    spinnerHide(document.getElementById('sidebar'));
+  }
   });//end getMetaData()
 });
 
@@ -48,6 +54,99 @@ function pageCalculator(allContents){
   return allContents;
 }
 
+function addOption(id, startInt, endInt, selectedInt){
+  for(var i = startInt; i < endInt+1; i++){
+    var val = i;
+    if(i<10){
+      val="0"+i;
+    }
+   $("#"+id)[0].options[$("#"+id)[0].options.length] = new Option(i, val);
+   if(i == selectedInt){
+     $("#"+id)[0].options[$("#"+id)[0].options.length-1].selected = "selected";
+   }
+  }
+}
+
+function initOptions(){
+  addOption("startday",1,31,1);
+  addOption("startmonth",1,12,1);
+  addOption("startyear",2015,2026,1);
+  addOption("starthour",0,23,0);
+  addOption("startmin",0,59,0);
+  addOption("startsec",0,59,0);
+  addOption("endday",1,31,31);
+  addOption("endmonth",1,12,12);
+  addOption("endyear",2015,2026,2017);
+  addOption("endhour",0,23,23);
+  addOption("endmin",0,59,59);
+  addOption("endsec",0,59,59);
+}
+
+function compareDates(){
+  var startDate = createDate("start");
+  var endDate = createDate("end");
+  if(startDate < endDate){
+    return true;
+  }else{
+    return false;
+  }
+}
+
+function createDate(str){
+  var dateString = $("#"+str+"year").val() + "-" + $("#"+str+"month").val() + "-" + $("#"+str+"day").val() + "T" + $("#"+str+"hour").val() + ":" + $("#"+str+"min").val() + ":" + $("#"+str+"sec").val();
+  var date = new Date(dateString);
+  return date;
+}
+
+function updateDay(str){
+  if(lessDayMonth(str) == true){
+    if($("#"+str+"day")[0].options.length == 31){
+      $("#"+str+"day")[0].options[30].remove();
+    }else if($("#"+str+"day")[0].options.length < 30){
+      addOption(str+"day", $("#"+str+"day")[0].options.length+1, 30);
+    }
+  }else if($("#"+str+"month").val() == 2){
+    if(feburaryCalc(str) == true){
+      if($("#"+str+"day")[0].options.length == 28){
+        addOption(str+"day", 29, 29);
+      }else{
+        for(var i = $("#"+str+"day")[0].options.length; i > 29; i--){
+          $("#"+str+"day")[0].options[i-1].remove();
+        }
+      }
+    }else{
+      for(var i = $("#"+str+"day")[0].options.length; i > 28; i--){
+        $("#"+str+"day")[0].options[i-1].remove();
+      }
+    }
+  }else if($("#"+str+"day")[0].options.length < 31){
+    addOption(str+"day", $("#"+str+"day")[0].options.length+1, 31, 1);
+  }
+}
+
+function lessDayMonth(str){
+  var months = [4, 6, 9, 11];
+  for (var i = 0; i < months.length; i++) {
+    if(months[i] == $("#"+str+"month").val()){
+      return true;
+    }
+  }
+  return false;
+}
+
+function feburaryCalc(str){
+  if($("#"+str+"year").val() % 4 == 0){
+    if($("#"+str+"year").val() % 100 == 0){
+      if($("#"+str+"year").val() % 400 == 0){
+        return true;
+      }else{
+        return false;
+      }
+    }
+    return true;
+  }
+  return false;
+}
 function pagerInit(templateurl){
   $('#page-selection').bootpag({
     total: 0,
@@ -69,7 +168,6 @@ function pagerInit(templateurl){
 
     ajaxrequest(templateurl, num); // some ajax content loading...
   });
-  console.log($('#page-selection'));
 }
 function ajaxrequest(templateurl, pagetoview){
   $.ajax({
