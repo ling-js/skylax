@@ -20,23 +20,28 @@ $(document).ready(function() {
     // Prevent default html form handling
     e.preventDefault();
     var that = this;
-    console.log("function gets called properly awaiting ajax...");
-    var substring = $("#searchformbyname_input").val();
-    var startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
-    //var enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
-    var enddate= "";
-    console.log(startdate + " starttime and endtime " + enddate);
-    var page = 0;
-    var pagetoview = 1;
-    var bbox="";
-    console.log("searchbox= " + $(searchformbybbox_bottomLong).val());
-    if ($(searchformbybbox_bottomLong).val() != ""){
-      bbox=($(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val());
-    }
-    console.log(bbox);
-    var templateurl = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
-    pagerInit(templateurl);
-    ajaxrequest(templateurl, pagetoview);
+    if(compareDates() == true){
+      console.log("function gets called properly awaiting ajax...");
+      var substring = $("#searchformbyname_input").val();
+      var startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
+      //var enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
+      var enddate= "";
+      console.log(startdate + " starttime and endtime " + enddate);
+      var page = 0;
+      var pagetoview = 1;
+      var bbox="";
+      console.log("searchbox= " + $(searchformbybbox_bottomLong).val());
+      if ($(searchformbybbox_bottomLong).val() != ""){
+        bbox=($(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val());
+      }
+      console.log(bbox);
+      var templateurl = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
+      pagerInit(templateurl);
+      ajaxrequest(templateurl, pagetoview);
+  }else{
+    alert("Startdate must be before Enddate");
+    spinnerHide(document.getElementById('sidebar'));
+  }
   });//end getMetaData()
 });
 
@@ -75,6 +80,22 @@ function initOptions(){
   addOption(endhour,0,23,23);
   addOption(endmin,0,59,59);
   addOption(endsec,0,59,59);
+}
+
+function compareDates(){
+  var startDate = createDate("start");
+  var endDate = createDate("end");
+  if(startDate < endDate){
+    return true;
+  }else{
+    return false;
+  }
+}
+
+function createDate(str){
+  var dateString = $("#"+str+"year").val() + "-" + $("#"+str+"month").val() + "-" + $("#"+str+"day").val() + "T" + $("#"+str+"hour").val() + ":" + $("#"+str+"min").val() + ":" + $("#"+str+"sec").val();
+  var date = new Date(dateString);
+  return date;
 }
 
 function pagerInit(templateurl){
