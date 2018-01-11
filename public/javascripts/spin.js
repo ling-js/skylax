@@ -260,9 +260,10 @@ function spinnerShow(target) {
       target.appendChild(spinner.el);
       if(target == document.getElementById('sidebar')){
         document.getElementById('searchIt').disabled = true;
-      }
-      if(target == document.getElementById('map')){
-        document.getElementById('formSubmiter').disabled = true;
+      }else if(target == document.getElementById('map')){
+        for(var i = 1; i < ($("#resultpanel > div").length)+1; i++){
+          document.getElementById('formSubmiter'+i).disabled = true;
+        }
       }
       toggler = true;
       break;
@@ -278,9 +279,10 @@ function spinnerHide(target) {
       target.removeChild(spinnerList[i]);
       if(target == document.getElementById('sidebar')){
         document.getElementById('searchIt').disabled = false;
-      }
-      if(target == document.getElementById('map')){
-        document.getElementById('formSubmiter').disabled = false;
+      }else if(target == document.getElementById('map')){
+        for(var i = 1; i < ($("#resultpanel > div").length)+1; i++){
+          document.getElementById('formSubmiter'+i).disabled = false;
+        }
       }
       toggler = false;
       break;
