@@ -159,7 +159,6 @@ function removeDatasets(){
 	}
 }
 
-
 function visualizeMetadata(res){
 	polyLayer.clearLayers();
 	for(i=0; i < res.length; i++){
@@ -270,6 +269,7 @@ function toggleDrop(i,j){
 	$('#dropd'+i).show();
 	$('#dropd'+j).hide();
 }
+
 function toggleIt(i){
     var x = document.getElementById(i);
     if (x.style.display === "none") {
