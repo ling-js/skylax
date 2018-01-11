@@ -248,7 +248,7 @@ function zoomToLayer(j){
 }
 
 function openAccordion(){
-  //openSidebar
+  openSearchInSidebar();
 	for(var i = 1; i < this.options.resultLength+1; i++){
 		if(i == (this.options.number+1)){
 			$("#dataset"+(this.options.number+1)).collapse('show');
@@ -256,6 +256,14 @@ function openAccordion(){
 			$("#dataset"+i).collapse('hide');
 		}
 	}
+}
+
+function openSearchInSidebar() {
+	$(".sidebar-tabs").find(".active").removeClass("active");
+	$("#sidebar").removeClass("collapsed");
+	$("#home").removeClass("active");
+	$("#search").addClass("active");
+	$("#searchTabButton").addClass("active");
 }
 
 function toggleDrop(i,j){
