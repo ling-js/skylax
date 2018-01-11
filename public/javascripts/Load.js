@@ -1,4 +1,4 @@
-function createInnerHTML(length, pagetoview){
+function createInnerHTML(length, pagetoview, res){
 	for(i=1;i < length+1; i++){
 		$('#one').html($('#one').html() + '<div class="panel panel-default"> <a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"><div class="panel-heading"><span class="glyphicon glyphicon-open" aria-hidden="true"></span> Dataset '+ (8*(pagetoview-1)+i) +'</div></a><span class="panel-body panel-collapse collapse out" id="dataset'+i+'"> <p id="quality" style="padding: 15px; padding-bottom:0px">Metadata:</p> <p id="resolution'+i+'" style="padding: 15px; padding-top: 0px"></p> '
 										+ ' <form class="colorform" id="showData' + i + '" method="POST"> <container> <input id="rgb'+i+'" type="radio" name="rgbbool" value="true" onclick="toggleDrop('+(i*2)+','+((i*2)+1)+')"/> RGB<br/> <label for="rgb" class="dropd" id="dropd'+(i*2)+'"> '
@@ -20,6 +20,7 @@ function createInnerHTML(length, pagetoview){
 
 	return $('#one').html();
 }
+
 
 function createHTML(res, pagetoview){
 	$('#one').html("");
@@ -81,7 +82,7 @@ function createSubmitHandler(res, j){
 	        ($('#greyselect'+ j).val() !== null))
 		)
 	    {
-    		var redSDNInput = $('<input type="hidden" name="rcdn" value=' + subdataName(res, $('#rgbselect'+ ((j*3)-2)).val(), j) + '>');
+    			var redSDNInput = $('<input type="hidden" name="rcdn" value=' + subdataName(res, $('#rgbselect'+ ((j*3)-2)).val(), j) + '>');
 	        var greenSDNInput = $('<input type="hidden" name="gcdn" value=' + subdataName(res, $('#rgbselect'+ ((j*3)-1)).val(), j) + '>');
 	        var blueSDNInput = $('<input type="hidden" name="bcdn" value=' + subdataName(res, $('#rgbselect'+ ((j*3))).val(), j) + '>');
 	        var greySDNInput = $('<input type="hidden" name="gscdn" value=' + subdataName(res, $('#greyselect'+ j).val(), j) + '>');
@@ -117,6 +118,7 @@ function createSubmitHandler(res, j){
 				);
 				  layerControl.addOverlay(lyr, "Dataset");
 					map.addLayer(lyr);
+					zoomToLayer(j);
 					$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="100" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: 100%</output> </div>');
 				  }
 	        });
@@ -157,7 +159,9 @@ function removeDatasets(){
 	}
 }
 
+
 function visualizeMetadata(res){
+	polyLayer.clearLayers();
 	for(i=0; i < res.length; i++){
 		$('#resolution' + (i+1)  ).html(
 		"<b> Cloud Coverage Assesment: </b>" + res[i].CLOUD_COVERAGE_ASSESSMENT +  "</br>" +
@@ -197,9 +201,62 @@ function visualizeMetadata(res){
 		"<b> Subdataset 3 Name: </b>" + res[i].SUBDATASET_3_NAME + "</br>" +
 		"<b> Subdataset 4 Description: </b>" + res[i].SUBDATASET_4_DESC + "</br>" +
 		"<b> Subdataset 4 Name: </b>" + res[i].SUBDATASET_4_NAME + "</br>");
+		var coordArray = stringToCoordArray(res[i].FOOTPRINT);
+		drawPolygon(coordArray, res[i], i, res.length);
 	};
 }
 
+function stringToCoordArray(coordString){
+	if(coordString != null){
+		var CoordStrLen = coordString.length;
+		var res = coordString.slice(9, CoordStrLen -2);
+		res = res.replace(/,/g,"");
+	 	res = res.split(" ");
+		var coordArray = [];
+		for(var i = 0; i < res.length-1; i=i+2){
+			var coords = {lat: res[i+1], lng:res[i]};
+			coordArray.push(coords);
+		}
+		return coordArray;
+	}
+}
+
+function drawPolygon(coordArray, info, number, resultLength){
+	if(coordArray != null){
+		var polygon = L.polygon(coordArray, {color: 'red', number:number, resultLength:resultLength});
+		polygon.on('mouseover', showPolygonInfo);
+		polygon.on('click', openAccordion);
+		polygon.addTo(polyLayer);
+	}
+}
+
+function showPolygonInfo(e){
+	var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
+	var popup = L.popup()
+    .setLatLng(coords)
+    .setContent('<p> Dataset '+(this.options.number+1)+'</p>')
+    .openOn(map);
+}
+
+function zoomToLayer(j){
+	polyLayer.eachLayer(function(layer){
+		if(layer.options.number == (j-1)){
+			map.fitBounds(layer.getBounds());
+			polyLayer.clearLayers();
+		}
+});
+}
+
+function openAccordion(){
+  //openSidebar
+	for(var i = 1; i < this.options.resultLength+1; i++){
+		if(i == (this.options.number+1)){
+			$("#dataset"+(this.options.number+1)).collapse('show');
+		}else{
+			$("#dataset"+i).collapse('hide');
+		}
+	}
+}
 
 function toggleDrop(i,j){
 	$('#dropd'+i).show();
