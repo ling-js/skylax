@@ -109,7 +109,8 @@ function initMap() {
 
   $('#searchformbybbox_bottomLong').change(function(){
                 drawnItems.clearLayers();
-if(document.getElementById())
+
+
                 coordsToPolygon();
             });
 
@@ -187,14 +188,45 @@ $(document).ready(function() {
   });
 
 
-  $('#searchformbybbox_bottomLong').change(function(){
+  $('#searchformbybbox_bottomLat').change(function(){
       drawnItems.clearLayers();
 
       if(document.getElementById('searchformbybbox_topLat').value != 0 &&
     		 document.getElementById('searchformbybbox_bottomLong').value != 0&&
     		 document.getElementById('searchformbybbox_topLong').value != 0){
+        coordsToPolygon();
+}
+});
+
+$('#searchformbybbox_topLat').change(function(){
+    drawnItems.clearLayers();
+
+    if(document.getElementById('searchformbybbox_topLong').value != 0 &&
+       document.getElementById('searchformbybbox_bottomLong').value != 0&&
+       document.getElementById('searchformbybbox_bottomLat').value != 0){
       coordsToPolygon();
 }
+});
+
+$('#searchformbybbox_topLat').change(function(){
+    drawnItems.clearLayers();
+
+    if(document.getElementById('searchformbybbox_topLong').value != 0 &&
+       document.getElementById('searchformbybbox_bottomLong').value != 0&&
+       document.getElementById('searchformbybbox_bottomLat').value != 0){
+      coordsToPolygon();
+}
+});
+
+  $('#searchformbybbox_bottomLong').change(function(){
+      drawnItems.clearLayers();
+
+      if(document.getElementById('searchformbybbox_topLat').value != 0 &&
+    		 document.getElementById('searchformbybbox_bottomLat').value != 0&&
+    		 document.getElementById('searchformbybbox_topLong').value != 0){
+        coordsToPolygon();
+}
+
 
 $('#searchformbybbox_bottomLat').change(function()
 {
@@ -207,30 +239,15 @@ $('#searchformbybbox_topLong').change(function(){
     clearPolygon();
 
 });
+$('#searchformbybbox_bottomLong').change(function(){
+    clearPolygon();
+
+});
 
 });
 
 
 
-
-
-/*  $('#polyBtn').click(function() {
-    if(document.getElementById('searchformbybbox_topLat').value != 0 &&
-  		 document.getElementById('searchformbybbox_bottomLong').value != 0&&
-  		 document.getElementById('searchformbybbox_bottomLat').value != 0	&&
-  		 document.getElementById('searchformbybbox_topLong').value != 0){
-    coordsToPolygon();
-    $('#polyBtn').hide();
-    $('#deleteDrawing').show();
-
-}
-
-else {
-
-return alert("bitte geben sie 4 Koordinaten ein");
-}
-  });
-*/
   $('#bboxbutton').click(function(){
     drawnItems.clearLayers();
 })
