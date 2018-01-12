@@ -40,7 +40,7 @@ function coordsToPolygon(){
 							[document.getElementById('searchformbybbox_bottomLat').value , document.getElementById('searchformbybbox_topLong').value]
 							]
 
-							var polygon = L.polygon(latlon, {color: 'red'}).addTo(drawnItems);
+							var polygon = L.polygon(latlon).addTo(drawnItems);
 							map.fitBounds(polygon.getBounds());
 }
 
