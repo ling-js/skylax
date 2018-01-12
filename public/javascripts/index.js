@@ -54,8 +54,8 @@ function pageCalculator(allContents){
   return allContents;
 }
 
-function createPermalink(){
-  var str ="Ich schreibe jetzt ein buch, das ist so wunderschön, nur um zu sehen, dass sich was tut ud ich fände das schän, wenn sich dieses Feld anpassen könnte.";
+function showPermalink(){
+  var str = createPermalink();
   matchTextAreaField(str);
 }
 
@@ -73,6 +73,46 @@ function matchTextAreaField(str){
   $('#save').html('<h2>save und so</h2><textarea id="permalink" value=str style="width: 100%"></<textarea>');
   $('#permalink')[0].style.height = height;
   $('#permalink')[0].value = str;
+}
+
+function createPermalink(){
+  var str ="Ich schreibe jetzt ein buch, das ist so wunderschön, nur um zu sehen, dass sich was tut ud ich fände das schän, wenn sich dieses Feld anpassen könnte.";
+  var st = $("#searchformbyname_input").val();
+  var ssd = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
+  var sed = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
+  var p;
+  var sbox = ($('#searchformbybbox_bottomLong').val()+','+ $('#searchformbybbox_bottomLat').val() +','+ $('#searchformbybbox_topLong').val()+',' +$('#searchformbybbox_topLat').val());
+  var ds = [];
+  for(var i = 0; i< /*#OneChildrenLength*/;i++){
+    var tempobj = {};
+    tempobj.n = "a";
+    tempobj.o = "as";
+    tempobj.v = "d";
+    tempobj.vis = "d";
+    tempobj.exp = "d";
+    tempobj.gscdn = "d";
+    tempobj.rcdn = "d";
+    tempobj.gcdn = "d";
+    tempobj.bcdn = "d";
+    tempobj.gsc = "d";
+    tempobj.rcn = "d";
+    tempobj.gcn = "d";
+    tempobj.bcn = "d";
+    tempobj.greymin = "d";
+    tempobj.rcmin = "d";
+    tempobj.gcmin = "d";
+    tempobj.bcmin = "d";
+    tempobj.greymax = "d";
+    tempobj.rcmax = "d";
+    tempobj.gcmax = "d";
+    tempobj.bcmax = "d";
+    tempobj.calc = ["name","calculation"];
+    ds.push(tempobj);
+  }
+  var stateobject = '{"st":"'+st+'", "sbox":"'+sbox+'", "ssd":"'+ssd+'", "sed":"'+sed+'", "p":"'+p+'", "ds":"'+ds+'"}';
+  var jsonState = JSON.parse(stateobject);
+  console.log(jsonState);
+  return str;
 }
 function addOption(id, startInt, endInt, selectedInt){
   for(var i = startInt; i < endInt+1; i++){
