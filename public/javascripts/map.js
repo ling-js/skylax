@@ -88,6 +88,36 @@ function initMap() {
     document.getElementById('searchformbybbox_topLong').value = getRectangle(2)[1];
     document.getElementById('searchformbybbox_bottomLat').value = getRectangle(4)[0];
     document.getElementById('searchformbybbox_bottomLong').value = getRectangle(4)[1];
+
+    $(document).ready(function(){
+        $('#searchformbybbox_topLong').change(function(){
+          drawnItems.clearLayers();
+            coordsToPolygon();
+
+        });
+
+    });
+    $(document).ready(function(){
+        $('#searchformbybbox_bottomLat').change(function(){
+            drawnItems.clearLayers();
+            coordsToPolygon();
+        });
+
+    });
+    $(document).ready(function(){
+        $('#searchformbybbox_topLat').change(function(){
+          drawnItems.clearLayers();
+            coordsToPolygon();
+        });
+
+    });
+   $(document).ready(function(){
+            $('#searchformbybbox_bottomLong').change(function(){
+                drawnItems.clearLayers();
+                coordsToPolygon();
+            });
+
+        });
   });
 
   // Set up Sidebar and Startpage
@@ -126,6 +156,8 @@ function correctCoordinates(coord) {
 /**
  * Function that is called whenever the inputs need to be
  * erased from the web page (cache)
+
+
  */
 function resetInput() {
   document.getElementById('searchformbybbox_topLat').value = '';
@@ -147,7 +179,16 @@ $(document).ready(function() {
     $('#deleteDrawing').show();
   });
 
-  $('#polyBtn').click(function() {
+
+ $(document).ready(function(){
+          $('#searchformbybbox_bottomLong').change(function(){
+              drawnItems.clearLayers();
+              coordsToPolygon();
+          });
+
+      });
+
+/*  $('#polyBtn').click(function() {
     if(document.getElementById('searchformbybbox_topLat').value != 0 &&
   		 document.getElementById('searchformbybbox_bottomLong').value != 0&&
   		 document.getElementById('searchformbybbox_bottomLat').value != 0	&&
@@ -157,11 +198,16 @@ $(document).ready(function() {
     $('#deleteDrawing').show();
 
 }
+
 else {
 
 return alert("bitte geben sie 4 Koordinaten ein");
 }
   });
+*/
+
+
+
 
   $('#deleteDrawing').click(function() {
     resetInput();
