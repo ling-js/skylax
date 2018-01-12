@@ -33,6 +33,10 @@ function createHTML(res, pagetoview){
 
 
 function coordsToPolygon(){
+	if(document.getElementById('searchformbybbox_topLat').value != '' &&
+		 document.getElementById('searchformbybbox_bottomLat').value != '' &&
+		 document.getElementById('searchformbybbox_topLong').value != '' &&
+	 		 document.getElementById('searchformbybbox_bottomLong').value != ''){
 	var latlon =
 							[[document.getElementById('searchformbybbox_topLat').value, document.getElementById('searchformbybbox_topLong').value],
 							[document.getElementById('searchformbybbox_topLat').value, document.getElementById('searchformbybbox_bottomLong').value],
@@ -40,8 +44,11 @@ function coordsToPolygon(){
 							[document.getElementById('searchformbybbox_bottomLat').value , document.getElementById('searchformbybbox_topLong').value]
 							]
 
-							var polygon = L.polygon(latlon).addTo(drawnItems);
-							map.fitBounds(polygon.getBounds());
+	var polygon = L.polygon(latlon).addTo(drawnItems);
+	map.fitBounds(polygon.getBounds());
+	$('#bboxbutton').hide();
+	$('#deleteDrawing').show();
+}
 }
 
 //<select> <option selected="selected" disabled="disabled">Pick a band</option> <option value="1">Band 1</option> <option value="2">Band 2</option> <option value="3">Band 3</option> <option value="4">Band 4</option> <option value="5">Band 5</option> <option value="6">Band 6</option> <option value="7">Band 7</option> <option value="8">Band 8</option> <option value="8a">Band 8a</option> <option value="9">Band 9</option> <option value="10">Band 10</option> <option value="11">Band 11</option> <option value="12">Band 12</option> </select>

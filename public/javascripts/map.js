@@ -109,8 +109,6 @@ function initMap() {
 
   $('#searchformbybbox_bottomLong').change(function(){
                 drawnItems.clearLayers();
-
-
                 coordsToPolygon();
             });
 
@@ -163,16 +161,7 @@ function resetInput() {
   document.getElementById('searchformbybbox_bottomLong').value = '';
 }
 
-function clearPolygon(){
-  if(document.getElementById('searchformbybbox_topLat').value == 0 ||
-     document.getElementById('searchformbybbox_bottomLong').value == 0 ||
-     document.getElementById('searchformbybbox_bottomLat').value == 0	||
-     document.getElementById('searchformbybbox_topLong').value == 0){
 
-    drawnItems.clearLayers();
-}
-
-}
 
 // Click handler for your button to start drawing polygons
 $(document).ready(function() {
@@ -182,81 +171,45 @@ $(document).ready(function() {
   resetInput();
 
   $('#bboxbutton').click(function() {
+    drawnItems.clearLayers();
     rectangleDrawer.enable();
     $('#bboxbutton').hide();
     $('#deleteDrawing').show();
+
   });
-
-
-  $('#searchformbybbox_bottomLat').change(function(){
-      drawnItems.clearLayers();
-
-      if(document.getElementById('searchformbybbox_topLat').value != 0 &&
-    		 document.getElementById('searchformbybbox_bottomLong').value != 0&&
-    		 document.getElementById('searchformbybbox_topLong').value != 0){
-        coordsToPolygon();
-}
-});
-
-$('#searchformbybbox_topLat').change(function(){
-    drawnItems.clearLayers();
-
-    if(document.getElementById('searchformbybbox_topLong').value != 0 &&
-       document.getElementById('searchformbybbox_bottomLong').value != 0&&
-       document.getElementById('searchformbybbox_bottomLat').value != 0){
-      coordsToPolygon();
-}
-});
-
-$('#searchformbybbox_topLat').change(function(){
-    drawnItems.clearLayers();
-
-    if(document.getElementById('searchformbybbox_topLong').value != 0 &&
-       document.getElementById('searchformbybbox_bottomLong').value != 0&&
-       document.getElementById('searchformbybbox_bottomLat').value != 0){
-      coordsToPolygon();
-}
-});
-
-  $('#searchformbybbox_bottomLong').change(function(){
-      drawnItems.clearLayers();
-
-      if(document.getElementById('searchformbybbox_topLat').value != 0 &&
-    		 document.getElementById('searchformbybbox_bottomLat').value != 0&&
-    		 document.getElementById('searchformbybbox_topLong').value != 0){
-        coordsToPolygon();
-}
-
-
-$('#searchformbybbox_bottomLat').change(function()
-{
-      clearPolygon();
-});
-$('#searchformbybbox_topLat').change(function(){
-    clearPolygon();
-});
-$('#searchformbybbox_topLong').change(function(){
-    clearPolygon();
-
-});
-$('#searchformbybbox_bottomLong').change(function(){
-    clearPolygon();
-
-});
-
-});
-
-
-
-  $('#bboxbutton').click(function(){
-    drawnItems.clearLayers();
-})
 
   $('#deleteDrawing').click(function() {
     resetInput();
     drawnItems.clearLayers();
     $('#bboxbutton').show();
-    $('#polyBtn').show();
     $('#deleteDrawing').hide();
   });
+
+
+  $('#searchformbybbox_bottomLat').change(function(){
+    drawnItems.clearLayers();
+    coordsToPolygon();
+
+});
+
+$('#searchformbybbox_topLat').change(function(){
+  drawnItems.clearLayers();
+  coordsToPolygon();
+
+});
+
+$('#searchformbybbox_topLong').change(function(){
+    drawnItems.clearLayers();
+    coordsToPolygon();
+
+});
+
+  $('#searchformbybbox_bottomLong').change(function(){
+      drawnItems.clearLayers();
+      coordsToPolygon();
+
+});
+
+
+
 });
