@@ -81,21 +81,19 @@ function initMap() {
     console.log(coords);
   });
 
-  map.on('draw:created', function(e) {
+ map.on('draw:created', function(e) {
+
+
     // Each time a feaute is created, it's added to the over arching feature group
     drawnItems.addLayer(e.layer);
-    document.getElementById('searchformbybbox_topLat').value = getRectangle(
-      2
-    )[0];
-    document.getElementById('searchformbybbox_topLong').value = getRectangle(
-      2
-    )[1];
-    document.getElementById('searchformbybbox_bottomLat').value = getRectangle(
-      4
-    )[0];
-    document.getElementById(
-      'searchformbybbox_bottomLong'
-    ).value = getRectangle(4)[1];
+    document.getElementById('searchformbybbox_topLat').value = getRectangle(2)[0];
+    document.getElementById('searchformbybbox_topLong').value = getRectangle(2)[1];
+    document.getElementById('searchformbybbox_bottomLat').value = getRectangle(4)[0];
+    document.getElementById('searchformbybbox_bottomLong').value = getRectangle(4)[1];
+
+
+
+
   });
 
   // Set up Sidebar and Startpage
@@ -134,6 +132,8 @@ function correctCoordinates(coord) {
 /**
  * Function that is called whenever the inputs need to be
  * erased from the web page (cache)
+
+
  */
 function resetInput() {
   document.getElementById('searchformbybbox_topLat').value = '';
@@ -141,6 +141,8 @@ function resetInput() {
   document.getElementById('searchformbybbox_bottomLat').value = '';
   document.getElementById('searchformbybbox_bottomLong').value = '';
 }
+
+
 
 // Click handler for your button to start drawing polygons
 $(document).ready(function() {
@@ -150,9 +152,11 @@ $(document).ready(function() {
   resetInput();
 
   $('#bboxbutton').click(function() {
+    drawnItems.clearLayers();
     rectangleDrawer.enable();
     $('#bboxbutton').hide();
     $('#deleteDrawing').show();
+
   });
 
   $('#deleteDrawing').click(function() {
@@ -161,4 +165,39 @@ $(document).ready(function() {
     $('#bboxbutton').show();
     $('#deleteDrawing').hide();
   });
+
+
+  $('#searchformbybbox_bottomLat').change(function(){
+    drawnItems.clearLayers();
+    coordsToPolygon();
+
+
+});
+
+$('#searchformbybbox_topLat').change(function(){
+  drawnItems.clearLayers();
+  $('#bboxbutton').show();
+  $('#deleteDrawing').hide();
+  coordsToPolygon();
+
+});
+
+$('#searchformbybbox_topLong').change(function(){
+    drawnItems.clearLayers();
+    $('#bboxbutton').show();
+    $('#deleteDrawing').hide();
+    coordsToPolygon();
+
+});
+
+  $('#searchformbybbox_bottomLong').change(function(){
+      drawnItems.clearLayers();
+      $('#bboxbutton').show();
+      $('#deleteDrawing').hide();
+      coordsToPolygon();
+
+});
+
+
+
 });
