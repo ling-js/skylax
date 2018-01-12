@@ -54,6 +54,26 @@ function pageCalculator(allContents){
   return allContents;
 }
 
+function createPermalink(){
+  var str ="Ich schreibe jetzt ein buch, das ist so wunderschön, nur um zu sehen, dass sich was tut ud ich fände das schän, wenn sich dieses Feld anpassen könnte.";
+  matchTextAreaField(str);
+}
+
+function matchTextAreaField(str){
+  for(var i = 0; i <$('#sidebar')[0].classList.length;i++){
+    if ($('#sidebar')[0].classList[i]  == "collapsed"){
+      openSearchInSidebar();
+    }
+  }
+  $(".sidebar-content").find(".active").append('<textarea id="permalinkTemp" value=str style="width: 100%"></<textarea>');
+  $('#permalinkTemp')[0].value = str;
+  var height = $('#permalinkTemp')[0].scrollHeight+2+"px";
+  $('#permalinkTemp')[0].parentNode.removeChild($('#permalinkTemp')[0]);
+  //$(".sidebar-content").find(".active").remove($('#permalinkTemp'));
+  $('#save').html('<h2>save und so</h2><textarea id="permalink" value=str style="width: 100%"></<textarea>');
+  $('#permalink')[0].style.height = height;
+  $('#permalink')[0].value = str;
+}
 function addOption(id, startInt, endInt, selectedInt){
   for(var i = startInt; i < endInt+1; i++){
     var val = i;
