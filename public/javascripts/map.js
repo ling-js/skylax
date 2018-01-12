@@ -91,26 +91,7 @@ function initMap() {
     document.getElementById('searchformbybbox_bottomLat').value = getRectangle(4)[0];
     document.getElementById('searchformbybbox_bottomLong').value = getRectangle(4)[1];
 
-    $('#searchformbybbox_topLong').change(function(){
-          drawnItems.clearLayers();
-            coordsToPolygon();
-    });
 
-  $('#searchformbybbox_bottomLat').change(function(){
-            drawnItems.clearLayers();
-            coordsToPolygon();
-        });
-
-
-  $('#searchformbybbox_topLat').change(function(){
-          drawnItems.clearLayers();
-            coordsToPolygon();
-        });
-
-  $('#searchformbybbox_bottomLong').change(function(){
-                drawnItems.clearLayers();
-                coordsToPolygon();
-            });
 
 
   });
@@ -190,22 +171,29 @@ $(document).ready(function() {
     drawnItems.clearLayers();
     coordsToPolygon();
 
+
 });
 
 $('#searchformbybbox_topLat').change(function(){
   drawnItems.clearLayers();
+  $('#bboxbutton').show();
+  $('#deleteDrawing').hide();
   coordsToPolygon();
 
 });
 
 $('#searchformbybbox_topLong').change(function(){
     drawnItems.clearLayers();
+    $('#bboxbutton').show();
+    $('#deleteDrawing').hide();
     coordsToPolygon();
 
 });
 
   $('#searchformbybbox_bottomLong').change(function(){
       drawnItems.clearLayers();
+      $('#bboxbutton').show();
+      $('#deleteDrawing').hide();
       coordsToPolygon();
 
 });
