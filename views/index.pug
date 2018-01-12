@@ -51,17 +51,17 @@ html
       .sidebar-tabs
         ul(role='tablist')
           li(id='homeTabButton')
-            a(href='#home' , role='tab')
+            a(href='#home' , role='tab', onclick='showSaveBtn(false)')
               i.fa.fa-home
           li(id='searchTabButton')
-            a(href='#search', role='tab')
+            a(href='#search', role='tab', onclick='showSaveBtn(true)')
               i.fa.fa-bars
         ul(role='tablist')
-          li(id='saveTabButton')
+          li(id='saveTabButton', style="display : none")
             a(href='#save', role='tab', onclick='showPermalink()')
               i.fa.fa-save
           li(id='imprintTabButton')
-            a(href='#imprint', role='tab')
+            a(href='#imprint', role='tab', onclick='showSaveBtn(false)')
               i.fa.fa-university
       .sidebar-content
         #home.sidebar-pane

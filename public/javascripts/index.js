@@ -54,6 +54,23 @@ function pageCalculator(allContents){
   return allContents;
 }
 
+function showSaveBtn(bool){
+  if(bool == true){
+    console.log($('#searchTabButton')[0].classList);
+    if($('#searchTabButton')[0].classList.length > 0){
+      for(var i = 0; i < $('#searchTabButton')[0].classList.length; i++){
+        if ($('#searchTabButton')[0].classList[i] == "active"){
+          $('#saveTabButton')[0].style.display = "none";
+          break;
+        }
+      }
+    }else if($('#searchTabButton')[0].classList.length == 0) {
+      $('#saveTabButton')[0].style.display = "";      
+    }
+  }else{
+    $('#saveTabButton')[0].style.display = "none";
+  }
+}
 function showPermalink(){
   var str = createPermalink();
   matchTextAreaField(str);
