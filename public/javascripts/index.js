@@ -83,7 +83,7 @@ function createPermalink(){
   var p;
   var sbox = ($('#searchformbybbox_bottomLong').val()+','+ $('#searchformbybbox_bottomLat').val() +','+ $('#searchformbybbox_topLong').val()+',' +$('#searchformbybbox_topLat').val());
   var ds = [];
-  for(var i = 0; i< /*#OneChildrenLength*/;i++){
+  for(var i = 0; i< 2/*#OneChildrenLength*/;i++){
     var tempobj = {};
     tempobj.n = "a";
     tempobj.o = "as";
