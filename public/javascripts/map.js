@@ -82,6 +82,8 @@ function initMap() {
   });
 
  map.on('draw:created', function(e) {
+
+
     // Each time a feaute is created, it's added to the over arching feature group
     drawnItems.addLayer(e.layer);
     document.getElementById('searchformbybbox_topLat').value = getRectangle(2)[0];
@@ -89,35 +91,28 @@ function initMap() {
     document.getElementById('searchformbybbox_bottomLat').value = getRectangle(4)[0];
     document.getElementById('searchformbybbox_bottomLong').value = getRectangle(4)[1];
 
-    $(document).ready(function(){
-        $('#searchformbybbox_topLong').change(function(){
+    $('#searchformbybbox_topLong').change(function(){
           drawnItems.clearLayers();
             coordsToPolygon();
-
-        });
-
     });
-    $(document).ready(function(){
-        $('#searchformbybbox_bottomLat').change(function(){
+
+  $('#searchformbybbox_bottomLat').change(function(){
             drawnItems.clearLayers();
             coordsToPolygon();
         });
 
-    });
-    $(document).ready(function(){
-        $('#searchformbybbox_topLat').change(function(){
+
+  $('#searchformbybbox_topLat').change(function(){
           drawnItems.clearLayers();
             coordsToPolygon();
         });
 
-    });
-   $(document).ready(function(){
-            $('#searchformbybbox_bottomLong').change(function(){
+  $('#searchformbybbox_bottomLong').change(function(){
                 drawnItems.clearLayers();
                 coordsToPolygon();
             });
 
-        });
+
   });
 
   // Set up Sidebar and Startpage
@@ -180,13 +175,10 @@ $(document).ready(function() {
   });
 
 
- $(document).ready(function(){
-          $('#searchformbybbox_bottomLong').change(function(){
-              drawnItems.clearLayers();
-              coordsToPolygon();
-          });
-
-      });
+  $('#searchformbybbox_bottomLong').change(function(){
+      drawnItems.clearLayers();
+      coordsToPolygon();
+  });
 
 /*  $('#polyBtn').click(function() {
     if(document.getElementById('searchformbybbox_topLat').value != 0 &&
@@ -205,9 +197,9 @@ return alert("bitte geben sie 4 Koordinaten ein");
 }
   });
 */
-
-
-
+  $('#bboxbutton').click(function(){
+    drawnItems.clearLayers();
+})
 
   $('#deleteDrawing').click(function() {
     resetInput();
