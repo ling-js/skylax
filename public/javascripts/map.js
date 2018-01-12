@@ -81,21 +81,13 @@ function initMap() {
     console.log(coords);
   });
 
-  map.on('draw:created', function(e) {
+ map.on('draw:created', function(e) {
     // Each time a feaute is created, it's added to the over arching feature group
     drawnItems.addLayer(e.layer);
-    document.getElementById('searchformbybbox_topLat').value = getRectangle(
-      2
-    )[0];
-    document.getElementById('searchformbybbox_topLong').value = getRectangle(
-      2
-    )[1];
-    document.getElementById('searchformbybbox_bottomLat').value = getRectangle(
-      4
-    )[0];
-    document.getElementById(
-      'searchformbybbox_bottomLong'
-    ).value = getRectangle(4)[1];
+    document.getElementById('searchformbybbox_topLat').value = getRectangle(2)[0];
+    document.getElementById('searchformbybbox_topLong').value = getRectangle(2)[1];
+    document.getElementById('searchformbybbox_bottomLat').value = getRectangle(4)[0];
+    document.getElementById('searchformbybbox_bottomLong').value = getRectangle(4)[1];
   });
 
   // Set up Sidebar and Startpage
@@ -155,10 +147,27 @@ $(document).ready(function() {
     $('#deleteDrawing').show();
   });
 
+  $('#polyBtn').click(function() {
+    if(document.getElementById('searchformbybbox_topLat').value != 0 &&
+  		 document.getElementById('searchformbybbox_bottomLong').value != 0&&
+  		 document.getElementById('searchformbybbox_bottomLat').value != 0	&&
+  		 document.getElementById('searchformbybbox_topLong').value != 0){
+    coordsToPolygon();
+    $('#polyBtn').hide();
+    $('#deleteDrawing').show();
+
+}
+else {
+
+return alert("bitte geben sie 4 Koordinaten ein");
+}
+  });
+
   $('#deleteDrawing').click(function() {
     resetInput();
     drawnItems.clearLayers();
     $('#bboxbutton').show();
+    $('#polyBtn').show();
     $('#deleteDrawing').hide();
   });
 });
