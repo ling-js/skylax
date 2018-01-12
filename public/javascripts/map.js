@@ -109,6 +109,7 @@ function initMap() {
 
   $('#searchformbybbox_bottomLong').change(function(){
                 drawnItems.clearLayers();
+if(document.getElementById())
                 coordsToPolygon();
             });
 
@@ -161,6 +162,17 @@ function resetInput() {
   document.getElementById('searchformbybbox_bottomLong').value = '';
 }
 
+function clearPolygon(){
+  if(document.getElementById('searchformbybbox_topLat').value == 0 ||
+     document.getElementById('searchformbybbox_bottomLong').value == 0 ||
+     document.getElementById('searchformbybbox_bottomLat').value == 0	||
+     document.getElementById('searchformbybbox_topLong').value == 0){
+
+    drawnItems.clearLayers();
+}
+
+}
+
 // Click handler for your button to start drawing polygons
 $(document).ready(function() {
   // Hide the delete button until the draw button is clicked once
@@ -177,8 +189,30 @@ $(document).ready(function() {
 
   $('#searchformbybbox_bottomLong').change(function(){
       drawnItems.clearLayers();
+
+      if(document.getElementById('searchformbybbox_topLat').value != 0 &&
+    		 document.getElementById('searchformbybbox_bottomLong').value != 0&&
+    		 document.getElementById('searchformbybbox_topLong').value != 0){
       coordsToPolygon();
-  });
+}
+
+$('#searchformbybbox_bottomLat').change(function()
+{
+      clearPolygon();
+});
+$('#searchformbybbox_topLat').change(function(){
+    clearPolygon();
+});
+$('#searchformbybbox_topLong').change(function(){
+    clearPolygon();
+
+});
+
+});
+
+
+
+
 
 /*  $('#polyBtn').click(function() {
     if(document.getElementById('searchformbybbox_topLat').value != 0 &&
