@@ -247,7 +247,7 @@ function zoomToLayer(j){
 }
 
 function openAccordion(){
-  openSearchInSidebar();
+  openTabInSidebar(hash);
 	for(var i = 1; i < this.options.resultLength+1; i++){
 		if(i == (this.options.number+1)){
 			$("#dataset"+(this.options.number+1)).collapse('show');
@@ -257,12 +257,12 @@ function openAccordion(){
 	}
 }
 
-function openSearchInSidebar() {
+function openTabInSidebar(hash) {
 	$(".sidebar-tabs").find(".active").removeClass("active");
 	$("#sidebar").removeClass("collapsed");
 	$(".sidebar-content").find(".active").removeClass("active");
-	$("#search").addClass("active");
-	$("#searchTabButton").addClass("active");
+	$(hash).addClass("active");
+	$(hash+"TabButton").addClass("active");
 }
 
 function toggleDrop(i,j){
