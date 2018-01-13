@@ -13,6 +13,10 @@ $(document).ready(function() {
 
   initOptions();
 
+  loadSearch();
+
+  loadHash();
+
   $('#resultpanel').hide();
 
   $('#searchform').submit(function(e) {
@@ -165,6 +169,20 @@ function createSearchParam(stateobject){
     }
   }
   return searchParams;
+}
+
+function loadHash(){
+  for (var i = 0; i < $('#sidebar')[0].children[1].children.length; i++) {
+    if(window.location.hash == "#"+$('#sidebar')[0].children[1].children[i].id){
+      openTabInSidebar(window.location.hash);
+      console.log("babedibu");
+    }
+  }
+}
+
+function loadSearch(){
+  var hash = window.location.hash;
+  console.log(hash);
 }
 
 function addOption(id, startInt, endInt, selectedInt){
