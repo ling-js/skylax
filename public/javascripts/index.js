@@ -56,7 +56,6 @@ function pageCalculator(allContents){
 
 function showSaveBtn(bool){
   if(bool == true){
-    console.log($('#searchTabButton')[0].classList);
     if($('#searchTabButton')[0].classList.length > 0){
       for(var i = 0; i < $('#searchTabButton')[0].classList.length; i++){
         if ($('#searchTabButton')[0].classList[i] == "active"){
@@ -65,9 +64,9 @@ function showSaveBtn(bool){
         }
       }
     }else if($('#searchTabButton')[0].classList.length == 0) {
-      $('#saveTabButton')[0].style.display = "";      
+      $('#saveTabButton')[0].style.display = "";
     }
-  }else{
+  }else if(bool == false){
     $('#saveTabButton')[0].style.display = "none";
   }
 }
@@ -92,12 +91,26 @@ function matchTextAreaField(str){
   $('#permalink')[0].value = str;
 }
 
+//check if empty
 function createPermalink(){
   var str ="Ich schreibe jetzt ein buch, das ist so wunderschön, nur um zu sehen, dass sich was tut ud ich fände das schän, wenn sich dieses Feld anpassen könnte.";
+  var stateobject = createJSONPerma();
+  stateobject = createSearchParam(stateobject);
+  return addParams(stateobject);
+}
+
+function addParams(stateobject){
+  var permalink = new URL(window.location);
+  for (let p of stateobject) {
+    permalink.searchParams.append(p[0],p[1]);
+  }
+  return permalink;
+}
+
+function createJSONPerma(){
   var st = $("#searchformbyname_input").val();
-  var ssd = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
-  var sed = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
-  var p;
+  var ssd = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";    var sed = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
+  var p = "";
   var sbox = ($('#searchformbybbox_bottomLong').val()+','+ $('#searchformbybbox_bottomLat').val() +','+ $('#searchformbybbox_topLong').val()+',' +$('#searchformbybbox_topLat').val());
   var ds = [];
   for(var i = 0; i< 2/*#OneChildrenLength*/;i++){
@@ -123,14 +136,37 @@ function createPermalink(){
     tempobj.rcmax = "d";
     tempobj.gcmax = "d";
     tempobj.bcmax = "d";
-    tempobj.calc = ["name","calculation"];
-    ds.push(tempobj);
+    tempobj.array_name = "n";
+    tempobj.array_calc = "n";
+    //tempobj.calc = ["name","calculation"];
+    var tempJSON = {"n":"2", "i": tempobj.n};
+    ds.push(tempJSON);
   }
-  var stateobject = '{"st":"'+st+'", "sbox":"'+sbox+'", "ssd":"'+ssd+'", "sed":"'+sed+'", "p":"'+p+'", "ds":"'+ds+'"}';
-  var jsonState = JSON.parse(stateobject);
-  console.log(jsonState);
-  return str;
+  return {"st":st, "sbox":sbox, "ssd":ssd, "sed":sed, "p":p, "ds":ds};
 }
+
+function createSearchParam(stateobject){
+  var url = new URL(window.location);
+  var searchParams = new URLSearchParams(url.search.slice(1));
+
+  //check if value is object
+  for (var i in stateobject){
+    var value = stateobject[i];
+    if(i == "ds"){
+      for (var k = 0; k<stateobject.ds.length;k++){
+        var dsParam = new URLSearchParams();
+        for (var j in stateobject.ds[k]) {
+          dsParam.append(j, stateobject.ds[k][j]);
+        }
+        searchParams.append(i, dsParam);
+      }
+    }else{
+      searchParams.append(i,value);
+    }
+  }
+  return searchParams;
+}
+
 function addOption(id, startInt, endInt, selectedInt){
   for(var i = startInt; i < endInt+1; i++){
     var val = i;
