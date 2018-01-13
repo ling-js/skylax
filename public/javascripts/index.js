@@ -119,7 +119,13 @@ function createJSONPerma(){
   var sbox = ($('#searchformbybbox_bottomLong').val()+','+ $('#searchformbybbox_bottomLat').val() +','+ $('#searchformbybbox_topLong').val()+',' +$('#searchformbybbox_topLat').val());
   var ds = [];
   var calc = [];
-  for(var i = 0; i< 2/*#OneChildrenLength*/;i++){
+  var forEnd = 0;
+  try{
+    forEnd = $("#resultpanel")[0].children.length;
+  }catch(err){
+
+  }
+  for(var i = 0; i< forEnd; i++){
     var tempobj = {};
     tempobj.n = "a";
     tempobj.o = $('#opacityOutputId'+ i ).html('Opacity Level:' + $('#opacityId'+ i ).val()+'%');
@@ -141,15 +147,16 @@ function createJSONPerma(){
     tempobj.rcmax = "d";
     tempobj.gcmax = "d";
     tempobj.bcmax = "d";
-    for (var j = 0; j < 2; j++) {
+    for (var j = 0; j < 1; j++) {
       var tempCalc = {};
-      tempCalc.name = "eintragname";
-      tempCalc.calculation = "eintragcalc";
+      tempCalc.name = "a";
+      tempCalc.calculation = "a";
       var tempCalcJson = {"name":tempCalc.name, "calc":tempCalc.calculation};
       calc.push(tempCalcJson);
       }
     var tempJSON = {"n":"2", "i": tempobj.n, "calc": calc};
     ds.push(tempJSON);
+    calc = [];
   }
   return {"st":st, "sbox":sbox, "ssd":ssd, "sed":sed, "p":p, "ds":ds};
 }
@@ -265,6 +272,7 @@ function isALayerDisplayed(number){
 }
 
 function isExpanded(number){
+  number++;
   for(var i = 0; i < $('#dataset'+number)[0].classList.length; i++){
     if($('#dataset'+number)[0].classList[i] == "in"){
       return true;
