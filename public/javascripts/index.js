@@ -82,7 +82,7 @@ function showPermalink(){
 function matchTextAreaField(str){
   for(var i = 0; i <$('#sidebar')[0].classList.length;i++){
     if ($('#sidebar')[0].classList[i]  == "collapsed"){
-      openSearchInSidebar();
+      openTabInSidebar('#search');
     }
   }
   $(".sidebar-content").find(".active").append('<textarea id="permalinkTemp" value=str style="width: 100%"></<textarea>');
@@ -104,7 +104,7 @@ function createPermalink(){
 }
 
 function addParams(stateobject){
-  var permalink = new URL(window.location);
+  var permalink = new URL(window.location.origin);
   for (let p of stateobject) {
     permalink.searchParams.append(p[0],p[1]);
   }
@@ -118,13 +118,13 @@ function createJSONPerma(){
   var p = "";
   var sbox = ($('#searchformbybbox_bottomLong').val()+','+ $('#searchformbybbox_bottomLat').val() +','+ $('#searchformbybbox_topLong').val()+',' +$('#searchformbybbox_topLat').val());
   var ds = [];
+  var calc = [];
   for(var i = 0; i< 2/*#OneChildrenLength*/;i++){
     var tempobj = {};
     tempobj.n = "a";
-    tempobj.o = "as";
-    tempobj.v = "d";
-    tempobj.vis = "d";
-    tempobj.exp = "d";
+    tempobj.o = $('#opacityOutputId'+ i ).html('Opacity Level:' + $('#opacityId'+ i ).val()+'%');
+    tempobj.vis = isALayerDisplayed(i);
+    tempobj.exp = isExpanded(i);
     tempobj.gscdn = "d";
     tempobj.rcdn = "d";
     tempobj.gcdn = "d";
@@ -141,18 +141,21 @@ function createJSONPerma(){
     tempobj.rcmax = "d";
     tempobj.gcmax = "d";
     tempobj.bcmax = "d";
-    tempobj.array_name = "n";
-    tempobj.array_calc = "n";
-    //tempobj.calc = ["name","calculation"];
-    var tempJSON = {"n":"2", "i": tempobj.n};
+    for (var j = 0; j < 2; j++) {
+      var tempCalc = {};
+      tempCalc.name = "eintragname";
+      tempCalc.calculation = "eintragcalc";
+      var tempCalcJson = {"name":tempCalc.name, "calc":tempCalc.calculation};
+      calc.push(tempCalcJson);
+      }
+    var tempJSON = {"n":"2", "i": tempobj.n, "calc": calc};
     ds.push(tempJSON);
   }
   return {"st":st, "sbox":sbox, "ssd":ssd, "sed":sed, "p":p, "ds":ds};
 }
 
 function createSearchParam(stateobject){
-  var url = new URL(window.location);
-  var searchParams = new URLSearchParams(url.search.slice(1));
+  var searchParams = new URLSearchParams();
 
   //check if value is object
   for (var i in stateobject){
@@ -161,7 +164,17 @@ function createSearchParam(stateobject){
       for (var k = 0; k<stateobject.ds.length;k++){
         var dsParam = new URLSearchParams();
         for (var j in stateobject.ds[k]) {
+          if(j == "calc"){
+            for (var l = 0; l<stateobject.ds[0].calc.length;l++){
+              var calcParam = new URLSearchParams();
+              for (var m in stateobject.ds[0].calc[l]) {
+                calcParam.append(m, stateobject.ds[0].calc[l][m]);
+              }
+              dsParam.append(j, calcParam);
+            }
+          }else{
           dsParam.append(j, stateobject.ds[k][j]);
+          }
         }
         searchParams.append(i, dsParam);
       }
@@ -176,13 +189,32 @@ function loadHash(){
   for (var i = 0; i < $('#sidebar')[0].children[1].children.length; i++) {
     if(window.location.hash == "#"+$('#sidebar')[0].children[1].children[i].id && window.location.hash != "#save"){
       openTabInSidebar(window.location.hash);
+      if(window.location.hash == '#search'){
+        $('#saveTabButton')[0].style.display = "";
+      }
     }
   }
 }
 
 function loadSearch(){
-  var hash = window.location.hash;
-  console.log(hash);
+  var searchParams = new URLSearchParams(window.location.search.slice(1));
+  for (let i of searchParams) {
+    if(i[0] == "ds"){
+      var dsParams = new URLSearchParams(i[1]);
+      for (let j of dsParams) {
+        if(j[0] == "calc"){
+          var calcParams = new URLSearchParams(j[1]);
+          for (let k of calcParams) {
+            console.log(k);
+          }
+        }else{
+          console.log(j);
+        }
+      }
+    }else{
+      console.log(i);
+    }
+  }
 }
 
 function addOption(id, startInt, endInt, selectedInt){
@@ -221,6 +253,24 @@ function compareDates(){
   }else{
     return false;
   }
+}
+
+function isALayerDisplayed(number){
+	if (layerControl._layers.length == 4) {
+		if(number+1 == layerControl._layers[3].name-1)
+		return true;
+	}else{
+		return false;
+	}
+}
+
+function isExpanded(number){
+  for(var i = 0; i < $('#dataset'+number)[0].classList.length; i++){
+    if($('#dataset'+number)[0].classList[i] == "in"){
+      return true;
+    }
+  }
+  return false;
 }
 
 function createDate(str){
