@@ -108,6 +108,7 @@ function addParams(stateobject){
   for (let p of stateobject) {
     permalink.searchParams.append(p[0],p[1]);
   }
+  permalink.hash = "#search";
   return permalink;
 }
 
@@ -173,9 +174,8 @@ function createSearchParam(stateobject){
 
 function loadHash(){
   for (var i = 0; i < $('#sidebar')[0].children[1].children.length; i++) {
-    if(window.location.hash == "#"+$('#sidebar')[0].children[1].children[i].id){
+    if(window.location.hash == "#"+$('#sidebar')[0].children[1].children[i].id && window.location.hash != "#save"){
       openTabInSidebar(window.location.hash);
-      console.log("babedibu");
     }
   }
 }
