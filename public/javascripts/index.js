@@ -127,34 +127,42 @@ function createJSONPerma(){
   }
   for(var i = 0; i< forEnd; i++){
     var tempobj = {};
-    tempobj.n = "a";
-    tempobj.o = $('#opacityOutputId'+ i ).html('Opacity Level:' + $('#opacityId'+ i ).val()+'%');
+    tempobj.n = jsonForDatasets[i].PRODUCT_URI;
+    var opacity;
+    if($('#opacityId'+ i ).val() == undefined){
+      opacity = 100;
+    }else{
+      opacity = $('#opacityId'+ i ).val();
+    }
+    console.log(opacity);
+    tempobj.o = opacity;
     tempobj.vis = isALayerDisplayed(i);
     tempobj.exp = isExpanded(i);
-    tempobj.gscdn = "d";
-    tempobj.rcdn = "d";
-    tempobj.gcdn = "d";
-    tempobj.bcdn = "d";
-    tempobj.gsc = "d";
-    tempobj.rcn = "d";
-    tempobj.gcn = "d";
-    tempobj.bcn = "d";
-    tempobj.greymin = "d";
-    tempobj.rcmin = "d";
-    tempobj.gcmin = "d";
-    tempobj.bcmin = "d";
-    tempobj.greymax = "d";
-    tempobj.rcmax = "d";
-    tempobj.gcmax = "d";
-    tempobj.bcmax = "d";
+    tempobj.gscdn = $('#greyselect'+(i+1)).val();
+    tempobj.rcdn = $('#rgbselect'+(i+1)).val();
+    tempobj.gcdn = $('#rgbselect'+(i+2)).val();
+    tempobj.bcdn = $('#rgbselect'+(i+3)).val();
+    //tempobj.gsc = $('#greyselect'+(i+1));
+    //tempobj.rcn = "d";
+    //tempobj.gcn = "d";
+    //tempobj.bcn = "d";
+    tempobj.greymin =  $('#minGrey'+(i+1)).val();
+    tempobj.rcmin = $('#minRed'+(i+1)).val();
+    tempobj.gcmin = $('#minGreen'+(i+1)).val();
+    tempobj.bcmin = $('#minBlue'+(i+1)).val();
+    tempobj.greymax = $('#maxGrey'+(i+1)).val();
+    tempobj.rcmax = $('#maxRed'+(i+1)).val();
+    tempobj.gcmax = $('#maxGreen'+(i+1)).val();
+    tempobj.bcmax = $('#maxBlue'+(i+1)).val();
     for (var j = 0; j < 1; j++) {
       var tempCalc = {};
       tempCalc.name = "a";
       tempCalc.calculation = "a";
-      var tempCalcJson = {"name":tempCalc.name, "calc":tempCalc.calculation};
+      var tempCalcJson = {"name":tempCalc.name,"o":tempCalc.calculation};
       calc.push(tempCalcJson);
       }
-    var tempJSON = {"n":"2", "i": tempobj.n, "calc": calc};
+    var tempJSON = {"n":tempobj.vis, "o":tempobj.o,"vis":tempobj.vis,"exp":tempobj.exp,"gscdn":tempobj.gscdn,"rcdn":tempobj.rcdn,"gcdn":tempobj.gcdn,"bcdn":tempobj.bcdn,
+      "greymin":tempobj.greymin,"rcmin":tempobj.rcmin,"gcnim":tempobj.gcmin,"bcmin":tempobj.bcmin,"greymax":tempobj.greymax,"rcmax":tempobj.rcmax,"gcmax":tempobj.gcmax,"bcmax":tempobj.bcmax, "calc": calc};
     ds.push(tempJSON);
     calc = [];
   }
@@ -162,7 +170,7 @@ function createJSONPerma(){
 }
 
 function createSearchParam(stateobject){
-  var searchParams = new URLSearchParams();
+    var searchParams = new URLSearchParams();
 
   //check if value is object
   for (var i in stateobject){
