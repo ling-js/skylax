@@ -154,6 +154,7 @@ $(document).ready(function() {
   $('#bboxbutton').click(function() {
     drawnItems.clearLayers();
     rectangleDrawer.enable();
+    resetInput();
     $('#bboxbutton').hide();
     $('#deleteDrawing').show();
 
