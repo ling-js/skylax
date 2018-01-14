@@ -11,11 +11,7 @@ $(document).ready(function() {
   sidebar.on('content', function(e) {
   });
 
-  initOptions();
-
-  loadSearch();
-
-  loadHash();
+  initStartup();
 
   $('#resultpanel').hide();
 
@@ -35,12 +31,13 @@ $(document).ready(function() {
       var pagetoview = 1;
       var bbox="";
       console.log("searchbox= " + $(searchformbybbox_bottomLong).val());
-      if ($(searchformbybbox_bottomLong).val() != ""){
+      if ($(searchformbybbox_bottomLong).val() != "" && $(searchformbybbox_bottomLat).val() != "" && $(searchformbybbox_topLong).val() != "" && $(searchformbybbox_topLat).val() != ""){
         bbox=($(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val());
       }
       console.log(bbox);
       var templateurl = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
       pagerInit(templateurl);
+      var expanded = [];
       ajaxrequest(templateurl, pagetoview);
   }else{
     alert("Startdate must be before Enddate");
@@ -73,6 +70,11 @@ function showSaveBtn(bool){
   }else if(bool == false){
     $('#saveTabButton')[0].style.display = "none";
   }
+}
+
+function initStartup(){
+  initOptions();
+  $.when(loadHash()).done(loadSearch());
 }
 function showPermalink(){
   var str = createPermalink();
@@ -134,14 +136,14 @@ function createJSONPerma(){
     }else{
       opacity = $('#opacityId'+ i ).val();
     }
-    console.log(opacity);
     tempobj.o = opacity;
     tempobj.vis = isALayerDisplayed(i);
     tempobj.exp = isExpanded(i);
+    tempobj.btn = buttonSelected(i);
     tempobj.gscdn = $('#greyselect'+(i+1)).val();
-    tempobj.rcdn = $('#rgbselect'+(i+1)).val();
-    tempobj.gcdn = $('#rgbselect'+(i+2)).val();
-    tempobj.bcdn = $('#rgbselect'+(i+3)).val();
+    tempobj.rcdn = $('#rgbselect'+(1+(i*3))).val();
+    tempobj.gcdn = $('#rgbselect'+(2+(i*3))).val();
+    tempobj.bcdn = $('#rgbselect'+(3+(i*3))).val();
     //tempobj.gsc = $('#greyselect'+(i+1));
     //tempobj.rcn = "d";
     //tempobj.gcn = "d";
@@ -161,9 +163,34 @@ function createJSONPerma(){
       var tempCalcJson = {"name":tempCalc.name,"o":tempCalc.calculation};
       calc.push(tempCalcJson);
       }
-    var tempJSON = {"n":tempobj.vis, "o":tempobj.o,"vis":tempobj.vis,"exp":tempobj.exp,"gscdn":tempobj.gscdn,"rcdn":tempobj.rcdn,"gcdn":tempobj.gcdn,"bcdn":tempobj.bcdn,
-      "greymin":tempobj.greymin,"rcmin":tempobj.rcmin,"gcnim":tempobj.gcmin,"bcmin":tempobj.bcmin,"greymax":tempobj.greymax,"rcmax":tempobj.rcmax,"gcmax":tempobj.gcmax,"bcmax":tempobj.bcmax, "calc": calc};
+    /*if(tempobj.greymin == null){
+      tempobj.greymin = 0;
+    }
+    if(tempobj.rcmin == null){
+      tempobj.rcmin = 0;
+    }
+    if(tempobj.gcmin == null){
+      tempobj.gcmin = 0;
+    }
+    if(tempobj.bcmin == null){
+      tempobj.bcmin = 0;
+    }
+    if(tempobj.greymax == null){
+      tempobj.greymax = 0;
+    }
+    if(tempobj.rcmax == null){
+      tempobj.rcmax = 0;
+    }
+    if(tempobj.gcmax == null){
+      tempobj.gcmax = 0;
+    }
+    if(tempobj.bcmax == null){
+      tempobj.bcmax = 0;
+    }*/
+    var tempJSON = {"n":tempobj.n, "o":tempobj.o,"vis":tempobj.vis,"exp":tempobj.exp,"btn":tempobj.btn,"gscdn":tempobj.gscdn,"rcdn":tempobj.rcdn,"gcdn":tempobj.gcdn,"bcdn":tempobj.bcdn,
+      "greymin":tempobj.greymin,"rcmin":tempobj.rcmin,"gcmin":tempobj.gcmin,"bcmin":tempobj.bcmin,"greymax":tempobj.greymax,"rcmax":tempobj.rcmax,"gcmax":tempobj.gcmax,"bcmax":tempobj.bcmax, "calc": calc};
     ds.push(tempJSON);
+    console.log(tempobj.btn);
     calc = [];
   }
   return {"st":st, "sbox":sbox, "ssd":ssd, "sed":sed, "p":p, "ds":ds};
@@ -213,22 +240,155 @@ function loadHash(){
 
 function loadSearch(){
   var searchParams = new URLSearchParams(window.location.search.slice(1));
+  var dsNumber = 0;
+  var calcNumber = 0;
+  var dsOpacity = [];
+  var dsExpanded =[];
+  var dsBand =[];
+  var dsBandValues = [];
+  var dsBtn = [];
   for (let i of searchParams) {
     if(i[0] == "ds"){
+      var dsRgbBandTemp = [];
+      var dsValuesTemp = [];
+      var dsMinValuesTemp = [];
+      var dsMaxValuesTemp = [];
       var dsParams = new URLSearchParams(i[1]);
       for (let j of dsParams) {
         if(j[0] == "calc"){
           var calcParams = new URLSearchParams(j[1]);
           for (let k of calcParams) {
-            console.log(k);
+            //hier kommt was mit calculated hin, aber nichts genaues weiß man nicht
           }
         }else{
-          console.log(j);
+          switch(j[0]) {
+              case "n":
+                console.log("Was soll  ich denn damit?" + j[1]);
+                break;
+              case "o":
+                  dsOpacity.push(j[1]);
+                break;
+              case "vis":
+                //fillDate(i,"end");
+                break;
+              case "exp":
+                dsExpanded.push(j[1]);
+                break;
+              case "btn":
+                if(j[1] == "rgb"){
+                  dsBtn.push(["true","false"]);
+                }else if(j[1] == "grey"){
+                  dsBtn.push(["false","true"]);
+                }else{
+                  dsBtn.push(["false","false"]);
+                }
+                break;
+              case "gscdn":
+                dsRgbBandTemp.push(j[1]);
+                break;
+              case "rcdn":
+                dsRgbBandTemp.push(j[1]);
+                break;
+              case "gcdn":
+                dsRgbBandTemp.push(j[1]);
+                break;
+              case "bcdn":
+                dsRgbBandTemp.push(j[1]);
+                break;
+              case "greymin":
+                dsMinValuesTemp.push(j[1]);
+                break;
+              case "rcmin":
+                dsMinValuesTemp.push(j[1]);
+                break;
+              case "gcmin":
+                dsMinValuesTemp.push(j[1]);
+                break;
+              case "bcmin":
+                dsMinValuesTemp.push(j[1]);
+                break;
+              case "greymax":
+                dsMaxValuesTemp.push(j[1]);
+                break;
+              case "rcmax":
+                dsMaxValuesTemp.push(j[1]);
+                break;
+              case "gcmax":
+                dsMaxValuesTemp.push(j[1]);
+                break;
+              case "bcmax":
+                dsMaxValuesTemp.push(j[1]);
+                break;
+          }
         }
       }
+      dsBand.push(dsRgbBandTemp);
+      dsRgbBandTemp = [];
+      dsValuesTemp.push(dsMinValuesTemp);
+      dsValuesTemp.push(dsMaxValuesTemp);
+      dsBandValues.push(dsValuesTemp);
+      dsValuesTemp = [];
+      dsMinValuesTemp = [];
+      dsMaxValuesTemp = [];
     }else{
-      console.log(i);
+      switch(i[0]) {
+          case "st":
+            $("#searchformbyname_input").val(i[1]);
+            break;
+          case "ssd":
+            fillDate(i,"start");
+            break;
+          case "sed":
+            fillDate(i,"end");
+            break;
+          case "p":
+            console.log("p fehlt noch, ver giss nicht");
+
+            break;
+          case "sbox":
+            var sbox = i[1].split(",");
+            $("#searchformbybbox_bottomLat").val(sbox[0]);
+            $("#searchformbybbox_bottomLong").val(sbox[1]);
+            $("#searchformbybbox_topLat").val(sbox[2]);
+            $("#searchformbybbox_topLong").val(sbox[3]);
+            break;
+      }
     }
+  }
+  var substring = $("#searchformbyname_input").val();
+  var startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
+  //var enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
+  var enddate= "";
+  var page = 0;
+  var pagetoview = 1;
+  var bbox="";
+  if ($(searchformbybbox_bottomLong).val() != "" && $(searchformbybbox_bottomLat).val() != "" && $(searchformbybbox_topLong).val() != "" && $(searchformbybbox_topLat).val() != ""){
+    bbox=($(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val());
+  }
+  var templateurl = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
+  pagerInit(templateurl);
+  ajaxrequest(templateurl, pagetoview, dsExpanded, dsBand, dsBtn, dsBandValues);
+}
+
+function fillDate(i, indi){
+    var date =[];
+    date.push(i[1].slice(0,10).split("-"));
+    date.push(i[1].slice(11, i[1].length-1).split(":"));
+    $("#"+indi+"day").val(date[0][2]);
+    $("#"+indi+"month").val(date[0][1]);
+    $("#"+indi+"year").val(date[0][0]);
+    $("#"+indi+"sec").val(date[1][2]);
+    $("#"+indi+"min").val(date[1][1]);
+    $("#"+indi+"hour").val(date[1][0]);
+}
+
+function buttonSelected(i){
+  if($('#rgb'+(i+1))[0].checked == true){
+    return "rgb";
+  }else if($('#grey'+(i+1))[0].checked == true){
+    return "grey";
+  }else{
+    return "";
   }
 }
 
@@ -283,10 +443,10 @@ function isExpanded(number){
   number++;
   for(var i = 0; i < $('#dataset'+number)[0].classList.length; i++){
     if($('#dataset'+number)[0].classList[i] == "in"){
-      return true;
+      return "in";
     }
   }
-  return false;
+  return "out";
 }
 
 function createDate(str){
@@ -344,7 +504,7 @@ function feburaryCalc(str){
   }
   return false;
 }
-function pagerInit(templateurl){
+function pagerInit(templateurl, expanded){
   $('#page-selection').bootpag({
     total: 0,
     page: 0,
@@ -362,11 +522,10 @@ function pagerInit(templateurl){
     firstClass: 'first'
   }).on("page", function(event, /* page number here */ num){
     spinnerShow(document.getElementById('sidebar'));
-
     ajaxrequest(templateurl, num); // some ajax content loading...
   });
 }
-function ajaxrequest(templateurl, pagetoview){
+function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues){
   $.ajax({
     type: "GET",
     url: templateurl+(pagetoview-1),
@@ -379,7 +538,13 @@ function ajaxrequest(templateurl, pagetoview){
           spinnerHide(document.getElementById('sidebar'));
       }},
       success: function (res, status, request) {
-        createHTML(res, pagetoview);
+        if (expanded == undefined) {
+          var expanded =[];
+          for(var i = 0; i < res.length; i++){
+            expanded.push("out");
+          }
+        }
+        createHTML(res, pagetoview, expanded, band, btn, bandValues);
         page = pageCalculator(request.getResponseHeader('X-Dataset-Count'));
         //$('#resultpanel').show();
         visualizeMetadata(res);

@@ -81,10 +81,7 @@ function initMap() {
   map.on('click', function(e) {
     var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
     console.log(coords);
-    for (var i = 0; i < jsonForDatasets.length; i++) {
-      console.log(jsonForDatasets[i]);
-      console.log($('#greyselect'+1).val());
-    }
+    console.log($('#rgb1 ')[0].checked);
   });
 
   map.on('draw:created', function(e) {
@@ -152,8 +149,6 @@ function resetInput() {
 $(document).ready(function() {
   // Hide the delete button until the draw button is clicked once
   $('#deleteDrawing').hide();
-
-  resetInput();
 
   $('#bboxbutton').click(function() {
     rectangleDrawer.enable();
