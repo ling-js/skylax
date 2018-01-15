@@ -380,6 +380,9 @@ function loadSearch(){
       console.log(pagetoview);
       ajaxrequest(templateurl, pagetoview, dsExpanded, dsBand, dsBtn, dsBandValues, dsVis, dsOpacity);
     }
+  }else{
+    $('#bboxbutton').show();
+  	$('#deleteDrawing').hide();
   }
 }
 

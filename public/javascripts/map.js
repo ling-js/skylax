@@ -150,7 +150,6 @@ function resetInput() {
 // Click handler for your button to start drawing polygons
 $(document).ready(function() {
   // Hide the delete button until the draw button is clicked once
-  $('#deleteDrawing').hide();
 
   $('#bboxbutton').click(function() {
     drawnItems.clearLayers();
@@ -167,35 +166,31 @@ $(document).ready(function() {
     $('#deleteDrawing').hide();
   });
 
-
   $('#searchformbybbox_bottomLat').change(function(){
     drawnItems.clearLayers();
     $('#bboxbutton').show();
     $('#deleteDrawing').hide();
     coordsToPolygon();
-});
+  });
 
-$('#searchformbybbox_topLat').change(function(){
+  $('#searchformbybbox_topLat').change(function(){
   drawnItems.clearLayers();
   $('#bboxbutton').show();
   $('#deleteDrawing').hide();
   coordsToPolygon();
-});
+  });
 
-$('#searchformbybbox_topLong').change(function(){
+  $('#searchformbybbox_topLong').change(function(){
     drawnItems.clearLayers();
     $('#bboxbutton').show();
     $('#deleteDrawing').hide();
     coordsToPolygon();
-});
+  });
 
   $('#searchformbybbox_bottomLong').change(function(){
       drawnItems.clearLayers();
       $('#bboxbutton').show();
       $('#deleteDrawing').hide();
       coordsToPolygon();
-});
-
-
-
+    });
 });
