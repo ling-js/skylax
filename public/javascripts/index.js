@@ -117,7 +117,7 @@ function addParams(stateobject){
 function createJSONPerma(){
   var st = $("#searchformbyname_input").val();
   var ssd = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";    var sed = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
-  var p = "";
+  var p = findPage();
   var sbox = ($('#searchformbybbox_bottomLong').val()+','+ $('#searchformbybbox_bottomLat').val() +','+ $('#searchformbybbox_topLong').val()+',' +$('#searchformbybbox_topLat').val());
   var ds = [];
   var calc = [];
@@ -255,6 +255,7 @@ function loadSearch(){
     var dsBand =[];
     var dsBandValues = [];
     var dsBtn = [];
+    var pagetoview = 1;
     for (let i of searchParams) {
       if(i[0] == "ds"){
         var dsRgbBandTemp = [];
@@ -350,8 +351,7 @@ function loadSearch(){
               fillDate(i,"end");
               break;
             case "p":
-              console.log("p fehlt noch, ver giss nicht");
-
+              pagetoview = i[1];
               break;
             case "sbox":
               var sbox = i[1].split(",");
@@ -369,7 +369,6 @@ function loadSearch(){
       //var enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
       var enddate= "";
       var page = 0;
-      var pagetoview = 1;
       var bbox="";
       if ($(searchformbybbox_bottomLong).val() != "" && $(searchformbybbox_bottomLat).val() != "" && $(searchformbybbox_topLong).val() != "" && $(searchformbybbox_topLat).val() != ""){
         bbox=($(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val());
@@ -391,6 +390,14 @@ function fillDate(i, indi){
     $("#"+indi+"sec").val(date[1][2]);
     $("#"+indi+"min").val(date[1][1]);
     $("#"+indi+"hour").val(date[1][0]);
+}
+
+function findPage(){
+  for (var i = 0; i < $('#page-selection')["0"].children["0"].children.length; i++) {
+    if ($('#page-selection')["0"].children["0"].children[i].className == "active") {
+      console.log($('#page-selection')["0"].children["0"].children[i].outerText);
+    }
+  }
 }
 
 function buttonSelected(i){
