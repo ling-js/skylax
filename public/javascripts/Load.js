@@ -40,7 +40,7 @@ function createInnerHTML(length, pagetoview, expanded, band, btn, bandValues){
 		}
 		if(expanded == undefined){
 			expanded = [];
-			expanded[i-1] = "in";
+			expanded[i-1] = "out";
 		}
 		if(bandValues == undefined || bandValues.length == 0){
 			bandValues = [];
