@@ -325,18 +325,10 @@ function stringToCoordArray(coordString){
 function drawPolygon(coordArray, info, number, resultLength){
 	if(coordArray != null){
 		var polygon = L.polygon(coordArray, {color: 'red', number:number, resultLength:resultLength});
-		polygon.on('mouseover', showPolygonInfo);
 		polygon.on('click', openAccordion);
+		polygon.bindTooltip('<p> Dataset '+((findPage()*8)+(number+1))+'</p>').addTo(map);
 		polygon.addTo(polyLayer);
 	}
-}
-
-function showPolygonInfo(e){
-	var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
-	var popup = L.popup()
-    .setLatLng(coords)
-    .setContent('<p> Dataset '+(((findPage()-1)*8)+(this.options.number+1))+'</p>')
-    .openOn(map);
 }
 
 function zoomToLayer(j){
