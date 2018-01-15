@@ -131,10 +131,10 @@ function createJSONPerma(){
     var tempobj = {};
     tempobj.n = jsonForDatasets[i].PRODUCT_URI;
     var opacity;
-    if($('#opacityId'+ i ).val() == undefined){
+    if($('#opacityId'+ (i+1) ).val() == undefined){
       opacity = 100;
     }else{
-      opacity = $('#opacityId'+ i ).val();
+      opacity = $('#opacityId'+ (i+1) ).val();
     }
     tempobj.o = opacity;
     tempobj.vis = isALayerDisplayed(i);
@@ -377,7 +377,7 @@ function loadSearch(){
       var templateurl = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
       pagerInit(templateurl);
       console.log(pagetoview);
-      ajaxrequest(templateurl, pagetoview, dsExpanded, dsBand, dsBtn, dsBandValues, dsVis);
+      ajaxrequest(templateurl, pagetoview, dsExpanded, dsBand, dsBtn, dsBandValues, dsVis, dsOpacity);
     }
   }
 }
@@ -548,7 +548,7 @@ function pagerInit(templateurl, expanded){
     ajaxrequest(templateurl, num); // some ajax content loading...
   });
 }
-function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, vis){
+function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, vis, opacity){
   $.ajax({
     type: "GET",
     url: templateurl+(pagetoview-1),
@@ -561,7 +561,7 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
           spinnerHide(document.getElementById('sidebar'));
       }},
       success: function (res, status, request) {
-        createHTML(res, pagetoview, expanded, band, btn, bandValues, vis);
+        createHTML(res, pagetoview, expanded, band, btn, bandValues, vis, opacity);
         page = pageCalculator(request.getResponseHeader('X-Dataset-Count'));
         //$('#resultpanel').show();
         visualizeMetadata(res);

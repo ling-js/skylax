@@ -85,12 +85,12 @@ function createInnerHTML(length, pagetoview, expanded, band, btn, bandValues){
 }
 
 
-function createHTML(res, pagetoview, expanded, band, btn, bandValues, vis){
+function createHTML(res, pagetoview, expanded, band, btn, bandValues, vis, opacity){
 	$('#one').html("");
 	$('#one').html('<div class="panel-panel-default" id="resultpanel">'
 	+ createInnerHTML(res.length, pagetoview, expanded, band, btn, bandValues) + '</div>');
 	for(j=1; j<(res.length+1); j++){
-		 createSubmitHandler(res, j);
+		 createSubmitHandler(res, j, opacity[j-1]);
 		 if(vis[j-1] == "true"){
 			 $('#showData'+j).submit();
 		 }
@@ -132,7 +132,7 @@ function subdataName(res, value, j){
 
 
 
-function createSubmitHandler(res, j){
+function createSubmitHandler(res, j, opacity){
 	$('#showData'+ j).submit(function(e) {
 		spinnerShow(document.getElementById('map'));
 		e.preventDefault();
@@ -185,8 +185,9 @@ function createSubmitHandler(res, j){
 				  layerControl.addOverlay(lyr, "Dataset "+j);
 					map.addLayer(lyr);
 					zoomToLayer(j);
-					$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="100" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: 100%</output> </div>');
-				  }
+					$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="'+opacity+'" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: '+opacity+'%</output> </div>');
+					opacityChanger(j);
+					}
 	        });
 	        redSDNInput.remove();
 	        greenSDNInput.remove();
