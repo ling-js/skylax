@@ -262,7 +262,7 @@ function removeDatasets(){
 	}
 }
 
-function visualizeMetadata(res){
+function visualizeMetadata(res, page){
 	jsonForDatasets = [];
 	polyLayer.clearLayers();
 	for(i=0; i < res.length; i++){
@@ -306,7 +306,7 @@ function visualizeMetadata(res){
 		"<b> Subdataset 4 Description: </b>" + res[i].SUBDATASET_4_DESC + "</br>" +
 		"<b> Subdataset 4 Name: </b>" + res[i].SUBDATASET_4_NAME + "</br>");
 		var coordArray = stringToCoordArray(res[i].FOOTPRINT);
-		drawPolygon(coordArray, res[i], i, res.length);
+		drawPolygon(coordArray, res[i], i, res.length, page);
 	};
 }
 
@@ -325,11 +325,11 @@ function stringToCoordArray(coordString){
 	}
 }
 
-function drawPolygon(coordArray, info, number, resultLength){
+function drawPolygon(coordArray, info, number, resultLength, page){
 	if(coordArray != null){
 		var polygon = L.polygon(coordArray, {color: 'red', number:number, resultLength:resultLength});
 		polygon.on('click', openAccordion);
-		polygon.bindTooltip('<p> Dataset '+((findPage()*8)+(number+1))+'</p>').addTo(map);
+		polygon.bindTooltip('<p> Dataset '+(((page-1)*8)+(number+1))+'</p>').addTo(map);
 		polygon.addTo(polyLayer);
 	}
 }

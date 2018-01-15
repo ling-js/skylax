@@ -576,7 +576,7 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
         createHTML(res, pagetoview, expanded, band, btn, bandValues, vis, opacity);
         page = pageCalculator(request.getResponseHeader('X-Dataset-Count'));
         //$('#resultpanel').show();
-        visualizeMetadata(res);
+        visualizeMetadata(res, pagetoview);
         $('#page-selection').bootpag({
           total: page,
           page: pagetoview,
