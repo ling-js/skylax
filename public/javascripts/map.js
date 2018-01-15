@@ -13,6 +13,8 @@ var map, // Map Object
 //SpinnerToggler
 var toggler = false;
 
+var jsonForDatasets =[];
+
 /**
  * Geosoftware I, SoSe 2017, final
  * @author Jan Speckamp (428367) ,Jens Seifert ,Jasper Buß, Benjamin Karic , Eric Thieme-Garmann
@@ -79,6 +81,7 @@ function initMap() {
   map.on('click', function(e) {
     var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
     console.log(coords);
+    findPage();
   });
 
  map.on('draw:created', function(e) {
@@ -148,8 +151,6 @@ function resetInput() {
 $(document).ready(function() {
   // Hide the delete button until the draw button is clicked once
   $('#deleteDrawing').hide();
-
-  resetInput();
 
   $('#bboxbutton').click(function() {
     drawnItems.clearLayers();

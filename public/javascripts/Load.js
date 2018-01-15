@@ -1,33 +1,111 @@
-function createInnerHTML(length, pagetoview, res){
+function createInnerHTML(length, pagetoview, expanded, band, btn, bandValues){
 	for(i=1;i < length+1; i++){
-		$('#one').html($('#one').html() + '<div class="panel panel-default"> <a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"><div class="panel-heading"><span class="glyphicon glyphicon-open" aria-hidden="true"></span> Dataset '+ (8*(pagetoview-1)+i) +'</div></a><span class="panel-body panel-collapse collapse out" id="dataset'+i+'"> <p id="quality" style="padding: 15px; padding-bottom:0px">Metadata:</p> <p id="resolution'+i+'" style="padding: 15px; padding-top: 0px"></p> '
-										+ ' <form class="colorform" id="showData' + i + '" method="POST"> <container> <input id="rgb'+i+'" type="radio" name="rgbbool" value="true" onclick="toggleDrop('+(i*2)+','+((i*2)+1)+')"/> RGB<br/> <label for="rgb" class="dropd" id="dropd'+(i*2)+'"> '
-										+ ' Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <select name="rcn" id="rgbselect' + ((i*3)-2)+ '"> <option selected="selected" disabled="disabled">Pick a band</option> <option value="B1">Band 1</option> <option value="B2">Band 2</option> <option value="B3">Band 3</option> <option value="B4">Band 4</option> <option value="B5">Band 5</option> <option value="B6">Band 6</option> <option value="B7">Band 7</option> <option value="B8">Band 8</option> <option value="B8a">Band 8a</option> <option value="B9">Band 9</option> <option value="B10">Band 10</option> <option value="B11">Band 11</option> <option value="B12">Band 12</option> </select> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
-										+ ' Min-Value: <input type="number" name="rcmin" id="minRed" placeholder="0" value="0"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
-										+ ' Max-Value: <input type="number" name="rcmax" maxlength="5" placeholder="65536" value="65536"/><br/><br/> '
-										+ ' Green band:&nbsp;&nbsp; <select name="gcn" id="rgbselect' + ((i*3)-1)+ '" value="0"> <option selected="selected" disabled="disabled" value="0">Pick a band</option> <option value="B1">Band 1</option> <option value="B2">Band 2</option> <option value="B3">Band 3</option> <option value="B4">Band 4</option> <option value="B5">Band 5</option> <option value="B6">Band 6</option> <option value="B7">Band 7</option> <option value="B8">Band 8</option> <option value="B8a">Band 8a</option> <option value="B9">Band 9</option> <option value="B10">Band 10</option> <option value="B11">Band 11</option> <option value="B12">Band 12</option> </select> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
-										+ ' Min-Value: <input type="number" name="gcmin" maxlength="5" placeholder="0" value="0"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
-										+ ' Max-Value: <input type="number" name="gcmax" maxlength="5" placeholder="65536" value="65536"/><br/><br/> '
-										+ ' Blue band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <select name="bcn" id="rgbselect' + (i*3)+ '" value="0"> <option selected="selected" disabled="disabled" value="0">Pick a band</option> <option value="B1">Band 1</option> <option value="B2">Band 2</option> <option value="B3">Band 3</option> <option value="B4">Band 4</option> <option value="B5">Band 5</option> <option value="B6">Band 6</option> <option value="B7">Band 7</option> <option value="B8">Band 8</option> <option value="B8a">Band 8a</option> <option value="B9">Band 9</option> <option value="B10">Band 10</option> <option value="B11">Band 11</option> <option value="B12">Band 12</option> </select> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
-										+ ' Min-Value: <input type="number" name="bcmin" maxlength="5" placeholder="0" value="0"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
-										+ ' Max-Value: <input type="number" name="bcmax" maxlength="5" placeholder="65536" value="65536"/><br/> </label><br/> '
-										+ ' <input id="grey'+i+'" type="radio" name="rgbbool" value="false" onclick="toggleDrop('+((i*2)+1)+','+(i*2)+')"/> Greyscale<br/> <label for="grey" class="dropd" id="dropd'+((i*2)+1)+'"> '
-										+ ' Choose a band:&nbsp;&nbsp; <select name="gsc" id="greyselect'+i+'" value="0"> <option selected="selected" disabled="disabled" value="0">Pick a band</option> <option value="B1">Band 1</option> <option value="B2">Band 2</option> <option value="B3">Band 3</option> <option value="B4">Band 4</option> <option value="B5">Band 5</option> <option value="B6">Band 6</option> <option value="B7">Band 7</option> <option value="B8">Band 8</option> <option value="B8a">Band 8a</option> <option value="B9">Band 9</option> <option value="B10">Band 10</option> <option value="B11">Band 11</option> <option value="B12">Band 12</option> </select><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
-										+ ' Min-Value: <input type="number" name="greymin" maxlength="5" placeholder="0" value="0"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
-										+ ' Max-Value: <input type="number" name="greymax" maxlength="5" placeholder="65536" value="65536"/><br/><br/> </label> </container> <br/> '
+		if (band == undefined || band.length == 0) {
+			band = [];
+			zerArr = ["0","0","0","0"];
+			for (var j = 0; j < length; j++) {
+				band[j] = [];
+				band[j].push(zerArr);
+			}
+		}
+		var constArray = ["0","B1","B2","B3","B4","B5","B6","B7","B8","B8a","B9","B10","B11","B12"];
+		var redBand = constArray;
+		var redNumber = findArray(redBand,band[i-1][1]);
+		redBand[redNumber] = redBand[redNumber] + '" selected="selected';
+		constArray = ["0","B1","B2","B3","B4","B5","B6","B7","B8","B8a","B9","B10","B11","B12"];
+		var greenBand = constArray;
+		var greenNumber = findArray(greenBand,band[i-1][2]);
+		greenBand[greenNumber] = greenBand[greenNumber] + '" selected="selected';
+		constArray = ["0","B1","B2","B3","B4","B5","B6","B7","B8","B8a","B9","B10","B11","B12"];
+		var blueBand = constArray;
+		var blueNumber = findArray(blueBand,band[i-1][3]);
+		blueBand[blueNumber] = blueBand[blueNumber] + '" selected="selected';
+		constArray = ["0","B1","B2","B3","B4","B5","B6","B7","B8","B8a","B9","B10","B11","B12"];
+		var greyBand = constArray;
+		var greyNumber = findArray(greyBand,band[i-1][0]);
+		greyBand[greyNumber] = greyBand[greyNumber] + '" selected="selected';
+		var rgbChecked = "";
+		var greyChecked = "";
+		if(btn != undefined && btn.length != 0){
+			if (btn[i-1][0] =="true"){
+				rgbChecked = "checked";
+			}else if(btn[i-1][1] =="true"){
+				greyChecked = "checked";
+			}
+		}else{
+			btn = [];
+			for (var j = 0; j < length; j++) {
+				btn.push(["false","false"]);
+			}
+		}
+		if(expanded == undefined){
+			expanded = [];
+			expanded[i-1] = "out";
+		}
+		if(bandValues == undefined || bandValues.length == 0){
+			bandValues = [];
+			for(var k = 0; k < length; k++){
+				bandValues[k] = [];
+				bandValues[k][0] = [];
+				bandValues[k][1] = [];
+				for (var j = 0; j < 4; j++) {
+					bandValues[k][0][j] = 0;
+					bandValues[k][1][j] = 65536;
+				}
+			}
+		}
+		$('#one').html($('#one').html() + '<div class="panel panel-default"> <a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"><div class="panel-heading"><span class="glyphicon glyphicon-open" aria-hidden="true"></span> Dataset '+ (8*(pagetoview-1)+i) +'</div></a><span class="panel-body panel-collapse collapse '+expanded[i-1]+'" id="dataset'+i+'"> <p id="quality" style="padding: 15px; padding-bottom:0px">Metadata:</p> <p id="datasetButton'+i+'" style="padding: 15px; padding-top: 0px"></p> '
+										+ ' <form class="colorform" id="showData' + i + '" method="POST"> <container> <input id="rgb'+i+'" type="radio" name="rgbbool" value="true" '+rgbChecked+' onclick="toggleDrop('+(i*2)+','+((i*2)+1)+')"/> RGB<br/> <label for="rgb" class="dropd" id="dropd'+(i*2)+'"> '
+										+ ' Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <select name="rcn" id="rgbselect' + ((i*3)-2)+ '"> <option disabled="disabled" value="'+redBand[0]+'">Pick a band</option> <option value="'+redBand[1]+'">Band 1</option> <option value="'+redBand[2]+'">Band 2</option> <option value="'+redBand[3]+'">Band 3</option> <option value="'+redBand[4]+'">Band 4</option> <option value="'+redBand[5]+'">Band 5</option> <option value="'+redBand[6]+'">Band 6</option> <option value="'+redBand[7]+'">Band 7</option> <option value="'+redBand[8]+'">Band 8</option> <option value="'+redBand[9]+'">Band 8a</option> <option value="'+redBand[10]+'">Band 9</option> <option value="'+redBand[11]+'">Band 10</option> <option value="'+redBand[12]+'">Band 11</option> <option value="'+redBand[13]+'">Band 12</option> </select> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
+										+ ' Min-Value: <input type="number" name="rcmin" id="minRed'+i+'" placeholder="0" value="'+(bandValues[i-1][0][1])+'"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
+										+ ' Max-Value: <input type="number" name="rcmax"  id="maxRed'+i+'" maxlength="5" placeholder="65536" value="'+(bandValues[i-1][1][1])+'"/><br/><br/> '
+										+ ' Green band:&nbsp;&nbsp; <select name="gcn" id="rgbselect' + ((i*3)-1)+ '" value="0"> <option disabled="disabled" value="'+greenBand[0]+'">Pick a band</option> <option value="'+greenBand[1]+'">Band 1</option> <option value="'+greenBand[2]+'">Band 2</option> <option value="'+greenBand[3]+'">Band 3</option> <option value="'+greenBand[4]+'">Band 4</option> <option value="'+greenBand[5]+'">Band 5</option> <option value="'+greenBand[6]+'">Band 6</option> <option value="'+greenBand[7]+'">Band 7</option> <option value="'+greenBand[8]+'">Band 8</option> <option value="'+greenBand[9]+'">Band 8a</option> <option value="'+greenBand[10]+'">Band 9</option> <option value="'+greenBand[11]+'">Band 10</option> <option value="'+greenBand[12]+'">Band 11</option> <option value="'+greenBand[13]+'">Band 12</option> </select> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
+										+ ' Min-Value: <input type="number" name="gcmin" id="minGreen'+i+'" maxlength="5" placeholder="'+(bandValues[i-1][0][2])+'" value="0"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
+										+ ' Max-Value: <input type="number" name="gcmax" id="maxGreen'+i+'" maxlength="5" placeholder="65536" value="'+(bandValues[i-1][1][2])+'"/><br/><br/> '
+										+ ' Blue band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <select name="bcn" id="rgbselect' + (i*3)+ '" value="0"> <option selected="selected" disabled="disabled" value="'+blueBand[0]+'">Pick a band</option> <option value="'+blueBand[1]+'">Band 1</option> <option value="'+blueBand[2]+'">Band 2</option> <option value="'+blueBand[3]+'">Band 3</option> <option value="'+blueBand[4]+'">Band 4</option> <option value="'+blueBand[5]+'">Band 5</option> <option value="'+blueBand[6]+'">Band 6</option> <option value="'+blueBand[7]+'">Band 7</option> <option value="'+blueBand[8]+'">Band 8</option> <option value="'+blueBand[9]+'">Band 8a</option> <option value="'+blueBand[10]+'">Band 9</option> <option value="'+blueNumber[11]+'">Band 10</option> <option value="'+blueBand[12]+'">Band 11</option> <option value="'+blueBand[13]+'">Band 12</option> </select> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
+										+ ' Min-Value: <input type="number" name="bcmin" id="minBlue'+i+'" maxlength="5" placeholder="0" value="'+(bandValues[i-1][0][3])+'"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
+										+ ' Max-Value: <input type="number" name="bcmax" id="maxBlue'+i+'" maxlength="5" placeholder="65536" value="'+(bandValues[i-1][1][3])+'"/><br/> </label><br/> '
+										+ ' <input id="grey'+i+'" type="radio" name="rgbbool" value="false" '+greyChecked+' onclick="toggleDrop('+((i*2)+1)+','+(i*2)+')"/> Greyscale<br/> <label for="grey" class="dropd" id="dropd'+((i*2)+1)+'"> '
+										+ ' Choose a band:&nbsp;&nbsp; <select name="gsc" id="greyselect'+i+'" value="'+2+'"> <option selected="selected" disabled="disabled" value="'+greyBand[0]+'">Pick a band</option> <option value="'+greyBand[1]+'">Band 1</option> <option value="'+greyBand[2]+'">Band 2</option> <option value="'+greyBand[3]+'">Band 3</option> <option value="'+greyBand[4]+'">Band 4</option> <option value="'+greyBand[5]+'">Band 5</option> <option value="'+greyBand[6]+'">Band 6</option> <option value="'+greyBand[7]+'">Band 7</option> <option value="'+greyBand[8]+'">Band 8</option> <option value="'+greyBand[9]+'">Band 8a</option> <option value="'+greyBand[10]+'">Band 9</option> <option value="'+greyBand[11]+'">Band 10</option> <option value="'+greyBand[12]+'">Band 11</option> <option value="'+greyBand[13]+'">Band 12</option> </select><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
+										+ ' Min-Value: <input type="number" name="greymin" id="minGrey'+i+'"maxlength="5" placeholder="0" value="'+(bandValues[i-1][0][0])+'"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
+										+ ' Max-Value: <input type="number" name="greymax" id="maxGrey'+i+'"maxlength="5" placeholder="65536" value="'+(bandValues[i-1][1][0])+'"/><br/><br/> </label> </container> <br/> '
 										+ ' <button type="submit" id="formSubmiter'+i+'" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Show this dataset</button> </form> </span> </div>');
+										if(btn[i-1][0] == "true"){
+											toggleDrop((i*2),((i*2)+1));
+										}else if(btn[i-1][1] == "true"){
+											toggleDrop(((i*2)+1),(i*2));
+										}
+										constArray = ["0","B1","B2","B3","B4","B5","B6","B7","B8","B8a","B9","B10","B11","B12"];
+										redBand = constArray;
+										greenBand = constArray;
+										blueBand = constArray;
+										greyBand = constArray;
 	}
-
 	return $('#one').html();
 }
 
 
-function createHTML(res, pagetoview){
+function createHTML(res, pagetoview, expanded, band, btn, bandValues, vis, opacity){
 	$('#one').html("");
 	$('#one').html('<div class="panel-panel-default" id="resultpanel">'
-	+ createInnerHTML(res.length, pagetoview) + '</div>');
+	+ createInnerHTML(res.length, pagetoview, expanded, band, btn, bandValues) + '</div>');
+	if(opacity == undefined){
+		opacity = [];
+		for(var i = 0; i<res.length;i++){
+			opacity.push(100);
+		}
+	}
+	if(vis == undefined){
+		vis = [];
+		for(var i = 0; i<res.length;i++){
+			vis.push("false");
+		}
+	}
 	for(j=1; j<(res.length+1); j++){
-		 createSubmitHandler(res, j);
+		 createSubmitHandler(res, j, opacity[j-1]);
+		 if(vis[j-1] == "true"){
+			 $('#showData'+j).submit();
+		 }
 	}
 }
 
@@ -85,7 +163,7 @@ function subdataName(res, value, j){
 
 
 
-function createSubmitHandler(res, j){
+function createSubmitHandler(res, j, opacity){
 	$('#showData'+ j).submit(function(e) {
 		spinnerShow(document.getElementById('map'));
 		e.preventDefault();
@@ -135,11 +213,12 @@ function createSubmitHandler(res, j){
 					}
 
 				);
-				  layerControl.addOverlay(lyr, "Dataset");
+				  layerControl.addOverlay(lyr, "Dataset "+j);
 					map.addLayer(lyr);
 					zoomToLayer(j);
-					$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="100" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: 100%</output> </div>');
-				  }
+					$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="'+opacity+'" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: '+opacity+'%</output> </div>');
+					opacityChanger(j);
+					}
 	        });
 	        redSDNInput.remove();
 	        greenSDNInput.remove();
@@ -178,11 +257,12 @@ function removeDatasets(){
 	}
 }
 
-
 function visualizeMetadata(res){
+	jsonForDatasets = [];
 	polyLayer.clearLayers();
 	for(i=0; i < res.length; i++){
-		$('#resolution' + (i+1)  ).html(
+		jsonForDatasets.push(res[i]);
+		$('#datasetButton' + (i+1)  ).html(
 		"<b> Cloud Coverage Assesment: </b>" + res[i].CLOUD_COVERAGE_ASSESSMENT +  "</br>" +
 		"<b> Datatake Sensing Start: </b>" + res[i].DATATAKE_1_DATATAKE_SENSING_START + "</br>" +
 		"<b> Datatkae Type: </b>" + res[i].DATATAKE_1_DATATAKE_TYPE + "</br>" +
@@ -253,7 +333,7 @@ function showPolygonInfo(e){
 	var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
 	var popup = L.popup()
     .setLatLng(coords)
-    .setContent('<p> Dataset '+(this.options.number+1)+'</p>')
+    .setContent('<p> Dataset '+(((findPage()-1)*8)+(this.options.number+1))+'</p>')
     .openOn(map);
 }
 
@@ -264,10 +344,12 @@ function zoomToLayer(j){
 			polyLayer.clearLayers();
 		}
 });
+//testen hier bug fix, 2. laden geht nicht
 }
 
 function openAccordion(){
-  openSearchInSidebar();
+	hash = '#search';
+  openTabInSidebar(hash);
 	for(var i = 1; i < this.options.resultLength+1; i++){
 		if(i == (this.options.number+1)){
 			$("#dataset"+(this.options.number+1)).collapse('show');
@@ -277,18 +359,30 @@ function openAccordion(){
 	}
 }
 
-function openSearchInSidebar() {
+function openTabInSidebar(hash) {
 	$(".sidebar-tabs").find(".active").removeClass("active");
 	$("#sidebar").removeClass("collapsed");
 	$(".sidebar-content").find(".active").removeClass("active");
-	$("#search").addClass("active");
-	$("#searchTabButton").addClass("active");
+	$(hash).addClass("active");
+	$(hash+"TabButton").addClass("active");
 }
 
 function toggleDrop(i,j){
 	$('#dropd'+i).show();
 	$('#dropd'+j).hide();
 }
+
+function findArray(bandArray, band){
+	var number = 0;
+	for(var i = 0; i<bandArray.length;i++){
+		if(bandArray[i] == band){
+			number = i;
+			break;
+		}
+	}
+	return number;
+}
+
 function toggleIt(i){
     var x = document.getElementById(i);
     if (x.style.display === "none") {

@@ -50,15 +50,18 @@ html
     #sidebar.sidebar.collapsed
       .sidebar-tabs
         ul(role='tablist')
-          li
-            a(href='#home' , role='tab')
+          li(id='homeTabButton')
+            a(href='#home' , role='tab', onclick='showSaveBtn(false)')
               i.fa.fa-home
           li(id='searchTabButton')
-            a(href='#search', role='tab')
+            a(href='#search', role='tab', onclick='showSaveBtn(true)')
               i.fa.fa-bars
         ul(role='tablist')
-          li
-            a(href='#imprint', role='tab')
+          li(id='saveTabButton', style="display : none")
+            a(href='#save', role='tab', onclick='showPermalink()')
+              i.fa.fa-save
+          li(id='imprintTabButton')
+            a(href='#imprint', role='tab', onclick='showSaveBtn(false)')
               i.fa.fa-university
       .sidebar-content
         #home.sidebar-pane
@@ -147,6 +150,7 @@ html
             p ________________________________________________________________________________________
           p#one
            #page-selection
+        #save.sidebar-pane
         #imprint.sidebar-pane
           h1 Legal Disclosure
           | Information in accordance with section 5 TMG

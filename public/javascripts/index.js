@@ -11,7 +11,7 @@ $(document).ready(function() {
   sidebar.on('content', function(e) {
   });
 
-  initOptions();
+  initStartup();
 
   $('#resultpanel').hide();
 
@@ -31,12 +31,13 @@ $(document).ready(function() {
       var pagetoview = 1;
       var bbox="";
       console.log("searchbox= " + $(searchformbybbox_bottomLong).val());
-      if ($(searchformbybbox_bottomLong).val() != ""){
+      if ($(searchformbybbox_bottomLong).val() != "" && $(searchformbybbox_bottomLat).val() != "" && $(searchformbybbox_topLong).val() != "" && $(searchformbybbox_topLat).val() != ""){
         bbox=($(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val());
       }
       console.log(bbox);
       var templateurl = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
       pagerInit(templateurl);
+      var expanded = [];
       ajaxrequest(templateurl, pagetoview);
   }else{
     alert("Startdate must be before Enddate");
@@ -52,6 +53,363 @@ function pageCalculator(allContents){
     allContents = (Math.floor(allContents/8)+1);
   }
   return allContents;
+}
+
+function showSaveBtn(bool){
+  if(bool == true){
+    if($('#searchTabButton')[0].classList.length > 0){
+      for(var i = 0; i < $('#searchTabButton')[0].classList.length; i++){
+        if ($('#searchTabButton')[0].classList[i] == "active"){
+          $('#saveTabButton')[0].style.display = "none";
+          break;
+        }
+      }
+    }else if($('#searchTabButton')[0].classList.length == 0) {
+      $('#saveTabButton')[0].style.display = "";
+    }
+  }else if(bool == false){
+    $('#saveTabButton')[0].style.display = "none";
+  }
+}
+
+function initStartup(){
+  initOptions();
+  $.when(loadHash()).done(loadSearch());
+}
+function showPermalink(){
+  var str = createPermalink();
+  matchTextAreaField(str);
+}
+
+function matchTextAreaField(str){
+  for(var i = 0; i <$('#sidebar')[0].classList.length;i++){
+    if ($('#sidebar')[0].classList[i]  == "collapsed"){
+      openTabInSidebar('#search');
+    }
+  }
+  $(".sidebar-content").find(".active").append('<textarea id="permalinkTemp" value=str style="width: 100%"></<textarea>');
+  $('#permalinkTemp')[0].value = str;
+  var height = $('#permalinkTemp')[0].scrollHeight+2+"px";
+  $('#permalinkTemp')[0].parentNode.removeChild($('#permalinkTemp')[0]);
+  //$(".sidebar-content").find(".active").remove($('#permalinkTemp'));
+  $('#save').html('<h2>save und so</h2><textarea id="permalink" value=str style="width: 100%"></<textarea>');
+  $('#permalink')[0].style.height = height;
+  $('#permalink')[0].value = str;
+}
+
+//check if empty
+function createPermalink(){
+  var str ="Ich schreibe jetzt ein buch, das ist so wunderschön, nur um zu sehen, dass sich was tut ud ich fände das schän, wenn sich dieses Feld anpassen könnte.";
+  var stateobject = createJSONPerma();
+  stateobject = createSearchParam(stateobject);
+  return addParams(stateobject);
+}
+
+function addParams(stateobject){
+  var permalink = new URL(window.location.origin);
+  for (let p of stateobject) {
+    permalink.searchParams.append(p[0],p[1]);
+  }
+  permalink.hash = "#search";
+  return permalink;
+}
+
+function createJSONPerma(){
+  var st = $("#searchformbyname_input").val();
+  var ssd = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";    var sed = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
+  var p = findPage();
+  var sbox = ($('#searchformbybbox_bottomLong').val()+','+ $('#searchformbybbox_bottomLat').val() +','+ $('#searchformbybbox_topLong').val()+',' +$('#searchformbybbox_topLat').val());
+  var ds = [];
+  var calc = [];
+  var forEnd = 0;
+  try{
+    forEnd = $("#resultpanel")[0].children.length;
+  }catch(err){
+
+  }
+  for(var i = 0; i< forEnd; i++){
+    var tempobj = {};
+    tempobj.n = jsonForDatasets[i].PRODUCT_URI;
+    var opacity;
+    if($('#opacityId'+ (i+1) ).val() == undefined){
+      opacity = 100;
+    }else{
+      opacity = $('#opacityId'+ (i+1) ).val();
+    }
+    tempobj.o = opacity;
+    tempobj.vis = isALayerDisplayed(i);
+    tempobj.exp = isExpanded(i);
+    tempobj.btn = buttonSelected(i);
+    tempobj.gscdn = $('#greyselect'+(i+1)).val();
+    tempobj.rcdn = $('#rgbselect'+(1+(i*3))).val();
+    tempobj.gcdn = $('#rgbselect'+(2+(i*3))).val();
+    tempobj.bcdn = $('#rgbselect'+(3+(i*3))).val();
+    //tempobj.gsc = $('#greyselect'+(i+1));
+    //tempobj.rcn = "d";
+    //tempobj.gcn = "d";
+    //tempobj.bcn = "d";
+    tempobj.greymin =  $('#minGrey'+(i+1)).val();
+    tempobj.rcmin = $('#minRed'+(i+1)).val();
+    tempobj.gcmin = $('#minGreen'+(i+1)).val();
+    tempobj.bcmin = $('#minBlue'+(i+1)).val();
+    tempobj.greymax = $('#maxGrey'+(i+1)).val();
+    tempobj.rcmax = $('#maxRed'+(i+1)).val();
+    tempobj.gcmax = $('#maxGreen'+(i+1)).val();
+    tempobj.bcmax = $('#maxBlue'+(i+1)).val();
+    for (var j = 0; j < 1; j++) {
+      var tempCalc = {};
+      tempCalc.name = "a";
+      tempCalc.calculation = "a";
+      var tempCalcJson = {"name":tempCalc.name,"o":tempCalc.calculation};
+      calc.push(tempCalcJson);
+      }
+    /*if(tempobj.greymin == null){
+      tempobj.greymin = 0;
+    }
+    if(tempobj.rcmin == null){
+      tempobj.rcmin = 0;
+    }
+    if(tempobj.gcmin == null){
+      tempobj.gcmin = 0;
+    }
+    if(tempobj.bcmin == null){
+      tempobj.bcmin = 0;
+    }
+    if(tempobj.greymax == null){
+      tempobj.greymax = 0;
+    }
+    if(tempobj.rcmax == null){
+      tempobj.rcmax = 0;
+    }
+    if(tempobj.gcmax == null){
+      tempobj.gcmax = 0;
+    }
+    if(tempobj.bcmax == null){
+      tempobj.bcmax = 0;
+    }*/
+    var tempJSON = {"n":tempobj.n, "o":tempobj.o,"vis":tempobj.vis,"exp":tempobj.exp,"btn":tempobj.btn,"gscdn":tempobj.gscdn,"rcdn":tempobj.rcdn,"gcdn":tempobj.gcdn,"bcdn":tempobj.bcdn,
+      "greymin":tempobj.greymin,"rcmin":tempobj.rcmin,"gcmin":tempobj.gcmin,"bcmin":tempobj.bcmin,"greymax":tempobj.greymax,"rcmax":tempobj.rcmax,"gcmax":tempobj.gcmax,"bcmax":tempobj.bcmax, "calc": calc};
+    ds.push(tempJSON);
+    calc = [];
+  }
+  return {"st":st, "sbox":sbox, "ssd":ssd, "sed":sed, "p":p, "ds":ds};
+}
+
+function createSearchParam(stateobject){
+    var searchParams = new URLSearchParams();
+
+  //check if value is object
+  for (var i in stateobject){
+    var value = stateobject[i];
+    if(i == "ds"){
+      for (var k = 0; k<stateobject.ds.length;k++){
+        var dsParam = new URLSearchParams();
+        for (var j in stateobject.ds[k]) {
+          if(j == "calc"){
+            for (var l = 0; l<stateobject.ds[0].calc.length;l++){
+              var calcParam = new URLSearchParams();
+              for (var m in stateobject.ds[0].calc[l]) {
+                calcParam.append(m, stateobject.ds[0].calc[l][m]);
+              }
+              dsParam.append(j, calcParam);
+            }
+          }else{
+          dsParam.append(j, stateobject.ds[k][j]);
+          }
+        }
+        searchParams.append(i, dsParam);
+      }
+    }else{
+      searchParams.append(i,value);
+    }
+  }
+  return searchParams;
+}
+
+function loadHash(){
+  for (var i = 0; i < $('#sidebar')[0].children[1].children.length; i++) {
+    if(window.location.hash == "#"+$('#sidebar')[0].children[1].children[i].id && window.location.hash != "#save"){
+      openTabInSidebar(window.location.hash);
+      if(window.location.hash == '#search'){
+        $('#saveTabButton')[0].style.display = "";
+      }
+    }
+  }
+}
+
+function loadSearch(){
+  var searchParams = new URLSearchParams(window.location.search.slice(1));
+  var counter = 0;
+  var ds = false;
+  for (let i of searchParams) {
+    counter++;
+    if(i[0] == "ds"){
+      ds = true;
+    }
+  }
+  if(counter > 4){
+    var dsNumber = 0;
+    var calcNumber = 0;
+    var dsOpacity = [];
+    var dsExpanded =[];
+    var dsVis = [];
+    var dsBand =[];
+    var dsBandValues = [];
+    var dsBtn = [];
+    var pagetoview = 1;
+    for (let i of searchParams) {
+      if(i[0] == "ds"){
+        var dsRgbBandTemp = [];
+        var dsValuesTemp = [];
+        var dsMinValuesTemp = [];
+        var dsMaxValuesTemp = [];
+        var dsParams = new URLSearchParams(i[1]);
+        for (let j of dsParams) {
+          if(j[0] == "calc"){
+            var calcParams = new URLSearchParams(j[1]);
+            for (let k of calcParams) {
+              //hier kommt was mit calculated hin, aber nichts genaues weiß man nicht
+            }
+          }else{
+            switch(j[0]) {
+                case "n":
+                  console.log("Was soll  ich denn damit?" + j[1]);
+                  break;
+                case "o":
+                  dsOpacity.push(j[1]);
+                  break;
+                case "vis":
+                  dsVis.push(j[1])
+                  break;
+                case "exp":
+                  dsExpanded.push(j[1]);
+                  break;
+                case "btn":
+                  if(j[1] == "rgb"){
+                    dsBtn.push(["true","false"]);
+                  }else if(j[1] == "grey"){
+                    dsBtn.push(["false","true"]);
+                  }else{
+                    dsBtn.push(["false","false"]);
+                  }
+                  break;
+                case "gscdn":
+                  dsRgbBandTemp.push(j[1]);
+                  break;
+                case "rcdn":
+                  dsRgbBandTemp.push(j[1]);
+                  break;
+                case "gcdn":
+                  dsRgbBandTemp.push(j[1]);
+                  break;
+                case "bcdn":
+                  dsRgbBandTemp.push(j[1]);
+                  break;
+                case "greymin":
+                  dsMinValuesTemp.push(j[1]);
+                  break;
+                case "rcmin":
+                  dsMinValuesTemp.push(j[1]);
+                  break;
+                case "gcmin":
+                  dsMinValuesTemp.push(j[1]);
+                  break;
+                case "bcmin":
+                  dsMinValuesTemp.push(j[1]);
+                  break;
+                case "greymax":
+                  dsMaxValuesTemp.push(j[1]);
+                  break;
+                case "rcmax":
+                  dsMaxValuesTemp.push(j[1]);
+                  break;
+                case "gcmax":
+                  dsMaxValuesTemp.push(j[1]);
+                  break;
+                case "bcmax":
+                  dsMaxValuesTemp.push(j[1]);
+                  break;
+            }
+          }
+        }
+        dsBand.push(dsRgbBandTemp);
+        dsRgbBandTemp = [];
+        dsValuesTemp.push(dsMinValuesTemp);
+        dsValuesTemp.push(dsMaxValuesTemp);
+        dsBandValues.push(dsValuesTemp);
+        dsValuesTemp = [];
+        dsMinValuesTemp = [];
+        dsMaxValuesTemp = [];
+      }else{
+        switch(i[0]) {
+            case "st":
+              $("#searchformbyname_input").val(i[1]);
+              break;
+            case "ssd":
+              fillDate(i,"start");
+              break;
+            case "sed":
+              fillDate(i,"end");
+              break;
+            case "p":
+              pagetoview = i[1];
+              break;
+            case "sbox":
+              var sbox = i[1].split(",");
+              $("#searchformbybbox_bottomLat").val(sbox[0]);
+              $("#searchformbybbox_bottomLong").val(sbox[1]);
+              $("#searchformbybbox_topLat").val(sbox[2]);
+              $("#searchformbybbox_topLong").val(sbox[3]);
+              break;
+        }
+      }
+    }
+    if(ds == true){
+      var substring = $("#searchformbyname_input").val();
+      var startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
+      //var enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
+      var enddate= "";
+      var page = 0;
+      var bbox="";
+      if ($(searchformbybbox_bottomLong).val() != "" && $(searchformbybbox_bottomLat).val() != "" && $(searchformbybbox_topLong).val() != "" && $(searchformbybbox_topLat).val() != ""){
+        bbox=($(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val());
+      }
+      var templateurl = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
+      pagerInit(templateurl);
+      console.log(pagetoview);
+      ajaxrequest(templateurl, pagetoview, dsExpanded, dsBand, dsBtn, dsBandValues, dsVis, dsOpacity);
+    }
+  }
+}
+
+function fillDate(i, indi){
+    var date =[];
+    date.push(i[1].slice(0,10).split("-"));
+    date.push(i[1].slice(11, i[1].length-1).split(":"));
+    $("#"+indi+"day").val(date[0][2]);
+    $("#"+indi+"month").val(date[0][1]);
+    $("#"+indi+"year").val(date[0][0]);
+    $("#"+indi+"sec").val(date[1][2]);
+    $("#"+indi+"min").val(date[1][1]);
+    $("#"+indi+"hour").val(date[1][0]);
+}
+
+function findPage(){
+  for (var i = 0; i < $('#page-selection')["0"].children["0"].children.length; i++) {
+    if ($('#page-selection')["0"].children["0"].children[i].className == "active") {
+      return $('#page-selection')["0"].children["0"].children[i].outerText;
+    }
+  }
+}
+
+function buttonSelected(i){
+  if($('#dropd'+(((i+1)*2)))[0].style.display == "table-cell"){
+    return "rgb";
+  }else if($('#dropd'+(((i+1)*2)+1))[0].style.display == "table-cell"){
+    return "grey";
+  }else{
+    return "";
+  }
 }
 
 function addOption(id, startInt, endInt, selectedInt){
@@ -90,6 +448,28 @@ function compareDates(){
   }else{
     return false;
   }
+}
+
+function isALayerDisplayed(number){
+	if (layerControl._layers.length == 4) {
+		if(number+1 == layerControl._layers[3].name.slice(layerControl._layers[3].name.length -1)){
+      return true;
+    }else{
+      return false;
+    }
+	}else{
+		return false;
+	}
+}
+
+function isExpanded(number){
+  number++;
+  for(var i = 0; i < $('#dataset'+number)[0].classList.length; i++){
+    if($('#dataset'+number)[0].classList[i] == "in"){
+      return "in";
+    }
+  }
+  return "out";
 }
 
 function createDate(str){
@@ -147,7 +527,7 @@ function feburaryCalc(str){
   }
   return false;
 }
-function pagerInit(templateurl){
+function pagerInit(templateurl, expanded){
   $('#page-selection').bootpag({
     total: 0,
     page: 0,
@@ -165,11 +545,10 @@ function pagerInit(templateurl){
     firstClass: 'first'
   }).on("page", function(event, /* page number here */ num){
     spinnerShow(document.getElementById('sidebar'));
-
     ajaxrequest(templateurl, num); // some ajax content loading...
   });
 }
-function ajaxrequest(templateurl, pagetoview){
+function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, vis, opacity){
   $.ajax({
     type: "GET",
     url: templateurl+(pagetoview-1),
@@ -182,7 +561,7 @@ function ajaxrequest(templateurl, pagetoview){
           spinnerHide(document.getElementById('sidebar'));
       }},
       success: function (res, status, request) {
-        createHTML(res, pagetoview);
+        createHTML(res, pagetoview, expanded, band, btn, bandValues, vis, opacity);
         page = pageCalculator(request.getResponseHeader('X-Dataset-Count'));
         //$('#resultpanel').show();
         visualizeMetadata(res);
