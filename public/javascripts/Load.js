@@ -89,6 +89,18 @@ function createHTML(res, pagetoview, expanded, band, btn, bandValues, vis, opaci
 	$('#one').html("");
 	$('#one').html('<div class="panel-panel-default" id="resultpanel">'
 	+ createInnerHTML(res.length, pagetoview, expanded, band, btn, bandValues) + '</div>');
+	if(opacity == undefined){
+		opacity = [];
+		for(var i = 0; i<res.length;i++){
+			opacity.push(100);
+		}
+	}
+	if(vis == undefined){
+		vis = [];
+		for(var i = 0; i<res.length;i++){
+			vis.push("false");
+		}
+	}
 	for(j=1; j<(res.length+1); j++){
 		 createSubmitHandler(res, j, opacity[j-1]);
 		 if(vis[j-1] == "true"){
