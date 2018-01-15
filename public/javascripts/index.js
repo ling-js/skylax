@@ -24,8 +24,8 @@ $(document).ready(function() {
       console.log("function gets called properly awaiting ajax...");
       var substring = $("#searchformbyname_input").val();
       var startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
-      //var enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
-      var enddate= "";
+      var enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
+      //var enddate= "";
       console.log(startdate + " starttime and endtime " + enddate);
       var page = 0;
       var pagetoview = 1;
@@ -367,8 +367,8 @@ function loadSearch(){
     if(ds == true){
       var substring = $("#searchformbyname_input").val();
       var startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
-      //var enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
-      var enddate= "";
+      var enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
+      //var enddate= "";
       var page = 0;
       var bbox="";
       if ($(searchformbybbox_bottomLong).val() != "" && $(searchformbybbox_bottomLat).val() != "" && $(searchformbybbox_topLong).val() != "" && $(searchformbybbox_topLat).val() != ""){
@@ -561,6 +561,11 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
           spinnerHide(document.getElementById('sidebar'));
       }},
       success: function (res, status, request) {
+        if(res.length == 0){
+          $('#page-selection')[0].style.display = "none";
+        }else{
+          $('#page-selection')[0].style.display = "";
+        }
         createHTML(res, pagetoview, expanded, band, btn, bandValues, vis, opacity);
         page = pageCalculator(request.getResponseHeader('X-Dataset-Count'));
         //$('#resultpanel').show();
