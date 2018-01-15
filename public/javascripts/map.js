@@ -158,7 +158,6 @@ $(document).ready(function() {
     resetInput();
     $('#bboxbutton').hide();
     $('#deleteDrawing').show();
-
   });
 
   $('#deleteDrawing').click(function() {
@@ -171,9 +170,9 @@ $(document).ready(function() {
 
   $('#searchformbybbox_bottomLat').change(function(){
     drawnItems.clearLayers();
+    $('#bboxbutton').show();
+    $('#deleteDrawing').hide();
     coordsToPolygon();
-
-
 });
 
 $('#searchformbybbox_topLat').change(function(){
@@ -181,7 +180,6 @@ $('#searchformbybbox_topLat').change(function(){
   $('#bboxbutton').show();
   $('#deleteDrawing').hide();
   coordsToPolygon();
-
 });
 
 $('#searchformbybbox_topLong').change(function(){
@@ -189,7 +187,6 @@ $('#searchformbybbox_topLong').change(function(){
     $('#bboxbutton').show();
     $('#deleteDrawing').hide();
     coordsToPolygon();
-
 });
 
   $('#searchformbybbox_bottomLong').change(function(){
@@ -197,7 +194,6 @@ $('#searchformbybbox_topLong').change(function(){
       $('#bboxbutton').show();
       $('#deleteDrawing').hide();
       coordsToPolygon();
-
 });
 
 

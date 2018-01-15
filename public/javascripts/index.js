@@ -356,10 +356,11 @@ function loadSearch(){
               break;
             case "sbox":
               var sbox = i[1].split(",");
-              $("#searchformbybbox_bottomLat").val(sbox[0]);
-              $("#searchformbybbox_bottomLong").val(sbox[1]);
-              $("#searchformbybbox_topLat").val(sbox[2]);
-              $("#searchformbybbox_topLong").val(sbox[3]);
+              $("#searchformbybbox_bottomLat").val(sbox[1]);
+              $("#searchformbybbox_bottomLong").val(sbox[0]);
+              $("#searchformbybbox_topLat").val(sbox[3]);
+              $("#searchformbybbox_topLong").val(sbox[2]);
+              coordsToPolygon("true");
               break;
         }
       }
@@ -395,11 +396,14 @@ function fillDate(i, indi){
 }
 
 function findPage(){
-  for (var i = 0; i < $('#page-selection')["0"].children["0"].children.length; i++) {
-    if ($('#page-selection')["0"].children["0"].children[i].className == "active") {
-      return $('#page-selection')["0"].children["0"].children[i].outerText;
+  if($('#page-selection')["0"].children["0"] != undefined){
+    for (var i = 0; i < $('#page-selection')["0"].children["0"].children.length; i++) {
+      if ($('#page-selection')["0"].children["0"].children[i].className == "active") {
+        return $('#page-selection')["0"].children["0"].children[i].outerText;
+      }
     }
   }
+  return "";
 }
 
 function buttonSelected(i){

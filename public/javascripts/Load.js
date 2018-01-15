@@ -110,7 +110,7 @@ function createHTML(res, pagetoview, expanded, band, btn, bandValues, vis, opaci
 }
 
 
-function coordsToPolygon(){
+function coordsToPolygon(load){
 	if(document.getElementById('searchformbybbox_topLat').value != '' &&
 		 document.getElementById('searchformbybbox_bottomLat').value != '' &&
 		 document.getElementById('searchformbybbox_topLong').value != '' &&
@@ -123,7 +123,9 @@ function coordsToPolygon(){
 							]
 
 	var polygon = L.polygon(latlon).addTo(drawnItems);
-	map.fitBounds(polygon.getBounds());
+	if(load != "true"){
+		map.fitBounds(polygon.getBounds());
+	}
 	$('#bboxbutton').hide();
 	$('#deleteDrawing').show();
 }
