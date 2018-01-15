@@ -1,5 +1,4 @@
 function createInnerHTML(length, pagetoview, expanded, band, btn, bandValues){
-	console.log(band);
 	for(i=1;i < length+1; i++){
 		if (band == undefined || band.length == 0) {
 			band = [];
@@ -86,12 +85,15 @@ function createInnerHTML(length, pagetoview, expanded, band, btn, bandValues){
 }
 
 
-function createHTML(res, pagetoview, expanded, band, btn, bandValues){
+function createHTML(res, pagetoview, expanded, band, btn, bandValues, vis){
 	$('#one').html("");
 	$('#one').html('<div class="panel-panel-default" id="resultpanel">'
-	+ createInnerHTML(res.length, pagetoview,expanded, band, btn, bandValues) + '</div>');
+	+ createInnerHTML(res.length, pagetoview, expanded, band, btn, bandValues) + '</div>');
 	for(j=1; j<(res.length+1); j++){
 		 createSubmitHandler(res, j);
+		 if(vis[j-1] == "true"){
+			 $('#showData'+j).submit();
+		 }
 	}
 }
 

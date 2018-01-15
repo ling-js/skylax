@@ -252,6 +252,7 @@ function loadSearch(){
     var calcNumber = 0;
     var dsOpacity = [];
     var dsExpanded =[];
+    var dsVis = [];
     var dsBand =[];
     var dsBandValues = [];
     var dsBtn = [];
@@ -275,10 +276,10 @@ function loadSearch(){
                   console.log("Was soll  ich denn damit?" + j[1]);
                   break;
                 case "o":
-                    dsOpacity.push(j[1]);
+                  dsOpacity.push(j[1]);
                   break;
                 case "vis":
-                  //fillDate(i,"end");
+                  dsVis.push(j[1])
                   break;
                 case "exp":
                   dsExpanded.push(j[1]);
@@ -375,7 +376,8 @@ function loadSearch(){
       }
       var templateurl = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
       pagerInit(templateurl);
-      ajaxrequest(templateurl, pagetoview, dsExpanded, dsBand, dsBtn, dsBandValues);
+      console.log(pagetoview);
+      ajaxrequest(templateurl, pagetoview, dsExpanded, dsBand, dsBtn, dsBandValues, dsVis);
     }
   }
 }
@@ -395,13 +397,12 @@ function fillDate(i, indi){
 function findPage(){
   for (var i = 0; i < $('#page-selection')["0"].children["0"].children.length; i++) {
     if ($('#page-selection')["0"].children["0"].children[i].className == "active") {
-      console.log($('#page-selection')["0"].children["0"].children[i].outerText);
+      return $('#page-selection')["0"].children["0"].children[i].outerText;
     }
   }
 }
 
 function buttonSelected(i){
-  console.log(((i+1)*2));
   if($('#dropd'+(((i+1)*2)))[0].style.display == "table-cell"){
     return "rgb";
   }else if($('#dropd'+(((i+1)*2)+1))[0].style.display == "table-cell"){
@@ -451,8 +452,11 @@ function compareDates(){
 
 function isALayerDisplayed(number){
 	if (layerControl._layers.length == 4) {
-		if(number+1 == layerControl._layers[3].name-1)
-		return true;
+		if(number+1 == layerControl._layers[3].name.slice(layerControl._layers[3].name.length -1)){
+      return true;
+    }else{
+      return false;
+    }
 	}else{
 		return false;
 	}
@@ -544,7 +548,7 @@ function pagerInit(templateurl, expanded){
     ajaxrequest(templateurl, num); // some ajax content loading...
   });
 }
-function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues){
+function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, vis){
   $.ajax({
     type: "GET",
     url: templateurl+(pagetoview-1),
@@ -557,7 +561,7 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues){
           spinnerHide(document.getElementById('sidebar'));
       }},
       success: function (res, status, request) {
-        createHTML(res, pagetoview, expanded, band, btn, bandValues);
+        createHTML(res, pagetoview, expanded, band, btn, bandValues, vis);
         page = pageCalculator(request.getResponseHeader('X-Dataset-Count'));
         //$('#resultpanel').show();
         visualizeMetadata(res);

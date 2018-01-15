@@ -81,7 +81,7 @@ function initMap() {
   map.on('click', function(e) {
     var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
     console.log(coords);
-    console.log($('#rgb1 ')[0].checked);
+    findPage();
   });
 
   map.on('draw:created', function(e) {
