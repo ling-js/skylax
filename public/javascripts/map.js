@@ -80,8 +80,10 @@ function initMap() {
 
   map.on('click', function(e) {
     var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
-    console.log(coords);
-    findPage();
+    console.log(e.target._layers);
+    for (var i = 0; i < e.target._layers.length; i++) {
+      console.log(e.target._layers[i]);
+    }
   });
 
  map.on('draw:created', function(e) {

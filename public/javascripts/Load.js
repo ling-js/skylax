@@ -128,6 +128,9 @@ function coordsToPolygon(load){
 	}
 	$('#bboxbutton').hide();
 	$('#deleteDrawing').show();
+}else{
+	$('#bboxbutton').show();
+	$('#deleteDrawing').hide();
 }
 }
 
