@@ -1,26 +1,69 @@
 function createInnerHTML(length, pagetoview, expanded, band, btn, bandValues){
-	console.log(band);
 	for(i=1;i < length+1; i++){
+		if (band == undefined || band.length == 0) {
+			band = [];
+			zerArr = ["0","0","0","0"];
+			for (var j = 0; j < length; j++) {
+				band[j] = [];
+				band[j].push(zerArr);
+			}
+		}
+		const constArray = ["0","B1","B2","B3","B4","B5","B6","B7","B8","B8a","B9","B10","B11","B12"];
+		var redBand = constArray;
+		var greenBand = constArray;
+		var blueBand = constArray;
+		var greyBand = constArray;
+		var redNumber = findArray(constArray,band[i-1][1]);
+		var greenNumber = findArray(constArray,band[i-1][2]);
+		var blueNumber = findArray(constArray,band[i-1][3]);
+		var greyNumber = findArray(constArray,band[i-1][0]);
+		redBand[redNumber] = redBand[redNumber] + '" selected="selected';
+		greenBand[greenNumber] = greenBand[greenNumber] + '" selected="selected';
+		blueBand[blueNumber] = blueBand[blueNumber] + '" selected="selected';
+		greyBand[greyNumber] = greyBand[greyNumber] + '" selected="selected';
 		var rgbChecked = "";
 		var greyChecked = "";
-		if (btn[i-1][0] =="true"){
-			rgbChecked = "checked";
-		}else if(btn[i-1][1] =="true"){
-			greyChecked = "checked";
+		if(btn != undefined && btn.length != 0){
+			if (btn[i-1][0] =="true"){
+				rgbChecked = "checked";
+			}else if(btn[i-1][1] =="true"){
+				greyChecked = "checked";
+			}
+		}else{
+			btn = [];
+			for (var j = 0; j < length; j++) {
+				btn.push(["false","false"]);
+			}
 		}
-		$('#one').html($('#one').html() + '<div class="panel panel-default"> <a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"><div class="panel-heading"><span class="glyphicon glyphicon-open" aria-hidden="true"></span> Dataset '+ (8*(pagetoview-1)+i) +'</div></a><span class="panel-body panel-collapse collapse '+expanded[i]+'" id="dataset'+i+'"> <p id="quality" style="padding: 15px; padding-bottom:0px">Metadata:</p> <p id="datasetButton'+i+'" style="padding: 15px; padding-top: 0px"></p> '
+		if(expanded == undefined){
+			expanded = [];
+			expanded[i-1] = "in";
+		}
+		if(bandValues == undefined || bandValues.length == 0){
+			bandValues = [];
+			for(var k = 0; k < length; k++){
+				bandValues[k] = [];
+				bandValues[k][0] = [];
+				bandValues[k][1] = [];
+				for (var j = 0; j < 4; j++) {
+					bandValues[k][0][j] = 0;
+					bandValues[k][1][j] = 65536;
+				}
+			}
+		}
+		$('#one').html($('#one').html() + '<div class="panel panel-default"> <a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"><div class="panel-heading"><span class="glyphicon glyphicon-open" aria-hidden="true"></span> Dataset '+ (8*(pagetoview-1)+i) +'</div></a><span class="panel-body panel-collapse collapse '+expanded[i-1]+'" id="dataset'+i+'"> <p id="quality" style="padding: 15px; padding-bottom:0px">Metadata:</p> <p id="datasetButton'+i+'" style="padding: 15px; padding-top: 0px"></p> '
 										+ ' <form class="colorform" id="showData' + i + '" method="POST"> <container> <input id="rgb'+i+'" type="radio" name="rgbbool" value="true" '+rgbChecked+' onclick="toggleDrop('+(i*2)+','+((i*2)+1)+')"/> RGB<br/> <label for="rgb" class="dropd" id="dropd'+(i*2)+'"> '
-										+ ' Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <select name="rcn" id="rgbselect' + ((i*3)-2)+ '"> <option selected="selected" disabled="disabled">Pick a band</option> <option value="B1">Band 1</option> <option value="B2">Band 2</option> <option value="B3">Band 3</option> <option value="B4">Band 4</option> <option value="B5">Band 5</option> <option value="B6">Band 6</option> <option value="B7">Band 7</option> <option value="B8">Band 8</option> <option value="B8a">Band 8a</option> <option value="B9">Band 9</option> <option value="B10">Band 10</option> <option value="B11">Band 11</option> <option value="B12">Band 12</option> </select> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
+										+ ' Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <select name="rcn" id="rgbselect' + ((i*3)-2)+ '"> <option disabled="disabled" value="'+redBand[0]+'">Pick a band</option> <option value="'+redBand[1]+'">Band 1</option> <option value="'+redBand[2]+'">Band 2</option> <option value="'+redBand[3]+'">Band 3</option> <option value="'+redBand[4]+'">Band 4</option> <option value="'+redBand[5]+'">Band 5</option> <option value="'+redBand[6]+'">Band 6</option> <option value="'+redBand[7]+'">Band 7</option> <option value="'+redBand[8]+'">Band 8</option> <option value="'+redBand[9]+'">Band 8a</option> <option value="'+redBand[10]+'">Band 9</option> <option value="'+redBand[11]+'">Band 10</option> <option value="'+redBand[12]+'">Band 11</option> <option value="'+redBand[13]+'">Band 12</option> </select> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
 										+ ' Min-Value: <input type="number" name="rcmin" id="minRed'+i+'" placeholder="0" value="'+(bandValues[i-1][0][1])+'"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
 										+ ' Max-Value: <input type="number" name="rcmax"  id="maxRed'+i+'" maxlength="5" placeholder="65536" value="'+(bandValues[i-1][1][1])+'"/><br/><br/> '
-										+ ' Green band:&nbsp;&nbsp; <select name="gcn" id="rgbselect' + ((i*3)-1)+ '" value="0"> <option selected="selected" disabled="disabled" value="0">Pick a band</option> <option value="B1">Band 1</option> <option value="B2">Band 2</option> <option value="B3">Band 3</option> <option value="B4">Band 4</option> <option value="B5">Band 5</option> <option value="B6">Band 6</option> <option value="B7">Band 7</option> <option value="B8">Band 8</option> <option value="B8a">Band 8a</option> <option value="B9">Band 9</option> <option value="B10">Band 10</option> <option value="B11">Band 11</option> <option value="B12">Band 12</option> </select> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
+										+ ' Green band:&nbsp;&nbsp; <select name="gcn" id="rgbselect' + ((i*3)-1)+ '" value="0"> <option disabled="disabled" value="'+greenBand[0]+'">Pick a band</option> <option value="'+greenBand[1]+'">Band 1</option> <option value="'+greenBand[2]+'">Band 2</option> <option value="'+greenBand[3]+'">Band 3</option> <option value="'+greenBand[4]+'">Band 4</option> <option value="'+greenBand[5]+'">Band 5</option> <option value="'+greenBand[6]+'">Band 6</option> <option value="'+greenBand[7]+'">Band 7</option> <option value="'+greenBand[8]+'">Band 8</option> <option value="'+greenBand[9]+'">Band 8a</option> <option value="'+greenBand[10]+'">Band 9</option> <option value="'+greenBand[11]+'">Band 10</option> <option value="'+greenBand[12]+'">Band 11</option> <option value="'+greenBand[13]+'">Band 12</option> </select> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
 										+ ' Min-Value: <input type="number" name="gcmin" id="minGreen'+i+'" maxlength="5" placeholder="'+(bandValues[i-1][0][2])+'" value="0"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
 										+ ' Max-Value: <input type="number" name="gcmax" id="maxGreen'+i+'" maxlength="5" placeholder="65536" value="'+(bandValues[i-1][1][2])+'"/><br/><br/> '
-										+ ' Blue band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <select name="bcn" id="rgbselect' + (i*3)+ '" value="0"> <option selected="selected" disabled="disabled" value="0">Pick a band</option> <option value="B1">Band 1</option> <option value="B2">Band 2</option> <option value="B3">Band 3</option> <option value="B4">Band 4</option> <option value="B5">Band 5</option> <option value="B6">Band 6</option> <option value="B7">Band 7</option> <option value="B8">Band 8</option> <option value="B8a">Band 8a</option> <option value="B9">Band 9</option> <option value="B10">Band 10</option> <option value="B11">Band 11</option> <option value="B12">Band 12</option> </select> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
+										+ ' Blue band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <select name="bcn" id="rgbselect' + (i*3)+ '" value="0"> <option selected="selected" disabled="disabled" value="'+blueBand[0]+'">Pick a band</option> <option value="'+blueBand[1]+'">Band 1</option> <option value="'+blueBand[2]+'">Band 2</option> <option value="'+blueBand[3]+'">Band 3</option> <option value="'+blueBand[4]+'">Band 4</option> <option value="'+blueBand[5]+'">Band 5</option> <option value="'+blueBand[6]+'">Band 6</option> <option value="'+blueBand[7]+'">Band 7</option> <option value="'+blueBand[8]+'">Band 8</option> <option value="'+blueBand[9]+'">Band 8a</option> <option value="'+blueBand[10]+'">Band 9</option> <option value="'+blueNumber[11]+'">Band 10</option> <option value="'+blueBand[12]+'">Band 11</option> <option value="'+blueBand[13]+'">Band 12</option> </select> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
 										+ ' Min-Value: <input type="number" name="bcmin" id="minBlue'+i+'" maxlength="5" placeholder="0" value="'+(bandValues[i-1][0][3])+'"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
 										+ ' Max-Value: <input type="number" name="bcmax" id="maxBlue'+i+'" maxlength="5" placeholder="65536" value="'+(bandValues[i-1][1][3])+'"/><br/> </label><br/> '
 										+ ' <input id="grey'+i+'" type="radio" name="rgbbool" value="false" '+greyChecked+' onclick="toggleDrop('+((i*2)+1)+','+(i*2)+')"/> Greyscale<br/> <label for="grey" class="dropd" id="dropd'+((i*2)+1)+'"> '
-										+ ' Choose a band:&nbsp;&nbsp; <select name="gsc" id="greyselect'+i+'" value="'+2+'"> <option selected="selected" disabled="disabled" value="0">Pick a band</option> <option value="B1">Band 1</option> <option value="B2">Band 2</option> <option value="B3">Band 3</option> <option value="B4">Band 4</option> <option value="B5">Band 5</option> <option value="B6">Band 6</option> <option value="B7">Band 7</option> <option value="B8">Band 8</option> <option value="B8a">Band 8a</option> <option value="B9">Band 9</option> <option value="B10">Band 10</option> <option value="B11">Band 11</option> <option value="B12">Band 12</option> </select><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
+										+ ' Choose a band:&nbsp;&nbsp; <select name="gsc" id="greyselect'+i+'" value="'+2+'"> <option selected="selected" disabled="disabled" value="'+greyBand[0]+'">Pick a band</option> <option value="'+greyBand[1]+'">Band 1</option> <option value="'+greyBand[2]+'">Band 2</option> <option value="'+greyBand[3]+'">Band 3</option> <option value="'+greyBand[4]+'">Band 4</option> <option value="'+greyBand[5]+'">Band 5</option> <option value="'+greyBand[6]+'">Band 6</option> <option value="'+greyBand[7]+'">Band 7</option> <option value="'+greyBand[8]+'">Band 8</option> <option value="'+greyBand[9]+'">Band 8a</option> <option value="'+greyBand[10]+'">Band 9</option> <option value="'+greyBand[11]+'">Band 10</option> <option value="'+greyBand[12]+'">Band 11</option> <option value="'+greyBand[13]+'">Band 12</option> </select><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
 										+ ' Min-Value: <input type="number" name="greymin" id="minGrey'+i+'"maxlength="5" placeholder="0" value="'+(bandValues[i-1][0][0])+'"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
 										+ ' Max-Value: <input type="number" name="greymax" id="maxGrey'+i+'"maxlength="5" placeholder="65536" value="'+(bandValues[i-1][1][0])+'"/><br/><br/> </label> </container> <br/> '
 										+ ' <button type="submit" id="formSubmiter'+i+'" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Show this dataset</button> </form> </span> </div>');
@@ -284,6 +327,17 @@ function openTabInSidebar(hash) {
 function toggleDrop(i,j){
 	$('#dropd'+i).show();
 	$('#dropd'+j).hide();
+}
+
+function findArray(bandArray, band){
+	var number = 0;
+	for(var i = 0; i<bandArray.length;i++){
+		if(bandArray[i] == band){
+			number = i;
+			break;
+		}
+	}
+	return number;
 }
 
 function toggleIt(i){

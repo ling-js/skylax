@@ -190,7 +190,6 @@ function createJSONPerma(){
     var tempJSON = {"n":tempobj.n, "o":tempobj.o,"vis":tempobj.vis,"exp":tempobj.exp,"btn":tempobj.btn,"gscdn":tempobj.gscdn,"rcdn":tempobj.rcdn,"gcdn":tempobj.gcdn,"bcdn":tempobj.bcdn,
       "greymin":tempobj.greymin,"rcmin":tempobj.rcmin,"gcmin":tempobj.gcmin,"bcmin":tempobj.bcmin,"greymax":tempobj.greymax,"rcmax":tempobj.rcmax,"gcmax":tempobj.gcmax,"bcmax":tempobj.bcmax, "calc": calc};
     ds.push(tempJSON);
-    console.log(tempobj.btn);
     calc = [];
   }
   return {"st":st, "sbox":sbox, "ssd":ssd, "sed":sed, "p":p, "ds":ds};
@@ -240,134 +239,146 @@ function loadHash(){
 
 function loadSearch(){
   var searchParams = new URLSearchParams(window.location.search.slice(1));
-  var dsNumber = 0;
-  var calcNumber = 0;
-  var dsOpacity = [];
-  var dsExpanded =[];
-  var dsBand =[];
-  var dsBandValues = [];
-  var dsBtn = [];
+  var counter = 0;
+  var ds = false;
   for (let i of searchParams) {
+    counter++;
     if(i[0] == "ds"){
-      var dsRgbBandTemp = [];
-      var dsValuesTemp = [];
-      var dsMinValuesTemp = [];
-      var dsMaxValuesTemp = [];
-      var dsParams = new URLSearchParams(i[1]);
-      for (let j of dsParams) {
-        if(j[0] == "calc"){
-          var calcParams = new URLSearchParams(j[1]);
-          for (let k of calcParams) {
-            //hier kommt was mit calculated hin, aber nichts genaues weiß man nicht
-          }
-        }else{
-          switch(j[0]) {
-              case "n":
-                console.log("Was soll  ich denn damit?" + j[1]);
-                break;
-              case "o":
-                  dsOpacity.push(j[1]);
-                break;
-              case "vis":
-                //fillDate(i,"end");
-                break;
-              case "exp":
-                dsExpanded.push(j[1]);
-                break;
-              case "btn":
-                if(j[1] == "rgb"){
-                  dsBtn.push(["true","false"]);
-                }else if(j[1] == "grey"){
-                  dsBtn.push(["false","true"]);
-                }else{
-                  dsBtn.push(["false","false"]);
-                }
-                break;
-              case "gscdn":
-                dsRgbBandTemp.push(j[1]);
-                break;
-              case "rcdn":
-                dsRgbBandTemp.push(j[1]);
-                break;
-              case "gcdn":
-                dsRgbBandTemp.push(j[1]);
-                break;
-              case "bcdn":
-                dsRgbBandTemp.push(j[1]);
-                break;
-              case "greymin":
-                dsMinValuesTemp.push(j[1]);
-                break;
-              case "rcmin":
-                dsMinValuesTemp.push(j[1]);
-                break;
-              case "gcmin":
-                dsMinValuesTemp.push(j[1]);
-                break;
-              case "bcmin":
-                dsMinValuesTemp.push(j[1]);
-                break;
-              case "greymax":
-                dsMaxValuesTemp.push(j[1]);
-                break;
-              case "rcmax":
-                dsMaxValuesTemp.push(j[1]);
-                break;
-              case "gcmax":
-                dsMaxValuesTemp.push(j[1]);
-                break;
-              case "bcmax":
-                dsMaxValuesTemp.push(j[1]);
-                break;
-          }
-        }
-      }
-      dsBand.push(dsRgbBandTemp);
-      dsRgbBandTemp = [];
-      dsValuesTemp.push(dsMinValuesTemp);
-      dsValuesTemp.push(dsMaxValuesTemp);
-      dsBandValues.push(dsValuesTemp);
-      dsValuesTemp = [];
-      dsMinValuesTemp = [];
-      dsMaxValuesTemp = [];
-    }else{
-      switch(i[0]) {
-          case "st":
-            $("#searchformbyname_input").val(i[1]);
-            break;
-          case "ssd":
-            fillDate(i,"start");
-            break;
-          case "sed":
-            fillDate(i,"end");
-            break;
-          case "p":
-            console.log("p fehlt noch, ver giss nicht");
-
-            break;
-          case "sbox":
-            var sbox = i[1].split(",");
-            $("#searchformbybbox_bottomLat").val(sbox[0]);
-            $("#searchformbybbox_bottomLong").val(sbox[1]);
-            $("#searchformbybbox_topLat").val(sbox[2]);
-            $("#searchformbybbox_topLong").val(sbox[3]);
-            break;
-      }
+      ds = true;
     }
   }
-  var substring = $("#searchformbyname_input").val();
-  var startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
-  //var enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
-  var enddate= "";
-  var page = 0;
-  var pagetoview = 1;
-  var bbox="";
-  if ($(searchformbybbox_bottomLong).val() != "" && $(searchformbybbox_bottomLat).val() != "" && $(searchformbybbox_topLong).val() != "" && $(searchformbybbox_topLat).val() != ""){
-    bbox=($(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val());
+  if(counter > 4){
+    var dsNumber = 0;
+    var calcNumber = 0;
+    var dsOpacity = [];
+    var dsExpanded =[];
+    var dsBand =[];
+    var dsBandValues = [];
+    var dsBtn = [];
+    for (let i of searchParams) {
+      if(i[0] == "ds"){
+        var dsRgbBandTemp = [];
+        var dsValuesTemp = [];
+        var dsMinValuesTemp = [];
+        var dsMaxValuesTemp = [];
+        var dsParams = new URLSearchParams(i[1]);
+        for (let j of dsParams) {
+          if(j[0] == "calc"){
+            var calcParams = new URLSearchParams(j[1]);
+            for (let k of calcParams) {
+              //hier kommt was mit calculated hin, aber nichts genaues weiß man nicht
+            }
+          }else{
+            switch(j[0]) {
+                case "n":
+                  console.log("Was soll  ich denn damit?" + j[1]);
+                  break;
+                case "o":
+                    dsOpacity.push(j[1]);
+                  break;
+                case "vis":
+                  //fillDate(i,"end");
+                  break;
+                case "exp":
+                  dsExpanded.push(j[1]);
+                  break;
+                case "btn":
+                  if(j[1] == "rgb"){
+                    dsBtn.push(["true","false"]);
+                  }else if(j[1] == "grey"){
+                    dsBtn.push(["false","true"]);
+                  }else{
+                    dsBtn.push(["false","false"]);
+                  }
+                  break;
+                case "gscdn":
+                  dsRgbBandTemp.push(j[1]);
+                  break;
+                case "rcdn":
+                  dsRgbBandTemp.push(j[1]);
+                  break;
+                case "gcdn":
+                  dsRgbBandTemp.push(j[1]);
+                  break;
+                case "bcdn":
+                  dsRgbBandTemp.push(j[1]);
+                  break;
+                case "greymin":
+                  dsMinValuesTemp.push(j[1]);
+                  break;
+                case "rcmin":
+                  dsMinValuesTemp.push(j[1]);
+                  break;
+                case "gcmin":
+                  dsMinValuesTemp.push(j[1]);
+                  break;
+                case "bcmin":
+                  dsMinValuesTemp.push(j[1]);
+                  break;
+                case "greymax":
+                  dsMaxValuesTemp.push(j[1]);
+                  break;
+                case "rcmax":
+                  dsMaxValuesTemp.push(j[1]);
+                  break;
+                case "gcmax":
+                  dsMaxValuesTemp.push(j[1]);
+                  break;
+                case "bcmax":
+                  dsMaxValuesTemp.push(j[1]);
+                  break;
+            }
+          }
+        }
+        dsBand.push(dsRgbBandTemp);
+        dsRgbBandTemp = [];
+        dsValuesTemp.push(dsMinValuesTemp);
+        dsValuesTemp.push(dsMaxValuesTemp);
+        dsBandValues.push(dsValuesTemp);
+        dsValuesTemp = [];
+        dsMinValuesTemp = [];
+        dsMaxValuesTemp = [];
+      }else{
+        switch(i[0]) {
+            case "st":
+              $("#searchformbyname_input").val(i[1]);
+              break;
+            case "ssd":
+              fillDate(i,"start");
+              break;
+            case "sed":
+              fillDate(i,"end");
+              break;
+            case "p":
+              console.log("p fehlt noch, ver giss nicht");
+
+              break;
+            case "sbox":
+              var sbox = i[1].split(",");
+              $("#searchformbybbox_bottomLat").val(sbox[0]);
+              $("#searchformbybbox_bottomLong").val(sbox[1]);
+              $("#searchformbybbox_topLat").val(sbox[2]);
+              $("#searchformbybbox_topLong").val(sbox[3]);
+              break;
+        }
+      }
+    }
+    if(ds == true){
+      var substring = $("#searchformbyname_input").val();
+      var startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
+      //var enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
+      var enddate= "";
+      var page = 0;
+      var pagetoview = 1;
+      var bbox="";
+      if ($(searchformbybbox_bottomLong).val() != "" && $(searchformbybbox_bottomLat).val() != "" && $(searchformbybbox_topLong).val() != "" && $(searchformbybbox_topLat).val() != ""){
+        bbox=($(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val());
+      }
+      var templateurl = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
+      pagerInit(templateurl);
+      ajaxrequest(templateurl, pagetoview, dsExpanded, dsBand, dsBtn, dsBandValues);
+    }
   }
-  var templateurl = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
-  pagerInit(templateurl);
-  ajaxrequest(templateurl, pagetoview, dsExpanded, dsBand, dsBtn, dsBandValues);
 }
 
 function fillDate(i, indi){
@@ -383,9 +394,10 @@ function fillDate(i, indi){
 }
 
 function buttonSelected(i){
-  if($('#rgb'+(i+1))[0].checked == true){
+  console.log(((i+1)*2));
+  if($('#dropd'+(((i+1)*2)))[0].style.display == "table-cell"){
     return "rgb";
-  }else if($('#grey'+(i+1))[0].checked == true){
+  }else if($('#dropd'+(((i+1)*2)+1))[0].style.display == "table-cell"){
     return "grey";
   }else{
     return "";
@@ -538,12 +550,6 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues){
           spinnerHide(document.getElementById('sidebar'));
       }},
       success: function (res, status, request) {
-        if (expanded == undefined) {
-          var expanded =[];
-          for(var i = 0; i < res.length; i++){
-            expanded.push("out");
-          }
-        }
         createHTML(res, pagetoview, expanded, band, btn, bandValues);
         page = pageCalculator(request.getResponseHeader('X-Dataset-Count'));
         //$('#resultpanel').show();
