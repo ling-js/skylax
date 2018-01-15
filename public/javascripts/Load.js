@@ -1,4 +1,5 @@
 function createInnerHTML(length, pagetoview, expanded, band, btn, bandValues){
+	console.log(band);
 	for(i=1;i < length+1; i++){
 		if (band == undefined || band.length == 0) {
 			band = [];
@@ -8,18 +9,21 @@ function createInnerHTML(length, pagetoview, expanded, band, btn, bandValues){
 				band[j].push(zerArr);
 			}
 		}
-		const constArray = ["0","B1","B2","B3","B4","B5","B6","B7","B8","B8a","B9","B10","B11","B12"];
+		var constArray = ["0","B1","B2","B3","B4","B5","B6","B7","B8","B8a","B9","B10","B11","B12"];
 		var redBand = constArray;
-		var greenBand = constArray;
-		var blueBand = constArray;
-		var greyBand = constArray;
-		var redNumber = findArray(constArray,band[i-1][1]);
-		var greenNumber = findArray(constArray,band[i-1][2]);
-		var blueNumber = findArray(constArray,band[i-1][3]);
-		var greyNumber = findArray(constArray,band[i-1][0]);
+		var redNumber = findArray(redBand,band[i-1][1]);
 		redBand[redNumber] = redBand[redNumber] + '" selected="selected';
+		constArray = ["0","B1","B2","B3","B4","B5","B6","B7","B8","B8a","B9","B10","B11","B12"];
+		var greenBand = constArray;
+		var greenNumber = findArray(greenBand,band[i-1][2]);
 		greenBand[greenNumber] = greenBand[greenNumber] + '" selected="selected';
+		constArray = ["0","B1","B2","B3","B4","B5","B6","B7","B8","B8a","B9","B10","B11","B12"];
+		var blueBand = constArray;
+		var blueNumber = findArray(blueBand,band[i-1][3]);
 		blueBand[blueNumber] = blueBand[blueNumber] + '" selected="selected';
+		constArray = ["0","B1","B2","B3","B4","B5","B6","B7","B8","B8a","B9","B10","B11","B12"];
+		var greyBand = constArray;
+		var greyNumber = findArray(greyBand,band[i-1][0]);
 		greyBand[greyNumber] = greyBand[greyNumber] + '" selected="selected';
 		var rgbChecked = "";
 		var greyChecked = "";
@@ -72,6 +76,11 @@ function createInnerHTML(length, pagetoview, expanded, band, btn, bandValues){
 										}else if(btn[i-1][1] == "true"){
 											toggleDrop(((i*2)+1),(i*2));
 										}
+										constArray = ["0","B1","B2","B3","B4","B5","B6","B7","B8","B8a","B9","B10","B11","B12"];
+										redBand = constArray;
+										greenBand = constArray;
+										blueBand = constArray;
+										greyBand = constArray;
 	}
 	return $('#one').html();
 }
