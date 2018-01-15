@@ -314,7 +314,7 @@ function showPolygonInfo(e){
 	var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
 	var popup = L.popup()
     .setLatLng(coords)
-    .setContent('<p> Dataset '+(this.options.number+1)+'</p>')
+    .setContent('<p> Dataset '+(((findPage()-1)*8)+(this.options.number+1))+'</p>')
     .openOn(map);
 }
 
