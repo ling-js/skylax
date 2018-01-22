@@ -1,3 +1,5 @@
+/** Dynamisch erzeugtes HTML für die Datasets
+
 /**
  * Erstellt die Resultate aus der Suche.
  * Lädt auch aus dem Permalink.
