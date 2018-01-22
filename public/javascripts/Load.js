@@ -1,3 +1,29 @@
+function createHTML(res, pagetoview, expanded, band, btn, bandValues, vis, opacity){
+	$('#one').html("");
+	$('#one').html('<div class="panel-panel-default" id="resultpanel">'
+	+ createInnerHTML(res.length, pagetoview, expanded, band, btn, bandValues) + '</div>');
+	if(opacity == undefined){
+		opacity = [];
+		for(var i = 0; i<res.length;i++){
+			opacity.push(100);
+		}
+	}
+	if(vis == undefined){
+		vis = [];
+		for(var i = 0; i<res.length;i++){
+			vis.push("false");
+		}
+	}
+	for(j=1; j<(res.length+1); j++){
+		 createSubmitHandler(res, j, opacity[j-1]);
+		 if(vis[j-1] == "true"){
+			 $('#showData'+j).submit();
+		 }
+	}
+}
+
+
+
 function createInnerHTML(length, pagetoview, expanded, band, btn, bandValues){
 	for(i=1;i < length+1; i++){
 		if (band == undefined || band.length == 0) {
@@ -54,6 +80,8 @@ function createInnerHTML(length, pagetoview, expanded, band, btn, bandValues){
 				}
 			}
 		}
+
+
 		$('#one').html($('#one').html() + '<div class="panel panel-default"> <a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"><div class="panel-heading"><span class="glyphicon glyphicon-open" aria-hidden="true"></span> Dataset '+ (8*(pagetoview-1)+i) +'</div></a><span class="panel-body panel-collapse collapse '+expanded[i-1]+'" id="dataset'+i+'"> <p id="quality" style="padding: 15px; padding-bottom:0px">Metadata:</p> <p id="datasetButton'+i+'" style="padding: 15px; padding-top: 0px"></p> '
 										+ ' <form class="colorform" id="showData' + i + '" method="POST"> <container> <input id="rgb'+i+'" type="radio" name="rgbbool" value="true" '+rgbChecked+' onclick="toggleDrop('+(i*2)+','+((i*2)+1)+')"/> RGB<br/> <label for="rgb" class="dropd" id="dropd'+(i*2)+'"> '
 										+ ' Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <select name="rcn" id="rgbselect' + ((i*3)-2)+ '"> <option disabled="disabled" value="'+redBand[0]+'">Pick a band</option> <option value="'+redBand[1]+'">Band 1</option> <option value="'+redBand[2]+'">Band 2</option> <option value="'+redBand[3]+'">Band 3</option> <option value="'+redBand[4]+'">Band 4</option> <option value="'+redBand[5]+'">Band 5</option> <option value="'+redBand[6]+'">Band 6</option> <option value="'+redBand[7]+'">Band 7</option> <option value="'+redBand[8]+'">Band 8</option> <option value="'+redBand[9]+'">Band 8a</option> <option value="'+redBand[10]+'">Band 9</option> <option value="'+redBand[11]+'">Band 10</option> <option value="'+redBand[12]+'">Band 11</option> <option value="'+redBand[13]+'">Band 12</option> </select> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
@@ -85,54 +113,6 @@ function createInnerHTML(length, pagetoview, expanded, band, btn, bandValues){
 }
 
 
-function createHTML(res, pagetoview, expanded, band, btn, bandValues, vis, opacity){
-	$('#one').html("");
-	$('#one').html('<div class="panel-panel-default" id="resultpanel">'
-	+ createInnerHTML(res.length, pagetoview, expanded, band, btn, bandValues) + '</div>');
-	if(opacity == undefined){
-		opacity = [];
-		for(var i = 0; i<res.length;i++){
-			opacity.push(100);
-		}
-	}
-	if(vis == undefined){
-		vis = [];
-		for(var i = 0; i<res.length;i++){
-			vis.push("false");
-		}
-	}
-	for(j=1; j<(res.length+1); j++){
-		 createSubmitHandler(res, j, opacity[j-1]);
-		 if(vis[j-1] == "true"){
-			 $('#showData'+j).submit();
-		 }
-	}
-}
-
-
-function coordsToPolygon(load){
-	if(document.getElementById('searchformbybbox_topLat').value != '' &&
-		 document.getElementById('searchformbybbox_bottomLat').value != '' &&
-		 document.getElementById('searchformbybbox_topLong').value != '' &&
-	 		 document.getElementById('searchformbybbox_bottomLong').value != ''){
-	var latlon =
-							[[document.getElementById('searchformbybbox_topLat').value, document.getElementById('searchformbybbox_topLong').value],
-							[document.getElementById('searchformbybbox_topLat').value, document.getElementById('searchformbybbox_bottomLong').value],
-							[document.getElementById('searchformbybbox_bottomLat').value,document.getElementById('searchformbybbox_bottomLong').value],
-							[document.getElementById('searchformbybbox_bottomLat').value , document.getElementById('searchformbybbox_topLong').value]
-							]
-
-	var polygon = L.polygon(latlon).addTo(drawnItems);
-	if(load != "true"){
-		map.fitBounds(polygon.getBounds());
-	}
-	$('#bboxbutton').hide();
-	$('#deleteDrawing').show();
-}else{
-	$('#bboxbutton').show();
-	$('#deleteDrawing').hide();
-}
-}
 
 //<select> <option selected="selected" disabled="disabled">Pick a band</option> <option value="1">Band 1</option> <option value="2">Band 2</option> <option value="3">Band 3</option> <option value="4">Band 4</option> <option value="5">Band 5</option> <option value="6">Band 6</option> <option value="7">Band 7</option> <option value="8">Band 8</option> <option value="8a">Band 8a</option> <option value="9">Band 9</option> <option value="10">Band 10</option> <option value="11">Band 11</option> <option value="12">Band 12</option> </select>
 
@@ -148,119 +128,6 @@ function radioValue(radios, j){
 	return "unknown";
 }
 
-
-function subdataName(res, value, j){
-	console.log("Started subdataName.");
-	var index = ["B2", "B3", "B4", "B8", "B5", "B6", "B7", "B8a", "B11", "B12", "B1", "B9", "B10"].indexOf(value);
-	console.log(index);
-	if(index < 0){
-		return "";
-	}
-	if(index < 4){
-		return res[j-1].SUBDATASET_1_NAME;
-	}
-	else if (index > 9) {
-		return res[j-1].SUBDATASET_3_NAME;
-	}
-	else
-		return res[j-1].SUBDATASET_2_NAME;
-}
-
-
-
-function createSubmitHandler(res, j, opacity){
-	$('#showData'+ j).submit(function(e) {
-		spinnerShow(document.getElementById('map'));
-		e.preventDefault();
-	    //Prüfe ob die Eingabefelder für die Marker nicht leer sind
-	    if (
-	    (
-			((radioValue(document.getElementsByName('rgbbool'),j)) == "true") &&
-			($('#rgbselect'+ ((j*3)-2)).val()  !== null) &&
-			($('#rgbselect'+ ((j*3)-1)).val() !== null) &&
-			($('#rgbselect'+ (j*3)).val()  !== null)
-	    ) || (
-			((radioValue(document.getElementsByName('rgbbool'),j)) == "false") &&
-	        ($('#greyselect'+ j).val() !== null))
-		)
-	    {
-    			var redSDNInput = $('<input type="hidden" name="rcdn" value=' + subdataName(res, $('#rgbselect'+ ((j*3)-2)).val(), j) + '>');
-	        var greenSDNInput = $('<input type="hidden" name="gcdn" value=' + subdataName(res, $('#rgbselect'+ ((j*3)-1)).val(), j) + '>');
-	        var blueSDNInput = $('<input type="hidden" name="bcdn" value=' + subdataName(res, $('#rgbselect'+ ((j*3))).val(), j) + '>');
-	        var greySDNInput = $('<input type="hidden" name="gscdn" value=' + subdataName(res, $('#greyselect'+ j).val(), j) + '>');
-
-	        $(this).append(redSDNInput);
-	        $(this).append(greenSDNInput);
-	        $(this).append(blueSDNInput);
-	        $(this).append(greySDNInput);
-	        var that = this;
-
-	        // submit via ajax
-	        $.ajax({
-	          data: $(that).serialize(),
-	          type: $(that).attr('method'),
-	          url:  'http://gis-bigdata.uni-muenster.de:14014/generate?',
-	          error: function(xhr, status, err) {
-	            console.log("Error while loading Data");
-							spinnerHide(document.getElementById('map'));
-	            alert("Error while loading Data");
-	          },
-	          success: function(res) {
-							removeDatasets();
-							spinnerHide(document.getElementById('map'));
-	              console.log("Data successfully loaded.");
-	              lyr = L.tileLayer(
-					'http://gis-bigdata.uni-muenster.de:14014/data/' + res + '/{z}/{x}/{-y}.png',
-					{
-					  tms: true,
-					  continuousWorld: true,
-						opacity: 100,
-					}
-
-				);
-				  layerControl.addOverlay(lyr, "Dataset "+j);
-					map.addLayer(lyr);
-					zoomToLayer(j);
-					$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="'+opacity+'" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: '+opacity+'%</output> </div>');
-					opacityChanger(j);
-					}
-	        });
-	        redSDNInput.remove();
-	        greenSDNInput.remove();
-	        blueSDNInput.remove();
-	        greenSDNInput.remove();
-	    }
-		else
-		{
-    		//console.log("falseeeee: " + j);
-				spinnerHide(document.getElementById('map'));
-	    	alert("Please define requested values before clicking the Show this dataset -Button");
-		}
-	});
-		//console.log("Submit overwritten.")
-}
-
-function opacityChanger(j){
-	lyr.options.opacity = $('#opacityId'+ j ).val()/100;
-	updateLyr();
-}
-
-function showOpacityLevel(i){
-	$('#opacityOutputId'+ i ).html('Opacity Level:' + $('#opacityId'+ i ).val()+'%');
-}
-
-function updateLyr(){
-	map.removeLayer(lyr);
-	map.addLayer(lyr);
-}
-
-function removeDatasets(){
-	if (layerControl._layers.length == 4) {
-		layerControl.removeLayer(lyr);
-		map.removeLayer(lyr);
-		$("#opacitySlider").remove();
-	}
-}
 
 function visualizeMetadata(result, page){
 	
@@ -324,6 +191,148 @@ function visualizeMetadata(result, page){
 		drawPolygon(res, i, page);
 	};
 }
+
+
+
+function createSubmitHandler(res, j, opacity){
+	$('#showData'+ j).submit(function(e) {
+		spinnerShow(document.getElementById('map'));
+		e.preventDefault();
+	    //Prüfe ob die Eingabefelder für die Marker nicht leer sind
+	    if (
+	    (
+			((radioValue(document.getElementsByName('rgbbool'),j)) == "true") &&
+			($('#rgbselect'+ ((j*3)-2)).val()  !== null) &&
+			($('#rgbselect'+ ((j*3)-1)).val() !== null) &&
+			($('#rgbselect'+ (j*3)).val()  !== null)
+	    ) || (
+			((radioValue(document.getElementsByName('rgbbool'),j)) == "false") &&
+	        ($('#greyselect'+ j).val() !== null))
+		)
+	    {
+    		var redSDNInput = $('<input type="hidden" name="rcdn" value=' + subdataName(res, $('#rgbselect'+ ((j*3)-2)).val(), j) + '>');
+	        var greenSDNInput = $('<input type="hidden" name="gcdn" value=' + subdataName(res, $('#rgbselect'+ ((j*3)-1)).val(), j) + '>');
+	        var blueSDNInput = $('<input type="hidden" name="bcdn" value=' + subdataName(res, $('#rgbselect'+ ((j*3))).val(), j) + '>');
+	        var greySDNInput = $('<input type="hidden" name="gscdn" value=' + subdataName(res, $('#greyselect'+ j).val(), j) + '>');
+
+	        $(this).append(redSDNInput);
+	        $(this).append(greenSDNInput);
+	        $(this).append(blueSDNInput);
+	        $(this).append(greySDNInput);
+	        var that = this;
+
+	        // submit via ajax
+	        $.ajax({
+	          data: $(that).serialize(),
+	          type: $(that).attr('method'),
+	          url:  'http://gis-bigdata.uni-muenster.de:14014/generate?',
+	          error: function(xhr, status, err) {
+	            console.log("Error while loading Data");
+							spinnerHide(document.getElementById('map'));
+	            alert("Error while loading Data");
+	          },
+	          success: function(res) {
+							removeDatasets();
+							spinnerHide(document.getElementById('map'));
+	              console.log("Data successfully loaded.");
+	              lyr = L.tileLayer(
+					'http://gis-bigdata.uni-muenster.de:14014/data/' + res + '/{z}/{x}/{-y}.png',
+					{
+					  tms: true,
+					  continuousWorld: true,
+						opacity: 100,
+					}
+
+				);
+				  layerControl.addOverlay(lyr, "Dataset "+j);
+					map.addLayer(lyr);
+					zoomToLayer(j);
+					$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="'+opacity+'" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: '+opacity+'%</output> </div>');
+					opacityChanger(j);
+					}
+	        });
+	        redSDNInput.remove();
+	        greenSDNInput.remove();
+	        blueSDNInput.remove();
+	        greenSDNInput.remove();
+	    }
+		else
+		{
+    		//console.log("falseeeee: " + j);
+				spinnerHide(document.getElementById('map'));
+	    	alert("Please define requested values before clicking the Show this dataset -Button");
+		}
+	});
+		//console.log("Submit overwritten.")
+}
+
+
+function subdataName(res, value, j){
+	console.log("Started subdataName.");
+	var index = ["B2", "B3", "B4", "B8", "B5", "B6", "B7", "B8a", "B11", "B12", "B1", "B9", "B10"].indexOf(value);
+	console.log(index);
+	if(index < 0){
+		return "";
+	}
+	if(index < 4){
+		return res[j-1].SUBDATASET_1_NAME;
+	}
+	else if (index > 9) {
+		return res[j-1].SUBDATASET_3_NAME;
+	}
+	else
+		return res[j-1].SUBDATASET_2_NAME;
+}
+
+
+function opacityChanger(j){
+	lyr.options.opacity = $('#opacityId'+ j ).val()/100;
+	updateLyr();
+}
+
+function showOpacityLevel(i){
+	$('#opacityOutputId'+ i ).html('Opacity Level:' + $('#opacityId'+ i ).val()+'%');
+}
+
+function coordsToPolygon(load){
+	if(document.getElementById('searchformbybbox_topLat').value != '' &&
+		 document.getElementById('searchformbybbox_bottomLat').value != '' &&
+		 document.getElementById('searchformbybbox_topLong').value != '' &&
+	 		 document.getElementById('searchformbybbox_bottomLong').value != ''){
+	var latlon =
+							[[document.getElementById('searchformbybbox_topLat').value, document.getElementById('searchformbybbox_topLong').value],
+							[document.getElementById('searchformbybbox_topLat').value, document.getElementById('searchformbybbox_bottomLong').value],
+							[document.getElementById('searchformbybbox_bottomLat').value,document.getElementById('searchformbybbox_bottomLong').value],
+							[document.getElementById('searchformbybbox_bottomLat').value , document.getElementById('searchformbybbox_topLong').value]
+							]
+
+	var polygon = L.polygon(latlon).addTo(drawnItems);
+	if(load != "true"){
+		map.fitBounds(polygon.getBounds());
+	}
+	$('#bboxbutton').hide();
+	$('#deleteDrawing').show();
+	}
+	else{
+	$('#bboxbutton').show();
+	$('#deleteDrawing').hide();
+	}
+}
+
+function updateLyr(){
+	map.removeLayer(lyr);
+	map.addLayer(lyr);
+}
+
+function removeDatasets(){
+	if (layerControl._layers.length == 4) {
+		layerControl.removeLayer(lyr);
+		map.removeLayer(lyr);
+		$("#opacitySlider").remove();
+	}
+}
+
+
 
 function stringToCoordArray(coordString){
 	if(coordString != null){
