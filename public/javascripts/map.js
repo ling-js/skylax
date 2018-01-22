@@ -13,6 +13,7 @@ var map, // Map Object
 //SpinnerToggler
 var toggler = false;
 
+//Speichert Ergebnisse nach Laden der Datasets
 var jsonForDatasets =[];
 
 /**
@@ -69,12 +70,12 @@ function initMap() {
   //Feature group where drawn items are saved
   drawnItems = L.featureGroup().addTo(map);
 
+  //Feature group where polygons are shown
   polyLayer = L.featureGroup().addTo(map);
 
 
   map.on(L.Draw.Event.CREATED, function(event) {
     var layer = event.layer;
-
     drawnItems.addLayer(layer);
   });
 
@@ -122,6 +123,11 @@ function getRectangle(corner) {
   return output;
 }
 
+/**
+ * Funktion, die die richtigen Koordinaten ausgibt
+ * @param coord Falsche Koordinaten
+ * @returns richtige Koordinaten
+ */
 function correctCoordinates(coord) {
   if (coord < -180) {
     coord += 360;
@@ -137,8 +143,6 @@ function correctCoordinates(coord) {
 /**
  * Function that is called whenever the inputs need to be
  * erased from the web page (cache)
-
-
  */
 function resetInput() {
   document.getElementById('searchformbybbox_topLat').value = '';
@@ -152,7 +156,7 @@ function resetInput() {
 // Click handler for your button to start drawing polygons
 $(document).ready(function() {
   // Hide the delete button until the draw button is clicked once
-
+  //Resets the input and clears layers
   $('#bboxbutton').click(function() {
     drawnItems.clearLayers();
     rectangleDrawer.enable();
@@ -167,7 +171,7 @@ $(document).ready(function() {
     $('#bboxbutton').show();
     $('#deleteDrawing').hide();
   });
-
+  //Wenn alle BBox Felder ausgefühlt sind, wird coordsToPolygon ausgeführt
   $('#searchformbybbox_bottomLat').change(function(){
     drawnItems.clearLayers();
     $('#bboxbutton').show();

@@ -251,13 +251,18 @@ function convertOffset(x, y, degrees) {
     ];
 }
 
+/**
+* @param target HTML-Element, in dem der Spinner angezeiget werden soll
+*/
 function spinnerShow(target) {
   //Spinner Zeugs
   spinner = new Spinner().spin();
   var spinnerList = target.childNodes;
   for (var i = 0; i < spinnerList.length; i++) {
+    //Wenn durchgelaufen und Spinner nicht aktiviert wurde
     if (i == spinnerList.length - 1 && toggler == false) {
       target.appendChild(spinner.el);
+      //Deaktiviert Funktionen je nach HTML-Element
       if(target == document.getElementById('sidebar')){
         document.getElementById('searchIt').disabled = true;
       }else if(target == document.getElementById('map')){
@@ -271,12 +276,17 @@ function spinnerShow(target) {
   }
 }
 
+/**
+* @param target HTML-Element, in dem der Spinner ausgeblendet werden soll
+*/
 function spinnerHide(target) {
   //Spinner Zeugs
   var spinnerList = target.childNodes;
   for (var i = 0; i < spinnerList.length; i++) {
+    //Wenn durchgelaufen und Spinner aktiviert ist
     if (spinnerList[i].className == 'spinner' && toggler == true) {
       target.removeChild(spinnerList[i]);
+      //Aktiviert Funktionen je nach HTML-Element
       if(target == document.getElementById('sidebar')){
         document.getElementById('searchIt').disabled = false;
       }else if(target == document.getElementById('map')){
