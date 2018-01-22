@@ -1,5 +1,10 @@
+/**
+* Lädt aus dem Permalink die Suchparameter, fügt diese ein ud führt ggf. Suche aus
+*/
 function loadSearch(){
+  //lädt Suchparameter
   var searchParams = new URLSearchParams(window.location.search.slice(1));
+  //Gibt an, wie viele Suchparameter angegeben sind und ob eins ein Dataset ist
   var counter = 0;
   var ds = false;
   for (let i of searchParams) {
@@ -8,7 +13,9 @@ function loadSearch(){
       ds = true;
     }
   }
+  //Wenn Datasets vorhanden sind
   if(counter > 4){
+    //Initalisiert Variablen zum befüllen aus Permalink
     var dsNumber = 0;
     var calcNumber = 0;
     var dsOpacity = [];
@@ -18,6 +25,7 @@ function loadSearch(){
     var dsBandValues = [];
     var dsBtn = [];
     var pagetoview = 1;
+    //Durchläuft alle Suchparameter und lädt Variablen
     for (let i of searchParams) {
       if(i[0] == "ds"){
         var dsRgbBandTemp = [];
@@ -27,11 +35,13 @@ function loadSearch(){
         var dsParams = new URLSearchParams(i[1]);
         for (let j of dsParams) {
           if(j[0] == "calc"){
+            //Lädt alle Variablen, die es in Calc gibt
             var calcParams = new URLSearchParams(j[1]);
             for (let k of calcParams) {
               //hier kommt was mit calculated hin, aber nichts genaues weiß man nicht
             }
           }else{
+            //Lädt alle Variablen, die es in Datasets gibt
             switch(j[0]) {
                 case "n":
                   console.log("Was soll  ich denn damit?" + j[1]);
@@ -93,6 +103,8 @@ function loadSearch(){
             }
           }
         }
+        //Daten werden in Temparrays gespeichert, um dem Format zu entsprechen
+        //Temparray werden in die "richitgen" geschrieben und geleert
         dsBand.push(dsRgbBandTemp);
         dsRgbBandTemp = [];
         dsValuesTemp.push(dsMinValuesTemp);
@@ -102,6 +114,7 @@ function loadSearch(){
         dsMinValuesTemp = [];
         dsMaxValuesTemp = [];
       }else{
+        //Lädt Suchparamter der Suche und Seite, die angezeigt werden soll
         switch(i[0]) {
             case "st":
               $("#searchformbyname_input").val(i[1]);
@@ -127,10 +140,10 @@ function loadSearch(){
       }
     }
     if(ds == true){
+      //Wenn Datasets vorhanden sind, wird hier die Ajax request ausgeführt, um diese erneut zu suchen
       var substring = $("#searchformbyname_input").val();
       var startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
       var enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
-      //var enddate= "";
       var page = 0;
       var bbox="";
       if ($(searchformbybbox_bottomLong).val() != "" && $(searchformbybbox_bottomLat).val() != "" && $(searchformbybbox_topLong).val() != "" && $(searchformbybbox_topLat).val() != ""){
@@ -138,18 +151,26 @@ function loadSearch(){
       }
       var templateurl = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
       pagerInit(templateurl);
-      console.log(pagetoview);
       ajaxrequest(templateurl, pagetoview, dsExpanded, dsBand, dsBtn, dsBandValues, dsVis, dsOpacity);
     }
   }else{
+    //Versteckt Button entsprechend der Such
     $('#bboxbutton').show();
     $('#deleteDrawing').hide();
   }
 }
 
-
-
-
+/**
+ * Die Suche wird ausgeführt, Ergebnisse werde zurückgegeben und verarbeitet
+ *@param templateurl URL für die Suche. Suchparamter wurde schon angefügt
+ *@param pagetoview Die Seite, die anzeigt werden soll
+ *@param expanded Für Permalink: Ist ein Dataset expanded?
+ *@param band Für Permalink: Welches Band ist ausgwählt?
+ *@param btn Für Permalink: Welcher Radiobtn ist ausgewählt?
+ *@param bandValues Für Permalink: Welche Werte sind für die Bänder eingetragen?
+ *@param vis Für Permalink: Welches Dataset ist angezeigt?
+ *@param opacity Für Permalink: Wie ist die Opacity des angezeigten Datasets?
+ */
 function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, vis, opacity){
   $.ajax({
     type: "GET",
@@ -163,17 +184,21 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
           spinnerHide(document.getElementById('sidebar'));
       }},
       success: function (res, status, request) {
+        //Zeigt Paginator an oder auch nicht
         if(res.length == 0){
           $('#page-selection')[0].style.display = "none";
         }else{
           $('#page-selection')[0].style.display = "";
         }
+        //HTML zu den Ergebnissen werden erzeugt
         createHTML(res.L1C, pagetoview, expanded, band, btn, bandValues, vis, opacity);
         page = pageCalculator(request.getResponseHeader('X-Dataset-Count'));
         //$('#resultpanel').show();
         console.dir(res);
         console.dir(res.L1C);
+        //HTML Element mit Metadaten werden erzeugt
         visualizeMetadata(res, pagetoview);
+        //Paginator wird bearbeitet
         $('#page-selection').bootpag({
           total: page,
           page: pagetoview,

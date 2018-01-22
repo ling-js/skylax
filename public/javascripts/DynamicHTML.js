@@ -219,12 +219,13 @@ function visualizeMetadata(result, page){
 	};
 }
 
-
-
+/**
+ *Zeigt und versteckt Elemente
+ *Wird bei den RadioButtons aufgerufen
+ *@param i Element, das gezeigt werden soll
+ *@param j Element, das versteckt werden soll
+ */
 function toggleDrop(i,j){
 	$('#dropd'+i).show();
 	$('#dropd'+j).hide();
 }
-
-
-
