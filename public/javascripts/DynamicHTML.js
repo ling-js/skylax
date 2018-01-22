@@ -229,3 +229,20 @@ function toggleDrop(i,j){
 	$('#dropd'+i).show();
 	$('#dropd'+j).hide();
 }
+
+/**
+ *Gibt die Stelle im Array zurück, in welcher das angegebene Band steht
+ *@param bandArray Array, das durchsucht werden soll
+ *@param band Eintrag, nach dem gesucht werden soll
+ *@return Die Stelle im Array mit dem gesuchten Eintrag
+*/
+function findArray(bandArray, band){
+	var number = 0;
+	for(var i = 0; i<bandArray.length;i++){
+		if(bandArray[i] == band){
+			number = i;
+			break;
+		}
+	}
+	return number;
+}
