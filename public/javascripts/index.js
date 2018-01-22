@@ -555,6 +555,7 @@ function pagerInit(templateurl, expanded){
     ajaxrequest(templateurl, num); // some ajax content loading...
   });
 }
+
 function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, vis, opacity){
   $.ajax({
     type: "GET",
@@ -573,9 +574,11 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
         }else{
           $('#page-selection')[0].style.display = "";
         }
-        createHTML(res, pagetoview, expanded, band, btn, bandValues, vis, opacity);
+        createHTML(res.L1C, pagetoview, expanded, band, btn, bandValues, vis, opacity);
         page = pageCalculator(request.getResponseHeader('X-Dataset-Count'));
         //$('#resultpanel').show();
+        console.dir(res);
+        console.dir(res.L1C);
         visualizeMetadata(res, pagetoview);
         $('#page-selection').bootpag({
           total: page,

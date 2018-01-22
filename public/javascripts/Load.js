@@ -262,11 +262,25 @@ function removeDatasets(){
 	}
 }
 
-function visualizeMetadata(res, page){
+function visualizeMetadata(result, page){
+	
+	// Used for permalinks 
 	jsonForDatasets = [];
+
+	//Used for polygon creation
 	polyLayer.clearLayers();
+
+	res = result.L1C;
+	resL2A = result.L2A;
+
+	//iterate through "res" and create accordions fill them with metadata 
+	//for (i=res.length;)
+
 	for(i=0; i < res.length; i++){
+		
+		//fill array for permalinks
 		jsonForDatasets.push(res[i]);
+		
 		$('#datasetButton' + (i+1)  ).html(
 		"<b> Cloud Coverage Assesment: </b>" + res[i].CLOUD_COVERAGE_ASSESSMENT +  "</br>" +
 		"<b> Datatake Sensing Start: </b>" + res[i].DATATAKE_1_DATATAKE_SENSING_START + "</br>" +
@@ -305,8 +319,9 @@ function visualizeMetadata(res, page){
 		"<b> Subdataset 3 Name: </b>" + res[i].SUBDATASET_3_NAME + "</br>" +
 		"<b> Subdataset 4 Description: </b>" + res[i].SUBDATASET_4_DESC + "</br>" +
 		"<b> Subdataset 4 Name: </b>" + res[i].SUBDATASET_4_NAME + "</br>");
-		var coordArray = stringToCoordArray(res[i].FOOTPRINT);
-		drawPolygon(coordArray, res[i], i, res.length, page);
+		
+		//Use for Polygoncreation
+		drawPolygon(res, i, page);
 	};
 }
 
@@ -325,9 +340,10 @@ function stringToCoordArray(coordString){
 	}
 }
 
-function drawPolygon(coordArray, info, number, resultLength, page){
+function drawPolygon(result, number, page){
+	var coordArray = stringToCoordArray(result[number].FOOTPRINT);
 	if(coordArray != null){
-		var polygon = L.polygon(coordArray, {color: 'red', number:number, resultLength:resultLength});
+		var polygon = L.polygon(coordArray, {color: 'red', number:number, resultLength:result.length});
 		polygon.on('click', openAccordion);
 		polygon.bindTooltip('<p> Dataset '+(((page-1)*8)+(number+1))+'</p>').addTo(map);
 		polygon.addTo(polyLayer);
