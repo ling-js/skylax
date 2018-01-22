@@ -1,3 +1,6 @@
+/** Dynamisch erzeugtes HTML für die Datasets!*/
+
+
 function createHTML(res, pagetoview, expanded, band, btn, bandValues, vis, opacity){
 	$('#one').html("");
 	$('#one').html('<div class="panel-panel-default" id="resultpanel">'
@@ -174,3 +177,12 @@ function visualizeMetadata(result, page){
 		drawPolygon(res, i, page);
 	};
 }
+
+
+
+function toggleDrop(i,j){
+	$('#dropd'+i).show();
+	$('#dropd'+j).hide();
+}
+
+

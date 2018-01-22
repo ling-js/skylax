@@ -200,3 +200,65 @@ $(document).ready(function() {
       coordsToPolygon();
     });
 });
+
+
+function zoomToLayer(j){
+  polyLayer.eachLayer(function(layer){
+    if(layer.options.number == (j-1)){
+      map.fitBounds(layer.getBounds());
+      polyLayer.clearLayers();
+    }
+  });
+//testen hier bug fix, 2. laden geht nicht
+}
+
+function coordsToPolygon(load){
+  if(document.getElementById('searchformbybbox_topLat').value != '' &&
+     document.getElementById('searchformbybbox_bottomLat').value != '' &&
+     document.getElementById('searchformbybbox_topLong').value != '' &&
+       document.getElementById('searchformbybbox_bottomLong').value != ''){
+  var latlon =
+              [[document.getElementById('searchformbybbox_topLat').value, document.getElementById('searchformbybbox_topLong').value],
+              [document.getElementById('searchformbybbox_topLat').value, document.getElementById('searchformbybbox_bottomLong').value],
+              [document.getElementById('searchformbybbox_bottomLat').value,document.getElementById('searchformbybbox_bottomLong').value],
+              [document.getElementById('searchformbybbox_bottomLat').value , document.getElementById('searchformbybbox_topLong').value]
+              ]
+
+  var polygon = L.polygon(latlon).addTo(drawnItems);
+  if(load != "true"){
+    map.fitBounds(polygon.getBounds());
+  }
+  $('#bboxbutton').hide();
+  $('#deleteDrawing').show();
+  }
+  else{
+  $('#bboxbutton').show();
+  $('#deleteDrawing').hide();
+  }
+}
+
+
+function drawPolygon(result, number, page){
+  var coordArray = stringToCoordArray(result[number].FOOTPRINT);
+  if(coordArray != null){
+    var polygon = L.polygon(coordArray, {color: 'red', number:number, resultLength:result.length});
+    polygon.on('click', openAccordion);
+    polygon.bindTooltip('<p> Dataset '+(((page-1)*8)+(number+1))+'</p>').addTo(map);
+    polygon.addTo(polyLayer);
+  }
+}
+
+function stringToCoordArray(coordString){
+  if(coordString != null){
+    var CoordStrLen = coordString.length;
+    var res = coordString.slice(9, CoordStrLen -2);
+    res = res.replace(/,/g,"");
+    res = res.split(" ");
+    var coordArray = [];
+    for(var i = 0; i < res.length-1; i=i+2){
+      var coords = {lat: res[i+1], lng:res[i]};
+      coordArray.push(coords);
+    }
+    return coordArray;
+  }
+}
