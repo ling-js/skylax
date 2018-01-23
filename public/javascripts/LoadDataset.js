@@ -105,7 +105,6 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
  *@param y Y coordniate
  */
   function valueRequest(dname, bname, x, y){
-    console.log(dname);
     spinnerShow(document.getElementById('map'));
     valueLookUpArray = []
     var result =[];
@@ -118,9 +117,6 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
     for(var i = 0; i<bname.length;i++)
     {
       if(bname[i] != null && dname[i] != null){
-
-
-          console.log(i);
         var url = 'http://gis-bigdata.uni-muenster.de:14014/value?';
         var searchParams = new URLSearchParams();
         searchParams.append("d", dname[i]);
@@ -129,7 +125,6 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
           bname[i] = "B0"+bname[i].slice(bname[i].length-1);
         }else if(bname[i] == "B8a"){
           bname[i] = "B8A";
-          //Warten was Specki sagt
         }
         searchParams.append("b", bname[i]);
         searchParams.append("x", x);
