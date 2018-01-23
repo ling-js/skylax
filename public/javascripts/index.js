@@ -16,6 +16,11 @@ $(document).ready(function() {
 
 });
 
+/**
+ * Calculats the pages needed to show all datasets
+ * @param allContents Number of dataset results
+ * @return Number of pages needed
+ */
 function pageCalculator(allContents){
   if(allContents%8 == 0){
     allContents = allContents/8;
@@ -25,6 +30,11 @@ function pageCalculator(allContents){
   return allContents;
 }
 
+/**
+ * Shows or hides the permalink creation button.
+ * Can only be seen in search tab.
+ * @param bool True, if search button is clicked
+ */
 function showSaveBtn(bool){
   if(bool == true){
     if($('#searchTabButton')[0].classList.length > 0){
@@ -42,15 +52,30 @@ function showSaveBtn(bool){
   }
 }
 
+/**
+ * Initialises all required stuff.
+ * Adds options to date selector.
+ * Load every permalink saved things.
+ */
 function initStartup(){
   initOptions();
   $.when(loadHash()).done(loadSearch());
 }
+
+/**
+ * Creates permalink and matches the box it is shown in.
+ */
 function showPermalink(){
   var str = createPermalink();
   matchTextAreaField(str);
 }
 
+/**
+ * Matches the box it is shown in.
+ * Adds the field to the currently active tab.
+ * Creates the field in save tab with needed height.
+ *@param str The permalink
+ */
 function matchTextAreaField(str){
   for(var i = 0; i <$('#sidebar')[0].classList.length;i++){
     if ($('#sidebar')[0].classList[i]  == "collapsed"){
@@ -67,14 +92,21 @@ function matchTextAreaField(str){
   $('#permalink')[0].value = str;
 }
 
-//check if empty
+/**
+ * Creates the permalink
+ *@return The permalink
+ */
 function createPermalink(){
-  var str ="Ich schreibe jetzt ein buch, das ist so wunderschön, nur um zu sehen, dass sich was tut ud ich fände das schän, wenn sich dieses Feld anpassen könnte.";
   var stateobject = createJSONPerma();
   stateobject = createSearchParam(stateobject);
   return addParams(stateobject);
 }
 
+/**
+ * Adds the options from the JSON object to the link and adds the hash
+ *@param stateobject Json Object with all permalink Options
+ *@return The permalink
+ */
 function addParams(stateobject){
   var permalink = new URL(window.location.origin);
   for (let p of stateobject) {
@@ -84,6 +116,11 @@ function addParams(stateobject){
   return permalink;
 }
 
+/**
+ * Creates a JSON Object with all needed options for the permalink.
+ * Gets the values, form the search and the datasets.
+ *@return JSON Object with all the needed options for the Permalink
+ */
 function createJSONPerma(){
   var st = $("#searchformbyname_input").val();
   var ssd = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";    var sed = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
@@ -165,6 +202,11 @@ function createJSONPerma(){
   return {"st":st, "sbox":sbox, "ssd":ssd, "sed":sed, "p":p, "ds":ds};
 }
 
+/**
+ * Creates the Searchparameters for the permalin with all needed options
+ *@param stateobject JSON Object with all needed option
+ *@return Searchparamters with needed options
+ */
 function createSearchParam(stateobject){
     var searchParams = new URLSearchParams();
 
@@ -196,6 +238,9 @@ function createSearchParam(stateobject){
   return searchParams;
 }
 
+/**
+ * Detects the Hash in the given URL and opens the corresponding tab.
+ */
 function loadHash(){
   for (var i = 0; i < $('#sidebar')[0].children[1].children.length; i++) {
     if(window.location.hash == "#"+$('#sidebar')[0].children[1].children[i].id && window.location.hash != "#save"){
@@ -207,7 +252,11 @@ function loadHash(){
   }
 }
 
-
+ /**
+  * The date form the permalink will be selected on load.
+  *@param i The date as a string
+  *@param indi Either "start" or "end" for the date
+  */
 function fillDate(i, indi){
     var date =[];
     date.push(i[1].slice(0,10).split("-"));
@@ -220,6 +269,10 @@ function fillDate(i, indi){
     $("#"+indi+"hour").val(date[1][0]);
 }
 
+/**
+ * Retruns the page number that is active when creating the permalink
+ *@return The current page number or "", when no search was started yet
+ */
 function findPage(){
   if($('#page-selection')["0"].children["0"] != undefined){
     for (var i = 0; i < $('#page-selection')["0"].children["0"].children.length; i++) {
@@ -231,6 +284,11 @@ function findPage(){
   return "";
 }
 
+/**
+ * Seltects the currently slected radio button
+ *@param i Number of the Dataset with the radio buttons
+ *@return A string for the selected button or "" if no button is selected
+ */
 function buttonSelected(i){
   if($('#dropd'+(((i+1)*2)))[0].style.display == "table-cell"){
     return "rgb";
@@ -241,6 +299,13 @@ function buttonSelected(i){
   }
 }
 
+/**
+ * Adds options to the date slector
+ *@param id ID of the date field
+ *@param startInt First Option Value
+ *@param endInt Last Option Value
+ *@param selectedInt Value that should be selcted on creation
+ */
 function addOption(id, startInt, endInt, selectedInt){
   for(var i = startInt; i < endInt+1; i++){
     var val = i;
@@ -254,8 +319,9 @@ function addOption(id, startInt, endInt, selectedInt){
   }
 }
 
-
-
+/**
+ * Adds all options to the date slector on start up
+ */
 function initOptions(){
   addOption("startday",1,31,1);
   addOption("startmonth",1,12,1);
@@ -271,6 +337,10 @@ function initOptions(){
   addOption("endsec",0,59,59);
 }
 
+/**
+ * Compares the 2 date to make sure, the startdate is before the enddate
+ *@return Bool value, true means startdate is before enddate
+ */
 function compareDates(){
   var startDate = createDate("start");
   var endDate = createDate("end");
@@ -281,6 +351,11 @@ function compareDates(){
   }
 }
 
+/**
+ * Checks, if a layer cuurently displayed
+ *@param number Number of the dataset to look for as a layer
+ *@return Bool value, true means the layer with the given number is shown
+ */
 function isALayerDisplayed(number){
 	if (layerControl._layers.length == 4) {
 		if(number+1 == layerControl._layers[3].name.slice(layerControl._layers[3].name.length -1)){
@@ -293,6 +368,11 @@ function isALayerDisplayed(number){
 	}
 }
 
+/**
+ * Checks, if a dataset accordion is expanded or not
+ *@param number Number of the dataset to look for as a accordion
+ *@return String with "in" or "out"
+ */
 function isExpanded(number){
   number++;
   for(var i = 0; i < $('#dataset'+number)[0].classList.length; i++){
@@ -303,8 +383,11 @@ function isExpanded(number){
   return "out";
 }
 
-
-function pagerInit(templateurl, expanded){
+/**
+ * Initialises the Paginator.
+ *@param templateurl URL for the Ajax request
+ */
+function pagerInit(templateurl){
   $('#page-selection').bootpag({
     total: 0,
     page: 0,

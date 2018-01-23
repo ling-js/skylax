@@ -201,7 +201,10 @@ $(document).ready(function() {
     });
 });
 
-
+/**
+ * Zooms to the image of the shown dataset.
+ * @param j Dataset number
+ */
 function zoomToLayer(j){
   polyLayer.eachLayer(function(layer){
     if(layer.options.number == (j-1)){
@@ -212,6 +215,10 @@ function zoomToLayer(j){
 //testen hier bug fix, 2. laden geht nicht
 }
 
+/**
+ * Draws polygon of the bbox search entries
+ * @param load Permalink indicator(true = load on permalink)
+ */
 function coordsToPolygon(load){
   if(document.getElementById('searchformbybbox_topLat').value != '' &&
      document.getElementById('searchformbybbox_bottomLat').value != '' &&
@@ -237,7 +244,12 @@ function coordsToPolygon(load){
   }
 }
 
-
+/**
+ * Draws polygon of a resulting dataset
+ * @param result Metadata of all found metadata
+ * @param number Number of the dataset polygon to disply
+ * @param page Page on which the dataset can be found
+ */
 function drawPolygon(result, number, page){
   var coordArray = stringToCoordArray(result[number].FOOTPRINT);
   if(coordArray != null){
@@ -248,6 +260,11 @@ function drawPolygon(result, number, page){
   }
 }
 
+/**
+ * Gets a string and return a array of coordinates, needed to draw a polyong
+ * @param coordString String that contains coods
+ * @return Coordinates as an array
+ */
 function stringToCoordArray(coordString){
   if(coordString != null){
     var CoordStrLen = coordString.length;
