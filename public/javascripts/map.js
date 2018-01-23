@@ -16,6 +16,9 @@ var toggler = false;
 //Speichert Ergebnisse nach Laden der Datasets
 var jsonForDatasets =[];
 
+//Save Lookup values
+var valueLookUpArray = [];
+
 /**
  * Geosoftware I, SoSe 2017, final
  * @author Jan Speckamp (428367) ,Jens Seifert ,Jasper Buß, Benjamin Karic , Eric Thieme-Garmann
@@ -81,10 +84,7 @@ function initMap() {
 
   map.on('click', function(e) {
     var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
-    map.eachLayer(function(layer){
-      console.log(layer);
-      console.log(layer.options.number);
-    });
+    //console.log(jsonForDatasets);
   });
 
  map.on('draw:created', function(e) {
@@ -291,16 +291,70 @@ function coordsToPolygon(load){
  * @param number Number of the dataset polygon to disply
  * @param page Page on which the dataset can be found
  */
-function drawPolygon(result, number, page){
+function drawPolygon(result, number, page, showNumber, reslength){
   var coordArray = stringToCoordArray(result[number].FOOTPRINT);
   if(coordArray != null){
-    var polygon = L.polygon(coordArray, {color: 'red', number:number, resultLength:result.length});
+    var polygon = L.polygon(coordArray, {color: 'red',number:showNumber, resultLength:reslength});
     polygon.on('click', openAccordion);
-    polygon.bindTooltip('<p> Dataset '+(((page-1)*8)+(number+1))+'</p>').addTo(map);
+    polygon.bindTooltip('<p> Dataset '+(((page-1)*8)+(showNumber+1))+'</p>').addTo(map);
     polygon.addTo(polyLayer);
   }
 }
 
+/**
+ * Displays the value on tile click
+ */
+function initLookUp(e){
+  var x = correctCoordinates(e.latlng.lng);
+  var y = e.latlng.lat;
+  var dname = this.options.dname;
+  var bname = this.options.bname;
+  valueRequest(dname, bname, x, y);
+}
+
+/**
+ * Displays the value on tile click
+ *@param x X coordinate
+ *@param y Y coordniate
+ */
+ function showValue(x, y){
+   var popupMessage = "";
+   if(valueLookUpArray.length == 1){
+     popupMessage += "The value here is " + valueLookUpArray[0];
+   }else{
+     var colors = ["red","green","blue"]
+     for (var i = 0; i < valueLookUpArray.length; i++) {
+       if (i != 0) {
+         popupMessage += " <br> "
+       }
+       popupMessage += "Value of the "+colors[i]+" band is "+valueLookUpArray[i];
+     }
+   }
+   var popup = L.popup()
+     .setLatLng([y, x])
+     .setContent(popupMessage)
+     .openOn(map);
+ }
+/**
+ * Draws an invisible polygon of the displayed dataset
+ * @param resultNum Metadata of the displayed dataset
+ * @param radioBtn "true" or "false" for rgb oder grey
+ */
+function drawInvisPolygon(resultNum, names, bands, radioBtn){
+  var coordArray = stringToCoordArray(jsonForDatasets[resultNum-1].FOOTPRINT);
+  if(coordArray != null){
+    if(radioBtn == "true"){
+        names[3] = null;
+      }else if(radioBtn == "false"){
+        names[0] = null;
+        names[1] = null;
+        names[2] = null;
+      }
+    var polygon = L.polygon(coordArray, {fillOpacity:'0', weight:'0', dname: names, bname:bands});
+    polygon.on('click', initLookUp);
+    polygon.addTo(polyLayer);
+  }
+}
 /**
  * Gets a string and return a array of coordinates, needed to draw a polyong
  * @param coordString String that contains coods

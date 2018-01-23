@@ -36,8 +36,20 @@ function createL1CSubmitHandler(res, j, opacity){
 	        $(this).append(greenSDNInput);
 	        $(this).append(blueSDNInput);
 	        $(this).append(greySDNInput);
-	        var that = this;
 
+					//Array for ValueLookUp
+					var bands = [];
+					bands.push($('#rgbselect'+ ((j*3)-2)).val());
+					bands.push($('#rgbselect'+ ((j*3)-1)).val());
+					bands.push($('#rgbselect'+ ((j*3))).val());
+					bands.push($('#greyselect'+ j).val());
+					var names = [];
+					names.push(redSDNInput[0].value);
+					names.push(greenSDNInput[0].value);
+					names.push(blueSDNInput[0].value);
+					names.push(greySDNInput[0].value);
+
+					var that = this;
 	        // submit via ajax
 	        $.ajax({
 	          data: $(that).serialize(),
@@ -64,6 +76,8 @@ function createL1CSubmitHandler(res, j, opacity){
 				  layerControl.addOverlay(lyr, "Dataset "+j);
 					map.addLayer(lyr);
 					zoomToLayer(j);
+					//ValueLookUp
+					drawInvisPolygon(j, names, bands, (radioValue(document.getElementsByName('rgbbool'),j)));
 					$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="'+opacity+'" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: '+opacity+'%</output> </div>');
 					opacityChanger(j);
 					}
@@ -121,6 +135,18 @@ function createL2ASubmitHandler(res, j, opacity, i){
 	        $(this).append(blueSDNInput);
 	        $(this).append(greySDNInput);
 
+					//Array for ValueLookUp
+					var bands = [];
+					bands.push($('#rgbselect'+ ((j*3)-2)).val());
+					bands.push($('#rgbselect'+ ((j*3)-1)).val());
+					bands.push($('#rgbselect'+ ((j*3))).val());
+					bands.push($('#greyselect'+ j).val());
+					var names = [];
+					names.push(redSDNInput[0].value);
+					names.push(greenSDNInput[0].value);
+					names.push(blueSDNInput[0].value);
+					names.push(greySDNInput[0].value);
+
 	        var that = this;
 	        console.log($(that).serialize());
 	        // submit via ajax
@@ -149,6 +175,8 @@ function createL2ASubmitHandler(res, j, opacity, i){
 				  layerControl.addOverlay(lyr, "Dataset "+j);
 					map.addLayer(lyr);
 					zoomToLayer(j);
+					//ValueLookUp
+					drawInvisPolygon(j, names, bands,(radioValue(document.getElementsByName('rgbbool'),j)));
 					$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="'+opacity+'" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: '+opacity+'%</output> </div>');
 					opacityChanger(j);
 					}
