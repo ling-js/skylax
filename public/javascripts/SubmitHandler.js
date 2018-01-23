@@ -58,7 +58,7 @@ function createL1CSubmitHandler(res, j, opacity){
 	        redSDNInput.remove();
 	        greenSDNInput.remove();
 	        blueSDNInput.remove();
-	        greenSDNInput.remove();
+	        greySDNInput.remove();
 	    }
 		else
 		{
@@ -137,7 +137,7 @@ function createL2ASubmitHandler(res, j, opacity, i){
 	        redSDNInput.remove();
 	        greenSDNInput.remove();
 	        blueSDNInput.remove();
-	        greenSDNInput.remove();
+	        greySDNInput.remove();
 	    }
 		else
 		{
@@ -192,4 +192,3 @@ function radioValue(radios, j){
 	}
 	return "unknown";
 }
-
