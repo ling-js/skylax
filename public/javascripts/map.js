@@ -268,16 +268,25 @@ function showValue(e){
   console.log(x);
   console.log(y);
   console.log(coords);
+  console.log(this.options.bname);
 }
 
 /**
  * Draws an invisible polygon of the displayed dataset
  * @param resultNum Metadata of the displayed dataset
  */
-function drawInvisPolygon(resultNum){
+function drawInvisPolygon(resultNum, radioBtn){
   var coordArray = stringToCoordArray(jsonForDatasets[resultNum-1].FOOTPRINT);
   if(coordArray != null){
-    var polygon = L.polygon(coordArray, {fillOpacity:'0', weight:'0', dname:jsonForDatasets[resultNum-1].PRODUCT_URI});
+    var bandname = [];
+    if(radioBtn == "true"){
+      bandname.push(jsonForDatasets[resultNum-1].SUBDATASET_1_NAME);
+      bandname.push(jsonForDatasets[resultNum-1].SUBDATASET_2_NAME);
+      bandname.push(jsonForDatasets[resultNum-1].SUBDATASET_3_NAME);
+    }else if(radioBtn == "false"){
+      bandname.push(jsonForDatasets[resultNum-1].SUBDATASET_4_NAME);
+    }
+    var polygon = L.polygon(coordArray, {fillOpacity:'0', weight:'0', bname: bandname, dname:jsonForDatasets[resultNum-1].PRODUCT_URI});
     polygon.on('click', showValue);
     polygon.addTo(polyLayer);
   }
