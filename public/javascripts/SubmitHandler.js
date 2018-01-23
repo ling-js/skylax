@@ -1,3 +1,16 @@
+/*(function createTCISubmitHandler(res, j, opacity){
+	$('#showTCI'+ j).submit(function(e) {
+
+	}
+}*/
+
+/**
+ * Erstellt Submithandler für L1C Datasets
+ *
+ *@param res Ergebniss aus Suchanfrage
+ *@param j Index der id des Datasets, zu dem der Submithandler erzeugt werden soll
+ *@param opacity aktuelle opacity-Wert
+ */
 function createL1CSubmitHandler(res, j, opacity){
 	$('#showData'+ j).submit(function(e) {
 		spinnerShow(document.getElementById('map'));
@@ -72,7 +85,13 @@ function createL1CSubmitHandler(res, j, opacity){
 
 
 
-
+/**
+ * Erstellt Submithandler für L2A Datasets
+ *
+ *@param res Ergebniss aus Suchanfrage
+ *@param j Index der id des Datasets, zu dem der Submithandler erzeugt werden soll
+ *@param opacity aktuelle opacity-Wert
+ */
 function createL2ASubmitHandler(res, j, opacity, i){
 	$('#showL2AData'+ j).submit(function(e) {
 		spinnerShow(document.getElementById('map'));
