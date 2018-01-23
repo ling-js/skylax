@@ -49,6 +49,7 @@ html
 
     link(rel='stylesheet', href='/stylesheets/style.css')
 
+
   body
     #map
     #sidebar.sidebar.collapsed
@@ -73,9 +74,9 @@ html
           p The Project Name: “Skylax” is chosen with reference to the german name of Scylax of Caryanda (Greek: Σκύλαξ ο Καρυανδεύς) who was a renowned Greek explorer and writer of the late 6th and early 5th centuries BCE. (source: Wikipedia).
         #search.sidebar-pane
           form#searchform(method='GET')
-            | <b>Search by name:</b>
+            | <b>Search by name:</b>&nbsp;&nbsp;&nbsp;
+            input(id='searchformbyname_input' type='string' placeholder="Enter a search-string")
             br
-            input(id='searchformbyname_input' type='search' placeholder="Enter a search-string")
             br
             | <b>Select start date:</b> 
             br       
@@ -121,22 +122,19 @@ html
               |&nbsp;&nbsp;Seconds:&nbsp;
               select(name='selectesec', id="endsec")
             br    
-            | Top Right Corner:
+            | <b>Top Right Corner:</b>
             br
-            | &nbsp; Lat:&nbsp;&nbsp;&nbsp;&nbsp; 
-            input(id='searchformbybbox_topLat' type='number', placeholder="Latidude of top left corner" size="25" min = '-90' max = '90' step = '0.5')
+            | &nbsp; Latitude:&nbsp;&nbsp;&nbsp;&nbsp; 
+            input(id='searchformbybbox_topLat' type='number', placeholder="" size="25" min = '-90' max = '90' step = '0.5')
+            | &nbsp; Longitude:&nbsp; 
+            input(id='searchformbybbox_topLong' type='number', placeholder="" size="25" min = '-180' max = '180' step = '0.5')
             br
-            | &nbsp; Long:&nbsp; 
-            input(id='searchformbybbox_topLong' type='number', placeholder="Longitude of top left corner" size="25" min = '-180' max = '180' step = '0.5')
+            | <b>Bottom Left Corner:</b>
             br
-            br
-            | Bottom Left Corner:
-            br
-            | &nbsp; Lat:&nbsp;&nbsp;&nbsp;&nbsp; 
-            input(id='searchformbybbox_bottomLat' type='number', placeholder="Latidude of bottom right corner" size="28" min = '-90' max = '90' step = '0.5') 
-            br
-            | &nbsp; Long:&nbsp; 
-            input(id='searchformbybbox_bottomLong' type='number', placeholder="Longitude of bottom right corner" size="28" min = '-180' max = '180' step = '0.5')
+            | &nbsp; Latitude:&nbsp;&nbsp;&nbsp;&nbsp; 
+            input(id='searchformbybbox_bottomLat' type='number', placeholder="" size="28" min = '-90' max = '90' step = '0.5') 
+            | &nbsp; Longitude:&nbsp; 
+            input(id='searchformbybbox_bottomLong' type='number', placeholder="" size="28" min = '-180' max = '180' step = '0.5')
             br
             br
             button.btn.btn-info.btn-xs(type='button', name = 'drawPolygon' id='deleteDrawing', onclick='')

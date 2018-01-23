@@ -176,28 +176,34 @@ $(document).ready(function() {
     drawnItems.clearLayers();
     $('#bboxbutton').show();
     $('#deleteDrawing').hide();
-    coordsToPolygon();
+
+    runWithCorrectCoords();
+
   });
 
   $('#searchformbybbox_topLat').change(function(){
   drawnItems.clearLayers();
   $('#bboxbutton').show();
   $('#deleteDrawing').hide();
-  coordsToPolygon();
+
+  runWithCorrectCoords();
+
+
   });
 
   $('#searchformbybbox_topLong').change(function(){
     drawnItems.clearLayers();
     $('#bboxbutton').show();
     $('#deleteDrawing').hide();
-    coordsToPolygon();
+    runWithCorrectCoords();
   });
 
   $('#searchformbybbox_bottomLong').change(function(){
       drawnItems.clearLayers();
       $('#bboxbutton').show();
       $('#deleteDrawing').hide();
-      coordsToPolygon();
+      runWithCorrectCoords();
+console.log("wieder");
     });
 });
 
@@ -219,6 +225,41 @@ function zoomToLayer(j){
  * Draws polygon of the bbox search entries
  * @param load Permalink indicator(true = load on permalink)
  */
+
+//checks for correct input coordinates
+function runWithCorrectCoords(){
+
+var wrongVal = false;
+
+if(searchformbybbox_bottomLat.value > 90 || searchformbybbox_bottomLat.value < -90){
+alert("falscher Eingabewert");
+document.getElementById('searchformbybbox_bottomLat').value  = "";
+wrongVal = true;
+}
+
+if(searchformbybbox_topLat.value  > 90 || searchformbybbox_topLat.value < - 90 ){
+  alert("falscher Eingabewert");
+document.getElementById('searchformbybbox_topLat').value  = "";
+wrongVal = true;
+}
+
+if(searchformbybbox_topLong.value  > 180 || searchformbybbox_topLong.value < -180){
+  alert("falscher Eingabewert");
+document.getElementById('searchformbybbox_topLong').value  = "";
+wrongVal = true;
+}
+
+if(searchformbybbox_bottomLong.value  > 180 || searchformbybbox_bottomLong.value < -180){
+  alert("falscher Eingabewert");
+document.getElementById('searchformbybbox_bottomLong').value  = "";
+wrongVal = true;
+}
+
+if(! wrongVal){
+coordsToPolygon();
+}
+}
+
 function coordsToPolygon(load){
   if(document.getElementById('searchformbybbox_topLat').value != '' &&
      document.getElementById('searchformbybbox_bottomLat').value != '' &&
