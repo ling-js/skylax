@@ -281,11 +281,12 @@ function initLookUp(e){
    if(valueLookUpArray.length == 1){
      popupMessage += "The value here is " + valueLookUpArray[0];
    }else{
+     var colors = ["red","green","blue"]
      for (var i = 0; i < valueLookUpArray.length; i++) {
        if (i != 0) {
          popupMessage += " <br> "
        }
-       popupMessage += "Value #"+(i+1)+" is "+valueLookUpArray[i];
+       popupMessage += "Value of the "+colors[i]+" band is "+valueLookUpArray[i];
      }
    }
    var popup = L.popup()
