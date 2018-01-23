@@ -1,14 +1,10 @@
-
-
-
-//<select> <option selected="selected" disabled="disabled">Pick a band</option> <option value="1">Band 1</option> <option value="2">Band 2</option> <option value="3">Band 3</option> <option value="4">Band 4</option> <option value="5">Band 5</option> <option value="6">Band 6</option> <option value="7">Band 7</option> <option value="8">Band 8</option> <option value="8a">Band 8a</option> <option value="9">Band 9</option> <option value="10">Band 10</option> <option value="11">Band 11</option> <option value="12">Band 12</option> </select>
-
-//<li class="dropdown btn btn-default"><span class="glyphicon glyphicon-th-list"> Select <span class="caret"></span></span> <ul class="dropdown-menu dropdown-toggle" data-toggle="dropdown"> <li><a href="#">Band 1</a></li> <li> <a href="#">Band 2</a></li> <li><a href="#">Band 3</a></li> <li> <a href="#">Band 4</a></li> <li><a href="#">Band 5</a></li> <li> <a href="#">Band 6</a></li> <li><a href="#">Band 7</a></li> <li> <a href="#">Band 8</a></li> <li><a href="#">Band 8a</a></li> <li><a href="#">Band 9</a></li> <li> <a href="#">Band 10</a></li> <li><a href="#">Band 11</a></li> <li> <a href="#">Band 12</a></li> </ul> </li>
-
-
-
+/**
+* Lädt aus dem Permalink die Suchparameter, fügt diese ein ud führt ggf. Suche aus
+*/
 function loadSearch(){
+  //lädt Suchparameter
   var searchParams = new URLSearchParams(window.location.search.slice(1));
+  //Gibt an, wie viele Suchparameter angegeben sind und ob eins ein Dataset ist
   var counter = 0;
   var ds = false;
   for (let i of searchParams) {
@@ -17,7 +13,9 @@ function loadSearch(){
       ds = true;
     }
   }
+  //Wenn Datasets vorhanden sind
   if(counter > 4){
+    //Initalisiert Variablen zum befüllen aus Permalink
     var dsNumber = 0;
     var calcNumber = 0;
     var dsOpacity = [];
@@ -27,6 +25,7 @@ function loadSearch(){
     var dsBandValues = [];
     var dsBtn = [];
     var pagetoview = 1;
+    //Durchläuft alle Suchparameter und lädt Variablen
     for (let i of searchParams) {
       if(i[0] == "ds"){
         var dsRgbBandTemp = [];
@@ -36,11 +35,13 @@ function loadSearch(){
         var dsParams = new URLSearchParams(i[1]);
         for (let j of dsParams) {
           if(j[0] == "calc"){
+            //Lädt alle Variablen, die es in Calc gibt
             var calcParams = new URLSearchParams(j[1]);
             for (let k of calcParams) {
               //hier kommt was mit calculated hin, aber nichts genaues weiß man nicht
             }
           }else{
+            //Lädt alle Variablen, die es in Datasets gibt
             switch(j[0]) {
                 case "n":
                   console.log("Was soll  ich denn damit?" + j[1]);
@@ -102,6 +103,8 @@ function loadSearch(){
             }
           }
         }
+        //Daten werden in Temparrays gespeichert, um dem Format zu entsprechen
+        //Temparray werden in die "richitgen" geschrieben und geleert
         dsBand.push(dsRgbBandTemp);
         dsRgbBandTemp = [];
         dsValuesTemp.push(dsMinValuesTemp);
@@ -111,6 +114,7 @@ function loadSearch(){
         dsMinValuesTemp = [];
         dsMaxValuesTemp = [];
       }else{
+        //Lädt Suchparamter der Suche und Seite, die angezeigt werden soll
         switch(i[0]) {
             case "st":
               $("#searchformbyname_input").val(i[1]);
@@ -136,10 +140,10 @@ function loadSearch(){
       }
     }
     if(ds == true){
+      //Wenn Datasets vorhanden sind, wird hier die Ajax request ausgeführt, um diese erneut zu suchen
       var substring = $("#searchformbyname_input").val();
       var startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
       var enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
-      //var enddate= "";
       var page = 0;
       var bbox="";
       if ($(searchformbybbox_bottomLong).val() != "" && $(searchformbybbox_bottomLat).val() != "" && $(searchformbybbox_topLong).val() != "" && $(searchformbybbox_topLat).val() != ""){
@@ -147,36 +151,46 @@ function loadSearch(){
       }
       var templateurl = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
       pagerInit(templateurl);
-      console.log(pagetoview);
       ajaxrequest(templateurl, pagetoview, dsExpanded, dsBand, dsBtn, dsBandValues, dsVis, dsOpacity);
     }
   }else{
+    //Versteckt Button entsprechend der Such
     $('#bboxbutton').show();
     $('#deleteDrawing').hide();
   }
 }
 
 
-
-
-
-
+/**
+ *Zeigt die Deckungskraft Level an oder aktualisiert es
+ *@param i Nummer des Datasets, bei dem die Deckungskraft angezeigt werden soll
+*/
 function showOpacityLevel(i){
 	$('#opacityOutputId'+ i ).html('Opacity Level:' + $('#opacityId'+ i ).val()+'%');
 }
 
-
+/**
+ *Aktualisiert die Deckungskraft von angezeigten Datasets.
+ *@param j Nummer des Datasets, bei dem die Opactiy angezeigt werden soll
+*/
 function opacityChanger(j){
 	lyr.options.opacity = $('#opacityId'+ j ).val()/100;
+	//Layer muss geupdatet werden nach Veränderung
 	updateLyr();
 }
 
+/**
+ *Aktualisiert die Deckungskraft von angezeigten Datasets.
+ *Dazu wird das Layer von der Karte entfernt und neu hinzugefügt.
+*/
 function updateLyr(){
 	map.removeLayer(lyr);
 	map.addLayer(lyr);
 }
 
-
+/**
+ *Entfernt das angezeigte Dataset von der Karte, dem Layercontorl und den Opactiyslider, wenn eins vorhanden ist.
+*/
 function removeDatasets(){
 	if (layerControl._layers.length == 4) {
 		layerControl.removeLayer(lyr);
@@ -185,7 +199,9 @@ function removeDatasets(){
 	}
 }
 
-
+/**
+ *Öffnet ein Akkordion. Wird ausgeführt nach Klick auf ein Polygon.
+*/
 function openAccordion(){
 	hash = '#search';
   openTabInSidebar(hash);
@@ -198,23 +214,14 @@ function openAccordion(){
 	}
 }
 
+/**
+ *Öffnet die Sidebar und den angegeben Tab.
+ *@param hash ID des zu öffnenden Tabs
+*/
 function openTabInSidebar(hash) {
 	$(".sidebar-tabs").find(".active").removeClass("active");
 	$("#sidebar").removeClass("collapsed");
 	$(".sidebar-content").find(".active").removeClass("active");
 	$(hash).addClass("active");
 	$(hash+"TabButton").addClass("active");
-}
-
-
-
-function findArray(bandArray, band){
-	var number = 0;
-	for(var i = 0; i<bandArray.length;i++){
-		if(bandArray[i] == band){
-			number = i;
-			break;
-		}
-	}
-	return number;
 }
