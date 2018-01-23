@@ -208,6 +208,8 @@ function openAccordion(){
 	for(var i = 1; i < this.options.resultLength+1; i++){
 		if(i == (this.options.number+1)){
 			$("#dataset"+(this.options.number+1)).collapse('show');
+      var scroll = $("#dataset"+(this.options.number+1))[0].parentNode.offsetTop;
+      $('#scrollero').scrollTop(scroll);
 		}else{
 			$("#dataset"+i).collapse('hide');
 		}
