@@ -250,12 +250,12 @@ function coordsToPolygon(load){
  * @param number Number of the dataset polygon to disply
  * @param page Page on which the dataset can be found
  */
-function drawPolygon(result, number, page){
+function drawPolygon(result, number, page, showNumber, reslength){
   var coordArray = stringToCoordArray(result[number].FOOTPRINT);
   if(coordArray != null){
-    var polygon = L.polygon(coordArray, {color: 'red',number:number, resultLength:result.length});
+    var polygon = L.polygon(coordArray, {color: 'red',number:showNumber, resultLength:reslength});
     polygon.on('click', openAccordion);
-    polygon.bindTooltip('<p> Dataset '+(((page-1)*8)+(number+1))+'</p>').addTo(map);
+    polygon.bindTooltip('<p> Dataset '+(((page-1)*8)+(showNumber+1))+'</p>').addTo(map);
     polygon.addTo(polyLayer);
   }
 }

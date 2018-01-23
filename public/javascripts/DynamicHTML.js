@@ -288,6 +288,9 @@ function visualizeMetadata(result, page){
 	// Used for permalinks
 	jsonForDatasets = [];
 
+	//Number for polygon
+	var number = 0;
+
 	//Used for polygon creation
 	polyLayer.clearLayers();
 
@@ -343,7 +346,8 @@ function visualizeMetadata(result, page){
 		"<b> Subdataset 4 Name: </b>" + res[i].SUBDATASET_4_NAME + "</br>");
 
 		//Use for Polygoncreation
-		drawPolygon(res, i, page);
+		drawPolygon(res, i, page, number, res.length);
+		number++;
 	};
 
 	for(j=res.length; j<(res.length + resL2A.length); j++){
@@ -412,7 +416,8 @@ function visualizeMetadata(result, page){
 		"<b> R60M: </b>" + resL2A[i].R60M +  "</br>");
 
 		//Use for Polygoncreation
-		drawPolygon(resL2A, i, page);
+		drawPolygon(resL2A, i, page, number, (res.length + resL2A.length));
+		number++;
 
  		//Erzeuge select Values für S2A Datasets:
  		var k = j+1;
