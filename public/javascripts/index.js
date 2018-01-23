@@ -254,6 +254,8 @@ function addOption(id, startInt, endInt, selectedInt){
   }
 }
 
+
+
 function initOptions(){
   addOption("startday",1,31,1);
   addOption("startmonth",1,12,1);
