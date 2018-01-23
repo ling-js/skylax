@@ -64,7 +64,7 @@ function createL1CSubmitHandler(res, j, opacity){
 					map.addLayer(lyr);
 					zoomToLayer(j);
 					//ValueLookUp
-					drawInvisPolygon(j, names, bands);
+					drawInvisPolygon(j, names, bands, (radioValue(document.getElementsByName('rgbbool'),j)));
 					$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="'+opacity+'" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: '+opacity+'%</output> </div>');
 					opacityChanger(j);
 					}
@@ -157,7 +157,7 @@ function createL2ASubmitHandler(res, j, opacity, i){
 					map.addLayer(lyr);
 					zoomToLayer(j);
 					//ValueLookUp
-					drawInvisPolygon(j, names, bands);
+					drawInvisPolygon(j, names, bands,(radioValue(document.getElementsByName('rgbbool'),j)));
 					$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="'+opacity+'" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: '+opacity+'%</output> </div>');
 					opacityChanger(j);
 					}

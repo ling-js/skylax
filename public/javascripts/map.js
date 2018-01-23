@@ -298,9 +298,16 @@ function initLookUp(e){
  * @param resultNum Metadata of the displayed dataset
  * @param radioBtn "true" or "false" for rgb oder grey
  */
-function drawInvisPolygon(resultNum, names, bands){
+function drawInvisPolygon(resultNum, names, bands, radioBtn){
   var coordArray = stringToCoordArray(jsonForDatasets[resultNum-1].FOOTPRINT);
   if(coordArray != null){
+    if(radioBtn == "true"){
+        names[3] = null;
+      }else if(radioBtn == "false"){
+        names[0] = null;
+        names[1] = null;
+        names[2] = null;
+      }
     var polygon = L.polygon(coordArray, {fillOpacity:'0', weight:'0', dname: names, bname:bands});
     polygon.on('click', initLookUp);
     polygon.addTo(polyLayer);
