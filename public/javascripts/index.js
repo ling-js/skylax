@@ -136,7 +136,7 @@ function createJSONPerma(){
   }
   for(var i = 0; i< forEnd; i++){
     var tempobj = {};
-    tempobj.n = jsonForDatasets[i].PRODUCT_URI;
+    //tempobj.n = jsonForDatasets[i].PRODUCT_URI;
     var opacity;
     if($('#opacityId'+ (i+1) ).val() == undefined){
       opacity = 100;
@@ -194,7 +194,7 @@ function createJSONPerma(){
     if(tempobj.bcmax == null){
       tempobj.bcmax = 0;
     }*/
-    var tempJSON = {"n":tempobj.n, "o":tempobj.o,"vis":tempobj.vis,"exp":tempobj.exp,"btn":tempobj.btn,"gscdn":tempobj.gscdn,"rcdn":tempobj.rcdn,"gcdn":tempobj.gcdn,"bcdn":tempobj.bcdn,
+    var tempJSON = {/*"n":tempobj.n,*/ "o":tempobj.o,"vis":tempobj.vis,"exp":tempobj.exp,"btn":tempobj.btn,"gscdn":tempobj.gscdn,"rcdn":tempobj.rcdn,"gcdn":tempobj.gcdn,"bcdn":tempobj.bcdn,
       "greymin":tempobj.greymin,"rcmin":tempobj.rcmin,"gcmin":tempobj.gcmin,"bcmin":tempobj.bcmin,"greymax":tempobj.greymax,"rcmax":tempobj.rcmax,"gcmax":tempobj.gcmax,"bcmax":tempobj.bcmax, "calc": calc};
     ds.push(tempJSON);
     calc = [];
