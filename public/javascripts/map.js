@@ -81,10 +81,7 @@ function initMap() {
 
   map.on('click', function(e) {
     var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
-    map.eachLayer(function(layer){
-      console.log(layer);
-      console.log(layer.options.number);
-    });
+    console.log(jsonForDatasets);
   });
 
  map.on('draw:created', function(e) {
@@ -253,13 +250,38 @@ function coordsToPolygon(load){
 function drawPolygon(result, number, page){
   var coordArray = stringToCoordArray(result[number].FOOTPRINT);
   if(coordArray != null){
-    var polygon = L.polygon(coordArray, {color: 'red', number:number, resultLength:result.length});
+    var polygon = L.polygon(coordArray, {color: 'red',number:number, resultLength:result.length});
     polygon.on('click', openAccordion);
     polygon.bindTooltip('<p> Dataset '+(((page-1)*8)+(number+1))+'</p>').addTo(map);
     polygon.addTo(polyLayer);
   }
 }
 
+/**
+ * Displays the value on tile click
+ */
+function showValue(e){
+  var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
+  var x = coords.lng;
+  var y = coords.lat;
+  console.log(this.options.dname);
+  console.log(x);
+  console.log(y);
+  console.log(coords);
+}
+
+/**
+ * Draws an invisible polygon of the displayed dataset
+ * @param resultNum Metadata of the displayed dataset
+ */
+function drawInvisPolygon(resultNum){
+  var coordArray = stringToCoordArray(jsonForDatasets[resultNum-1].FOOTPRINT);
+  if(coordArray != null){
+    var polygon = L.polygon(coordArray, {fillOpacity:'0', weight:'0', dname:jsonForDatasets[resultNum-1].PRODUCT_URI});
+    polygon.on('click', showValue);
+    polygon.addTo(polyLayer);
+  }
+}
 /**
  * Gets a string and return a array of coordinates, needed to draw a polyong
  * @param coordString String that contains coods
