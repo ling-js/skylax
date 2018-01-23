@@ -261,32 +261,40 @@ function drawPolygon(result, number, page){
  * Displays the value on tile click
  */
 function showValue(e){
-  var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
-  var x = coords.lng;
-  var y = coords.lat;
-  console.log(this.options.dname);
-  console.log(x);
-  console.log(y);
-  console.log(coords);
-  console.log(this.options.bname);
+  var x = correctCoordinates(e.latlng.lng);
+  var y = e.latlng.lat;
+  var dname = this.options.dname;
+  var bname = this.options.bname;
+  //spinnerShow(document.getElementById('map'));
+  valueRequest(dname, bname, x, y);
 }
 
 /**
  * Draws an invisible polygon of the displayed dataset
  * @param resultNum Metadata of the displayed dataset
+ * @param radioBtn "true" or "false" for rgb oder grey
  */
-function drawInvisPolygon(resultNum, radioBtn){
+function drawInvisPolygon(resultNum, radioBtn, bands){
+  console.log(bands);
   var coordArray = stringToCoordArray(jsonForDatasets[resultNum-1].FOOTPRINT);
   if(coordArray != null){
     var bandname = [];
     if(radioBtn == "true"){
-      bandname.push(jsonForDatasets[resultNum-1].SUBDATASET_1_NAME);
-      bandname.push(jsonForDatasets[resultNum-1].SUBDATASET_2_NAME);
-      bandname.push(jsonForDatasets[resultNum-1].SUBDATASET_3_NAME);
+      bandname.push("SUBDATASET_1_NAME");
+      bandname.push("SUBDATASET_2_NAME");
+      bandname.push("SUBDATASET_3_NAME");
+      var temp = []
+      temp.push(bands[0]);
+      temp.push(bands[1]);
+      temp.push(bands[2]);
+      bands = temp;
     }else if(radioBtn == "false"){
-      bandname.push(jsonForDatasets[resultNum-1].SUBDATASET_4_NAME);
+      bandname.push("SUBDATASET_4_NAME");
+      var temp = bands[3];
+      bands = [];
+      bands.push(temp);
     }
-    var polygon = L.polygon(coordArray, {fillOpacity:'0', weight:'0', bname: bandname, dname:jsonForDatasets[resultNum-1].PRODUCT_URI});
+    var polygon = L.polygon(coordArray, {fillOpacity:'0', weight:'0', dname: bandname, bname:bands});
     polygon.on('click', showValue);
     polygon.addTo(polyLayer);
   }

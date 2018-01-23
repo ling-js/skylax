@@ -23,6 +23,13 @@ function createL1CSubmitHandler(res, j, opacity){
 	        $(this).append(greenSDNInput);
 	        $(this).append(blueSDNInput);
 	        $(this).append(greySDNInput);
+
+					//Array for ValueLookUp
+					var bands = [];
+					bands.push($('#rgbselect'+ ((j*3)-2)).val());
+					bands.push($('#rgbselect'+ ((j*3)-1)).val());
+					bands.push($('#rgbselect'+ ((j*3))).val());
+					bands.push($('#greyselect'+ j).val());
 	        var that = this;
 
 	        // submit via ajax
@@ -51,7 +58,8 @@ function createL1CSubmitHandler(res, j, opacity){
 				  layerControl.addOverlay(lyr, "Dataset "+j);
 					map.addLayer(lyr);
 					zoomToLayer(j);
-					drawInvisPolygon(j, (radioValue(document.getElementsByName('rgbbool'),j)));
+					//ValueLookUp
+					drawInvisPolygon(j, (radioValue(document.getElementsByName('rgbbool'),j)), bands);
 					$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="'+opacity+'" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: '+opacity+'%</output> </div>');
 					opacityChanger(j);
 					}
@@ -103,6 +111,13 @@ function createL2ASubmitHandler(res, j, opacity, i){
 	        $(this).append(blueSDNInput);
 	        $(this).append(greySDNInput);
 
+					//Array for ValueLookUp
+					var bands = [];
+					bands.push($('#rgbselect'+ ((j*3)-2)).val());
+					bands.push($('#rgbselect'+ ((j*3)-1)).val());
+					bands.push($('#rgbselect'+ ((j*3))).val());
+					bands.push($('#greyselect'+ j).val());
+
 	        var that = this;
 	        console.log($(that).serialize());
 	        // submit via ajax
@@ -131,7 +146,8 @@ function createL2ASubmitHandler(res, j, opacity, i){
 				  layerControl.addOverlay(lyr, "Dataset "+j);
 					map.addLayer(lyr);
 					zoomToLayer(j);
-					drawInvisPolygon(j, (radioValue(document.getElementsByName('rgbbool'),j)));
+					//ValueLookUp
+					drawInvisPolygon(j, (radioValue(document.getElementsByName('rgbbool'),j)), bands);
 					$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="'+opacity+'" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: '+opacity+'%</output> </div>');
 					opacityChanger(j);
 					}
