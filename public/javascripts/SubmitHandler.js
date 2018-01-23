@@ -73,7 +73,7 @@ function createL1CSubmitHandler(res, j, opacity){
 
 
 
-function createL2ASubmitHandler(res, j, opacity){
+function createL2ASubmitHandler(res, j, opacity, i){
 	$('#showL2AData'+ j).submit(function(e) {
 		spinnerShow(document.getElementById('map'));
 		e.preventDefault();
@@ -90,11 +90,11 @@ function createL2ASubmitHandler(res, j, opacity){
 	        ($('#greyselect'+ j).val() !== null))
 		)
 	    {
-    		var redSDNInput = $('<input type="hidden" name="rcdn" value=' + subdataL2AName(res, $('#rgbselect'+ ((j*3)-2)).val(), j) + '>');
+    		var redSDNInput = $('<input type="hidden" name="rcdn" value=' + subdataL2AName(res, $('#rgbselect'+ ((j*3)-2)).val(), i) + '>');
     		console.log('this is #rgbselect'+ ((j*3)-2));
-	        var greenSDNInput = $('<input type="hidden" name="gcdn" value=' + subdataL2AName(res, $('#rgbselect'+ ((j*3)-1)).val(), j) + '>');
-	        var blueSDNInput = $('<input type="hidden" name="bcdn" value=' + subdataL2AName(res, $('#rgbselect'+ (j*3)).val(), j) + '>');
-	        var greySDNInput = $('<input type="hidden" name="gscdn" value=' + subdataL2AName(res, $('#greyselect'+ j).val(), j) + '>');
+	        var greenSDNInput = $('<input type="hidden" name="gcdn" value=' + subdataL2AName(res, $('#rgbselect'+ ((j*3)-1)).val(), i) + '>');
+	        var blueSDNInput = $('<input type="hidden" name="bcdn" value=' + subdataL2AName(res, $('#rgbselect'+ (j*3)).val(), i) + '>');
+	        var greySDNInput = $('<input type="hidden" name="gscdn" value=' + subdataL2AName(res, $('#greyselect'+ j).val(), i) + '>');
 	        console.log('this is #greyselect'+ j);
 
 	        $(this).append(redSDNInput);
@@ -172,6 +172,7 @@ function subdataL1CName(res, value, j){
 function subdataL2AName(res, value, j){
 	console.log("Started subdataName.");
 	console.log(value);
+	console.log(res);
 	if(value == null){
 		return "";
 	}

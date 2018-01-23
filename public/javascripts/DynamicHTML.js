@@ -43,11 +43,12 @@ function createHTML(result, pagetoview, expanded, band, btn, bandValues, vis, op
 			 $('#showData'+j).submit();
 		 }
 	}
-	for(j=L1Clength; j<(reslength+1); j++){
-		 createL2ASubmitHandler(result.L2A, j, opacity[j-1]);
-		 if(vis[j-1] == "true"){
+	for(j=L1Clength+1; j<(reslength+1); j++){
+		var i = j-L1Clength;
+		createL2ASubmitHandler(result.L2A, j, opacity[j-1], i);
+		if(vis[j-1] == "true"){
 			 $('#showData'+j).submit();
-		 }
+		}
 	}
 }
 
