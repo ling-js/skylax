@@ -169,13 +169,13 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 										greyBand = constArray;
 	}
 
-	
+
 
 	for(i=length+1;i < (length+length2+1); i++){
 
 		//Setzt band auf Standardwerte, wenn nicht angegeben
 		if (band == undefined || band.length == 0){
-			band = [];	
+			band = [];
 		}
 		if(band[i] == undefined || band.length < length+1) {
 			zerArr = ["0","0","0","0"];
@@ -184,7 +184,7 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 				band[j].push(zerArr);
 			}
 		}
-		
+
 		//verändert die Array für die Bänder, damit das richitge selected wird
 		//var constArray = ["0","B1","B2","B3","B4","B5","B6","B7","B8","B8a","B9","B10","B11","B12"];
 		var redBand = arr10m.concat(arr20m, arr60m);
@@ -219,14 +219,14 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 			for (var j = length; j < length+length2; j++) {
 				btn.push(["false","false"]);
 			}
-		} 
+		}
 		//Setzt expanded auf Standardwerte, wenn nicht angegeben
 		if(expanded == undefined){
 			expanded = [];
 			expanded[i-1] = "out";
 		}
 		//Setzt bandvalues auf Standardwerte, wenn nicht angegeben
-		
+
 		if(bandValues == undefined || bandValues.length == 0){
 			bandValues = [];
 		}
@@ -264,7 +264,7 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 										greenBand = constArray;
 										blueBand = constArray;
 										greyBand = constArray;*/
-										
+
 	}
 
 
@@ -293,9 +293,9 @@ function visualizeMetadata(result, page){
 
 	var res = result.L1C;
 	var resL2A = result.L2A;
-	
+
 	//iterate through "res" and create accordions fill them with metadata
-	
+
 
 	for(i=0; i < res.length; i++){
 
@@ -348,6 +348,9 @@ function visualizeMetadata(result, page){
 
 	for(j=res.length; j<(res.length + resL2A.length); j++){
 		var i = j - res.length;
+
+		//fill array for permalinks
+		jsonForDatasets.push(resL2A[i]);
 		$('#datasetButton' + (j+1)  ).html(
 		"<b> AOT Retrieval Accuracy: </b>" + resL2A[i].AOT_RETRIEVAL_ACCURACY +  "</br>" +
 		"<b> Bare Soils Percentage: </b>" + resL2A[i].BARE_SOILS_PERCENTAGE +  "</br>" +
@@ -407,9 +410,11 @@ function visualizeMetadata(result, page){
 		"<b> R10M: </b>" + resL2A[i].R10M +  "</br>" +
 		"<b> R20M: </b>" + resL2A[i].R20M +  "</br>" +
 		"<b> R60M: </b>" + resL2A[i].R60M +  "</br>");
-		
- 		
- 		//Erzeuge select Values für S2A Datasets: 
+
+		//Use for Polygoncreation
+		drawPolygon(resL2A, i, page);
+
+ 		//Erzeuge select Values für S2A Datasets:
  		var k = j+1;
  		var arr10m = ["Resolution 10 Meter:", "R10M", "Band AOT", 0, "Band 2", 1, "Band 3", 2 , "Band 4", 3, "Band TCI", 5,  "Band WVP", 6 , "Band 8", 4];
 		var arr20m = ["Resolution 20 Meter:", "R20M", "Band AOT", 0, "Band 2", 1, "Band 3", 2 , "Band 4", 3, "Band 5", 4, "Band 6", 5, "Band 7", 6, "Band SCL", 10, "Band 8a", 9, "Band TCI", 11, "Band 11", 7, "Band 12", 8, "Band VIS", 12, "Band WVP", 13];
@@ -431,7 +436,7 @@ function visualizeMetadata(result, page){
 }
 
 
-function addL2AOptions(result, id, array, j){  
+function addL2AOptions(result, id, array, j){
   for(var i = 0; i < array.length; i = i + 2){
    $("#"+id)[0].options[$("#"+id)[0].options.length] = new Option(array[i], result[j][array[1]][array[i+1]]);
    if(i == 0){
