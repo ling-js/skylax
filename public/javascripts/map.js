@@ -16,6 +16,9 @@ var toggler = false;
 //Speichert Ergebnisse nach Laden der Datasets
 var jsonForDatasets =[];
 
+//Save Lookup values
+var valueLookUpArray = [];
+
 /**
  * Geosoftware I, SoSe 2017, final
  * @author Jan Speckamp (428367) ,Jens Seifert ,Jasper Buß, Benjamin Karic , Eric Thieme-Garmann
@@ -81,7 +84,7 @@ function initMap() {
 
   map.on('click', function(e) {
     var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
-    console.log(jsonForDatasets);
+    //console.log(jsonForDatasets);
   });
 
  map.on('draw:created', function(e) {
@@ -260,42 +263,46 @@ function drawPolygon(result, number, page){
 /**
  * Displays the value on tile click
  */
-function showValue(e){
+function initLookUp(e){
   var x = correctCoordinates(e.latlng.lng);
   var y = e.latlng.lat;
   var dname = this.options.dname;
   var bname = this.options.bname;
-  //spinnerShow(document.getElementById('map'));
   valueRequest(dname, bname, x, y);
 }
 
+/**
+ * Displays the value on tile click
+ *@param x X coordinate
+ *@param y Y coordniate
+ */
+ function showValue(x, y){
+   var popupMessage = "";
+   if(valueLookUpArray.length == 1){
+     popupMessage += "The value here is " + valueLookUpArray[0];
+   }else{
+     for (var i = 0; i < valueLookUpArray.length; i++) {
+       if (i != 0) {
+         popupMessage += " <br> "
+       }
+       popupMessage += "Value #"+(i+1)+" is "+valueLookUpArray[i];
+     }
+   }
+   var popup = L.popup()
+     .setLatLng([y, x])
+     .setContent(popupMessage)
+     .openOn(map);
+ }
 /**
  * Draws an invisible polygon of the displayed dataset
  * @param resultNum Metadata of the displayed dataset
  * @param radioBtn "true" or "false" for rgb oder grey
  */
-function drawInvisPolygon(resultNum, radioBtn, bands){
-  console.log(bands);
+function drawInvisPolygon(resultNum, names, bands){
   var coordArray = stringToCoordArray(jsonForDatasets[resultNum-1].FOOTPRINT);
   if(coordArray != null){
-    var bandname = [];
-    if(radioBtn == "true"){
-      bandname.push("SUBDATASET_1_NAME");
-      bandname.push("SUBDATASET_2_NAME");
-      bandname.push("SUBDATASET_3_NAME");
-      var temp = []
-      temp.push(bands[0]);
-      temp.push(bands[1]);
-      temp.push(bands[2]);
-      bands = temp;
-    }else if(radioBtn == "false"){
-      bandname.push("SUBDATASET_4_NAME");
-      var temp = bands[3];
-      bands = [];
-      bands.push(temp);
-    }
-    var polygon = L.polygon(coordArray, {fillOpacity:'0', weight:'0', dname: bandname, bname:bands});
-    polygon.on('click', showValue);
+    var polygon = L.polygon(coordArray, {fillOpacity:'0', weight:'0', dname: names, bname:bands});
+    polygon.on('click', initLookUp);
     polygon.addTo(polyLayer);
   }
 }

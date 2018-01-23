@@ -30,8 +30,13 @@ function createL1CSubmitHandler(res, j, opacity){
 					bands.push($('#rgbselect'+ ((j*3)-1)).val());
 					bands.push($('#rgbselect'+ ((j*3))).val());
 					bands.push($('#greyselect'+ j).val());
-	        var that = this;
+					var names = [];
+					names.push(redSDNInput[0].value);
+					names.push(greenSDNInput[0].value);
+					names.push(blueSDNInput[0].value);
+					names.push(greySDNInput[0].value);
 
+					var that = this;
 	        // submit via ajax
 	        $.ajax({
 	          data: $(that).serialize(),
@@ -59,7 +64,7 @@ function createL1CSubmitHandler(res, j, opacity){
 					map.addLayer(lyr);
 					zoomToLayer(j);
 					//ValueLookUp
-					drawInvisPolygon(j, (radioValue(document.getElementsByName('rgbbool'),j)), bands);
+					drawInvisPolygon(j, names, bands);
 					$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="'+opacity+'" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: '+opacity+'%</output> </div>');
 					opacityChanger(j);
 					}
@@ -117,6 +122,11 @@ function createL2ASubmitHandler(res, j, opacity, i){
 					bands.push($('#rgbselect'+ ((j*3)-1)).val());
 					bands.push($('#rgbselect'+ ((j*3))).val());
 					bands.push($('#greyselect'+ j).val());
+					var names = [];
+					names.push(redSDNInput[0].value);
+					names.push(greenSDNInput[0].value);
+					names.push(blueSDNInput[0].value);
+					names.push(greySDNInput[0].value);
 
 	        var that = this;
 	        console.log($(that).serialize());
@@ -147,7 +157,7 @@ function createL2ASubmitHandler(res, j, opacity, i){
 					map.addLayer(lyr);
 					zoomToLayer(j);
 					//ValueLookUp
-					drawInvisPolygon(j, (radioValue(document.getElementsByName('rgbbool'),j)), bands);
+					drawInvisPolygon(j, names, bands);
 					$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="'+opacity+'" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: '+opacity+'%</output> </div>');
 					opacityChanger(j);
 					}
