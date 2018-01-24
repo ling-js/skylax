@@ -46,9 +46,6 @@ function createHTML(result, pagetoview, expanded, band, btn, bandValues, vis, op
 	for(j=L1Clength+1; j<(reslength+1); j++){
 		var i = j-L1Clength;
 		createL2ASubmitHandler(result.L2A, j, opacity[j-1], i);
-		if(vis[j-1] == "true"){
-			 $('#showL2AData'+j).submit();
-		}
 	}
 }
 
@@ -426,10 +423,9 @@ function visualizeMetadata(result, page, band, vis){
 			}
 		}
 		if(vis[j] == "true"){
-			console.log(j);
-				 $('#showL2AData'+(j+1)).submit();
-			}
+			$('#showL2AData'+(j+1)).submit();
 		}
+	}
 }
 
 
