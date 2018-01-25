@@ -69,7 +69,7 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
         createHTML(res, pagetoview, expanded, band, btn, bandValues, vis, opacity);
         page = pageCalculator(request.getResponseHeader('X-Dataset-Count'));
         //HTML Element mit Metadaten werden erzeugt
-        visualizeMetadata(res, pagetoview);
+        visualizeMetadata(res, pagetoview, band, vis);
         //Paginator wird bearbeitet
         $('#page-selection').bootpag({
           total: page,

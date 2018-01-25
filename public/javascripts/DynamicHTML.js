@@ -51,6 +51,7 @@ function createHTML(result, pagetoview, expanded, band, btn, bandValues, vis, op
 		if(vis[j-1] == "true"){
 			 $('#showL2AData'+j).submit();
 		}
+
 	}
 }
 
@@ -75,7 +76,7 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 
 	for(i=1;i < length+1; i++){
 		//Setzt band auf Standardwerte, wenn nicht angegeben
-		if (band == undefined || band.length == 0) {
+		if (band == undefined || band.length == 0 || band.length < length) {
 			band = [];
 			zerArr = ["0","0","0","0"];
 			for (var j = 0; j < length; j++) {
@@ -172,38 +173,17 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 	}
 
 
-
 	for(i=length+1;i < (length+length2+1); i++){
 
 		//Setzt band auf Standardwerte, wenn nicht angegeben
-		if (band == undefined || band.length == 0){
+		if (band == undefined || band.length == 0 || band.length < (length+length2)) {
 			band = [];
-		}
-		if(band[i] == undefined || band.length < length+1) {
 			zerArr = ["0","0","0","0"];
-			for (var j = length; j < (length+length2); j++) {
+			for (var j = 0; j < (length+length2); j++) {
 				band[j] = [];
 				band[j].push(zerArr);
 			}
 		}
-
-		//verändert die Array für die Bänder, damit das richitge selected wird
-		//var constArray = ["0","B1","B2","B3","B4","B5","B6","B7","B8","B8a","B9","B10","B11","B12"];
-		var redBand = arr10m.concat(arr20m, arr60m);
-		var redNumber = findArray(redBand,band[i-1][1]);
-		redBand[redNumber] = redBand[redNumber] + '" selected="selected';
-		//constArray = ["0","B1","B2","B3","B4","B5","B6","B7","B8","B8a","B9","B10","B11","B12"];
-		var greenBand = arr10m.concat(arr20m, arr60m);
-		var greenNumber = findArray(greenBand,band[i-1][2]);
-		greenBand[greenNumber] = greenBand[greenNumber] + '" selected="selected';
-		//constArray = ["0","B1","B2","B3","B4","B5","B6","B7","B8","B8a","B9","B10","B11","B12"];
-		var blueBand = arr10m.concat(arr20m, arr60m);
-		var blueNumber = findArray(blueBand,band[i-1][3]);
-		blueBand[blueNumber] = blueBand[blueNumber] + '" selected="selected';
-		//constArray = ["0","B1","B2","B3","B4","B5","B6","B7","B8","B8a","B9","B10","B11","B12"];
-		var greyBand = arr10m.concat(arr20m, arr60m);
-		var greyNumber = findArray(greyBand,band[i-1][0]);
-		greyBand[greyNumber] = greyBand[greyNumber] + '" selected="selected';
 		//Setzt btn auf Standardwerte, wenn nicht angegeben
 		//Ansonsten werden die Werte übernommen und gesetzt
 		var rgbChecked = "";
@@ -286,7 +266,7 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
  *@param res Ergebnisse aus Suchanfrage
  *@param page Aktuelle Seitenzahl
  */
-function visualizeMetadata(result, page){
+function visualizeMetadata(result, page, band, vis){
 
 	// Used for permalinks
 	jsonForDatasets = [];
@@ -427,29 +407,51 @@ function visualizeMetadata(result, page){
  		var arr10m = ["Resolution 10 Meter:", "R10M", "Band AOT", 0, "Band 2", 1, "Band 3", 2 , "Band 4", 3, "Band TCI", 5,  "Band WVP", 6 , "Band 8", 4];
 		var arr20m = ["Resolution 20 Meter:", "R20M", "Band AOT", 0, "Band 2", 1, "Band 3", 2 , "Band 4", 3, "Band 5", 4, "Band 6", 5, "Band 7", 6, "Band SCL", 10, "Band 8a", 9, "Band TCI", 11, "Band 11", 7, "Band 12", 8, "Band VIS", 12, "Band WVP", 13];
 		var arr60m = ["Resolution 60 Meter:", "R60M", "Band AOT", 0, "Band 1", 1, "Band 2", 2, "Band 3", 3, "Band 4", 4, "Band 5", 5, "Band 6", 6, "Band 7", 7, "Band 9", 8, "Band 11", 9, "Band 12", 10, "Band 8a", 11, "Band SCL", 12, "Band TCI", 13, "Band WVP", 14]
-		addL2AOptions(resL2A, ("rgbselect"+((k*3)-2)), arr10m, i);
-		addL2AOptions(resL2A, ("rgbselect"+((k*3)-2)), arr20m, i);
-		addL2AOptions(resL2A, ("rgbselect"+((k*3)-2)), arr60m, i);
-		addL2AOptions(resL2A, ("rgbselect"+((k*3)-1)), arr10m, i);
-		addL2AOptions(resL2A, ("rgbselect"+((k*3)-1)), arr20m, i);
-		addL2AOptions(resL2A, ("rgbselect"+((k*3)-1)), arr60m, i);
-		addL2AOptions(resL2A, ("rgbselect"+(k*3)), arr10m, i);
-		addL2AOptions(resL2A, ("rgbselect"+(k*3)), arr20m, i);
-		addL2AOptions(resL2A, ("rgbselect"+(k*3)), arr60m, i);
-		addL2AOptions(resL2A, ("greyselect"+k), arr10m, i);
-		addL2AOptions(resL2A, ("greyselect"+k), arr20m, i);
-		addL2AOptions(resL2A, ("greyselect"+k), arr60m, i);
-
+		addL2AOptions(resL2A, ("rgbselect"+((k*3)-2)), arr10m, i, band);
+		addL2AOptions(resL2A, ("rgbselect"+((k*3)-2)), arr20m, i,band);
+		addL2AOptions(resL2A, ("rgbselect"+((k*3)-2)), arr60m, i,band);
+		addL2AOptions(resL2A, ("rgbselect"+((k*3)-1)), arr10m, i,band);
+		addL2AOptions(resL2A, ("rgbselect"+((k*3)-1)), arr20m, i,band);
+		addL2AOptions(resL2A, ("rgbselect"+((k*3)-1)), arr60m, i,band);
+		addL2AOptions(resL2A, ("rgbselect"+(k*3)), arr10m, i,band);
+		addL2AOptions(resL2A, ("rgbselect"+(k*3)), arr20m, i,band);
+		addL2AOptions(resL2A, ("rgbselect"+(k*3)), arr60m, i,band);
+		addL2AOptions(resL2A, ("greyselect"+k), arr10m, i,band);
+		addL2AOptions(resL2A, ("greyselect"+k), arr20m, i,band);
+		addL2AOptions(resL2A, ("greyselect"+k), arr60m, i,band);
 	};
+
+	//Submit for L2A Datasets
+	for(j=res.length; j<(res.length + resL2A.length); j++){
+		if(vis == undefined){
+			vis = [];
+			for(var k = 0; k<(res.length + resL2A.length);k++){
+				vis.push("false");
+			}
+		}
+		if(vis[j] == "true"){
+			$('#showL2AData'+(j+1)).submit();
+		}
+	}
 }
 
 
-function addL2AOptions(result, id, array, j){
+function addL2AOptions(result, id, array, j, band){
   for(var i = 0; i < array.length; i = i + 2){
-   $("#"+id)[0].options[$("#"+id)[0].options.length] = new Option(array[i], result[j][array[1]][array[i+1]]);
+   $("#"+id)[0].options[$("#"+id)[0].options.length] = new Option(array[i],result[j][array[1]][array[i+1]]);
    if(i == 0){
      $("#"+id)[0].options[$("#"+id)[0].options.length-1].disabled = "true";
    }
+	 //Selector for permalink
+	 if(band != undefined){
+		 for (var k = 0; k < band.length; k++) {
+			 for(var m = 0; m<band[k].length;m++){
+				 if(band[k][m] == result[j][array[1]][array[i+1]]){
+				    $("#"+id)[0].options[$("#"+id)[0].options.length-1].selected = "selected";
+				 }
+			 }
+		 }
+	 }
   }
 }
 
