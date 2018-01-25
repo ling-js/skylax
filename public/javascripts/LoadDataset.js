@@ -87,6 +87,11 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
           lastClass: 'last',
           firstClass: 'first'
         });
+        if(page == 0){
+          $("#page-selection")[0].children[0].style.display = "none";
+        }else{
+          $("#page-selection")[0].children[0].style.display = "";
+        }
         spinnerHide(document.getElementById('sidebar'));
       },
       error: function(xhr, status, error) {

@@ -125,16 +125,16 @@ html
             | <b>Top Right Corner:</b>
             br
             | &nbsp; Latitude:&nbsp;&nbsp;&nbsp;&nbsp; 
-            input(id='searchformbybbox_topLat' type='number', placeholder="" size="25" min = '-90' max = '90' step = '0.5')
+            input(id='searchformbybbox_topLat' type='number', placeholder="" size="25" min = '-90' max = '90' step = 'any')
             | &nbsp; Longitude:&nbsp; 
-            input(id='searchformbybbox_topLong' type='number', placeholder="" size="25" min = '-180' max = '180' step = '0.5')
+            input(id='searchformbybbox_topLong' type='number', placeholder="" size="25" min = '-180' max = '180' step = 'any')
             br
             | <b>Bottom Left Corner:</b>
             br
             | &nbsp; Latitude:&nbsp;&nbsp;&nbsp;&nbsp; 
-            input(id='searchformbybbox_bottomLat' type='number', placeholder="" size="28" min = '-90' max = '90' step = '0.5') 
+            input(id='searchformbybbox_bottomLat' type='number', placeholder="" size="28" min = '-90' max = '90' step = 'any') 
             | &nbsp; Longitude:&nbsp; 
-            input(id='searchformbybbox_bottomLong' type='number', placeholder="" size="28" min = '-180' max = '180' step = '0.5')
+            input(id='searchformbybbox_bottomLong' type='number', placeholder="" size="28" min = '-180' max = '180' step = 'any')
             br
             br
             button.btn.btn-info.btn-xs(type='button', name = 'drawPolygon' id='deleteDrawing', onclick='')
