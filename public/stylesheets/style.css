@@ -178,4 +178,14 @@ html,body {
     border-top-color: #fff;
     border-bottom-color: #fff;
   }
+  div#showTCI1 {
+   overflow: hidden;
+  }
+ 
+  #showTCI1 a {
+     display: block;
+     height: 150px;
+}
+
+
 }

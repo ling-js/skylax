@@ -1,8 +1,64 @@
-/*(function createTCISubmitHandler(res, j, opacity){
-	$('#showTCI'+ j).submit(function(e) {
+function createTCISubmitHandler(res, j, i){
+	$('#showTCI'+ j).click(function(e) {
+		e.preventDefault();
+		
+		console.dir(res[j-1]);
+		console.log(i);
+		console.dir(res[i-1]);
+		if(res[j-1] == undefined){
+			console.log(j-1);
+			var datasetName = "&gscdn="+ res[i-1].PRODUCT_URI_2A;
+			var bandname = "&gsc=" + res[i-1].R20M[11];
+			var that = "tci=true&rgbbool=false&l2a=true";
+			that += datasetName;
+			that += bandname;
+		}
+		else {
+			var datasetName = "&gscdn="+ res[j-1].SUBDATASET_4_NAME;
+			var that = "tci=true&rgbbool=false&gsc=TCI&l2a=false";
+			that += datasetName;
+		}
+		//console.dir($(this).serialize());
+		console.log(that);
+	        // submit via ajax
+	        $.ajax({
+	        	data: that,
+	        	type: "POST",
+	        	url:  'http://gis-bigdata.uni-muenster.de:14014/generate?',
+	        	error: function(xhr, status, err) {
+		            console.log("Error while loading Data");
+					spinnerHide(document.getElementById('map'));
+		            alert("Error while loading Data");
+	          	},
+	          	success: function(res) {
+					//remove all Datasets that were visualized before
+					removeDatasets();
+					//end of Spinner visualization
+					//spinnerHide(document.getElementById('map'));
+	            	console.log("Data successfully loaded.");
 
-	}
-}*/
+	            	// create lyr with requested data
+	            	lyr = L.tileLayer(
+						'http://gis-bigdata.uni-muenster.de:14014/data/' + res + '/{z}/{x}/{-y}.png',
+						{
+						  tms: true,
+						  continuousWorld: true,
+							opacity: 100,
+						}
+
+					);
+		            // add layer to Map and name it like the Dataset it was requested from 
+					layerControl.addOverlay(lyr, "Dataset "+j);
+					map.addLayer(lyr);
+					zoomToLayer(j);
+					//ValueLookUp
+					//drawInvisPolygon(j, names, bands, (radioValue(document.getElementsByName('rgbbool'),j)));
+					//$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="'+opacity+'" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: '+opacity+'%</output> </div>');
+					//opacityChanger(j);
+				}
+	        });
+	});
+}
 
 /**
  * Erstellt Submithandler für L1C Datasets

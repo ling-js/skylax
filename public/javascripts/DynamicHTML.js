@@ -39,6 +39,7 @@ function createHTML(result, pagetoview, expanded, band, btn, bandValues, vis, op
 	//Erstellt Sumbit Buttons für jedes Dataset
 	for(j=1; j<(L1Clength+1); j++){
 		 createL1CSubmitHandler(result.L1C, j, opacity[j-1]);
+		 createTCISubmitHandler(result.L1C, j, 0);
 		 if(vis[j-1] == "true"){
 			 $('#showData'+j).submit();
 		 }
@@ -46,6 +47,7 @@ function createHTML(result, pagetoview, expanded, band, btn, bandValues, vis, op
 	for(j=L1Clength+1; j<(reslength+1); j++){
 		var i = j-L1Clength;
 		createL2ASubmitHandler(result.L2A, j, opacity[j-1], i);
+		createTCISubmitHandler(result.L2A, j, i);
 		if(vis[j-1] == "true"){
 			 $('#showL2AData'+j).submit();
 		}
@@ -136,7 +138,7 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 		//Erstellst ein Akkordion mit Namen,ggf. ausgefahren
 		$('#one').html($('#one').html() + '<div class="panel panel-default"> <a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"><div class="panel-heading"><span class="glyphicon glyphicon-open" aria-hidden="true"></span> Dataset '+ (8*(pagetoview-1)+i) +'</div></a><span class="panel-body panel-collapse collapse '+expanded[i-1]+'" id="dataset'+i+'"> <p id="quality" style="padding: 15px; padding-bottom:0px">Metadata:</p> <p id="datasetButton'+i+'" style="padding: 15px; padding-top: 0px"></p> '
 										//Erstellt Radiobuttons,ggf. angeklickt,mit den dazugehörigen bandValues, ggf. wird eins schon vorher ausgewählt
-										+ ' <form class="colorform" id="showData' + i + '" method="POST"> <container> <input id="rgb'+i+'" type="radio" name="rgbbool" value="true" '+rgbChecked+' onclick="toggleDrop('+(i*2)+','+((i*2)+1)+')"/> RGB<br/> <label for="rgb" class="dropd" id="dropd'+(i*2)+'"> '
+										+ ' <form class="colorform" id="showData' + i + '" method="POST"> <div> <button id="showTCI'+ i +'"> Show True Color Image  </button> <br/> <br/> </div> <container> <input id="rgb'+i+'" type="radio" name="rgbbool" value="true" '+rgbChecked+' onclick="toggleDrop('+(i*2)+','+((i*2)+1)+')"/> RGB<br/> <label for="rgb" class="dropd" id="dropd'+(i*2)+'"> '
 										+ ' Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <select name="rcn" id="rgbselect' + ((i*3)-2)+ '"> <option disabled="disabled" value="'+redBand[0]+'">Pick a band</option> <option value="'+redBand[1]+'">Band 1</option> <option value="'+redBand[2]+'">Band 2</option> <option value="'+redBand[3]+'">Band 3</option> <option value="'+redBand[4]+'">Band 4</option> <option value="'+redBand[5]+'">Band 5</option> <option value="'+redBand[6]+'">Band 6</option> <option value="'+redBand[7]+'">Band 7</option> <option value="'+redBand[8]+'">Band 8</option> <option value="'+redBand[9]+'">Band 8a</option> <option value="'+redBand[10]+'">Band 9</option> <option value="'+redBand[11]+'">Band 10</option> <option value="'+redBand[12]+'">Band 11</option> <option value="'+redBand[13]+'">Band 12</option> </select> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
 										//Erstellt die bandValues, ggf. mit anderem Wert
 										+ ' Min-Value: <input type="number" name="rcmin" id="minRed'+i+'" placeholder="0" value="'+(bandValues[i-1][0][1])+'"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
@@ -243,7 +245,8 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 		}
 
 		//Erstellst ein Akkordion mit Namen,ggf. ausgefahren
-		$('#one').html($('#one').html() + '<div class="panel panel-default"><a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"><div class="panel-heading"><span class="glyphicon glyphicon-open" aria-hidden="true"></span> Dataset '+ (8*(pagetoview-1)+i) +'</div></a><span class="panel-body panel-collapse collapse '+expanded[i-1]+'" id="dataset'+i+'"><p id="quality" style="padding: 15px; padding-bottom:0px">Metadata:</p><p id="datasetButton'+i+'" style="padding: 15px; padding-top: 0px"></p><form class="colorform" id="showL2AData' + i + '" method="POST"><container><input id="rgb'+i+'" type="radio" name="rgbbool" value="true" '+rgbChecked+' onclick="toggleDrop('+(i*2)+','+((i*2)+1)+')"/> RGB<br/><label for="rgb" class="dropd" id="dropd'+(i*2)+'">'
+		$('#one').html($('#one').html() + '<div class="panel panel-default"><a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"><div class="panel-heading"><span class="glyphicon glyphicon-open" aria-hidden="true"></span> Dataset '+ (8*(pagetoview-1)+i) +'</div></a><span class="panel-body panel-collapse collapse '+expanded[i-1]+'" id="dataset'+i+'"><p id="quality" style="padding: 15px; padding-bottom:0px">Metadata:</p><p id="datasetButton'+i+'" style="padding: 15px; padding-top: 0px"></p><form class="colorform" id="showL2AData' + i + '" method="POST">' 
+										+ '  <div> <button id="showTCI'+ i +'"> Show True Color Image </button> <br/> <br/> </div> <container><input id="rgb'+i+'" type="radio" name="rgbbool" value="true" '+rgbChecked+' onclick="toggleDrop('+(i*2)+','+((i*2)+1)+')"/> RGB<br/><label for="rgb" class="dropd" id="dropd'+(i*2)+'">'
 										+'Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select name="rcn" id="rgbselect' + ((i*3)-2) + '"></select>'
 											+'<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Min-Value: <input type="number" name="rcmin" id="minRed'+i+'" placeholder="0" value="'+(bandValues[i-1][0][1])+'"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Max-Value: <input type="number" name="rcmax"  id="maxRed'+i+'" maxlength="5" placeholder="65536" value="'+(bandValues[i-1][1][1])+'"/><br/><br/>'
 										+'Green band:&nbsp;&nbsp;<select name="gcn" id="rgbselect' + ((i*3)-1)+ '" value="0"></select><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Min-Value: <input type="number" name="gcmin" id="minGreen'+i+'" maxlength="5" placeholder="'+(bandValues[i-1][0][2])+'" value="0"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Max-Value: <input type="number" name="gcmax" id="maxGreen'+i+'" maxlength="5" placeholder="65536" value="'+(bandValues[i-1][1][2])+'"/><br/><br/>'
@@ -343,7 +346,7 @@ function visualizeMetadata(result, page){
 		"<b> Subdataset 3 Description: </b>" + res[i].SUBDATASET_3_DESC + "</br>" +
 		"<b> Subdataset 3 Name: </b>" + res[i].SUBDATASET_3_NAME + "</br>" +
 		"<b> Subdataset 4 Description: </b>" + res[i].SUBDATASET_4_DESC + "</br>" +
-		"<b> Subdataset 4 Name: </b>" + res[i].SUBDATASET_4_NAME + "</br>");
+		"<b id='TCIname'> Subdataset 4 Name: </b>" + res[i].SUBDATASET_4_NAME + "</br>");
 
 		//Use for Polygoncreation
 		drawPolygon(res, i, page, number, res.length);
