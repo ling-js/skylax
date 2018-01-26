@@ -73,84 +73,88 @@ html
               i.fa.fa-university
       #scrollero.sidebar-content
         #home.sidebar-pane
-          h2 Skylax
+          #sideName
+            h2 Skylax
           p The Project Name: “Skylax” is chosen with reference to the german name of Scylax of Caryanda (Greek: Σκύλαξ ο Καρυανδεύς) who was a renowned Greek explorer and writer of the late 6th and early 5th centuries BCE. (source: Wikipedia).
           img.image(src="/images/logo.png" alt="Logo")
         #search.sidebar-pane
           form#searchform(method='GET')
-            | <h2> Search </h2>
-            | <h3> Name </h3>
-            | <b>Search by name:</b>&nbsp;&nbsp;&nbsp;
-            input(id='searchformbyname_input' type='string' placeholder="Enter a search-string")
-            br
-            br
-            | <h3> Date </h3>
-            | <b>Select start date:</b> 
-            br       
-            |&nbsp;Day:&nbsp;
-            select(name='selectsday', id="startday")
-            |&nbsp;Month:&nbsp;
-            select(name='selectsmonth', id="startmonth", onchange="updateDay('start')")
-            //input(id='searchformbydate_input' type='date' placeholder="YYYY")
-            |&nbsp;Year:&nbsp;
-            select(name='selectsyear', id="startyear", onchange="updateDay('start')")
-            a(style=" font-size: 9px" onclick="toggleIt('detailedstarttime')")|&nbsp;Detailed Start-Time
-            br
-            p#detailedstarttime(style=" display: none")
-              |&nbsp;&nbsp;Hours:&nbsp;
-              select(name='selectshour', id="starthour")
-
-              |&nbsp;&nbsp;Minutes:&nbsp;
-              select(name='selectsmin', id="startmin")
-
-              |&nbsp;&nbsp;Seconds:&nbsp;
-              select(name='selectssec', id="startsec")
+            #sideName
+              | <h2>  Search for Datasets</h2>
+            #nameForm
+              | <h3> Name </h3>
+              | <b>Search by name:</b>&nbsp;&nbsp;&nbsp;
+              input(id='searchformbyname_input' type='string' placeholder="Enter a search-string")
+            br 
+            #dateForm
+              | <h3> Date </h3>
+              | <b>Select start date:</b> 
+              br       
+              |&nbsp;Day:&nbsp;
+              select(name='selectsday', id="startday")
+              |&nbsp;Month:&nbsp;
+              select(name='selectsmonth', id="startmonth", onchange="updateDay('start')")
+              //input(id='searchformbydate_input' type='date' placeholder="YYYY")
+              |&nbsp;Year:&nbsp;
+              select(name='selectsyear', id="startyear", onchange="updateDay('start')")
+              a(style=" font-size: 9px" onclick="toggleIt('detailedstarttime')")|&nbsp;Detailed Start-Time
               br
-            
-            | <b>Select end date:</b> 
-            br       
-            |&nbsp;Day:&nbsp;
-            select(name='selecteday', id="endday")
+              p#detailedstarttime(style=" display: none")
+                |&nbsp;&nbsp;Hours:&nbsp;
+                select(name='selectshour', id="starthour")
 
-            |&nbsp;Month:&nbsp;
-            select(name='selectemonth', id="endmonth", onchange="updateDay('end')")
+                |&nbsp;&nbsp;Minutes:&nbsp;
+                select(name='selectsmin', id="startmin")
 
-            |&nbsp;Year:&nbsp;
-            select(name='selecteyear', id="endyear", onchange="updateDay('end')")
-            a(style=" font-size: 9px" onclick="toggleIt('detailedendtime')")|&nbsp;Detailed End-Time
-            br  
-            p#detailedendtime(style=" display: none")
-              |&nbsp;&nbsp;Hours:&nbsp;
-              select(name='selectehour', id="endhour")
+                |&nbsp;&nbsp;Seconds:&nbsp;
+                select(name='selectssec', id="startsec")
+                br
+              
+              | <b>Select end date:</b> 
+              br       
+              |&nbsp;Day:&nbsp;
+              select(name='selecteday', id="endday")
 
-              |&nbsp;&nbsp;Minutes:&nbsp;
-              select(name='selectemin', id="endmin")
+              |&nbsp;Month:&nbsp;
+              select(name='selectemonth', id="endmonth", onchange="updateDay('end')")
 
-              |&nbsp;&nbsp;Seconds:&nbsp;
-              select(name='selectesec', id="endsec")
-            br    
-            | <h3> Bounding Box</h3>
-            | <b>Top Right Corner:</b>
-            br
-            | &nbsp; Latitude:&nbsp;&nbsp;&nbsp;&nbsp; 
-            input(id='searchformbybbox_topLat' type='number', placeholder="" size="25" min = '-90' max = '90' step = 'any')
-            | &nbsp; Longitude:&nbsp; 
-            input(id='searchformbybbox_topLong' type='number', placeholder="" size="25" min = '-180' max = '180' step = 'any')
-            br
-            | <b>Bottom Left Corner:</b>
-            br
-            | &nbsp; Latitude:&nbsp;&nbsp;&nbsp;&nbsp; 
-            input(id='searchformbybbox_bottomLat' type='number', placeholder="" size="28" min = '-90' max = '90' step = 'any') 
-            | &nbsp; Longitude:&nbsp; 
-            input(id='searchformbybbox_bottomLong' type='number', placeholder="" size="28" min = '-180' max = '180' step = 'any')
-            br
-            br
-            button.btn.btn-info.btn-xs(type='button', name = 'drawPolygon' id='deleteDrawing', onclick='')
-              span.glyphicon.glyphicon-trash
-              |  Click to delete your bounding box
-            button.btn.btn-info.btn-xs(type='button', id='bboxbutton', onclick='')
-              span.glyphicon.glyphicon-pencil
-              |  Click to draw a Bounding Box on the Map
+              |&nbsp;Year:&nbsp;
+              select(name='selecteyear', id="endyear", onchange="updateDay('end')")
+              a(style=" font-size: 9px" onclick="toggleIt('detailedendtime')")|&nbsp;Detailed End-Time
+              br  
+              p#detailedendtime(style=" display: none")
+                |&nbsp;&nbsp;Hours:&nbsp;
+                select(name='selectehour', id="endhour")
+
+                |&nbsp;&nbsp;Minutes:&nbsp;
+                select(name='selectemin', id="endmin")
+
+                |&nbsp;&nbsp;Seconds:&nbsp;
+                select(name='selectesec', id="endsec") 
+            br   
+            #bboxForm
+              | <h3> Bounding Box</h3>
+              | <b>Top Right Corner:</b>
+              br
+              | &nbsp; Latitude:&nbsp;&nbsp;&nbsp;&nbsp; 
+              input(id='searchformbybbox_topLat' type='number', placeholder="" size="25" min = '-90' max = '90' step = 'any')
+              | &nbsp; Longitude:&nbsp; 
+              input(id='searchformbybbox_topLong' type='number', placeholder="" size="25" min = '-180' max = '180' step = 'any')
+              br
+              | <b>Bottom Left Corner:</b>
+              br
+              | &nbsp; Latitude:&nbsp;&nbsp;&nbsp;&nbsp; 
+              input(id='searchformbybbox_bottomLat' type='number', placeholder="" size="28" min = '-90' max = '90' step = 'any') 
+              | &nbsp; Longitude:&nbsp; 
+              input(id='searchformbybbox_bottomLong' type='number', placeholder="" size="28" min = '-180' max = '180' step = 'any')
+              br
+              br
+              button.btn.btn-info.btn-xs(type='button', name = 'drawPolygon' id='deleteDrawing', onclick='')
+                span.glyphicon.glyphicon-trash
+                |  Click to delete your bounding box
+              button.btn.btn-info.btn-xs(type='button', id='bboxbutton', onclick='')
+                span.glyphicon.glyphicon-pencil
+                |  Click to draw a Bounding Box on the Map
             br
             br
             input.btn.btn-success(type='submit', id='searchIt', value='Search for datasets')
@@ -158,14 +162,16 @@ html
               span.glyphicon.glyphicon-send
               |  Submit
         #results.sidebar-pane
-          h2 Reults
+          #sideName
+            h2 Reults
           p#resultIntroText
             | Currently there are no results.
           p#one
            #page-selection
         #save.sidebar-pane
         #imprint.sidebar-pane
-          h2 Legal Disclosure
+          #sideName
+            h2 Legal Disclosure
           | Information in accordance with section 5 TMG
           br
           br

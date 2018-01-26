@@ -30,7 +30,7 @@ function matchTextAreaField(str){
   var height = $('#permalinkTemp')[0].scrollHeight+2+"px";
   $('#permalinkTemp')[0].parentNode.removeChild($('#permalinkTemp')[0]);
   //$(".sidebar-content").find(".active").remove($('#permalinkTemp'));
-  $('#save').html('<h2>Save</h2><textarea id="permalink" value=str style="width: 100%"></<textarea>');
+  $('#save').html('<div id="sideName"><h2>Save</h2> </div><textarea id="permalink" value=str style="width: 100%"></<textarea>');
   $('#permalink')[0].style.height = height;
   $('#permalink')[0].value = str;
 }

@@ -200,5 +200,21 @@ html,body {
      height: 150px;
 }
 
-
+  #sideName{
+    text-align: center;
+    vertical-align: middle;
+   text-shadow: 2px 2px lightgrey;
+  }
+  #nameForm{
+    padding-bottom: 20px;
+    border: 1px solid lightgrey;
+  }
+  #dateForm{
+    padding-bottom: 20px;
+    border: 1px solid lightgrey;
+  }
+  #bboxForm{
+    padding-bottom: 20px;
+    border: 1px solid lightgrey;
+  }
 }
