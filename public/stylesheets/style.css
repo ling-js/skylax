@@ -36,10 +36,11 @@ a, a:active, a:focus{
 /* Adapted from https://www.w3schools.com/howto/howto_css_animated_search.asp */
 input[type=search] {
   box-sizing: border-box;
+  width: 10000px;
   border: 2px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
-  background-color: white;
+  background-color: black;
   background-position: 10px 10px;
   background-repeat: no-repeat;
   padding: 12px 20px 12px 4px;
@@ -49,7 +50,19 @@ input[type=search] {
 input[type=search]:focus {
   width: 80%;
 }
+#searchformbybbox_topLat{
+width: 90px;
 
+}
+#searchformbybbox_topLong{
+width: 90px;
+}
+#searchformbybbox_bottomLat{
+width: 90px;
+}
+#searchformbybbox_bottomLong{
+width: 90px;
+}
 .panel-body{
   padding: 0px;
 }
@@ -75,11 +88,12 @@ html, body, #map {
   overflow: scroll;
   margin: auto;
 }
-
+/*
 #searchform {
   padding-bottom: 10px;
-}
 
+}
+*/
 .tabledisplay {
   display: table;
 }
@@ -145,9 +159,10 @@ html,body {
 
 
   #sidebar {
-    background-color:#3b3b3b;
+
+    opacity: 0.94;
     padding-top:0;
-    width: 1000px;
+
   }
   #sidebar .nav>li {
     color: #ddd;
@@ -181,7 +196,7 @@ html,body {
   div#showTCI1 {
    overflow: hidden;
   }
- 
+
   #showTCI1 a {
      display: block;
      height: 150px;
