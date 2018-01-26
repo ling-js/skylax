@@ -245,19 +245,55 @@ function checkForCorrectCoordinates(){
       }
     }
   }
-  if(searchformbybbox_topLat.value < searchformbybbox_bottomLat.value &&
-    searchformbybbox_topLong.value < searchformbybbox_bottomLong.value ||
-    searchformbybbox_topLat.val < searchformbybbox_bottomLat.value &&
-    searchformbybbox_topLong.value > searchformbybbox_bottomLong.value ||
-    searchformbybbox_topLat.value > searchformbybbox_bottomLat.value &&
-    searchformbybbox_topLong.value < searchformbybbox_bottomLong.value){
-alert("Die unteren Koordinaten dürfen nicht größer sein als die ");
-return false;
-}
-
-
+  if(document.getElementById('searchformbybbox_topLat').value != '' &&
+     document.getElementById('searchformbybbox_bottomLat').value != '' &&
+     document.getElementById('searchformbybbox_topLong').value != '' &&
+       document.getElementById('searchformbybbox_bottomLong').value != '')
+  {
+    var gibtesLatkoordinatendreher = false;
+    if(searchformbybbox_topLat.value < searchformbybbox_bottomLat.value){
+      gibtesLatkoordinatendreher= true;
+      document.getElementById("bboxerror").innerHTML = "Hint: Lat of Bottom Corner should be lower Top Corner";
+      document.getElementById("bboxerror").style.color = "red";
+      document.getElementById("bboxerror").style.display = "block";
+      document.getElementById("searchformbybbox_bottomLat").style.color = "red";
+      document.getElementById("searchformbybbox_bottomLat").style.border = "1px solid red";
+      wrongVal=false;
+    }
+    else
+    {
+      $("#bboxerror").html("");
+      document.getElementById("searchformbybbox_bottomLat").style.color = "";
+      document.getElementById("searchformbybbox_bottomLat").style.border = "";
+    }
+    if(searchformbybbox_topLong.value < searchformbybbox_bottomLong.value)
+    {
+      if(gibtesLatkoordinatendreher){
+        $("#bboxerror").html( "Hint: Coordinates of Bottom Corner should be lower than Top Corner");
+      }
+      else
+      {
+        $("#bboxerror").html("Hint: Long of Bottom Corner should be lower Top Corner")
+      }
+      document.getElementById("bboxerror").style.color = "red";
+      document.getElementById("bboxerror").style.display = "block";
+      document.getElementById("searchformbybbox_bottomLong").style.color = "red";
+      document.getElementById("searchformbybbox_bottomLong").style.border = "1px solid red";
+      wrongVal=false;
+    }
+    else
+    {
+      if(!gibtesLatkoordinatendreher)
+      {
+        $("#bboxerror").html("");
+      }
+      document.getElementById("searchformbybbox_bottomLong").style.color = "";
+      document.getElementById("searchformbybbox_bottomLong").style.border = "";
+    }
   return wrongVal;
+  }
 }
+
 
 function coordsToPolygon(load){
   if(document.getElementById('searchformbybbox_topLat').value != '' &&
@@ -301,6 +337,40 @@ function drawPolygon(result, number, page, showNumber, reslength){
 }
 
 /**
+ * Displays the value on tile click
+ */
+function initLookUp(e){
+  var x = correctCoordinates(e.latlng.lng);
+  var y = e.latlng.lat;
+  var dname = this.options.dname;
+  var bname = this.options.bname;
+  valueRequest(dname, bname, x, y);
+}
+
+/**
+ * Displays the value on tile click
+ *@param x X coordinate
+ *@param y Y coordniate
+ */
+ function showValue(x, y){
+   var popupMessage = "";
+   if(valueLookUpArray.length == 1){
+     popupMessage += "The value here is " + valueLookUpArray[0];
+   }else{
+     var colors = ["red","green","blue"]
+     for (var i = 0; i < valueLookUpArray.length; i++) {
+       if (i != 0) {
+         popupMessage += " <br> "
+       }
+       popupMessage += "Value of the "+colors[i]+" band is "+valueLookUpArray[i];
+     }
+   }
+   var popup = L.popup()
+     .setLatLng([y, x])
+     .setContent(popupMessage)
+     .openOn(map);
+ }
+/**
  * Draws an invisible polygon of the displayed dataset
  * @param resultNum Metadata of the displayed dataset
  * @param radioBtn "true" or "false" for rgb oder grey
@@ -339,3 +409,12 @@ function stringToCoordArray(coordString){
     return coordArray;
   }
 }
+/*
+function ToggleObject(i) {
+  var skillsStyle = document.getElementById("one").style;
+  if (skillsStyle.display == "block") {
+    skillsStyle.display = "none";
+  }
+  else { skillsStyle.display = "block"; }
+}
+*/

@@ -29,14 +29,15 @@ html
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.css')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.js')
 
-    script(src = '/javascripts/LayerInteractions.js')
-    script(src = '/javascripts/SearchForDatasets.js')
-    script(src = '/javascripts/Permalink.js')  
+    script(src = '/javascripts/Load.js')
+    script(src = '/javascripts/LoadDataset.js')
+    script(src = '/javascripts/Searchform.js')  
     script(src = '/javascripts/SubmitHandler.js')
     script(src = '/javascripts/DynamicHTML.js')
     script(src = '/javascripts/index.js')
     script(src = '/javascripts/map.js')
     script(src = '/javascripts/jquery.bootpag.min.js')
+    script(src = '/javascripts/bootbox.min.js')
 
     // Spinner from https://github.com/fgnass/spin.js
     script(src = '/javascripts/spin.js')
@@ -138,6 +139,7 @@ html
             | &nbsp; Longitude:&nbsp; 
             input(id='searchformbybbox_bottomLong' type='number', placeholder="" size="28" min = '-180' max = '180' step = 'any')
             br
+            div#bboxerror(display="none")
             br
             button.btn.btn-info.btn-xs(type='button', name = 'drawPolygon' id='deleteDrawing', onclick='')
               span.glyphicon.glyphicon-trash
