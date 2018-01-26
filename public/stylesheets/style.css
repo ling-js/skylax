@@ -9,6 +9,13 @@ body {
   margin: 0;
 }
 
+#tooltip_name,#tooltip_date,#tooltip_bbox {
+  color: #00B7FF;
+  position:absolute;
+  right: 22px;
+
+}
+
 a, a:active, a:focus{
   color: #00B7FF;
   outline: none;
