@@ -55,8 +55,8 @@ function addParams(stateobject){
   for (let p of stateobject) {
     permalink.searchParams.append(p[0],p[1]);
   }
-  //TESTEREN
-  permalink.hash = "#results";
+  var url = new URL($(".sidebar-tabs").find(".active")[0].children[0].href);
+  permalink.hash = url.hash;
   return permalink;
 }
 
