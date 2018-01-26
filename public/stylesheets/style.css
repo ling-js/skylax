@@ -11,9 +11,12 @@ body {
 
 #tooltip_name,#tooltip_date,#tooltip_bbox {
   color: #00B7FF;
-  position:absolute;
-  right: 22px;
+  position:relative;
+  left: 98%;
+}
 
+h3{
+  margin-top: 0px;
 }
 
 a, a:active, a:focus{
@@ -210,7 +213,7 @@ html,body {
   #sideName{
     text-align: center;
     vertical-align: middle;
-   text-shadow: 2px 2px lightgrey;
+    text-shadow: 2px 2px lightgrey;
   }
   #nameForm, #dateForm, #bboxForm{
     padding-bottom: 20px;
