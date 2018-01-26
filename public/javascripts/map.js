@@ -8,8 +8,8 @@ var map, // Map Object
   rectangleDrawer,
   spinner,
   polyLayer,
-  target;
-
+  target,
+  coordinatesForPolygon;
 //SpinnerToggler
 var toggler = false;
 
@@ -32,8 +32,8 @@ var valueLookUpArray = [];
 
 function initMap() {
   map = L.map('map', {
-    center: [48.748945343432936, 11.733398437500002], // Europe
-    zoom: 5,
+    center: [52, 7], // Europe
+    zoom: 8,
     minZoom: 0,
     maxZoom: 15,
     zoomControl: false,
@@ -83,7 +83,8 @@ function initMap() {
   });
 
   map.on('click', function(e) {
-    var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
+     coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
+
     //console.log(jsonForDatasets);
   });
 
@@ -100,11 +101,15 @@ function initMap() {
 
 
 
+
+
   });
 
   // Set up Sidebar and Startpage
   sidebar = L.control.sidebar('sidebar').addTo(map);
   sidebar.open('home');
+
+
 }
 
 /**
@@ -290,10 +295,18 @@ function coordsToPolygon(load){
  */
 function drawPolygon(result, number, page, showNumber, reslength){
   var coordArray = stringToCoordArray(result[number].FOOTPRINT);
-  if(coordArray != null){
+
+
+    if(coordArray != null){
     var polygon = L.polygon(coordArray, {color: 'red',number:showNumber, resultLength:reslength});
-    polygon.on('click', openAccordion);
-    polygon.bindTooltip('<p> Dataset '+(((page-1)*8)+(showNumber+1))+'</p>').addTo(map);
+    //if abfrage die eigentlich testen soll ob sich der click innerhalb eines polygons befindet falls ja -> wird dieses accordion geöffnet diese
+        // Abfrage wird auf alle polygons angewandt aber mal sehen ob es so klappt wenn der server wieder läuft
+    map.on('click',function(e){
+        coordinatesForPolygon = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
+        if(polygon.getBounds().contains(coordinatesForPolygon)){
+      openAccordion();
+    }});
+    polygon.bindTooltip('<p> Dataset '+(((page-1)*8)+(showNumber+1))+'</p>').addTo(polyLayer);
     polygon.addTo(polyLayer);
   }
 }
