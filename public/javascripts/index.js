@@ -31,25 +31,23 @@ function pageCalculator(allContents){
 }
 
 /**
- * Shows or hides the permalink creation button.
- * Can only be seen in search tab.
- * @param bool True, if search button is clicked
+ * Checks the active page tab of the sidebbar
+ * @return The hash of the tab or false for save
  */
-function showSaveBtn(bool){
-  if(bool == true){
-    if($('#searchTabButton')[0].classList.length > 0){
-      for(var i = 0; i < $('#searchTabButton')[0].classList.length; i++){
-        if ($('#searchTabButton')[0].classList[i] == "active"){
-          $('#saveTabButton')[0].style.display = "none";
-          break;
-        }
-      }
-    }else if($('#searchTabButton')[0].classList.length == 0) {
-      $('#saveTabButton')[0].style.display = "";
+function checkActiveTab(){
+  for (var i = 0; i < $('#topTabs')[0].children.length; i++) {
+    if($('#topTabs')[0].children[i].className == "active" && $('#topTabs')[0].children[i].id != "searchTabButton"){
+      return $('#topTabs')[0].children[i].children[0].href;
+    }else if($('#topTabs')[0].children[i].className == "active" && $('#topTabs')[0].children[i].id == "searchTabButton"){
+      return true;
     }
-  }else if(bool == false){
-    $('#saveTabButton')[0].style.display = "none";
   }
+  for (var i = 0; i < $('#bottomTabs')[0].children.length; i++) {
+    if($('#bottomTabs')[0].children[i].className == "active"){
+      return $('#bottomTabs')[0].children[i].children[0].href;
+    }
+  }
+  return false;
 }
 
 /**
@@ -66,7 +64,14 @@ function initStartup(){
  * Creates permalink and matches the box it is shown in.
  */
 function showPermalink(){
-  var str = createPermalink();
+  var str = "";
+  if(checkActiveTab() == true){
+    str = createPermalink();
+  }else if(checkActiveTab() == false){
+    str = window.location.origin + '#hide';
+  }else{
+    str = checkActiveTab();
+  }
   matchTextAreaField(str);
 }
 
@@ -245,10 +250,11 @@ function loadHash(){
   for (var i = 0; i < $('#sidebar')[0].children[1].children.length; i++) {
     if(window.location.hash == "#"+$('#sidebar')[0].children[1].children[i].id && window.location.hash != "#save"){
       openTabInSidebar(window.location.hash);
-      if(window.location.hash == '#search'){
-        $('#saveTabButton')[0].style.display = "";
-      }
+      $('#saveTabButton')[0].style.display = "";
     }
+  }
+  if(window.location.hash == "#hide"){
+    sidebar.close('home');
   }
 }
 
@@ -356,9 +362,14 @@ function compareDates(){
  *@param number Number of the dataset to look for as a layer
  *@return Bool value, true means the layer with the given number is shown
  */
+ //NEEDS TO BE CHECKED, WHEN SERVER IS UP AGAIN
 function isALayerDisplayed(number){
 	if (layerControl._layers.length == 4) {
-		if(number+1 == layerControl._layers[3].name.slice(layerControl._layers[3].name.length -1)){
+    number ++;
+    if (number <= 9) {
+      number = " "+number;
+    }
+		if(number == layerControl._layers[3].name.slice(layerControl._layers[3].name.length -2)){
       return true;
     }else{
       return false;

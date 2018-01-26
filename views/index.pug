@@ -54,19 +54,19 @@ html
     #map
     #sidebar.sidebar.collapsed
       .sidebar-tabs
-        ul(role='tablist')
+        ul(role='tablist' id='topTabs')
           li(id='homeTabButton')
-            a(href='#home' , role='tab', onclick='showSaveBtn(false)')
+            a(href='#home' , role='tab')
               i.fa.fa-home
           li(id='searchTabButton')
-            a(href='#search', role='tab', onclick='showSaveBtn(true)')
+            a(href='#search', role='tab')
               i.fa.fa-bars
-        ul(role='tablist')
-          li(id='saveTabButton', style="display : none")
+        ul(role='tablist' id='bottomTabs')
+          li(id='saveTabButton')
             a(href='#save', role='tab', onclick='showPermalink()')
               i.fa.fa-save
           li(id='imprintTabButton')
-            a(href='#imprint', role='tab', onclick='showSaveBtn(false)')
+            a(href='#imprint', role='tab')
               i.fa.fa-university
       #scrollero.sidebar-content
         #home.sidebar-pane
