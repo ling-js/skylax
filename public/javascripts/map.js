@@ -84,6 +84,7 @@ function initMap() {
 
   map.on('click', function(e) {
     var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
+    console.log(coords);
     //console.log(jsonForDatasets);
   });
 
@@ -238,11 +239,22 @@ function checkForCorrectCoordinates(){
     if(searchformbybbox_topLat.value  < 90 && searchformbybbox_topLat.value > - 90 ){
       if(searchformbybbox_topLong.value  < 180 && searchformbybbox_topLong.value > -180){
         if(searchformbybbox_bottomLong.value  < 180 && searchformbybbox_bottomLong.value > -180){
+
           wrongVal = true;
         }
       }
     }
   }
+  if(searchformbybbox_topLat.value < searchformbybbox_bottomLat.value &&
+    searchformbybbox_topLong.value < searchformbybbox_bottomLong.value ||
+    searchformbybbox_topLat.val < searchformbybbox_bottomLat.value &&
+    searchformbybbox_topLong.value > searchformbybbox_bottomLong.value ||
+    searchformbybbox_topLat.value > searchformbybbox_bottomLat.value &&
+    searchformbybbox_topLong.value < searchformbybbox_bottomLong.value){
+alert("Die unteren Koordinaten dürfen nicht größer sein als die ");
+return false;
+}
+
 
   return wrongVal;
 }
