@@ -16,7 +16,7 @@ a, a:active, a:focus{
 }
 
 #search {
-  padding-top: 20px;
+  padding-top: 10px;
 }
 
 
@@ -158,11 +158,9 @@ html,body {
 }
 
 
-  #sidebar {
-
-    opacity: 0.94;
+  .sidebar {
+    opacity: 0.95;
     padding-top:0;
-
   }
   #sidebar .nav>li {
     color: #ddd;

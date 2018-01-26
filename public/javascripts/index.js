@@ -37,14 +37,16 @@ function pageCalculator(allContents){
 function checkActiveTab(){
   for (var i = 0; i < $('#topTabs')[0].children.length; i++) {
     if($('#topTabs')[0].children[i].className == "active" && $('#topTabs')[0].children[i].id != "searchTabButton"){
-      return $('#topTabs')[0].children[i].children[0].href;
+      const url = new URL($('#topTabs')[0].children[i].children[0].href);
+      return window.location.origin +"/"+ url.hash;
     }else if($('#topTabs')[0].children[i].className == "active" && $('#topTabs')[0].children[i].id == "searchTabButton"){
       return true;
     }
   }
   for (var i = 0; i < $('#bottomTabs')[0].children.length; i++) {
     if($('#bottomTabs')[0].children[i].className == "active"){
-      return $('#bottomTabs')[0].children[i].children[0].href;
+      const url = new URL($('#bottomTabs')[0].children[i].children[0].href);
+      return window.location.origin +"/"+ url.hash;
     }
   }
   return false;
@@ -68,7 +70,7 @@ function showPermalink(){
   if(checkActiveTab() == true){
     str = createPermalink();
   }else if(checkActiveTab() == false){
-    str = window.location.origin + '#hide';
+    str = window.location.origin +"/"+ '#hide';
   }else{
     str = checkActiveTab();
   }
@@ -92,7 +94,7 @@ function matchTextAreaField(str){
   var height = $('#permalinkTemp')[0].scrollHeight+2+"px";
   $('#permalinkTemp')[0].parentNode.removeChild($('#permalinkTemp')[0]);
   //$(".sidebar-content").find(".active").remove($('#permalinkTemp'));
-  $('#save').html('<h2>save und so</h2><textarea id="permalink" value=str style="width: 100%"></<textarea>');
+  $('#save').html('<h2>Save</h2><textarea id="permalink" value=str style="width: 100%"></<textarea>');
   $('#permalink')[0].style.height = height;
   $('#permalink')[0].value = str;
 }
