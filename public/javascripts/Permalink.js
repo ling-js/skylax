@@ -70,6 +70,10 @@ function createJSONPerma(){
   var ssd = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";    var sed = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
   var p = findPage();
   var sbox = ($('#searchformbybbox_bottomLong').val()+','+ $('#searchformbybbox_bottomLat').val() +','+ $('#searchformbybbox_topLong').val()+',' +$('#searchformbybbox_topLat').val());
+  var searched = false;
+  if($('#resultIntroText')[0].innerHTML != "Currently there are no results."){
+    searched = true;
+  }
   var ds = [];
   var calc = [];
   var forEnd = 0;
@@ -143,7 +147,7 @@ function createJSONPerma(){
     ds.push(tempJSON);
     calc = [];
   }
-  return {"st":st, "sbox":sbox, "ssd":ssd, "sed":sed, "p":p, "ds":ds};
+  return {"st":st, "sbox":sbox, "ssd":ssd, "sed":sed, "p":p, "ser":searched,"ds":ds};
 }
 
 /**
@@ -206,13 +210,15 @@ function loadHash(){
 function loadPermaSearchParams(){
   //lädt Suchparameter
   var searchParams = new URLSearchParams(window.location.search.slice(1));
-  //Gibt an, wie viele Suchparameter angegeben sind und ob eins ein Dataset ist
+  //Gibt an, wie viele Suchparameter angegeben sind und ob gesucht worden ist
   var counter = 0;
-  var ds = false;
+  var search = false;
   for (let i of searchParams) {
     counter++;
-    if(i[0] == "ds"){
-      ds = true;
+    if(i[0] == "ser"){
+      if(i[1] == "true"){
+        search = true;
+      }
     }
   }
   //Wenn Datasets vorhanden sind
@@ -245,9 +251,6 @@ function loadPermaSearchParams(){
           }else{
             //Lädt alle Variablen, die es in Datasets gibt
             switch(j[0]) {
-                case "n":
-                  console.log("Was soll  ich denn damit?" + j[1]);
-                  break;
                 case "o":
                   dsOpacity.push(j[1]);
                   break;
@@ -341,7 +344,7 @@ function loadPermaSearchParams(){
         }
       }
     }
-    if(ds == true){
+    if(search == true){
       //Wenn Datasets vorhanden sind, wird hier die Ajax request ausgeführt, um diese erneut zu suchen
       var substring = $("#searchformbyname_input").val();
       var startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";

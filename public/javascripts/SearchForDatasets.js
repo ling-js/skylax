@@ -49,13 +49,14 @@ $(document).ready(function() {
  *@param opacity Für Permalink: Wie ist die Opacity des angezeigten Datasets?
  */
 function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, vis, opacity){
+  spinnerShow(document.getElementById('sidebar'));
   var resultIntroText = "You searched for datasets..."+"<br>";
   var url = new URL(templateurl);
   var searchParams = new URLSearchParams(url.search.slice(1));
   for (let i of searchParams) {
     if(i[1] != ""){
       if(i[0] == "substring"){
-        resultIntroText = resultIntroText + "... with the name '" +i[1]+"'"+"<br>";
+        resultIntroText = resultIntroText + "... with the name '" +i[1]+"'."+"<br>";
       }
       if(i[0] == "bbox"){
         var bboxString = i[1].split(",");
@@ -78,7 +79,6 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
       }
     }
   }
-  $('#resultIntroText')[0].innerHTML = resultIntroText;
   $.ajax({
     type: "GET",
     url: templateurl+(pagetoview-1),
@@ -93,6 +93,7 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
       success: function (res, status, request) {
         resultIntroText = "You have found "+res.length+" datasets with your request."+"<br>"+resultIntroText;
         openTabInSidebar('#results');
+        $('#resultIntroText')[0].innerHTML = resultIntroText;
         //Zeigt Paginator an oder auch nicht
         if(res.length == 0){
           $('#page-selection')[0].style.display = "none";
@@ -188,7 +189,6 @@ function pagerInit(templateurl){
     lastClass: 'last',
     firstClass: 'first'
   }).on("page", function(event, /* page number here */ num){
-    spinnerShow(document.getElementById('sidebar'));
     ajaxrequest(templateurl, num); // some ajax content loading...
   });
 }
