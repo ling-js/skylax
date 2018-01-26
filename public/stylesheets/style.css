@@ -205,16 +205,10 @@ html,body {
     vertical-align: middle;
    text-shadow: 2px 2px lightgrey;
   }
-  #nameForm{
+  #nameForm, #dateForm, #bboxForm{
     padding-bottom: 20px;
-    border: 1px solid lightgrey;
-  }
-  #dateForm{
-    padding-bottom: 20px;
-    border: 1px solid lightgrey;
-  }
-  #bboxForm{
-    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
     border: 1px solid lightgrey;
   }
 }
