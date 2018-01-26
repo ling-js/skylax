@@ -1,7 +1,8 @@
 function createTCISubmitHandler(res, j, i){
+	spinnerShow(document.getElementById('map'));
 	$('#showTCI'+ j).click(function(e) {
 		e.preventDefault();
-		
+
 		console.dir(res[j-1]);
 		console.log(i);
 		console.dir(res[i-1]);
@@ -27,7 +28,7 @@ function createTCISubmitHandler(res, j, i){
 	        	url:  'http://gis-bigdata.uni-muenster.de:14014/generate?',
 	        	error: function(xhr, status, err) {
 		            console.log("Error while loading Data");
-					spinnerHide(document.getElementById('map'));
+								spinnerHide(document.getElementById('map'));
 		            alert("Error while loading Data");
 	          	},
 	          	success: function(res) {
@@ -47,7 +48,8 @@ function createTCISubmitHandler(res, j, i){
 						}
 
 					);
-		            // add layer to Map and name it like the Dataset it was requested from 
+					spinnerShow(document.getElementById('map'));
+		            // add layer to Map and name it like the Dataset it was requested from
 					layerControl.addOverlay(lyr, "Dataset "+j);
 					map.addLayer(lyr);
 					zoomToLayer(j);
@@ -138,7 +140,7 @@ function createL1CSubmitHandler(res, j, opacity){
 						}
 
 					);
-		            // add layer to Map and name it like the Dataset it was requested from 
+		            // add layer to Map and name it like the Dataset it was requested from
 					layerControl.addOverlay(lyr, "Dataset "+j);
 					map.addLayer(lyr);
 					zoomToLayer(j);
@@ -251,7 +253,7 @@ function createL2ASubmitHandler(res, j, opacity, i){
 						}
 
 					);
-		            // add layer to Map and name it like the Dataset it was requested from 
+		            // add layer to Map and name it like the Dataset it was requested from
 				    layerControl.addOverlay(lyr, "Dataset "+j);
 					map.addLayer(lyr);
 					zoomToLayer(j);
@@ -286,7 +288,7 @@ function createL2ASubmitHandler(res, j, opacity, i){
  * Returns subdatasetname of a given band from L1C datasets
  *
  *@param res Object with all Datasets user can choose from
- *@param value choosen band 
+ *@param value choosen band
  *@param j Index+1 of Dataset the band was choosen from
  */
 function subdataL1CName(res, value, j){
@@ -310,7 +312,7 @@ function subdataL1CName(res, value, j){
  * Returns Product-URI of a given band from L2A datasets
  *
  *@param res Object with all Datasets user can choose from
- *@param value choosen band 
+ *@param value choosen band
  *@param j Index+1 of Dataset the band was choosen from
  */
 function subdataL2AName(res, value, j){
