@@ -301,40 +301,6 @@ function drawPolygon(result, number, page, showNumber, reslength){
 }
 
 /**
- * Displays the value on tile click
- */
-function initLookUp(e){
-  var x = correctCoordinates(e.latlng.lng);
-  var y = e.latlng.lat;
-  var dname = this.options.dname;
-  var bname = this.options.bname;
-  valueRequest(dname, bname, x, y);
-}
-
-/**
- * Displays the value on tile click
- *@param x X coordinate
- *@param y Y coordniate
- */
- function showValue(x, y){
-   var popupMessage = "";
-   if(valueLookUpArray.length == 1){
-     popupMessage += "The value here is " + valueLookUpArray[0];
-   }else{
-     var colors = ["red","green","blue"]
-     for (var i = 0; i < valueLookUpArray.length; i++) {
-       if (i != 0) {
-         popupMessage += " <br> "
-       }
-       popupMessage += "Value of the "+colors[i]+" band is "+valueLookUpArray[i];
-     }
-   }
-   var popup = L.popup()
-     .setLatLng([y, x])
-     .setContent(popupMessage)
-     .openOn(map);
- }
-/**
  * Draws an invisible polygon of the displayed dataset
  * @param resultNum Metadata of the displayed dataset
  * @param radioBtn "true" or "false" for rgb oder grey
