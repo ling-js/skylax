@@ -60,6 +60,9 @@ html
               i.fa.fa-home
           li(id='searchTabButton')
             a(href='#search', role='tab')
+              i.fas.fa-search
+          li(id='resultsTabButton')
+            a(href='#results', role='tab')
               i.fa.fa-bars
         ul(role='tablist' id='bottomTabs')
           li(id='saveTabButton')
@@ -76,10 +79,12 @@ html
         #search.sidebar-pane
           form#searchform(method='GET')
             | <h2> Search </h2>
+            | <h3> Name </h3>
             | <b>Search by name:</b>&nbsp;&nbsp;&nbsp;
             input(id='searchformbyname_input' type='string' placeholder="Enter a search-string")
             br
             br
+            | <h3> Date </h3>
             | <b>Select start date:</b> 
             br       
             |&nbsp;Day:&nbsp;
@@ -124,6 +129,7 @@ html
               |&nbsp;&nbsp;Seconds:&nbsp;
               select(name='selectesec', id="endsec")
             br    
+            | <h3> Bounding Box</h3>
             | <b>Top Right Corner:</b>
             br
             | &nbsp; Latitude:&nbsp;&nbsp;&nbsp;&nbsp; 
@@ -151,7 +157,10 @@ html
             //button.btn.btn-primary(id ='submit' onclick='visualizeMetadata()')
               span.glyphicon.glyphicon-send
               |  Submit
-            p ________________________________________________________________________________________
+        #results.sidebar-pane
+          h2 Reults
+          p#resultIntroText
+            | Currently there are no results.
           p#one
            #page-selection
         #save.sidebar-pane

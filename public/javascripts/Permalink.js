@@ -22,7 +22,7 @@ function showPermalink(){
 function matchTextAreaField(str){
   for(var i = 0; i <$('#sidebar')[0].classList.length;i++){
     if ($('#sidebar')[0].classList[i]  == "collapsed"){
-      openTabInSidebar('#search');
+      openTabInSidebar('#reults');
     }
   }
   $(".sidebar-content").find(".active").append('<textarea id="permalinkTemp" value=str style="width: 100%"></<textarea>');
@@ -55,7 +55,8 @@ function addParams(stateobject){
   for (let p of stateobject) {
     permalink.searchParams.append(p[0],p[1]);
   }
-  permalink.hash = "#search";
+  //TESTEREN
+  permalink.hash = "#results";
   return permalink;
 }
 
@@ -467,10 +468,10 @@ function isExpanded(number){
  */
 function checkActiveTab(){
   for (var i = 0; i < $('#topTabs')[0].children.length; i++) {
-    if($('#topTabs')[0].children[i].className == "active" && $('#topTabs')[0].children[i].id != "searchTabButton"){
+    if($('#topTabs')[0].children[i].className == "active" && $('#topTabs')[0].children[i].id != "resultsTabButton" && $('#topTabs')[0].children[i].id != "searchTabButton"){
       const url = new URL($('#topTabs')[0].children[i].children[0].href);
       return window.location.origin +"/"+ url.hash;
-    }else if($('#topTabs')[0].children[i].className == "active" && $('#topTabs')[0].children[i].id == "searchTabButton"){
+    }else if($('#topTabs')[0].children[i].className == "active" && ($('#topTabs')[0].children[i].id == "resultsTabButton" || $('#topTabs')[0].children[i].id == "searchTabButton")){
       return true;
     }
   }
@@ -500,4 +501,3 @@ function findArray(bandArray, band){
   }
   return number;
 }
-

@@ -49,6 +49,36 @@ $(document).ready(function() {
  *@param opacity Für Permalink: Wie ist die Opacity des angezeigten Datasets?
  */
 function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, vis, opacity){
+  var resultIntroText = "You searched for datasets..."+"<br>";
+  var url = new URL(templateurl);
+  var searchParams = new URLSearchParams(url.search.slice(1));
+  for (let i of searchParams) {
+    if(i[1] != ""){
+      if(i[0] == "substring"){
+        resultIntroText = resultIntroText + "... with the name '" +i[1]+"'"+"<br>";
+      }
+      if(i[0] == "bbox"){
+        var bboxString = i[1].split(",");
+        for (var j = 0; j < bboxString.length; j++) {
+          bboxString[j] = bboxString[j].slice(0,6);
+        }
+        resultIntroText = resultIntroText + "... within the coordinates ["+bboxString[0]+","+bboxString[1]+"|"+bboxString[2]+","+bboxString[3]+"]."+"<br>";
+      }
+      if(i[0] == "startdate"){
+        var dateString = i[1].split("T");
+        var dayString = dateString[0].split("-");
+        var hourString = dateString[1].slice(0,dateString[1].length-1);
+        resultIntroText = resultIntroText + "... from "+hourString+"h "+dayString[2]+"."+dayString[1]+"."+dayString[0]+"<br>";
+      }
+      if(i[0] == "enddate"){
+        var dateString = i[1].split("T");
+        var dayString = dateString[0].split("-");
+        var hourString = dateString[1].slice(0,dateString[1].length-1);
+        resultIntroText = resultIntroText + " to "+hourString+"h "+dayString[2]+"."+dayString[1]+"."+dayString[0]+"."+"<br>";
+      }
+    }
+  }
+  $('#resultIntroText')[0].innerHTML = resultIntroText;
   $.ajax({
     type: "GET",
     url: templateurl+(pagetoview-1),
@@ -61,6 +91,8 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
           spinnerHide(document.getElementById('sidebar'));
       }},
       success: function (res, status, request) {
+        resultIntroText = "You have found "+res.length+" datasets with your request."+"<br>"+resultIntroText;
+        openTabInSidebar('#results');
         //Zeigt Paginator an oder auch nicht
         if(res.length == 0){
           $('#page-selection')[0].style.display = "none";
@@ -119,11 +151,6 @@ function pageCalculator(allContents){
   }
   return allContents;
 }
-
-
-
-
-
 
 
 /**
