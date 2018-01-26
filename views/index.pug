@@ -85,17 +85,16 @@ html
               | <h2>  Search for Datasets</h2>
             #nameForm
               a.fas.fa-question-circle(id="tooltip_name" data-toggle='tooltip', data-placement='top', title='Enter the desired data Name here ')
-
-              | <h3> Name </h3>
-              | <b>Search by name:</b>&nbsp;&nbsp;&nbsp;
-              input(id='searchformbyname_input' type='string' placeholder="Enter a search-string")
-            br 
+              div.input-group
+                span.input-group-addon
+                  i.fas.fa-database
+                input(id='searchformbyname_input' type='string' placeholder="Enter a search-string")
+            br
             #dateForm
               a.fas.fa-question-circle(id="tooltip_date" data-toggle='tooltip', data-placement='top', title='Enter the desired data Name here ')
-
-              | <h3> Date </h3>
-              | <b>Select start date:</b> 
-              br       
+              | <h3><span class="far fa-calendar-alt"></span> Date </h3>
+              | <b>Select start date:</b>
+              br
               |&nbsp;Day:&nbsp;
               select(name='selectsday', id="startday")
               |&nbsp;Month:&nbsp;
@@ -115,9 +114,9 @@ html
                 |&nbsp;&nbsp;Seconds:&nbsp;
                 select(name='selectssec', id="startsec")
                 br
-              
+
               | <b>Select end date:</b> 
-              br       
+              br
               |&nbsp;Day:&nbsp;
               select(name='selecteday', id="endday")
 
@@ -127,7 +126,7 @@ html
               |&nbsp;Year:&nbsp;
               select(name='selecteyear', id="endyear", onchange="updateDay('end')")
               a(style=" font-size: 9px" onclick="toggleIt('detailedendtime')")|&nbsp;Detailed End-Time
-              br  
+              br
               p#detailedendtime(style=" display: none")
                 |&nbsp;&nbsp;Hours:&nbsp;
                 select(name='selectehour', id="endhour")
@@ -136,11 +135,11 @@ html
                 select(name='selectemin', id="endmin")
 
                 |&nbsp;&nbsp;Seconds:&nbsp;
-                select(name='selectesec', id="endsec") 
-            br   
+                select(name='selectesec', id="endsec")
+            br
             #bboxForm
               a.fas.fa-question-circle(id ="tooltip_bbox" data-toggle='tooltip', data-placement='top', title='Enter the desired data Name here ')
-              | <h3> Bounding Box</h3>
+              | <h3><span class="fas fa-edit"></span> Bounding Box</h3>
               | <b>Top Right Corner:</b>
               br
               | &nbsp; Latitude:&nbsp;&nbsp;&nbsp;&nbsp; 
@@ -151,7 +150,7 @@ html
               | <b>Bottom Left Corner:</b>
               br
               | &nbsp; Latitude:&nbsp;&nbsp;&nbsp;&nbsp; 
-              input(id='searchformbybbox_bottomLat' type='number', placeholder="" size="28" min = '-90' max = '90' step = 'any') 
+              input(id='searchformbybbox_bottomLat' type='number', placeholder="" size="28" min = '-90' max = '90' step = 'any')
               | &nbsp; Longitude:&nbsp; 
               input(id='searchformbybbox_bottomLong' type='number', placeholder="" size="28" min = '-180' max = '180' step = 'any')
               br
@@ -164,10 +163,11 @@ html
                 |  Click to draw a Bounding Box on the Map
             br
             br
-            input.btn.btn-success(type='submit', id='searchIt', value='Search for datasets')
-            //button.btn.btn-primary(id ='submit' onclick='visualizeMetadata()')
-              span.glyphicon.glyphicon-send
-              |  Submit
+            // Commented out because of styling if something shouldnt work remove comments and go back to old
+            // input.btn.btn-success(type='submit', id='searchIt', value='Search')
+            button.btn.btn-success(type='submit', id='searchIt', value='Search')
+              span.fas.fa-search
+              | Search for datasets
         #results.sidebar-pane
           #sideName
             h2 Reults
