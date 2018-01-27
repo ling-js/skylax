@@ -63,6 +63,6 @@ $(document).ready(function() {
  * Load every permalink saved things.
  */
 function initStartup(){
-  //initOptions();
+  initDate();
   $.when(loadHash()).done(loadPermaSearchParams());
 }

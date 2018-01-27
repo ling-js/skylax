@@ -315,74 +315,24 @@ function compareDates(){
   return true;
 }
 
-
-
-
-
 /**
- *changes the day, if day in that month does not exist example: 31.02.
- *jumps to 01.02.
- *Options removed or added for days
- *@param str Is "end" oder "start", depending on the day to be corrected
+ * Adds a date to the datepicker
  */
-function updateDay(str){
-  if(lessDayMonth(str) == true){
-    if($("#"+str+"day")[0].options.length == 31){
-      $("#"+str+"day")[0].options[30].remove();
-    }else if($("#"+str+"day")[0].options.length < 30){
-      addOption(str+"day", $("#"+str+"day")[0].options.length+1, 30);
-    }
-  }else if($("#"+str+"month").val() == 2){
-    if(feburaryCalc(str) == true){
-      if($("#"+str+"day")[0].options.length == 28){
-        addOption(str+"day", 29, 29);
-      }else{
-        for(var i = $("#"+str+"day")[0].options.length; i > 29; i--){
-          $("#"+str+"day")[0].options[i-1].remove();
-        }
-      }
+function initDate(){
+  console.log();
+  for(var i = 0; i < 2; i++){
+    var date;
+    if(i == 0) {
+      date = new Date("2015-01-01T00:00:00");
     }else{
-      for(var i = $("#"+str+"day")[0].options.length; i > 28; i--){
-        $("#"+str+"day")[0].options[i-1].remove();
-      }
+      date = new Date("2017-12-31T23:59:59");
     }
-  }else if($("#"+str+"day")[0].options.length < 31){
-    addOption(str+"day", $("#"+str+"day")[0].options.length+1, 31, 1);
+    console.log(date);
+    $('#datetimepicker'+(i+1)).datetimepicker({
+        defaultDate: date,
+    });
+    console.log(date);
   }
-}
-
-/**
- *indicates, if a month is a month with less than 31 days (except for february)
- *@param str Is "end" oder "start", depending on the month to be checked
- *@return True for short month, False for long month
- */
-function lessDayMonth(str){
-  var months = [4, 6, 9, 11];
-  for (var i = 0; i < months.length; i++) {
-    if(months[i] == $("#"+str+"month").val()){
-      return true;
-    }
-  }
-  return false;
-}
-
-/**
- * indicated, if the february is in a leap year (29 days)
- *@param str Is "end" oder "start", depending on the month to be checked
- *@return True for short february, False for long february
- */
-function feburaryCalc(str){
-  if($("#"+str+"year").val() % 4 == 0){
-    if($("#"+str+"year").val() % 100 == 0){
-      if($("#"+str+"year").val() % 400 == 0){
-        return true;
-      }else{
-        return false;
-      }
-    }
-    return true;
-  }
-  return false;
 }
 
 

@@ -82,12 +82,12 @@ function initMap() {
   map.on('click', function(e) {
     var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
     console.log(coords);
-    console.log($('#datasetButton1'));
-    var textWidth = $('#datasetButton1')[0].clientWidth;
-    console.log($('#sidebar')[0].clientWidth);
-    console.log($('#sidebar')[0].offsetWidth);
-    console.log($('#datasetButton1')[0].clientWidth);
-    console.log($('#datasetButton1')[0].offsetWidth);
+    //console.log($('#datasetButton1'));
+    //var textWidth = $('#datasetButton1')[0].clientWidth;
+    //console.log($('#sidebar')[0].clientWidth);
+    //console.log($('#sidebar')[0].offsetWidth);
+    //console.log($('#datasetButton1')[0].clientWidth);
+    //console.log($('#datasetButton1')[0].offsetWidth);
   });
 
  map.on('draw:created', function(e) {

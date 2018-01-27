@@ -74,7 +74,7 @@ function createTCISubmitHandler(res, j, i){
 						}
 
 					);
-					spinnerShow(document.getElementById('map'));
+					spinnerHide(document.getElementById('map'));
 		            // add layer to Map and name it like the Dataset it was requested from
 					layerControl.addOverlay(lyr, "Dataset "+j);
 					map.addLayer(lyr);
