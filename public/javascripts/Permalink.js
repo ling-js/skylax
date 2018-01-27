@@ -348,6 +348,9 @@ function loadPermaSearchParams(){
         switch(i[0]) {
             case "st":
               $("#searchformbyname_input").val(i[1]);
+              if(i[1] != ""){
+                $('#addNameToSearch')[0].checked = true;
+              }
               break;
             case "ssd":
               if(i[1] != ""){
@@ -369,6 +372,9 @@ function loadPermaSearchParams(){
               $("#searchformbybbox_bottomLong").val(sbox[0]);
               $("#searchformbybbox_topLat").val(sbox[3]);
               $("#searchformbybbox_topLong").val(sbox[2]);
+              if(i[1] != ""){
+                $('#addBboxToSearch')[0].checked = true;  
+              }
               coordsToPolygon("true");
               break;
         }
@@ -376,7 +382,10 @@ function loadPermaSearchParams(){
     }
     if(search == true){
       //Wenn Datasets vorhanden sind, wird hier die Ajax request ausgeführt, um diese erneut zu suchen
-      var substring = $("#searchformbyname_input").val();
+      var substring = "";
+      if($('#addNameToSearch')[0].checked == true){
+        substring = $("#searchformbyname_input").val();
+      }
       var startdate ="";
       var enddate = "";
       if($('#addDateToSearch')[0].checked == true){
@@ -384,9 +393,11 @@ function loadPermaSearchParams(){
         enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
       }
       var page = 0;
-      var bbox="";
-      if ($(searchformbybbox_bottomLong).val() != "" && $(searchformbybbox_bottomLat).val() != "" && $(searchformbybbox_topLong).val() != "" && $(searchformbybbox_topLat).val() != ""){
-        bbox=($(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val());
+      var bbox = "";
+      if($('#addBboxToSearch')[0].checked == true){
+        if ($(searchformbybbox_bottomLong).val() != "" && $(searchformbybbox_bottomLat).val() != "" && $(searchformbybbox_topLong).val() != "" && $(searchformbybbox_topLat).val() != ""){
+          bbox=($(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val());
+        }
       }
       var templateurl = apiurl + "/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
       pagerInit(templateurl);

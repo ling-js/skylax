@@ -35,7 +35,10 @@ $(document).ready(function() {
       // Checks if Enddate is valid (later than startDate)
       if(compareDates() == true){
         // Manual parsing of fields to create Request-URL
-        var substring = $("#searchformbyname_input").val();
+        var substring = "";
+        if($('#addNameToSearch')[0].checked == true){
+          substring = $("#searchformbyname_input").val();
+        }
         searchVariables.substring = substring;
         var startdate = "";
         var enddate = "";
@@ -45,12 +48,13 @@ $(document).ready(function() {
         }
         searchVariables.startdate = startdate;
         searchVariables.enddate = enddate;
-        console.log(searchVariables);
         var page = 0;
         var pagetoview = 1;
         var bbox="";
-        if ($(searchformbybbox_bottomLong).val() != "" && $(searchformbybbox_bottomLat).val() != "" && $(searchformbybbox_topLong).val() != "" && $(searchformbybbox_topLat).val() != ""){
-          bbox=($(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val());
+        if($('#addBboxToSearch')[0].checked == true){
+          if ($(searchformbybbox_bottomLong).val() != "" && $(searchformbybbox_bottomLat).val() != "" && $(searchformbybbox_topLong).val() != "" && $(searchformbybbox_topLat).val() != ""){
+            bbox=($(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val());
+          }
         }
         searchVariables.bbox = bbox;
         searchVariables.page = pagetoview-1;
