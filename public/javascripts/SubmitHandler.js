@@ -33,7 +33,7 @@ function createTCISubmitHandler(res, j, i){
 		if(res[j-1] == undefined){
 			console.log(j-1);
 			var datasetName = "&gscdn="+ res[i-1].PRODUCT_URI_2A;
-			var bandname = "&gsc=" + res[i-1].R60M[11];
+			var bandname = "&gsc=" + res[i-1].R60M[13];
 			var that = "tci=true&rgbbool=false&l2a=true";
 			that += datasetName;
 			that += bandname;

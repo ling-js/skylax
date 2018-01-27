@@ -112,8 +112,9 @@ width: 90px;
 width: 90px;
 }
 .panel-body{
-  padding: 0px;
-  overflow-x: auto;
+  padding:0px;
+  height:600px;
+  overflow-y:auto;
 }
 
 .colorform{
