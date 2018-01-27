@@ -34,7 +34,7 @@ $(document).ready(function() {
       e.preventDefault();
       var that = this;
       // Checks if Enddate is valid (later than startDate)
-      if(true){// Manual parsing of fields to create Request-URL
+      if(compareDates() == true){// Manual parsing of fields to create Request-URL
         var substring = "";
         if($('#addNameToSearch')[0].checked == true){
           substring = $("#searchformbyname_input").val();
@@ -206,8 +206,8 @@ function pageCalculator(allContents){
  *@return a date
  */
 
-function createDate(str){
-  var dateString = $("#"+str+"year").val() + "-" + $("#"+str+"month").val() + "-" + $("#"+str+"day").val() + "T" + $("#"+str+"hour").val() + ":" + $("#"+str+"min").val() + ":" + $("#"+str+"sec").val();
+function createDate(i){
+  var dateString = processTime($('#datetimepicker'+i).data("DateTimePicker").date()._d.toISOString());
   var date = new Date(dateString);
   return date;
 }
@@ -301,8 +301,8 @@ function initOptions(){
  *@return Bool value, true means startdate is before enddate
  */
 function compareDates(){
-  var startDate = createDate("start");
-  var endDate = createDate("end");
+  var startDate = createDate(1);
+  var endDate = createDate(2);
   if(startDate < endDate){
     return true;
   }else{
