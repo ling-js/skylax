@@ -28,6 +28,16 @@ body {
   margin: 0;
 }
 
+#tooltip_name,#tooltip_date,#tooltip_bbox {
+  color: #00B7FF;
+  position:relative;
+  left: 98%;
+}
+
+h3{
+  margin-top: 0px;
+}
+
 a, a:active, a:focus{
   color: #00B7FF;
   outline: none;
@@ -219,5 +229,15 @@ html,body {
      height: 150px;
 }
 
-
+  #sideName{
+    text-align: center;
+    vertical-align: middle;
+    text-shadow: 2px 2px lightgrey;
+  }
+  #nameForm, #dateForm, #bboxForm{
+    padding-bottom: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid lightgrey;
+  }
 }

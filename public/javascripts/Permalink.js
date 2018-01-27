@@ -46,7 +46,7 @@ function showPermalink(){
 function matchTextAreaField(str){
   for(var i = 0; i <$('#sidebar')[0].classList.length;i++){
     if ($('#sidebar')[0].classList[i]  == "collapsed"){
-      openTabInSidebar('#search');
+      openTabInSidebar('#reults');
     }
   }
   $(".sidebar-content").find(".active").append('<textarea id="permalinkTemp" value=str style="width: 100%"></<textarea>');
@@ -54,7 +54,7 @@ function matchTextAreaField(str){
   var height = $('#permalinkTemp')[0].scrollHeight+2+"px";
   $('#permalinkTemp')[0].parentNode.removeChild($('#permalinkTemp')[0]);
   //$(".sidebar-content").find(".active").remove($('#permalinkTemp'));
-  $('#save').html('<h2>Save</h2><textarea id="permalink" value=str style="width: 100%"></<textarea>');
+  $('#save').html('<div id="sideName"><h2>Save</h2> </div><textarea id="permalink" value=str style="width: 100%"></<textarea>');
   $('#permalink')[0].style.height = height;
   $('#permalink')[0].value = str;
 }
@@ -79,7 +79,8 @@ function addParams(stateobject){
   for (let p of stateobject) {
     permalink.searchParams.append(p[0],p[1]);
   }
-  permalink.hash = "#search";
+  var url = new URL($(".sidebar-tabs").find(".active")[0].children[0].href);
+  permalink.hash = url.hash;
   return permalink;
 }
 
@@ -93,6 +94,10 @@ function createJSONPerma(){
   var ssd = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";    var sed = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
   var p = findPage();
   var sbox = ($('#searchformbybbox_bottomLong').val()+','+ $('#searchformbybbox_bottomLat').val() +','+ $('#searchformbybbox_topLong').val()+',' +$('#searchformbybbox_topLat').val());
+  var searched = false;
+  if($('#resultIntroText')[0].innerHTML != "Currently there are no results."){
+    searched = true;
+  }
   var ds = [];
   var calc = [];
   var forEnd = 0;
@@ -166,7 +171,7 @@ function createJSONPerma(){
     ds.push(tempJSON);
     calc = [];
   }
-  return {"st":st, "sbox":sbox, "ssd":ssd, "sed":sed, "p":p, "ds":ds};
+  return {"st":st, "sbox":sbox, "ssd":ssd, "sed":sed, "p":p, "ser":searched,"ds":ds};
 }
 
 /**
@@ -229,13 +234,15 @@ function loadHash(){
 function loadPermaSearchParams(){
   //lädt Suchparameter
   var searchParams = new URLSearchParams(window.location.search.slice(1));
-  //Gibt an, wie viele Suchparameter angegeben sind und ob eins ein Dataset ist
+  //Gibt an, wie viele Suchparameter angegeben sind und ob gesucht worden ist
   var counter = 0;
-  var ds = false;
+  var search = false;
   for (let i of searchParams) {
     counter++;
-    if(i[0] == "ds"){
-      ds = true;
+    if(i[0] == "ser"){
+      if(i[1] == "true"){
+        search = true;
+      }
     }
   }
   //Wenn Datasets vorhanden sind
@@ -268,9 +275,6 @@ function loadPermaSearchParams(){
           }else{
             //Lädt alle Variablen, die es in Datasets gibt
             switch(j[0]) {
-                case "n":
-                  console.log("Was soll  ich denn damit?" + j[1]);
-                  break;
                 case "o":
                   dsOpacity.push(j[1]);
                   break;
@@ -364,7 +368,7 @@ function loadPermaSearchParams(){
         }
       }
     }
-    if(ds == true){
+    if(search == true){
       //Wenn Datasets vorhanden sind, wird hier die Ajax request ausgeführt, um diese erneut zu suchen
       var substring = $("#searchformbyname_input").val();
       var startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
@@ -491,10 +495,10 @@ function isExpanded(number){
  */
 function checkActiveTab(){
   for (var i = 0; i < $('#topTabs')[0].children.length; i++) {
-    if($('#topTabs')[0].children[i].className == "active" && $('#topTabs')[0].children[i].id != "searchTabButton"){
+    if($('#topTabs')[0].children[i].className == "active" && $('#topTabs')[0].children[i].id != "resultsTabButton" && $('#topTabs')[0].children[i].id != "searchTabButton"){
       const url = new URL($('#topTabs')[0].children[i].children[0].href);
       return window.location.origin +"/"+ url.hash;
-    }else if($('#topTabs')[0].children[i].className == "active" && $('#topTabs')[0].children[i].id == "searchTabButton"){
+    }else if($('#topTabs')[0].children[i].className == "active" && ($('#topTabs')[0].children[i].id == "resultsTabButton" || $('#topTabs')[0].children[i].id == "searchTabButton")){
       return true;
     }
   }
@@ -524,4 +528,3 @@ function findArray(bandArray, band){
   }
   return number;
 }
-
