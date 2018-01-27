@@ -78,7 +78,7 @@ html
 
               | <h2>  Search for Datasets</h2>
             #nameForm
-              a.fas.fa-question-circle(id="tooltip_name" data-toggle='tooltip', data-placement='top', title='Enter the desired data Name here ')
+              a.fas.fa-question-circle(id="tooltip_name" data-toggle='tooltip', data-placement='top', title='Filter by specifying the name of the dataset')
 
               | <h3><i class="fas fa-pencil-alt"></i> Name  <input type="checkbox" id="addNameToSearch" name="addName")></h3>
               .container
@@ -91,7 +91,7 @@ html
                         input.form-control(id='searchformbyname_input' type='text' placeholder="Enter a Name for the dataset", disabled=true)
             br
             #dateForm
-              a.fas.fa-question-circle(id="tooltip_date" data-toggle='tooltip', data-placement='top', title='Enter the desired data Name here ')
+              a.fas.fa-question-circle(id="tooltip_date" data-toggle='tooltip', data-placement='top', title='Filter by specifying start and end date')
               | <h3><span class="far fa-calendar-alt"></span> Date <input type="checkbox" id="addDateToSearch" name="addDate")> </h3>
               | <b>Select start date:</b>
               .container
@@ -132,7 +132,7 @@ html
                       });})
             br
             #bboxForm
-              a.fas.fa-question-circle(id ="tooltip_bbox" data-toggle='tooltip', data-placement='top', title='Enter the desired data Name here ')
+              a.fas.fa-question-circle(id ="tooltip_bbox" data-toggle='tooltip', data-placement='top', title='Filter by specifying a bounding box')
               | <h3><span class="fas fa-edit"></span> Bounding Box <input type="checkbox" id="addBboxToSearch" name="addBbox")></h3>
               | <b>Top Right Corner:</b>
               br
@@ -181,18 +181,15 @@ html
           br
           | Benjamin Karic, Jens Seifert, Jasper Buß, Eric Thieme-Garmann, Jan Speckamp
           br
-          | 127.0.0.1
+          | ifgi - Institute for Geoinformatics
           br
-          | eth0
+          | WWU Muenster
+          br
           br
           h3 Contact
-          | ICQ: 123456789
-          br
           | E-Mail:
-          a(href='mailto:noreply.muster@mail.de') max.muster@mail.de
+          a(href='mailto:therealskylax@gmail.com') therealskylax@gmail.com
           br
-          | Website:
-          a(href='http://3g2upl4pq6kufc4m.onion/', target='_blank') http://3g2upl4pq6kufc4m.onion/
           br
           h3 Disclaimer
           | Accountability for content
@@ -214,45 +211,3 @@ html
           a(href='https://www.twigg.de', target='_blank') twiggs translations
           br
           br
-//br
-//| &nbsp;Day:&nbsp;
-//select(name='selectsday', id="startday")
-//| &nbsp;Month:&nbsp;
-//select(name='selectsmonth', id="startmonth", onchange="updateDay('start')")
-////input(id='searchformbydate_input' type='date' placeholder="YYYY")
-//| &nbsp;Year:&nbsp;
-//select(name='selectsyear', id="startyear", onchange="updateDay('start')")
-//a(style=" font-size: 9px" onclick="toggleIt('detailedstarttime')")|&nbsp;Detailed Start-Time
-//br
-//p#detailedstarttime(style=" display: none")
-//  | &nbsp;&nbsp;Hours:&nbsp;
-//  select(name='selectshour', id="starthour")
-//
-//  | &nbsp;&nbsp;Minutes:&nbsp;
-//  select(name='selectsmin', id="startmin")
-//
-//  | &nbsp;&nbsp;Seconds:&nbsp;
-//  select(name='selectssec', id="startsec")
-//  br
-//
-//| <b>Select end date:</b>
-//br
-//| &nbsp;Day:&nbsp;
-//select(name='selecteday', id="endday")
-//
-//| &nbsp;Month:&nbsp;
-//select(name='selectemonth', id="endmonth", onchange="updateDay('end')")
-//
-//| &nbsp;Year:&nbsp;
-//select(name='selecteyear', id="endyear", onchange="updateDay('end')")
-//a(style=" font-size: 9px" onclick="toggleIt('detailedendtime')")|&nbsp;Detailed End-Time
-//br
-//p#detailedendtime(style=" display: none")
-//  | &nbsp;&nbsp;Hours:&nbsp;
-//  select(name='selectehour', id="endhour")
-//
-//  | &nbsp;&nbsp;Minutes:&nbsp;
-//  select(name='selectemin', id="endmin")
-//
-//  | &nbsp;&nbsp;Seconds:&nbsp;
-//  select(name='selectesec', id="endsec")
