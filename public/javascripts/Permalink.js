@@ -233,6 +233,8 @@ function loadHash(){
 * Loads the search parameters from the permalink, adds them and possibly executes search
 */
 function loadPermaSearchParams(){
+  //Counts found Datasets
+  var counter = 0;
   //loads search parameters
   var searchParams = new URLSearchParams(window.location.search.slice(1));
   //indicates, how many search parameters there are and if there was a search
@@ -537,7 +539,7 @@ function checkActiveTab(){
  *returns the location in the array from the specified band
  *@param bandArray array to search through
  *@param band entry, to look for
- *@return location of array from wanted entry 
+ *@return location of array from wanted entry
 */
 function findArray(bandArray, band){
   var number = 0;

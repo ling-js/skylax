@@ -108,7 +108,7 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 				band[j] = [];
 				band[j].push(zerArr);
 			}
-
+		}
 		//changes arrays for bands, so the correct is selected
 		//
 		var constArray = ["0","B1","B2","B3","B4","B5","B6","B7","B8","B8a","B9","B10","B11","B12"];
@@ -276,7 +276,6 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 
 	return $('#one').html();
 }
-
 
 
 
