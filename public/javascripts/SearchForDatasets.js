@@ -212,8 +212,7 @@ function createDate(str){
 
 function processTime(str){
 
-  var isotime = str ;
-    ;
+
     var res = str.slice(0,19)+str.slice(23,24);
     res = res.replace('.',':');
 
