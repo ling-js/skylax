@@ -80,10 +80,16 @@ html
             #nameForm
               a.fas.fa-question-circle(id="tooltip_name" data-toggle='tooltip', data-placement='top', title='Enter the desired data Name here ')
 
-              | <h3> Name  <input type="checkbox" id="addNameToSearch" name="addName")></h3>
-              | <b>Search by name:</b>&nbsp;&nbsp;&nbsp;
-              input(id='searchformbyname_input' type='string' placeholder="Enter a search-string")
-            br 
+              | <h3><i class="fas fa-pencil-alt"></i> Name  <input type="checkbox" id="addNameToSearch" name="addName")></h3>
+              .container
+                .row
+                  .col-sm-3
+                    .form-group
+                      div.input-group
+                        span.input-group-addon
+                          i.fas.fa-database
+                        input(id='searchformbyname_input' type='string' placeholder="Enter a Name for the dataset")
+            br
             #dateForm
               a.fas.fa-question-circle(id="tooltip_date" data-toggle='tooltip', data-placement='top', title='Enter the desired data Name here ')
               | <h3><span class="far fa-calendar-alt"></span> Date <input type="checkbox" id="addDateToSearch" name="addDate")> </h3>
