@@ -16,7 +16,9 @@ html
     script(src="https://use.fontawesome.com/releases/v5.0.3/js/all.js")
     script(src='/javascripts/leaflet-sidebar.min.js')
     script(src='/javascripts/jquery.bootpag.min.js')
+    script(src='/javascripts/moment.js')
 
+    script(src='/javascripts/bootstrap-datetimepicker.js')
     // Leaflet draw plugin
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.css')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.js')
@@ -38,7 +40,7 @@ html
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u', crossorigin='anonymous')
     link(rel='stylesheet', href='https://unpkg.com/leaflet@1.0.3/dist/leaflet.css')
     link(rel='stylesheet', href='/stylesheets/leaflet-sidebar.min.css')
-
+    link(rel='stylesheet', href='/stylesheets/bootstrap-datetimepicker.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
 
 
@@ -84,55 +86,48 @@ html
             br 
             #dateForm
               a.fas.fa-question-circle(id="tooltip_date" data-toggle='tooltip', data-placement='top', title='Enter the desired data Name here ')
+              | <h3><span class="far fa-calendar-alt"></span> Date <input type="checkbox" id="addDateToSearch" name="addDate")> </h3>
+              | <b>Select start date:</b>
+              .container
+                .row
+                  .col-sm-3
+                    .form-group
+                      #datetimepicker1.input-group.date
+                        span.input-group-addon
+                          span.glyphicon.glyphicon-calendar
+                        input.form-control(id='startDate',type='text')
+                  script(type='text/javascript').
+                      $(function () {
+                          $('#datetimepicker1').datetimepicker({
+                              locale: 'de'
+                          });
+                          $("#datetimepicker1").on("dp.change", function (e) {
+                              startdate = $('#datetimepicker1').data("DateTimePicker").date()._d.toISOString();
+                          });
+                      });
 
-              | <h3> Date-Filter  <input type="checkbox" id="addDateToSearch" name="addDate")>  </h3>
-              | <b>Select start date:</b> 
-              br       
-              |Day:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              | <b>Select end date:</b>
+              .container
+                .row
+                  .col-sm-3
+                    .form-group
+                      #datetimepicker2.input-group.date
+                        span.input-group-addon
+                          span.glyphicon.glyphicon-calendar
+                        input.form-control(id='endDate' ,type='text')
+                  script(type='text/javascript').
+                      $(function () {
+                          $('#datetimepicker2').datetimepicker({
+                              locale: 'de'
+                          });
+                          $("#datetimepicker2").on("dp.change", function (e) {
+                              enddate=$('#datetimepicker2').data("DateTimePicker").date()._d.toISOString();
 
-              select(name='selectsday', id="startday")
-              |&nbsp;&nbsp;Month:&nbsp;&nbsp;&nbsp;
-              select(name='selectsmonth', id="startmonth", onchange="updateDay('start')")
-              //input(id='searchformbydate_input' type='date' placeholder="YYYY")
-              |&nbsp;&nbsp;Year:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              select(name='selectsyear', id="startyear", onchange="updateDay('start')")
-              a(style=" font-size: 9px" onclick="toggleIt('detailedstarttime')")|&nbsp;Detailed
-              br
-              p#detailedstarttime(style=" display: none")
-                |Hours:&nbsp;
-                select(name='selectshour', id="starthour")
-
-                |&nbsp;&nbsp;Minutes:&nbsp;
-                select(name='selectsmin', id="startmin")
-
-                |&nbsp;&nbsp;Seconds:&nbsp;
-                select(name='selectssec', id="startsec")
-                br
-              
-              | <b>Select end date:</b> 
-              br       
-              |Day:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              select(name='selecteday', id="endday")
-              |&nbsp;&nbsp;Month:&nbsp;&nbsp;&nbsp;
-              select(name='selectemonth', id="endmonth", onchange="updateDay('end')")
-              |&nbsp;&nbsp;Year:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              select(name='selecteyear', id="endyear", onchange="updateDay('end')")
-              a(style=" font-size: 9px" onclick="toggleIt('detailedendtime')")|&nbsp;Detailed 
-              br  
-              p#detailedendtime(style=" display: none")
-                |Hours:&nbsp;
-                select(name='selectehour', id="endhour")
-
-                |&nbsp;&nbsp;Minutes:&nbsp;
-                select(name='selectemin', id="endmin")
-
-                |&nbsp;&nbsp;Seconds:&nbsp;
-                select(name='selectesec', id="endsec") 
-              
-            br   
+                      });})
+            br
             #bboxForm
               a.fas.fa-question-circle(id ="tooltip_bbox" data-toggle='tooltip', data-placement='top', title='Enter the desired data Name here ')
-              | <h3> Bounding Box  <input type="checkbox" id="addBboxToSearch" name="addBbox")></h3>
+              | <h3><span class="fas fa-edit"></span> Bounding Box<input type="checkbox" id="addBboxToSearch" name="addBbox")></h3>
               | <b>Top Right Corner:</b>
               br
               | &nbsp; Latitude:&nbsp;&nbsp;&nbsp;&nbsp; 
@@ -143,7 +138,7 @@ html
               | <b>Bottom Left Corner:</b>
               br
               | &nbsp; Latitude:&nbsp;&nbsp;&nbsp;&nbsp; 
-              input(id='searchformbybbox_bottomLat' type='number', placeholder="" size="28" min = '-90' max = '90' step = 'any') 
+              input(id='searchformbybbox_bottomLat' type='number', placeholder="" size="28" min = '-90' max = '90' step = 'any')
               | &nbsp; Longitude:&nbsp; 
               input(id='searchformbybbox_bottomLong' type='number', placeholder="" size="28" min = '-180' max = '180' step = 'any')
               br
@@ -157,10 +152,11 @@ html
                 |  Click to draw a Bounding Box on the Map
             br
             br
-            input.btn.btn-success(type='submit', id='searchIt', value='Search for datasets')
-            //button.btn.btn-primary(id ='submit' onclick='visualizeMetadata()')
-              span.glyphicon.glyphicon-send
-              |  Submit
+            // Commented out because of styling if something shouldnt work remove comments and go back to old
+            // input.btn.btn-success(type='submit', id='searchIt', value='Search')
+            button.btn.btn-success(type='submit', id='searchIt', value='Search')
+              span.fas.fa-search
+              | Search for datasets
         #results.sidebar-pane
           #sideName
             h2 Results
@@ -210,3 +206,45 @@ html
           a(href='https://www.twigg.de', target='_blank') twiggs translations
           br
           br
+//br
+//| &nbsp;Day:&nbsp;
+//select(name='selectsday', id="startday")
+//| &nbsp;Month:&nbsp;
+//select(name='selectsmonth', id="startmonth", onchange="updateDay('start')")
+////input(id='searchformbydate_input' type='date' placeholder="YYYY")
+//| &nbsp;Year:&nbsp;
+//select(name='selectsyear', id="startyear", onchange="updateDay('start')")
+//a(style=" font-size: 9px" onclick="toggleIt('detailedstarttime')")|&nbsp;Detailed Start-Time
+//br
+//p#detailedstarttime(style=" display: none")
+//  | &nbsp;&nbsp;Hours:&nbsp;
+//  select(name='selectshour', id="starthour")
+//
+//  | &nbsp;&nbsp;Minutes:&nbsp;
+//  select(name='selectsmin', id="startmin")
+//
+//  | &nbsp;&nbsp;Seconds:&nbsp;
+//  select(name='selectssec', id="startsec")
+//  br
+//
+//| <b>Select end date:</b>
+//br
+//| &nbsp;Day:&nbsp;
+//select(name='selecteday', id="endday")
+//
+//| &nbsp;Month:&nbsp;
+//select(name='selectemonth', id="endmonth", onchange="updateDay('end')")
+//
+//| &nbsp;Year:&nbsp;
+//select(name='selecteyear', id="endyear", onchange="updateDay('end')")
+//a(style=" font-size: 9px" onclick="toggleIt('detailedendtime')")|&nbsp;Detailed End-Time
+//br
+//p#detailedendtime(style=" display: none")
+//  | &nbsp;&nbsp;Hours:&nbsp;
+//  select(name='selectehour', id="endhour")
+//
+//  | &nbsp;&nbsp;Minutes:&nbsp;
+//  select(name='selectemin', id="endmin")
+//
+//  | &nbsp;&nbsp;Seconds:&nbsp;
+//  select(name='selectesec', id="endsec")
