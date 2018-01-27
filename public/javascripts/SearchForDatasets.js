@@ -318,7 +318,6 @@ function compareDates(){
  * Adds a date to the datepicker
  */
 function initDate(){
-  console.log();
   for(var i = 0; i < 2; i++){
     var date;
     if(i == 0) {
@@ -326,11 +325,9 @@ function initDate(){
     }else{
       date = new Date("2017-12-31T23:59:59");
     }
-    console.log(date);
     $('#datetimepicker'+(i+1)).datetimepicker({
         defaultDate: date,
     });
-    console.log(date);
   }
 }
 
