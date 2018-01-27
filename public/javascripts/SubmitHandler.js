@@ -69,6 +69,8 @@ function createTCISubmitHandler(res, j, i){
 						  continuousWorld: true,
 							opacity: 100,
 							bounds: stringToCoordArray(jsonForDatasets[j-1].FOOTPRINT),
+							minZoom : 4,
+							maxZoom : 12,
 						}
 
 					);
@@ -162,6 +164,8 @@ function createL1CSubmitHandler(res, j, opacity){
 						  continuousWorld: true,
 							opacity: 100,
 							bounds: stringToCoordArray(jsonForDatasets[j-1].FOOTPRINT),
+							minZoom : 4,
+							maxZoom : 12,
 						}
 
 					);
@@ -276,6 +280,8 @@ function createL2ASubmitHandler(res, j, opacity, i){
 						  continuousWorld: true,
 							opacity: 100,
 							bounds: stringToCoordArray(jsonForDatasets[j-1].FOOTPRINT),
+							minZoom : 4,
+							maxZoom : 12,
 						}
 
 					);
