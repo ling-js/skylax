@@ -93,10 +93,6 @@ function createHTML(result, pagetoview, expanded, band, btn, bandValues, vis, op
 function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 	var length = result.L1C.length;
 	var length2 = result.L2A.length;
-	var arr10m = ["Resolution 10 Meter:", "R10M", "Band AOT", "[0]", "Band 2", "[1]", "Band 3", "[2]" , "Band 4", "[3]", "Band TCI", "[5]",  "Band WVP", "[6]" , "Band 8", "[4]"];
-	var arr20m = ["Resolution 20 Meter:", "R20M", "Band AOT", "[0]", "Band 2", "[1]", "Band 3", "[2]" ,"Band 4", "[3]", "Band 5","[4]", "Band 6","[5]", "Band 7","[6]", "Band SCL","[10]", "Band 8a","[9]", "Band TCI","[11]", "Band 11","[7]", "Band 12","[8]", "Band VIS","[12]", "Band WVP", "[13]"];
-	var arr60m = ["Resolution 60 Meter:", "R60M", "Band AOT", "[0]", "Band 1", "[1]", "Band 2", "[2]" ,"Band 3", "[3]", "Band 4","[4]", "Band 5","[5]", "Band 6","[6]", "Band 7","[7]", "Band 9","[8]", "Band 11","[9]", "Band 12","[10]", "Band 8a","[11]", "Band SCL","[12]", "Band TCI", "[13]", "Band WVP", "[14]"]
-
 
 
 	for(i=1;i < length+1; i++){
@@ -159,10 +155,29 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 					bandValues[k][1][j] = 65536;
 				}
 			}
-		}
+		} 
+
+		//Sytling of accordion titles (color of badges and adding manual breaks)
+		var productUri = result.L1C[i-1].PRODUCT_URI;
+		var slicedUri = productUri.slice(0,42) +'<br>' + productUri.slice(42,65);
+
+		var spacecraftname = result.L1C[i-1].PRODUCT_URI.slice(0, 3);
+		var spacecraftbadge;
+		switch(spacecraftname){
+			case "S2A":
+				spacecraftbadge = ' <span class="badge" style="background-color:#c67605;"> Spacecraft: ' + spacecraftname + '</span> ';
+				break;
+			case "S2B":
+				spacecraftbadge = ' <span class="badge" style="background-color:#3a87ad;"> Spacecraft: ' + spacecraftname + '</span> ';
+				break;
+		}	
+
+		var levelname = result.L1C[i-1].PRODUCT_URI.slice(7, 10);
+		var levelbadge = '<span class="badge" style="background-color:#b94a48;"> Level: ' +  levelname + '</span>';
+		
 
 		//creates accordion with a name,  Erstellst ein Akkordion mit Namen, possibly expanded
-		$('#one').html($('#one').html() + '<div class="panel panel-default"> <a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"><div class="panel-heading"><span class="glyphicon glyphicon-open" aria-hidden="true"></span> Dataset '+ (8*(pagetoview-1)+i) +'</div></a><span class="panel-body panel-collapse collapse '+expanded[i-1]+'" id="dataset'+i+'"> <p id="quality" style="padding: 15px; padding-bottom:0px">Metadata:</p> <p id="datasetButton'+i+'" style="padding: 15px; padding-top: 0px"></p> '
+		$('#one').html($('#one').html() + '<div class="panel panel-default"> <a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"><div class="panel-heading">'+ spacecraftbadge + levelbadge +'<br/> <span style="white-space: nowrap;"> <span class="glyphicon glyphicon-open" aria-hidden="true"></span> '+ slicedUri +'</span></div></a><span class="panel-body panel-collapse collapse '+expanded[i-1]+'" id="dataset'+i+'"> <p id="quality" style="padding: 15px; padding-bottom:0px">Metadata:</p> <p id="datasetButton'+i+'" style="padding: 15px; padding-top: 0px"></p> '
 										//creates radiobuttons,possibly selected, with corresponding bandvalues, one might have been chosen before
 										+ ' <form class="colorform" id="showData' + i + '" method="POST"> <div> <button id="showTCI'+ i +'"> Show True Color Image  </button> <br/> <br/> </div> <container> <input id="rgb'+i+'" type="radio" name="rgbbool" value="true" '+rgbChecked+' onclick="toggleDrop('+(i*2)+','+((i*2)+1)+')"/> RGB<br/> <label for="rgb" class="dropd" id="dropd'+(i*2)+'"> '
 										+ ' Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <select name="rcn" id="rgbselect' + ((i*3)-2)+ '"> <option disabled="disabled" value="'+redBand[0]+'">Pick a band</option> <option value="'+redBand[1]+'">Band 1</option> <option value="'+redBand[2]+'">Band 2</option> <option value="'+redBand[3]+'">Band 3</option> <option value="'+redBand[4]+'">Band 4</option> <option value="'+redBand[5]+'">Band 5</option> <option value="'+redBand[6]+'">Band 6</option> <option value="'+redBand[7]+'">Band 7</option> <option value="'+redBand[8]+'">Band 8</option> <option value="'+redBand[9]+'">Band 8a</option> <option value="'+redBand[10]+'">Band 9</option> <option value="'+redBand[11]+'">Band 10</option> <option value="'+redBand[12]+'">Band 11</option> <option value="'+redBand[13]+'">Band 12</option> </select> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
@@ -247,8 +262,27 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 			}
 		}
 
+		//Sytling of accordion titles (color of badges and adding manual breaks)
+		var productUri = result.L2A[i-length-1].PRODUCT_URI_2A;
+		var slicedUri = productUri.slice(0,42) +'<br>' + productUri.slice(42,65);
+
+		var spacecraftname = result.L2A[i-length-1].PRODUCT_URI_2A.slice(0, 3);
+		var spacecraftbadge;
+		switch(spacecraftname){
+			case "S2A":
+				spacecraftbadge = ' <span class="badge" style="background-color:#c67605;"> Spacecraft: ' + spacecraftname + '</span>';
+				break;
+			case "S2B":
+				spacecraftbadge = ' <span class="badge" style="background-color:#3a87ad;"> Spacecraft: ' + spacecraftname + '</span>';
+				break;
+		}
+		
+		var levelname = result.L2A[i-length-1].PRODUCT_URI_2A.slice(7, 10);
+		var levelbadge = '<span class="badge" style="background-color:#468847;"> Level: ' +  levelname + '</span>';
+		
+		
 		//creates accordion with name
-		$('#one').html($('#one').html() + '<div class="panel panel-default"><a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"><div class="panel-heading"><span class="glyphicon glyphicon-open" aria-hidden="true"></span> Dataset '+ (8*(pagetoview-1)+i) +'</div></a><span class="panel-body panel-collapse collapse '+expanded[i-1]+'" id="dataset'+i+'"><p id="quality" style="padding: 15px; padding-bottom:0px">Metadata:</p><p id="datasetButton'+i+'" style="padding: 15px; padding-top: 0px"></p><form class="colorform" id="showL2AData' + i + '" method="POST">'
+		$('#one').html($('#one').html() + '<div class="panel panel-default"> <a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"> <div class="panel-heading"> '+ spacecraftbadge + levelbadge +'<br/> <span style="white-space: nowrap;"> <span class="glyphicon glyphicon-open" aria-hidden="true"></span>' + slicedUri + '</span></div></a><span class="panel-body panel-collapse collapse '+expanded[i-1]+'" id="dataset'+i+'"><p id="quality" style="padding: 15px; padding-bottom:0px">Metadata:</p><p id="datasetButton'+i+'" style="padding: 15px; padding-top: 0px"></p><form class="colorform" id="showL2AData' + i + '" method="POST">'
 										+ '  <div> <button id="showTCI'+ i +'"> Show True Color Image </button> <br/> <br/> </div> <container><input id="rgb'+i+'" type="radio" name="rgbbool" value="true" '+rgbChecked+' onclick="toggleDrop('+(i*2)+','+((i*2)+1)+')"/> RGB<br/><label for="rgb" class="dropd" id="dropd'+(i*2)+'">'
 										+'Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select name="rcn" id="rgbselect' + ((i*3)-2) + '"></select>'
 											+'<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Min-Value: <input type="number" name="rcmin" id="minRed'+i+'" placeholder="0" value="'+(bandValues[i-1][0][1])+'"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Max-Value: <input type="number" name="rcmax"  id="maxRed'+i+'" maxlength="5" placeholder="65536" value="'+(bandValues[i-1][1][1])+'"/><br/><br/>'
@@ -426,9 +460,9 @@ function visualizeMetadata(result, page, band, vis){
 
  		//create select values for S2A datasets:
  		var k = j+1;
- 		var arr10m = ["Resolution 10 Meter:", "R10M", "Band AOT", 0, "Band 2", 1, "Band 3", 2 , "Band 4", 3, "Band TCI", 5,  "Band WVP", 6 , "Band 8", 4];
-		var arr20m = ["Resolution 20 Meter:", "R20M", "Band AOT", 0, "Band 2", 1, "Band 3", 2 , "Band 4", 3, "Band 5", 4, "Band 6", 5, "Band 7", 6, "Band SCL", 10, "Band 8a", 9, "Band TCI", 11, "Band 11", 7, "Band 12", 8, "Band VIS", 12, "Band WVP", 13];
-		var arr60m = ["Resolution 60 Meter:", "R60M", "Band AOT", 0, "Band 1", 1, "Band 2", 2, "Band 3", 3, "Band 4", 4, "Band 5", 5, "Band 6", 6, "Band 7", 7, "Band 9", 8, "Band 11", 9, "Band 12", 10, "Band 8a", 11, "Band SCL", 12, "Band TCI", 13, "Band WVP", 14]
+ 		var arr10m = ["Pick a Band", "R10M", "Resolution 10 Meter:", "R10M", "Band AOT", 0, "Band 2", 1, "Band 3", 2 , "Band 4", 3,  "Band WVP", 6 , "Band 8", 4];
+		var arr20m = ["Pick a Band", "R20M","Resolution 20 Meter:", "R20M", "Band AOT", 0, "Band 2", 1, "Band 3", 2 , "Band 4", 3, "Band 5", 4, "Band 6", 5, "Band 7", 6, "Band SCL", 10, "Band 8a", 9, "Band 11", 7, "Band 12", 8, "Band VIS", 12, "Band WVP", 13];
+		var arr60m = ["Pick a Band", "R60M","Resolution 60 Meter:", "R60M", "Band AOT", 0, "Band 1", 1, "Band 2", 2, "Band 3", 3, "Band 4", 4, "Band 5", 5, "Band 6", 6, "Band 7", 7, "Band 9", 8, "Band 11", 9, "Band 12", 10, "Band 8a", 11, "Band SCL", 12, "Band WVP", 14]
 		addL2AOptions(resL2A, ("rgbselect"+((k*3)-2)), arr10m, i, band);
 		addL2AOptions(resL2A, ("rgbselect"+((k*3)-2)), arr20m, i,band);
 		addL2AOptions(resL2A, ("rgbselect"+((k*3)-2)), arr60m, i,band);
@@ -461,7 +495,7 @@ function visualizeMetadata(result, page, band, vis){
 function addL2AOptions(result, id, array, j, band){
   for(var i = 0; i < array.length; i = i + 2){
    $("#"+id)[0].options[$("#"+id)[0].options.length] = new Option(array[i],result[j][array[1]][array[i+1]]);
-   if(i == 0){
+   if(i == 0 || i == 1){
      $("#"+id)[0].options[$("#"+id)[0].options.length-1].disabled = "true";
    }
 	 //Selector for permalink
