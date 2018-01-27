@@ -83,12 +83,12 @@ html
               | <h3><i class="fas fa-pencil-alt"></i> Name  <input type="checkbox" id="addNameToSearch" name="addName")></h3>
               .container
                 .row
-                  .col-sm-4
+                  .col-sm-3
                     .form-group
                       div.input-group
                         span.input-group-addon
                           i.fas.fa-database
-                        input(id='searchformbyname_input' type='string' placeholder="Enter a Name for the dataset")
+                        input.form-control(id='searchformbyname_input' type='text' placeholder="Enter a Name for the dataset", disabled=true)
             br
             #dateForm
               a.fas.fa-question-circle(id="tooltip_date" data-toggle='tooltip', data-placement='top', title='Enter the desired data Name here ')
@@ -101,7 +101,7 @@ html
                       #datetimepicker1.input-group.date
                         span.input-group-addon
                           span.glyphicon.glyphicon-calendar
-                        input.form-control(id='startDate',type='text')
+                        input.form-control(id='startDate',type='text' ,disabled='t')
                   script(type='text/javascript').
                       $(function () {
                           $('#datetimepicker1').datetimepicker({
@@ -120,7 +120,7 @@ html
                       #datetimepicker2.input-group.date
                         span.input-group-addon
                           span.glyphicon.glyphicon-calendar
-                        input.form-control(id='endDate' ,type='text')
+                        input.form-control(id='endDate' ,type='text' disabled='disabled')
                   script(type='text/javascript').
                       $(function () {
                           $('#datetimepicker2').datetimepicker({
@@ -136,17 +136,19 @@ html
               | <h3><span class="fas fa-edit"></span> Bounding Box<input type="checkbox" id="addBboxToSearch" name="addBbox")></h3>
               | <b>Top Right Corner:</b>
               br
-              | &nbsp; Latitude:&nbsp;&nbsp;&nbsp;&nbsp; 
-              input(id='searchformbybbox_topLat' type='number', placeholder="" size="25" min = '-90' max = '90' step = 'any')
-              | &nbsp; Longitude:&nbsp; 
-              input(id='searchformbybbox_topLong' type='number', placeholder="" size="25" min = '-180' max = '180' step = 'any')
+              div.row
+                | &nbsp; Latitude:&nbsp;&nbsp;&nbsp;&nbsp;
+                input(id='searchformbybbox_topLat' type='number', placeholder="" size="25" min = '-90' max = '90' step = 'any' disabled='disabled')
+                | &nbsp; Longitude:&nbsp;
+                input(id='searchformbybbox_topLong' type='number', placeholder="" size="25" min = '-180' max = '180' step = 'any' disabled='disabled')
               br
               | <b>Bottom Left Corner:</b>
               br
-              | &nbsp; Latitude:&nbsp;&nbsp;&nbsp;&nbsp; 
-              input(id='searchformbybbox_bottomLat' type='number', placeholder="" size="28" min = '-90' max = '90' step = 'any')
-              | &nbsp; Longitude:&nbsp; 
-              input(id='searchformbybbox_bottomLong' type='number', placeholder="" size="28" min = '-180' max = '180' step = 'any')
+              div.row
+                | &nbsp; Latitude:&nbsp;&nbsp;&nbsp;&nbsp;
+                input(id='searchformbybbox_bottomLat' type='number', placeholder="" size="28" min = '-90' max = '90' step = 'any' disabled='disabled')
+                | &nbsp; Longitude:&nbsp;
+                input(id='searchformbybbox_bottomLong' type='number', placeholder="" size="28" min = '-180' max = '180' step = 'any' disabled='disabled')
               br
               div#bboxerror(display="none")
               br

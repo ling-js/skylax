@@ -54,6 +54,54 @@ $(document).ready(function() {
   });
 
   initStartup();
+
+  document.getElementById('addNameToSearch').onchange = function() {
+        if(this.checked==true){
+            document.getElementById("searchformbyname_input").disabled=false;
+            document.getElementById("searchformbyname_input").focus();
+
+        }
+        else{
+            document.getElementById("searchformbyname_input").disabled='disabled'
+
+        }};
+    document.getElementById('addDateToSearch').onchange = function() {
+        if(this.checked==true){
+            document.getElementById("startDate").disabled=false;
+            document.getElementById("startDate").focus();
+            document.getElementById("endDate").disabled=false;
+            document.getElementById("endDate").focus();
+
+        }
+        else{
+            document.getElementById("startDate").disabled='disabled';
+            document.getElementById("endDate").disabled='disabled';
+
+        }};
+
+    document.getElementById('addBboxToSearch').onchange = function() {
+        if(this.checked==true){
+            document.getElementById("searchformbybbox_topLat").disabled=false;
+            document.getElementById("searchformbybbox_topLat").focus();
+            document.getElementById("searchformbybbox_topLong").disabled=false;
+            document.getElementById("searchformbybbox_topLong").focus();
+            document.getElementById("searchformbybbox_bottomLat").disabled=false;
+            document.getElementById("searchformbybbox_bottomLat").focus();
+            document.getElementById("searchformbybbox_bottomLong").disabled=false;
+            document.getElementById("searchformbybbox_bottomLong").focus();
+
+        }
+        else{
+            document.getElementById("searchformbybbox_topLat").disabled='disabled';
+            document.getElementById("searchformbybbox_topLong").disabled='disabled';
+            document.getElementById("searchformbybbox_bottomLat").disabled='disabled';
+            document.getElementById("searchformbybbox_bottomLong").disabled='disabled';
+
+        }};
+
+
+
+
   //Keine Ahnung ob wir das hier noch brauchen -> $('#resultpanel').hide();
 });
 
