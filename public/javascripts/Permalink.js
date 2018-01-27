@@ -90,10 +90,11 @@ function addParams(stateobject){
  *@return JSON Object with all the needed options for the Permalink
  */
 function createJSONPerma(){
-  var st = $("#searchformbyname_input").val();
-  var ssd = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";    var sed = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
+  var st = searchVariables.substring;
+  var ssd = searchVariables.startdate;
+  var sed = searchVariables.enddate;
   var p = findPage();
-  var sbox = ($('#searchformbybbox_bottomLong').val()+','+ $('#searchformbybbox_bottomLat').val() +','+ $('#searchformbybbox_topLong').val()+',' +$('#searchformbybbox_topLat').val());
+  var sbox = searchVariables.bbox;
   var searched = false;
   if($('#resultIntroText')[0].innerHTML != "Currently there are no results."){
     searched = true;
@@ -349,10 +350,15 @@ function loadPermaSearchParams(){
               $("#searchformbyname_input").val(i[1]);
               break;
             case "ssd":
-              fillDate(i,"start");
+              if(i[1] != ""){
+                fillDate(i,"start");
+                $('#addDateToSearch')[0].checked = true;
+              }
               break;
             case "sed":
-              fillDate(i,"end");
+              if(i[1] != ""){
+                fillDate(i,"end");
+              }
               break;
             case "p":
               pagetoview = i[1];
@@ -371,8 +377,12 @@ function loadPermaSearchParams(){
     if(search == true){
       //Wenn Datasets vorhanden sind, wird hier die Ajax request ausgeführt, um diese erneut zu suchen
       var substring = $("#searchformbyname_input").val();
-      var startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
-      var enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
+      var startdate ="";
+      var enddate = "";
+      if($('#addDateToSearch')[0].checked == true){
+        startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
+        enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
+      }
       var page = 0;
       var bbox="";
       if ($(searchformbybbox_bottomLong).val() != "" && $(searchformbybbox_bottomLat).val() != "" && $(searchformbybbox_topLong).val() != "" && $(searchformbybbox_topLat).val() != ""){

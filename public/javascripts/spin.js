@@ -265,6 +265,8 @@ function spinnerShow(target) {
       //Deaktiviert Funktionen je nach HTML-Element
       if(target == document.getElementById('sidebar')){
         document.getElementById('searchIt').disabled = true;
+        document.getElementById('deleteDrawing').disabled = true;
+        document.getElementById('bboxbutton').disabled = true;
       }else if(target == document.getElementById('map')){
         for(var i = 1; i < ($("#resultpanel > div").length)+1; i++){
           document.getElementById('formSubmiter'+i).disabled = true;
@@ -289,6 +291,8 @@ function spinnerHide(target) {
       //Aktiviert Funktionen je nach HTML-Element
       if(target == document.getElementById('sidebar')){
         document.getElementById('searchIt').disabled = false;
+        document.getElementById('deleteDrawing').disabled = false;
+        document.getElementById('bboxbutton').disabled = false;
       }else if(target == document.getElementById('map')){
         for(var i = 1; i < ($("#resultpanel > div").length)+1; i++){
           document.getElementById('formSubmiter'+i).disabled = false;

@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) Sat Jan 27 2018 Benjamin Karic, Jens Seifert, Jasper Buß, Eric Thieme-Garmann, Jan Speckamp 
+Copyright (c) Sat Jan 27 2018 Benjamin Karic, Jens Seifert, Jasper Buß, Eric Thieme-Garmann, Jan Speckamp
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -34,7 +34,15 @@ var map, // Map Object
   polyLayer,
   target;
 // API Url
-var apiurl = "http://192.168.0.16:8080";
+var apiurl = "http://10.66.3.163:8080";
+//SpinnerToggler
+var toggler = false;
+//Speichert Ergebnisse nach Laden der Datasets
+var jsonForDatasets =[];
+//Save Lookup values for datasets on click
+var valueLookUpArray = [];
+//Saves search variables
+var searchVariables = {substring: "", bbox: "",startdate:"",enddate:"",page:""};
 
 /**
 * Loads all requested Stages. Overwrites all Submit Handlers that are already present,
@@ -59,6 +67,3 @@ function initStartup(){
   initOptions();
   $.when(loadHash()).done(loadPermaSearchParams());
 }
-
-
-

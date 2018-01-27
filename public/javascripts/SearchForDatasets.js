@@ -36,18 +36,24 @@ $(document).ready(function() {
       if(compareDates() == true){
         // Manual parsing of fields to create Request-URL
         var substring = $("#searchformbyname_input").val();
+        searchVariables.substring = substring;
         var startdate = "";
         var enddate = "";
         if($('#addDateToSearch')[0].checked == true){
           startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
           enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
         }
+        searchVariables.startdate = startdate;
+        searchVariables.enddate = enddate;
+        console.log(searchVariables);
         var page = 0;
         var pagetoview = 1;
         var bbox="";
         if ($(searchformbybbox_bottomLong).val() != "" && $(searchformbybbox_bottomLat).val() != "" && $(searchformbybbox_topLong).val() != "" && $(searchformbybbox_topLat).val() != ""){
           bbox=($(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val());
         }
+        searchVariables.bbox = bbox;
+        searchVariables.page = pagetoview-1;
         var templateurl = apiurl + "/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
         // Initializing Paginator
         pagerInit(templateurl);
@@ -97,7 +103,7 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
         var hourString = dateString[1].slice(0,dateString[1].length-1);
         resultIntroText = resultIntroText + "... from "+hourString+"h "+dayString[2]+"."+dayString[1]+"."+dayString[0]+"<br>";
       }
-      if(i[0] == "enddate" == $('#addDateToSearch')[0].checked == true){
+      if(i[0] == "enddate"){
         var dateString = i[1].split("T");
         var dayString = dateString[0].split("-");
         var hourString = dateString[1].slice(0,dateString[1].length-1);
