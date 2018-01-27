@@ -52,6 +52,9 @@ html
               i.fa.fa-home
           li(id='searchTabButton')
             a(href='#search', role='tab')
+              i.fas.fa-search
+          li(id='resultsTabButton')
+            a(href='#results', role='tab')
               i.fa.fa-bars
         ul(role='tablist' id='bottomTabs')
           li(id='saveTabButton')
@@ -62,36 +65,37 @@ html
               i.fa.fa-university
       #scrollero.sidebar-content
         #home.sidebar-pane
-          h2 Skylax
+          #sideName
+
+            h2 Skylax
           p The Project Name: “Skylax” is chosen with reference to the german name of Scylax of Caryanda (Greek: Σκύλαξ ο Καρυανδεύς) who was a renowned Greek explorer and writer of the late 6th and early 5th centuries BCE. (source: Wikipedia).
           img.image(src="/images/logo.png" alt="Logo")
         #search.sidebar-pane
           form#searchform(method='GET')
-            | <h2> Search </h2>
-            | <b>Search by name:</b>&nbsp;&nbsp;&nbsp;
-            input(id='searchformbyname_input' type='string' placeholder="Enter a search-string")
-            br
-            br
-            | <b>Select start date:</b> 
-            br       
-            |&nbsp;Day:&nbsp;
-            select(name='selectsday', id="startday")
-            |&nbsp;Month:&nbsp;
-            select(name='selectsmonth', id="startmonth", onchange="updateDay('start')")
-            //input(id='searchformbydate_input' type='date' placeholder="YYYY")
-            |&nbsp;Year:&nbsp;
-            select(name='selectsyear', id="startyear", onchange="updateDay('start')")
-            a(style=" font-size: 9px" onclick="toggleIt('detailedstarttime')")|&nbsp;Detailed Start-Time
-            br
-            p#detailedstarttime(style=" display: none")
-              |&nbsp;&nbsp;Hours:&nbsp;
-              select(name='selectshour', id="starthour")
+            #sideName
 
-              |&nbsp;&nbsp;Minutes:&nbsp;
-              select(name='selectsmin', id="startmin")
+              | <h2>  Search for Datasets</h2>
+            #nameForm
+              a.fas.fa-question-circle(id="tooltip_name" data-toggle='tooltip', data-placement='top', title='Enter the desired data Name here ')
 
-              |&nbsp;&nbsp;Seconds:&nbsp;
-              select(name='selectssec', id="startsec")
+              | <h3> Name </h3>
+              | <b>Search by name:</b>&nbsp;&nbsp;&nbsp;
+              input(id='searchformbyname_input' type='string' placeholder="Enter a search-string")
+            br 
+            #dateForm
+              a.fas.fa-question-circle(id="tooltip_date" data-toggle='tooltip', data-placement='top', title='Enter the desired data Name here ')
+
+              | <h3> Date </h3>
+              | <b>Select start date:</b> 
+              br       
+              |&nbsp;Day:&nbsp;
+              select(name='selectsday', id="startday")
+              |&nbsp;Month:&nbsp;
+              select(name='selectsmonth', id="startmonth", onchange="updateDay('start')")
+              //input(id='searchformbydate_input' type='date' placeholder="YYYY")
+              |&nbsp;Year:&nbsp;
+              select(name='selectsyear', id="startyear", onchange="updateDay('start')")
+              a(style=" font-size: 9px" onclick="toggleIt('detailedstarttime')")|&nbsp;Detailed Start-Time
               br
             
             | <b>Select end date:</b> 
@@ -144,12 +148,17 @@ html
             //button.btn.btn-primary(id ='submit' onclick='visualizeMetadata()')
               span.glyphicon.glyphicon-send
               |  Submit
-            p ________________________________________________________________________________________
+        #results.sidebar-pane
+          #sideName
+            h2 Reults
+          p#resultIntroText
+            | Currently there are no results.
           p#one
            #page-selection
         #save.sidebar-pane
         #imprint.sidebar-pane
-          h2 Legal Disclosure
+          #sideName
+            h2 Legal Disclosure
           | Information in accordance with section 5 TMG
           br
           br
