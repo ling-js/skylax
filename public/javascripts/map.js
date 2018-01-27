@@ -32,7 +32,7 @@ function initMap() {
     center: [48.748945343432936, 11.733398437500002], // Europe
     zoom: 5,
     minZoom: 0,
-    maxZoom: 15,
+    maxZoom: 12,
     zoomControl: false,
   });
 
