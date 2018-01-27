@@ -85,20 +85,21 @@ html
             #dateForm
               a.fas.fa-question-circle(id="tooltip_date" data-toggle='tooltip', data-placement='top', title='Enter the desired data Name here ')
 
-              | <h3> Date-Filter  <input type="checkbox" id="addDateToSearch" name="addDate")> </h3>
+              | <h3> Date </h3>
               | <b>Select start date:</b> 
               br       
-              |&nbsp;Day:&nbsp;
+              |Day:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
               select(name='selectsday', id="startday")
-              |&nbsp;Month:&nbsp;
+              |&nbsp;&nbsp;Month:&nbsp;&nbsp;&nbsp;
               select(name='selectsmonth', id="startmonth", onchange="updateDay('start')")
               //input(id='searchformbydate_input' type='date' placeholder="YYYY")
-              |&nbsp;Year:&nbsp;
+              |&nbsp;&nbsp;Year:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               select(name='selectsyear', id="startyear", onchange="updateDay('start')")
-              a(style=" font-size: 9px" onclick="toggleIt('detailedstarttime')")|&nbsp;Detailed Start-Time
+              a(style=" font-size: 9px" onclick="toggleIt('detailedstarttime')")|&nbsp;Detailed
               br
               p#detailedstarttime(style=" display: none")
-                |&nbsp;&nbsp;Hours:&nbsp;
+                |Hours:&nbsp;
                 select(name='selectshour', id="starthour")
 
                 |&nbsp;&nbsp;Minutes:&nbsp;
@@ -110,18 +111,16 @@ html
               
               | <b>Select end date:</b> 
               br       
-              |&nbsp;Day:&nbsp;
+              |Day:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               select(name='selecteday', id="endday")
-
-              |&nbsp;Month:&nbsp;
+              |&nbsp;&nbsp;Month:&nbsp;&nbsp;&nbsp;
               select(name='selectemonth', id="endmonth", onchange="updateDay('end')")
-
-              |&nbsp;Year:&nbsp;
+              |&nbsp;&nbsp;Year:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               select(name='selecteyear', id="endyear", onchange="updateDay('end')")
-              a(style=" font-size: 9px" onclick="toggleIt('detailedendtime')")|&nbsp;Detailed End-Time
+              a(style=" font-size: 9px" onclick="toggleIt('detailedendtime')")|&nbsp;Detailed 
               br  
               p#detailedendtime(style=" display: none")
-                |&nbsp;&nbsp;Hours:&nbsp;
+                |Hours:&nbsp;
                 select(name='selectehour', id="endhour")
 
                 |&nbsp;&nbsp;Minutes:&nbsp;
@@ -129,6 +128,7 @@ html
 
                 |&nbsp;&nbsp;Seconds:&nbsp;
                 select(name='selectesec', id="endsec") 
+              
             br   
             #bboxForm
               a.fas.fa-question-circle(id ="tooltip_bbox" data-toggle='tooltip', data-placement='top', title='Enter the desired data Name here ')
@@ -147,6 +147,7 @@ html
               | &nbsp; Longitude:&nbsp; 
               input(id='searchformbybbox_bottomLong' type='number', placeholder="" size="28" min = '-180' max = '180' step = 'any')
               br
+              div#bboxerror(display="none")
               br
               button.btn.btn-info.btn-xs(type='button', name = 'drawPolygon' id='deleteDrawing', onclick='')
                 span.glyphicon.glyphicon-trash
