@@ -82,7 +82,7 @@ function initMap() {
   map.on('click', function(e) {
     var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
     console.log(coords);
-    //console.log(jsonForDatasets);
+    console.log(jsonForDatasets);
   });
 
  map.on('draw:created', function(e) {
