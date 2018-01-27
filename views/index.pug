@@ -56,6 +56,9 @@ html
           li(id='resultsTabButton')
             a(href='#results', role='tab')
               i.fa.fa-bars
+          li(id='calculationTabButton')
+            a(href='#calculation', role='tab')
+              i.fas.fa-calculator
         ul(role='tablist' id='bottomTabs')
           li(id='saveTabButton')
             a(href='#save', role='tab', onclick='showPermalink()')
@@ -168,6 +171,10 @@ html
             | Currently there are no results.
           p#one
            #page-selection
+        #calculation.sidebar-pane
+          #sideName
+            h2 Calculation
+          | Add a dataset to the calculation first. 
         #save.sidebar-pane
         #imprint.sidebar-pane
           #sideName
