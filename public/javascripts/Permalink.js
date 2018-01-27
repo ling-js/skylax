@@ -230,13 +230,12 @@ function loadHash(){
 
 
 /**
-* Lädt aus dem Permalink die Suchparameter, fügt diese ein ud führt ggf. Suche aus
+* Loads the search parameters from the permalink, adds them and possibly executes search
 */
 function loadPermaSearchParams(){
-  //lädt Suchparameter
+  //loads search parameters
   var searchParams = new URLSearchParams(window.location.search.slice(1));
-  //Gibt an, wie viele Suchparameter angegeben sind und ob gesucht worden ist
-  var counter = 0;
+  //indicates, how many search parameters there are and if there was a search
   var search = false;
   for (let i of searchParams) {
     counter++;
@@ -246,9 +245,9 @@ function loadPermaSearchParams(){
       }
     }
   }
-  //Wenn Datasets vorhanden sind
+  //when datasets exist
   if(counter > 4){
-    //Initalisiert Variablen zum befüllen aus Permalink
+    //Initialises variables to fill permalinks
     var dsNumber = 0;
     var calcNumber = 0;
     var dsOpacity = [];
@@ -258,7 +257,7 @@ function loadPermaSearchParams(){
     var dsBandValues = [];
     var dsBtn = [];
     var pagetoview = 1;
-    //Durchläuft alle Suchparameter und lädt Variablen
+    //running through all search parameters and loads variables
     for (let i of searchParams) {
       if(i[0] == "ds"){
         var dsRgbBandTemp = [];
@@ -268,13 +267,13 @@ function loadPermaSearchParams(){
         var dsParams = new URLSearchParams(i[1]);
         for (let j of dsParams) {
           if(j[0] == "calc"){
-            //Lädt alle Variablen, die es in Calc gibt
+            //loads all variables, that exist in cals
             var calcParams = new URLSearchParams(j[1]);
             for (let k of calcParams) {
-              //hier kommt was mit calculated hin, aber nichts genaues weiß man nicht
+
             }
           }else{
-            //Lädt alle Variablen, die es in Datasets gibt
+            //loads all variables that exist in datasets
             switch(j[0]) {
                 case "o":
                   dsOpacity.push(j[1]);
@@ -333,8 +332,9 @@ function loadPermaSearchParams(){
             }
           }
         }
-        //Daten werden in Temparrays gespeichert, um dem Format zu entsprechen
-        //Temparray werden in die "richitgen" geschrieben und geleert
+        // data saved in Temparrays, to fit the format
+        //temparray being written in the "correct" and emptied
+
         dsBand.push(dsRgbBandTemp);
         dsRgbBandTemp = [];
         dsValuesTemp.push(dsMinValuesTemp);
@@ -344,7 +344,7 @@ function loadPermaSearchParams(){
         dsMinValuesTemp = [];
         dsMaxValuesTemp = [];
       }else{
-        //Lädt Suchparamter der Suche und Seite, die angezeigt werden soll
+        // loads search parameters from search and page, that are to be shown
         switch(i[0]) {
             case "st":
               $("#searchformbyname_input").val(i[1]);
@@ -373,7 +373,7 @@ function loadPermaSearchParams(){
               $("#searchformbybbox_topLat").val(sbox[3]);
               $("#searchformbybbox_topLong").val(sbox[2]);
               if(i[1] != ""){
-                $('#addBboxToSearch')[0].checked = true;  
+                $('#addBboxToSearch')[0].checked = true;
               }
               coordsToPolygon("true");
               break;
@@ -381,7 +381,7 @@ function loadPermaSearchParams(){
       }
     }
     if(search == true){
-      //Wenn Datasets vorhanden sind, wird hier die Ajax request ausgeführt, um diese erneut zu suchen
+      //is datasets exist, the ajax request is executed, to search them again
       var substring = "";
       if($('#addNameToSearch')[0].checked == true){
         substring = $("#searchformbyname_input").val();
@@ -404,7 +404,7 @@ function loadPermaSearchParams(){
       ajaxrequest(templateurl, pagetoview, dsExpanded, dsBand, dsBtn, dsBandValues, dsVis, dsOpacity);
     }
   }else{
-    //Versteckt Button entsprechend der Such
+    //hidesn button corresponding to the search
     $('#bboxbutton').show();
     $('#deleteDrawing').hide();
   }
@@ -445,8 +445,8 @@ function findPage(){
 }
 
 /**
- *Öffnet die Sidebar und den angegeben Tab.
- *@param hash ID des zu öffnenden Tabs
+ *opens sidebar and the specified tab
+ *@param hash ID of the tab to open
 */
 function openTabInSidebar(hash) {
 	$(".sidebar-tabs").find(".active").removeClass("active");
@@ -457,7 +457,7 @@ function openTabInSidebar(hash) {
 }
 
 /**
- * Seltects the currently slected radio button
+ * Selects the currently slected radio button
  *@param i Number of the Dataset with the radio buttons
  *@return A string for the selected button or "" if no button is selected
  */
@@ -534,10 +534,10 @@ function checkActiveTab(){
 
 
 /**
- *Gibt die Stelle im Array zurück, in welcher das angegebene Band steht
- *@param bandArray Array, das durchsucht werden soll
- *@param band Eintrag, nach dem gesucht werden soll
- *@return Die Stelle im Array mit dem gesuchten Eintrag
+ *returns the location in the array from the specified band
+ *@param bandArray array to search through
+ *@param band entry, to look for
+ *@return location of array from wanted entry 
 */
 function findArray(bandArray, band){
   var number = 0;

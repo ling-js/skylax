@@ -37,7 +37,7 @@ var map, // Map Object
 var apiurl = "http://10.67.63.2:8080";
 //SpinnerToggler
 var toggler = false;
-//Speichert Ergebnisse nach Laden der Datasets
+//saves results after loading datasets
 var jsonForDatasets =[];
 //Save Lookup values for datasets on click
 var valueLookUpArray = [];

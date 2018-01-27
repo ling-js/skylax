@@ -252,17 +252,17 @@ function convertOffset(x, y, degrees) {
 }
 
 /**
-* @param target HTML-Element, in dem der Spinner angezeiget werden soll
+* @param target HTML-element, where the spinner is to be shown
 */
 function spinnerShow(target) {
-  //Spinner Zeugs
+  //Spinner stuff
   spinner = new Spinner().spin();
   var spinnerList = target.childNodes;
   for (var i = 0; i < spinnerList.length; i++) {
-    //Wenn durchgelaufen und Spinner nicht aktiviert wurde
+    //when looped, and spinner not activated
     if (i == spinnerList.length - 1 && toggler == false) {
       target.appendChild(spinner.el);
-      //Deaktiviert Funktionen je nach HTML-Element
+      //Deactivates functions depending on HTML-element
       if(target == document.getElementById('sidebar')){
         document.getElementById('searchIt').disabled = true;
         document.getElementById('deleteDrawing').disabled = true;
@@ -279,16 +279,16 @@ function spinnerShow(target) {
 }
 
 /**
-* @param target HTML-Element, in dem der Spinner ausgeblendet werden soll
+* @param target HTML-element, where the spinner is to be hidden
 */
 function spinnerHide(target) {
-  //Spinner Zeugs
+  //Spinner stuff
   var spinnerList = target.childNodes;
   for (var i = 0; i < spinnerList.length; i++) {
-    //Wenn durchgelaufen und Spinner aktiviert ist
+    //when looped, and spinner not activated
     if (spinnerList[i].className == 'spinner' && toggler == true) {
       target.removeChild(spinnerList[i]);
-      //Aktiviert Funktionen je nach HTML-Element
+      //activates functions depending on HTML-element
       if(target == document.getElementById('sidebar')){
         document.getElementById('searchIt').disabled = false;
         document.getElementById('deleteDrawing').disabled = false;
