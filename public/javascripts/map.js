@@ -122,9 +122,9 @@ function getRectangle(corner) {
 }
 
 /**
- * Funktion, die die richtigen Koordinaten ausgibt
- * @param coord Falsche Koordinaten
- * @returns richtige Koordinaten
+ * function that outputs correct coordinates
+ * @param coord wrong koordinates
+ * @returns correct Koordinaten
  */
 function correctCoordinates(coord) {
   if (coord < -180) {
@@ -169,7 +169,8 @@ $(document).ready(function() {
     $('#bboxbutton').show();
     $('#deleteDrawing').hide();
   });
-  //Wenn alle BBox Felder ausgefühlt sind, wird coordsToPolygon ausgeführt
+  //coordsToPolygon runs when all fields are filled correctly
+  // checks after every change on input fields
   $('#searchformbybbox_bottomLat').change(function(){
     drawnItems.clearLayers();
     $('#bboxbutton').show();
@@ -179,7 +180,8 @@ $(document).ready(function() {
     }
 
   });
-
+  //coordsToPolygon runs when all fields are filled correctly
+  // checks after every change on input fields
   $('#searchformbybbox_topLat').change(function(){
   drawnItems.clearLayers();
   $('#bboxbutton').show();
@@ -189,7 +191,8 @@ $(document).ready(function() {
   }
 
   });
-
+  //coordsToPolygon runs when all fields are filled correctly
+  // checks after every change on input fields
   $('#searchformbybbox_topLong').change(function(){
     drawnItems.clearLayers();
     $('#bboxbutton').show();
@@ -198,7 +201,8 @@ $(document).ready(function() {
         coordsToPolygon();
     }
   });
-
+  //coordsToPolygon runs when all fields are filled correctly
+  // checks after every change on input fields
   $('#searchformbybbox_bottomLong').change(function(){
       drawnItems.clearLayers();
       $('#bboxbutton').show();
@@ -229,6 +233,9 @@ function zoomToLayer(j){
  */
 
 //checks for correct input coordinates
+/*lat and long of bottom corner values may not be higher than values of lat and long
+of top right corner
+*/
 function checkForCorrectCoordinates(){
   var wrongVal = false;
 
@@ -292,6 +299,7 @@ function checkForCorrectCoordinates(){
 }
 
 
+// draws polygon on map after input fields are filled
 function coordsToPolygon(load){
   if(document.getElementById('searchformbybbox_topLat').value != '' &&
      document.getElementById('searchformbybbox_bottomLat').value != '' &&
@@ -335,6 +343,7 @@ function drawPolygon(result, number, page, showNumber, reslength){
 
 /**
  * Draws an invisible polygon of the displayed dataset
+ * makes polygon "clickable"
  * @param resultNum Metadata of the displayed dataset
  * @param radioBtn "true" or "false" for rgb oder grey
  */
@@ -373,12 +382,3 @@ function stringToCoordArray(coordString){
     return coordArray;
   }
 }
-/*
-function ToggleObject(i) {
-  var skillsStyle = document.getElementById("one").style;
-  if (skillsStyle.display == "block") {
-    skillsStyle.display = "none";
-  }
-  else { skillsStyle.display = "block"; }
-}
-*/
