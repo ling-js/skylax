@@ -48,7 +48,7 @@ function createTCISubmitHandler(res, j, i){
 	        $.ajax({
 	        	data: that,
 	        	type: "POST",
-	        	url: apiurl + 'generate?',
+	        	url: apiurl + '/generate?',
 	        	error: function(xhr, status, err) {
 		            console.log("Error while loading Data");
 								spinnerHide(document.getElementById('map'));
