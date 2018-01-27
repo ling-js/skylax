@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) Sat Jan 27 2018 Benjamin Karic, Jens Seifert, Jasper Buß, Eric Thieme-Garmann, Jan Speckamp 
+Copyright (c) Sat Jan 27 2018 Benjamin Karic, Jens Seifert, Jasper Buß, Eric Thieme-Garmann, Jan Speckamp
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -121,26 +121,26 @@ function initLookUp(e){
 
 
 /**
- *Zeigt die Deckungskraft Level an oder aktualisiert es
- *@param i Nummer des Datasets, bei dem die Deckungskraft angezeigt werden soll
+ *shows opacity level or updates it
+ *@param i number of dataset, where to opacity level is to be shown
 */
 function showOpacityLevel(i){
   $('#opacityOutputId'+ i ).html('Opacity Level:' + $('#opacityId'+ i ).val()+'%');
 }
 
 /**
- *Aktualisiert die Deckungskraft von angezeigten Datasets.
- *@param j Nummer des Datasets, bei dem die Opactiy angezeigt werden soll
+ *updates opacity level of shown dataset
+ *@param j number of dataset, where to opacity level is to be shown
 */
 function opacityChanger(j){
   lyr.options.opacity = $('#opacityId'+ j ).val()/100;
-  //Layer muss geupdatet werden nach Veränderung
+  //Layer after change needs to be updated
   updateLyr();
 }
 
 /**
- *Aktualisiert die Deckungskraft von angezeigten Datasets.
- *Dazu wird das Layer von der Karte entfernt und neu hinzugefügt.
+ *Aupdates opacity level of shown dataset
+ *dazu removed from map and added again
 */
 function updateLyr(){
   map.removeLayer(lyr);
@@ -148,7 +148,7 @@ function updateLyr(){
 }
 
 /**
- *Entfernt das angezeigte Dataset von der Karte, dem Layercontorl und den Opactiyslider, wenn eins vorhanden ist.
+ *removes dataset from map, the layercontrol and opacity slider, in case one exists.
 */
 function removeDatasets(){
   if (layerControl._layers.length == 4) {
@@ -159,7 +159,7 @@ function removeDatasets(){
 }
 
 /**
- *Öffnet ein Akkordion. Wird ausgeführt nach Klick auf ein Polygon.
+ *open accordion. Runs after click on a polygon
 */
 function openAccordion(){
   hash = '#search';
@@ -174,4 +174,3 @@ function openAccordion(){
     }
   }
 }
-    

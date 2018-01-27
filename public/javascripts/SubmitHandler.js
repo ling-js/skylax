@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) Sat Jan 27 2018 Benjamin Karic, Jens Seifert, Jasper Buß, Eric Thieme-Garmann, Jan Speckamp 
+Copyright (c) Sat Jan 27 2018 Benjamin Karic, Jens Seifert, Jasper Buß, Eric Thieme-Garmann, Jan Speckamp
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -88,25 +88,23 @@ function createTCISubmitHandler(res, j, i){
 /**
  * Erstellt Submithandler für L1C Datasets
  *
- *@param res Ergebniss aus Suchanfrage
- *@param j Index der id des Datasets, zu dem der Submithandler erzeugt werden soll
- *@param opacity aktuelle opacity-Wert
+ *@param res result from search parameter
+ *@param j index of id of dataset, where the submithandler is to be created from
+ *@param opacity current  opacity-value
  */
 function createL1CSubmitHandler(res, j, opacity){
 	$('#showData'+ j).submit(function(e) {
 		spinnerShow(document.getElementById('map'));
 		e.preventDefault();
-	    //Prüfe ob die Eingabefelder für die Marker nicht leer sind
-	    if (
+	    //check if input fields are not empty for the markers
 	    (	//Check if radio button option "RGB" is checked and all 3 bands are choosen at rgb
-	    	//Prüfe ob Radio Button auf RGB steht und alle 3 Bänder angegeben wurden
 			((radioValue(document.getElementsByName('rgbbool'),j)) == "true") &&
 			($('#rgbselect'+ ((j*3)-2)).val()  !== null) &&
 			($('#rgbselect'+ ((j*3)-1)).val() !== null) &&
 			($('#rgbselect'+ (j*3)).val()  !== null)
 	    ) || (
 	    	//or check if radio button option "Greyscale" is checked and one band is choosen at greyscale
-	    	//oder ob Radio Button auf Greyscale steht und dort 1 Band angegeben wurde
+
 			((radioValue(document.getElementsByName('rgbbool'),j)) == "false") &&
 	        ($('#greyselect'+ j).val() !== null))
 		)//if true than go on with submitting
@@ -192,31 +190,30 @@ function createL1CSubmitHandler(res, j, opacity){
 
 
 /**
- * Erstellt Submithandler für L2A Datasets
+ * Creates submithandler for L2A datasets
  *
- *@param res Ergebniss aus Suchanfrage
- *@param j Index der id des Datasets, zu dem der Submithandler erzeugt werden soll
- *@param opacity aktuelle opacity-Wert
- *@param i = (index der id des Datensetz) - (length des L1C-Arrays)
+ *@param res result from the search request
+ *@param j index of id of dataset, where the submithandler is to be created from
+ *@param opacity current  opacity-value
+ *@param i = (index id of dataset) - (length of L1C-Arrays)
  */
 function createL2ASubmitHandler(res, j, opacity, i){
 	$('#showL2AData'+ j).submit(function(e) {
 		spinnerShow(document.getElementById('map'));
 		e.preventDefault();
-	    //Prüfe ob die Eingabefelder für die Marker nicht leer sind
-	    console.log("hello!");
+	    //check if input fields are not empty for the markers
 	    if (
 	    (
 	    	console.dir(document.getElementsByName('rgbbool')) &&
 	    	//Check if radio button option "RGB" is checked and all 3 bands are choosen at rgb
-	    	//Prüfe ob Radio Button auf RGB steht und alle 3 Bänder angegeben wurden
+
 			((radioValue(document.getElementsByName('rgbbool'),j)) == "true") &&
 			($('#rgbselect'+ ((j*3)-2)).val()  !== null) &&
 			($('#rgbselect'+ ((j*3)-1)).val() !== null) &&
 			($('#rgbselect'+ (j*3)).val()  !== null)
 	    ) || (
 	    	//or check if radio button option "Greyscale" is checked and one band is choosen at greyscale
-	    	//oder ob Radio Button auf Greyscale steht und dort 1 Band angegeben wurde
+	    	
 			((radioValue(document.getElementsByName('rgbbool'),j)) == "false") &&
 	        ($('#greyselect'+ j).val() !== null))
 		) //if true than go on with submitting

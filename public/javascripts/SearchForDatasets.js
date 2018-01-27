@@ -75,14 +75,14 @@ $(document).ready(function() {
 
 /**
  * Die Suche wird ausgeführt, Ergebnisse werde zurückgegeben und verarbeitet
- *@param templateurl URL für die Suche. Suchparamter wurde schon angefügt
- *@param pagetoview Die Seite, die anzeigt werden soll
- *@param expanded Für Permalink: Ist ein Dataset expanded?
- *@param band Für Permalink: Welches Band ist ausgwählt?
- *@param btn Für Permalink: Welcher Radiobtn ist ausgewählt?
- *@param bandValues Für Permalink: Welche Werte sind für die Bänder eingetragen?
- *@param vis Für Permalink: Welches Dataset ist angezeigt?
- *@param opacity Für Permalink: Wie ist die Opacity des angezeigten Datasets?
+ *@param templateurl URL for the search. Searchparamter was added
+ *@param pagetoview pagenumber that is to view
+ *@param expanded For permalink: Is a dataset expanded?
+ *@param band For permalink: which band is selected?
+ *@param btn For permalink: Which radiobutton is selected?
+ *@param bandValues For permalink: which values are entered for the band?
+ *@param vis For permalink: which dataset is shown?
+ *@param opacity For permalink: Whats the opacity level of the shown dataset?
  */
 function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, vis, opacity){
   spinnerShow(document.getElementById('sidebar'));
@@ -143,18 +143,18 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
         resultIntroText = "You have found "+(res.L1C.length+res.L2A.length)+" datasets with your request."+"<br>"+resultIntroText;
         openTabInSidebar('#results');
         $('#resultIntroText')[0].innerHTML = resultIntroText;
-        //Zeigt Paginator an oder auch nicht
+        //shows paginator or not
         if(res.length == 0){
           $('#page-selection')[0].style.display = "none";
         }else{
           $('#page-selection')[0].style.display = "";
         }
-        //HTML zu den Ergebnissen werden erzeugt
+        //HTML created to the results
         createHTML(res, pagetoview, expanded, band, btn, bandValues, vis, opacity);
         page = pageCalculator(request.getResponseHeader('X-Dataset-Count'));
-        //HTML Element mit Metadaten werden erzeugt
+        //HTML element with Metadaten is created
         visualizeMetadata(res, pagetoview, band, vis);
-        //Paginator wird bearbeitet
+        //Paginator is edited
         $('#page-selection').bootpag({
           total: page,
           page: pagetoview,
@@ -204,9 +204,9 @@ function pageCalculator(allContents){
 
 
 /**
- *Erstellt aus einem String ein Date
- *@param str Ist "end" oder "start", je nachdem welches Date erstellt werden soll
- *@return Ein Datum
+ *created a date from a string
+ *@param str Is "end" or "start", depending on the created date
+ *@return a date
  */
 
 function createDate(str){
@@ -304,10 +304,10 @@ function compareDates(){
 
 
 /**
- *Ändert den Tag, wenn der Tag in diese Monat nicht existiert. Bsp.: 31.02.
- *Würde auf den 01.02. springen.
- *Options für die Tage werden entfernt oder hinzugefügt.
- *@param str Ist "end" oder "start", je nachdem bei welchem der Tag korrigiert werden soll
+ *changes the day, if day in that month does not exist example: 31.02.
+ *jumps to 01.02.
+ *Options removed or added for days
+ *@param str Is "end" oder "start", depending on the day to be corrected
  */
 function updateDay(str){
   if(lessDayMonth(str) == true){
@@ -336,9 +336,9 @@ function updateDay(str){
 }
 
 /**
- *Gibt an, ob ein Monat ein Monat mit weniger als 31 Tagen ist(außer Februar)
- *@param str Ist "end" oder "start", je nachdem bei welchem der Monat kontrolliert werden soll
- *@return True für kurzer Monat, False für einen langen Monat
+ *indicates, if a month is a month with less than 31 days (except for february)
+ *@param str Is "end" oder "start", depending on the month to be checked
+ *@return True for short month, False for long month
  */
 function lessDayMonth(str){
   var months = [4, 6, 9, 11];
@@ -351,9 +351,9 @@ function lessDayMonth(str){
 }
 
 /**
- *Gibt an, ob der Feburar in einem Schaltjahr liegt, also 29 Tage hat
- *@param str Ist "end" oder "start", je nachdem bei welchem der Monat kontrolliert werden soll
- *@return True für langen Februar, False für einen kurzen Februar
+ * indicated, if the february is in a leap year (29 days)
+ *@param str Is "end" oder "start", depending on the month to be checked
+ *@return True for short february, False for long february
  */
 function feburaryCalc(str){
   if($("#"+str+"year").val() % 4 == 0){
@@ -371,8 +371,8 @@ function feburaryCalc(str){
 
 
 /**
- *Toggelt die detailierte Zeitsuchfunktion(Stunde, Minute, Sekunde) der Searchform
- *@param i ID des HTML-Elements("detailedendtime" oder "detailedendtime")
+ *Toggelt the detailed Timesearch fuction of the searchform
+ *@param i ID of HTML-element("detailedendtime" or "detailedendtime")
  */
 function toggleIt(i){
     var x = document.getElementById(i);
