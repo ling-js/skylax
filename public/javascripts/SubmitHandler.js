@@ -22,16 +22,11 @@ IN AN ACTION OF CONTRACT, TORTOR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-function createTCISubmitHandler(res, j, i){
-	spinnerShow(document.getElementById('map'));
-	$('#showTCI'+ j).click(function(e) {
+function createTCISubmitHandler(res, j, i){	
+	$('#showTCI'+ j).click(function(e) {	
 		e.preventDefault();
-
-		console.dir(res[j-1]);
-		console.log(i);
-		console.dir(res[i-1]);
+		spinnerShow(document.getElementById('map'));
 		if(res[j-1] == undefined){
-			console.log(j-1);
 			var datasetName = "&gscdn="+ res[i-1].PRODUCT_URI_2A;
 			var bandname = "&gsc=" + res[i-1].R60M[13];
 			var that = "tci=true&rgbbool=false&l2a=true";
@@ -43,7 +38,6 @@ function createTCISubmitHandler(res, j, i){
 			var that = "tci=true&rgbbool=false&gsc=TCI&l2a=false";
 			that += datasetName;
 		}
-		console.log(that);
 	        // submit via ajax
 	        $.ajax({
 	        	data: that,
@@ -51,32 +45,32 @@ function createTCISubmitHandler(res, j, i){
 	        	url: apiurl + '/generate?',
 	        	error: function(xhr, status, err) {
 		            console.log("Error while loading Data");
-								spinnerHide(document.getElementById('map'));
+					spinnerHide(document.getElementById('map'));
 		            alert("Error while loading Data");
 	          	},
 	          	success: function(res) {
 					//remove all Datasets that were visualized before
 					removeDatasets();
 					//end of Spinner visualization
-					//spinnerHide(document.getElementById('map'));
+					spinnerHide(document.getElementById('map'));
 	            	console.log("Data successfully loaded.");
 
 	            	// create lyr with requested data
 	            	lyr = L.tileLayer(
 						apiurl + '/data/' + res + '/{z}/{x}/{-y}.png',
 						{
-						  tms: true,
-						  continuousWorld: true,
-							opacity: 100,
-							bounds: stringToCoordArray(jsonForDatasets[j-1].FOOTPRINT),
-							minZoom : 4,
-							maxZoom : 12,
+						tms: true,
+					    continuousWorld: true,
+						opacity: 100,
+						bounds: stringToCoordArray(jsonForDatasets[j-1].FOOTPRINT),
+						minZoom : 4,
+						maxZoom : 12,
 						}
 
 					);
 					spinnerHide(document.getElementById('map'));
 		            // add layer to Map and name it like the Dataset it was requested from
-					layerControl.addOverlay(lyr, "Dataset "+j);
+					layerControl.addOverlay(lyr, "Current Dataset");
 					map.addLayer(lyr);
 					zoomToLayer(j);
 					//ValueLookUp
@@ -168,7 +162,7 @@ function createL1CSubmitHandler(res, j, opacity){
 
 					);
 		            // add layer to Map and name it like the Dataset it was requested from
-					layerControl.addOverlay(lyr, "Dataset "+j);
+					layerControl.addOverlay(lyr, "Current Dataset");
 					map.addLayer(lyr);
 					zoomToLayer(j);
 					//ValueLookUp
@@ -283,7 +277,7 @@ function createL2ASubmitHandler(res, j, opacity, i){
 
 					);
 		            // add layer to Map and name it like the Dataset it was requested from
-				    layerControl.addOverlay(lyr, "Dataset "+j);
+				    layerControl.addOverlay(lyr, "Current Dataset");
 					map.addLayer(lyr);
 					zoomToLayer(j);
 
