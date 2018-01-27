@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) Sat Jan 27 2018 Benjamin Karic, Jens Seifert, Jasper Buß, Eric Thieme-Garmann, Jan Speckamp 
+Copyright (c) Sat Jan 27 2018 Benjamin Karic, Jens Seifert, Jasper Buß, Eric Thieme-Garmann, Jan Speckamp
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -25,16 +25,16 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /** Dynamisch erzeugtes HTML für die Datasets!*/
 
 /**
- * Erstellt die Resultate aus der Suche.
- * Lädt auch aus dem Permalink.
- *@param res Ergebniss aus Suchanfrage
- *@param pagetoview Seitenzahl, die angezeigt werden soll
- *@param expanded Für Permalink: Ist ein Dataset expanded?
- *@param band Für Permalink: Welches Band ist ausgwählt?
- *@param btn Für Permalink: Welcher Radiobtn ist ausgewählt?
- *@param bandValues Für Permalink: Welche Werte sind für die Bänder eingetragen?
- *@param vis Für Permalink: Welches Dataset ist angezeigt?
- *@param opacity Für Permalink: Wie ist die Opacity des angezeigten Datasets?
+ * Creates results from the search
+ *Also loeds from the permalink
+ *@param res Result of the Search-request
+ *@param pagetoview pagenumber that is to view
+ *@param expanded For permalink: Is a dataset expanded?
+ *@param band For permalink: which band is selected?
+ *@param btn For permalink: Which radiobutton is selected?
+ *@param bandValues For permalink: which values are entered for the band?
+ *@param vis For permalink: which dataset is shown?
+ *@param opacity For permalink: Whats the opacity level of the shown dataset?
  */
 
 function createHTML(result, pagetoview, expanded, band, btn, bandValues, vis, opacity){
@@ -42,12 +42,12 @@ function createHTML(result, pagetoview, expanded, band, btn, bandValues, vis, op
 	var L1Clength = result.L1C.length;
 	var L2Alength = result.L2A.length;
 
-	//Zurücksetzen
+	//clear
 	$('#one').html("");
-	//Lädt alles Datasets, übergibt Werte für Permalink
+	//loads all datasets, commits all values for permalink
 	$('#one').html('<div class="panel-panel-default" id="resultpanel">'
 	+ createInnerHTML(result, pagetoview, expanded, band, btn, bandValues) + '</div>');
-	//Setzt Opacity und Vis auf Standardwerte, wenn nicht angegeben
+	//sets opacity and vis to default values, if not explicitly given
 	if(opacity == undefined){
 		opacity = [];
 		for(var i = 0; i<reslength;i++){
@@ -60,7 +60,7 @@ function createHTML(result, pagetoview, expanded, band, btn, bandValues, vis, op
 			vis.push("false");
 		}
 	}
-	//Erstellt Sumbit Buttons für jedes Dataset
+	//creates sumbit buttons for every dataset
 	for(j=1; j<(L1Clength+1); j++){
 		 createL1CSubmitHandler(result.L1C, j, opacity[j-1]);
 		 createTCISubmitHandler(result.L1C, j, 0);
@@ -80,14 +80,15 @@ function createHTML(result, pagetoview, expanded, band, btn, bandValues, vis, op
 }
 
 /**
- * Erstellt die Anzeigemöglichkeit für Resultate aus der Suche als Akkordion einzeln.
- *@param lenght Anzahl der Ergebniss aus Suchanfrage
- *@param pagetoview Seitenzahl, die angezeigt werden soll
- *@param expanded Für Permalink: Ist ein Dataset expanded?
- *@param band Für Permalink: Welches Band ist ausgwählt?
- *@param btn Für Permalink: Welcher Radiobtn ist ausgewählt?
- *@param bandValues Für Permalink: Welche Werte sind für die Bänder eingetragen?
- *@return HTML Element mit einem Datasetakkordion.
+ * creates a visualize option for results from the search request as an accordion
+ *@param lenght number of results from search request
+ *@param res Result of the Search-request
+ *@param pagetoview pagenumber that is to view
+ *@param expanded For permalink: Is a dataset expanded?
+ *@param band For permalink: which band is selected?
+ *@param btn For permalink: Which radiobutton is selected?
+ *@param bandValues For permalink: which values are entered for the band?
+ *@return HTML element with dataset accordion
  */
 function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 	var length = result.L1C.length;
@@ -99,7 +100,7 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 
 
 	for(i=1;i < length+1; i++){
-		//Setzt band auf Standardwerte, wenn nicht angegeben
+		//sets band to default values, if not explicitly given
 		if (band == undefined || band.length == 0 || band.length < length) {
 			band = [];
 			zerArr = ["0","0","0","0"];
@@ -107,8 +108,9 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 				band[j] = [];
 				band[j].push(zerArr);
 			}
-		}
-		//verändert die Array für die Bänder, damit das richitge selected wird
+
+		//changes arrays for bands, so the correct is selected
+		//
 		var constArray = ["0","B1","B2","B3","B4","B5","B6","B7","B8","B8a","B9","B10","B11","B12"];
 		var redBand = constArray;
 		var redNumber = findArray(redBand,band[i-1][1]);
@@ -125,8 +127,7 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 		var greyBand = constArray;
 		var greyNumber = findArray(greyBand,band[i-1][0]);
 		greyBand[greyNumber] = greyBand[greyNumber] + '" selected="selected';
-		//Setzt btn auf Standardwerte, wenn nicht angegeben
-		//Ansonsten werden die Werte übernommen und gesetzt
+		//sets btn to default values, if not explicitly given
 		var rgbChecked = "";
 		var greyChecked = "";
 		if(btn != undefined && btn.length != 0){
@@ -141,12 +142,12 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 				btn.push(["false","false"]);
 			}
 		}
-		//Setzt expanded auf Standardwerte, wenn nicht angegeben
+		//Sets expanded to default values, if not explicitly given
 		if(expanded == undefined){
 			expanded = [];
 			expanded[i-1] = "out";
 		}
-		//Setzt bandvalues auf Standardwerte, wenn nicht angegeben
+		//Sets bandvalues to default, if not explicitly given
 		if(bandValues == undefined || bandValues.length == 0){
 			bandValues = [];
 			for(k=0; k < length; k++){
@@ -160,12 +161,12 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 			}
 		}
 
-		//Erstellst ein Akkordion mit Namen,ggf. ausgefahren
+		//creates accordion with a name,  Erstellst ein Akkordion mit Namen, possibly expanded
 		$('#one').html($('#one').html() + '<div class="panel panel-default"> <a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"><div class="panel-heading"><span class="glyphicon glyphicon-open" aria-hidden="true"></span> Dataset '+ (8*(pagetoview-1)+i) +'</div></a><span class="panel-body panel-collapse collapse '+expanded[i-1]+'" id="dataset'+i+'"> <p id="quality" style="padding: 15px; padding-bottom:0px">Metadata:</p> <p id="datasetButton'+i+'" style="padding: 15px; padding-top: 0px"></p> '
-										//Erstellt Radiobuttons,ggf. angeklickt,mit den dazugehörigen bandValues, ggf. wird eins schon vorher ausgewählt
+										//creates radiobuttons,possibly selected, with corresponding bandvalues, one might have been chosen before
 										+ ' <form class="colorform" id="showData' + i + '" method="POST"> <div> <button id="showTCI'+ i +'"> Show True Color Image  </button> <br/> <br/> </div> <container> <input id="rgb'+i+'" type="radio" name="rgbbool" value="true" '+rgbChecked+' onclick="toggleDrop('+(i*2)+','+((i*2)+1)+')"/> RGB<br/> <label for="rgb" class="dropd" id="dropd'+(i*2)+'"> '
 										+ ' Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <select name="rcn" id="rgbselect' + ((i*3)-2)+ '"> <option disabled="disabled" value="'+redBand[0]+'">Pick a band</option> <option value="'+redBand[1]+'">Band 1</option> <option value="'+redBand[2]+'">Band 2</option> <option value="'+redBand[3]+'">Band 3</option> <option value="'+redBand[4]+'">Band 4</option> <option value="'+redBand[5]+'">Band 5</option> <option value="'+redBand[6]+'">Band 6</option> <option value="'+redBand[7]+'">Band 7</option> <option value="'+redBand[8]+'">Band 8</option> <option value="'+redBand[9]+'">Band 8a</option> <option value="'+redBand[10]+'">Band 9</option> <option value="'+redBand[11]+'">Band 10</option> <option value="'+redBand[12]+'">Band 11</option> <option value="'+redBand[13]+'">Band 12</option> </select> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
-										//Erstellt die bandValues, ggf. mit anderem Wert
+										//creates bandvalues
 										+ ' Min-Value: <input type="number" name="rcmin" id="minRed'+i+'" placeholder="0" value="'+(bandValues[i-1][0][1])+'"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
 										+ ' Max-Value: <input type="number" name="rcmax"  id="maxRed'+i+'" maxlength="5" placeholder="65536" value="'+(bandValues[i-1][1][1])+'"/><br/><br/> '
 										+ ' Green band:&nbsp;&nbsp; <select name="gcn" id="rgbselect' + ((i*3)-1)+ '" value="0"> <option disabled="disabled" value="'+greenBand[0]+'">Pick a band</option> <option value="'+greenBand[1]+'">Band 1</option> <option value="'+greenBand[2]+'">Band 2</option> <option value="'+greenBand[3]+'">Band 3</option> <option value="'+greenBand[4]+'">Band 4</option> <option value="'+greenBand[5]+'">Band 5</option> <option value="'+greenBand[6]+'">Band 6</option> <option value="'+greenBand[7]+'">Band 7</option> <option value="'+greenBand[8]+'">Band 8</option> <option value="'+greenBand[9]+'">Band 8a</option> <option value="'+greenBand[10]+'">Band 9</option> <option value="'+greenBand[11]+'">Band 10</option> <option value="'+greenBand[12]+'">Band 11</option> <option value="'+greenBand[13]+'">Band 12</option> </select> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
@@ -178,17 +179,17 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 										+ ' Choose a band:&nbsp;&nbsp; <select name="gsc" id="greyselect'+i+'" value="'+2+'"> <option selected="selected" disabled="disabled" value="'+greyBand[0]+'">Pick a band</option> <option value="'+greyBand[1]+'">Band 1</option> <option value="'+greyBand[2]+'">Band 2</option> <option value="'+greyBand[3]+'">Band 3</option> <option value="'+greyBand[4]+'">Band 4</option> <option value="'+greyBand[5]+'">Band 5</option> <option value="'+greyBand[6]+'">Band 6</option> <option value="'+greyBand[7]+'">Band 7</option> <option value="'+greyBand[8]+'">Band 8</option> <option value="'+greyBand[9]+'">Band 8a</option> <option value="'+greyBand[10]+'">Band 9</option> <option value="'+greyBand[11]+'">Band 10</option> <option value="'+greyBand[12]+'">Band 11</option> <option value="'+greyBand[13]+'">Band 12</option> </select><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
 										+ ' Min-Value: <input type="number" name="greymin" id="minGrey'+i+'"maxlength="5" placeholder="0" value="'+(bandValues[i-1][0][0])+'"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
 										+ ' Max-Value: <input type="number" name="greymax" id="maxGrey'+i+'"maxlength="5" placeholder="65536" value="'+(bandValues[i-1][1][0])+'"/><br/><br/> </label> </container> <br/> '
-										//neuer Input, gibt an ob es sich um ein S2A Dataset handelt:
+										//new input, gives info if its to be concerned with a S2A Dataset:
 										+ ' <input type="hidden" name="l2a" value="false"> '
-										//Erstellt Submit Button
+										//Creates submit
 										+ ' <button type="submit" id="formSubmiter'+i+'" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Show this dataset</button> </form> </span> </div>');
-										//Klickt ggf. Radio Button an
+										//possibly selects a radio button
 										if(btn[i-1][0] == "true"){
 											toggleDrop((i*2),((i*2)+1));
 										}else if(btn[i-1][1] == "true"){
 											toggleDrop(((i*2)+1),(i*2));
 										}
-										//Setzt Bandarrays zurück
+										//resets bandarrays
 										constArray = ["0","B1","B2","B3","B4","B5","B6","B7","B8","B8a","B9","B10","B11","B12"];
 										redBand = constArray;
 										greenBand = constArray;
@@ -199,7 +200,7 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 
 	for(i=length+1;i < (length+length2+1); i++){
 
-		//Setzt band auf Standardwerte, wenn nicht angegeben
+		//sets bandValues to default, if not explicitly given
 		if (band == undefined || band.length == 0 || band.length < (length+length2)) {
 			band = [];
 			zerArr = ["0","0","0","0"];
@@ -208,8 +209,7 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 				band[j].push(zerArr);
 			}
 		}
-		//Setzt btn auf Standardwerte, wenn nicht angegeben
-		//Ansonsten werden die Werte übernommen und gesetzt
+		//Sets btnvalues to default, if not explicitly given
 		var rgbChecked = "";
 		var greyChecked = "";
 		if(btn == undefined || btn.length == 0){
@@ -226,13 +226,12 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 				btn.push(["false","false"]);
 			}
 		}
-		//Setzt expanded auf Standardwerte, wenn nicht angegeben
+		//Sets expanded to default, if not explicitly given
 		if(expanded == undefined){
 			expanded = [];
 			expanded[i-1] = "out";
 		}
-		//Setzt bandvalues auf Standardwerte, wenn nicht angegeben
-
+		//Sets bandvalues to default, if not explicitly given
 		if(bandValues == undefined || bandValues.length == 0){
 			bandValues = [];
 		}
@@ -248,8 +247,8 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 			}
 		}
 
-		//Erstellst ein Akkordion mit Namen,ggf. ausgefahren
-		$('#one').html($('#one').html() + '<div class="panel panel-default"><a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"><div class="panel-heading"><span class="glyphicon glyphicon-open" aria-hidden="true"></span> Dataset '+ (8*(pagetoview-1)+i) +'</div></a><span class="panel-body panel-collapse collapse '+expanded[i-1]+'" id="dataset'+i+'"><p id="quality" style="padding: 15px; padding-bottom:0px">Metadata:</p><p id="datasetButton'+i+'" style="padding: 15px; padding-top: 0px"></p><form class="colorform" id="showL2AData' + i + '" method="POST">' 
+		//creates accordion with name
+		$('#one').html($('#one').html() + '<div class="panel panel-default"><a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"><div class="panel-heading"><span class="glyphicon glyphicon-open" aria-hidden="true"></span> Dataset '+ (8*(pagetoview-1)+i) +'</div></a><span class="panel-body panel-collapse collapse '+expanded[i-1]+'" id="dataset'+i+'"><p id="quality" style="padding: 15px; padding-bottom:0px">Metadata:</p><p id="datasetButton'+i+'" style="padding: 15px; padding-top: 0px"></p><form class="colorform" id="showL2AData' + i + '" method="POST">'
 										+ '  <div> <button id="showTCI'+ i +'"> Show True Color Image </button> <br/> <br/> </div> <container><input id="rgb'+i+'" type="radio" name="rgbbool" value="true" '+rgbChecked+' onclick="toggleDrop('+(i*2)+','+((i*2)+1)+')"/> RGB<br/><label for="rgb" class="dropd" id="dropd'+(i*2)+'">'
 										+'Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select name="rcn" id="rgbselect' + ((i*3)-2) + '"></select>'
 											+'<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Min-Value: <input type="number" name="rcmin" id="minRed'+i+'" placeholder="0" value="'+(bandValues[i-1][0][1])+'"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Max-Value: <input type="number" name="rcmax"  id="maxRed'+i+'" maxlength="5" placeholder="65536" value="'+(bandValues[i-1][1][1])+'"/><br/><br/>'
@@ -265,7 +264,7 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 										}else if(btn[i-1][1] == "true"){
 											toggleDrop(((i*2)+1),(i*2));
 										}
-										//Setzt Bandarrays zurück
+										//resets band arrays
 										/*constArray = ["0","B1","B2","B3","B4","B5","B6","B7","B8","B8a","B9","B10","B11","B12"];
 										redBand = constArray;
 										greenBand = constArray;
@@ -285,10 +284,10 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 
 
 /**
- * Erstllt HTML-Element mit den Metadaten von jedem Dateset für jedes Dataset an
- * Befüllt die Dropdownmenues der S2A Datensätze
- *@param res Ergebnisse aus Suchanfrage
- *@param page Aktuelle Seitenzahl
+ * creates HTML-Element with metadata from each dataset for each dataset
+ * fills Dropdownmenues of S2A datasets
+ *@param res result from search request
+ *@param page current pagenumber
  */
 function visualizeMetadata(result, page, band, vis){
 
@@ -312,7 +311,7 @@ function visualizeMetadata(result, page, band, vis){
 		//fill array for permalinks
 		jsonForDatasets.push(res[i]);
 
-		//HTML-Element wird mit Meta-Daten gefüllt
+		//HTML-Element is filled with metadata
 		$('#datasetButton' + (i+1)  ).html(
 		"<b> Cloud Coverage Assesment: </b>" + res[i].CLOUD_COVERAGE_ASSESSMENT +  "</br>" +
 		"<b> Datatake Sensing Start: </b>" + res[i].DATATAKE_1_DATATAKE_SENSING_START + "</br>" +
@@ -426,7 +425,7 @@ function visualizeMetadata(result, page, band, vis){
 		drawPolygon(resL2A, i, page, number, (res.length + resL2A.length));
 		number++;
 
- 		//Erzeuge select Values für S2A Datasets:
+ 		//create select values for S2A datasets:
  		var k = j+1;
  		var arr10m = ["Resolution 10 Meter:", "R10M", "Band AOT", 0, "Band 2", 1, "Band 3", 2 , "Band 4", 3, "Band TCI", 5,  "Band WVP", 6 , "Band 8", 4];
 		var arr20m = ["Resolution 20 Meter:", "R20M", "Band AOT", 0, "Band 2", 1, "Band 3", 2 , "Band 4", 3, "Band 5", 4, "Band 6", 5, "Band 7", 6, "Band SCL", 10, "Band 8a", 9, "Band TCI", 11, "Band 11", 7, "Band 12", 8, "Band VIS", 12, "Band WVP", 13];
@@ -480,13 +479,12 @@ function addL2AOptions(result, id, array, j, band){
 }
 
 /**
- *Zeigt und versteckt Elemente
- *Wird bei den RadioButtons aufgerufen
- *@param i Element, das gezeigt werden soll
- *@param j Element, das versteckt werden soll
+ *shows and hides elements
+ *called on radio buttons
+ *@param i element, to be shown
+ *@param j element, to be hidden
  */
 function toggleDrop(i,j){
 	$('#dropd'+i).show();
 	$('#dropd'+j).hide();
 }
-
