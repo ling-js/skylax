@@ -275,7 +275,7 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 
 
 	return $('#one').html();
-}
+}}
 
 
 

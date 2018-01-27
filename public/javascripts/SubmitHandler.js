@@ -100,7 +100,7 @@ function createL1CSubmitHandler(res, j, opacity){
 		spinnerShow(document.getElementById('map'));
 		e.preventDefault();
 	    //check if input fields are not empty for the markers
-	    (	//Check if radio button option "RGB" is checked and all 3 bands are choosen at rgb
+	   if( (	//Check if radio button option "RGB" is checked and all 3 bands are choosen at rgb
 			((radioValue(document.getElementsByName('rgbbool'),j)) == "true") &&
 			($('#rgbselect'+ ((j*3)-2)).val()  !== null) &&
 			($('#rgbselect'+ ((j*3)-1)).val() !== null) &&
