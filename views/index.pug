@@ -86,7 +86,7 @@ html
             br
             #dateForm
               a.fas.fa-question-circle(id="tooltip_date" data-toggle='tooltip', data-placement='top', title='Enter the desired data Name here ')
-              | <h3><span class="far fa-calendar-alt"></span> Date </h3>
+              | <h3><span class="far fa-calendar-alt"></span> Date <input type="checkbox" id="addDateToSearch" name="addDate")> </h3>
               | <b>Select start date:</b>
               .container
                 .row
@@ -101,8 +101,9 @@ html
                           $('#datetimepicker1').datetimepicker({
                               locale: 'de'
                           });
-                          startdate = $('#datetimepicker1').data("DateTimePicker").date()._d.toISOString();
-
+                          $("#datetimepicker1").on("dp.change", function (e) {
+                              startdate = $('#datetimepicker1').data("DateTimePicker").date()._d.toISOString();
+                          });
                       });
 
               | <b>Select end date:</b>
@@ -119,17 +120,14 @@ html
                           $('#datetimepicker2').datetimepicker({
                               locale: 'de'
                           });
-                          enddate=$('#datetimepicker2').data("DateTimePicker").date()._d.toISOString();
-                        console.log( $('#datetimepicker2').data("DateTimePicker").date()._d.toISOString());
-                      });
+                          $("#datetimepicker2").on("dp.change", function (e) {
+                              enddate=$('#datetimepicker2').data("DateTimePicker").date()._d.toISOString();
 
-
-
-
+                      });})
             br
             #bboxForm
               a.fas.fa-question-circle(id ="tooltip_bbox" data-toggle='tooltip', data-placement='top', title='Enter the desired data Name here ')
-              | <h3><span class="fas fa-edit"></span> Bounding Box</h3>
+              | <h3><span class="fas fa-edit"></span> Bounding Box<input type="checkbox" id="addBboxToSearch" name="addBbox")></h3>
               | <b>Top Right Corner:</b>
               br
               | &nbsp; Latitude:&nbsp;&nbsp;&nbsp;&nbsp; 

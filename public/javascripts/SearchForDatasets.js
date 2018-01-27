@@ -22,6 +22,7 @@ IN AN ACTION OF CONTRACT, TORTOR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 var startdate,enddate;
+startdate =
 /** Handling of Searchform */
 $(document).ready(function() {
   /**
@@ -36,8 +37,8 @@ $(document).ready(function() {
       if(true){
         // Manual parsing of fields to create Request-URL
         var substring = $("#searchformbyname_input").val();
-//        startdate =processTime( $('#datetimepicker1').data("DateTimePicker").date()._d.toISOString());
-//        enddate = processTime($('#datetimepicker2').data("DateTimePicker").date()._d.toISOString());
+        startdate =processTime( $('#datetimepicker1').data("DateTimePicker").date()._d.toISOString());
+        enddate = processTime($('#datetimepicker2').data("DateTimePicker").date()._d.toISOString());
         console.log(startdate);
         console.log(enddate);
         var page = 0;
@@ -90,16 +91,12 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
         resultIntroText = resultIntroText + "... within the coordinates ["+bboxString[0]+","+bboxString[1]+"|"+bboxString[2]+","+bboxString[3]+"]."+"<br>";
       }
       if(i[0] == "startdate"){
-        var dateString = i[1].split("T");
-        var dayString = dateString[0].split("-");
-        var hourString = dateString[1].slice(0,dateString[1].length-1);
-        resultIntroText = resultIntroText + "... from "+hourString+"h "+dayString[2]+"."+dayString[1]+"."+dayString[0]+"<br>";
+
+        resultIntroText = resultIntroText + "... from " + startdate +" <br>";
       }
       if(i[0] == "enddate"){
-        var dateString = i[1].split("T");
-        var dayString = dateString[0].split("-");
-        var hourString = dateString[1].slice(0,dateString[1].length-1);
-        resultIntroText = resultIntroText + " to "+hourString+"h "+dayString[2]+"."+dayString[1]+"."+dayString[0]+"."+"<br>";
+
+        resultIntroText = resultIntroText + enddate + "<br>";
       }
     }
   }
@@ -198,12 +195,10 @@ function createDate(str){
 function processTime(str){
 
   var isotime = str ;
-
-    var str = "2018-01-27T13:50:00.000Z";
+    ;
     var res = str.slice(0,19)+str.slice(23,24);
     res = res.replace('.',':');
 
-    //2018-01-27T13:50:00.000Z
     console.log(res);
     return res;
 
