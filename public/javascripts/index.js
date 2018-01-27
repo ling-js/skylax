@@ -54,7 +54,8 @@ $(document).ready(function() {
   });
 
   initStartup();
-
+    $('#bboxbutton').hide();
+    $('#deleteDrawing').hide();
   document.getElementById('addNameToSearch').onchange = function() {
         if(this.checked==true){
             document.getElementById("searchformbyname_input").disabled=false;
@@ -72,6 +73,7 @@ $(document).ready(function() {
             document.getElementById("endDate").disabled=false;
             document.getElementById("endDate").focus();
 
+
         }
         else{
             document.getElementById("startDate").disabled='disabled';
@@ -81,6 +83,7 @@ $(document).ready(function() {
 
     document.getElementById('addBboxToSearch').onchange = function() {
         if(this.checked==true){
+
             document.getElementById("searchformbybbox_topLat").disabled=false;
             document.getElementById("searchformbybbox_topLat").focus();
             document.getElementById("searchformbybbox_topLong").disabled=false;
@@ -89,13 +92,15 @@ $(document).ready(function() {
             document.getElementById("searchformbybbox_bottomLat").focus();
             document.getElementById("searchformbybbox_bottomLong").disabled=false;
             document.getElementById("searchformbybbox_bottomLong").focus();
-
+            $('#bboxbutton').show();
         }
-        else{
+        if(this.checked==false){
             document.getElementById("searchformbybbox_topLat").disabled='disabled';
             document.getElementById("searchformbybbox_topLong").disabled='disabled';
             document.getElementById("searchformbybbox_bottomLat").disabled='disabled';
             document.getElementById("searchformbybbox_bottomLong").disabled='disabled';
+            $('#bboxbutton').hide();
+
 
         }};
 

@@ -326,6 +326,7 @@ function initDate(){
       date = new Date("2017-12-31T23:59:59");
     }
     $('#datetimepicker'+(i+1)).datetimepicker({
+        locale:'de',
         defaultDate: date,
     });
   }
