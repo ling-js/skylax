@@ -21,7 +21,8 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORTOR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
+var startdate,enddate;
+startdate =
 /** Handling of Searchform */
 $(document).ready(function() {
   /**
@@ -33,21 +34,14 @@ $(document).ready(function() {
       e.preventDefault();
       var that = this;
       // Checks if Enddate is valid (later than startDate)
-      if(compareDates() == true){
+      if(true){
         // Manual parsing of fields to create Request-URL
-        var substring = "";
-        if($('#addNameToSearch')[0].checked == true){
-          substring = $("#searchformbyname_input").val();
-        }
-        searchVariables.substring = substring;
-        var startdate = "";
-        var enddate = "";
-        if($('#addDateToSearch')[0].checked == true){
-          startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
-          enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
-        }
-        searchVariables.startdate = startdate;
-        searchVariables.enddate = enddate;
+        var substring = $("#searchformbyname_input").val();
+        startdate =processTime( $('#datetimepicker1').data("DateTimePicker").date()._d.toISOString());
+        enddate = processTime($('#datetimepicker2').data("DateTimePicker").date()._d.toISOString());
+        console.log(startdate);
+        console.log(enddate);
+
         var page = 0;
         var pagetoview = 1;
         var bbox="";
@@ -102,16 +96,12 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
         resultIntroText = resultIntroText + "... within the coordinates ["+bboxString[0]+","+bboxString[1]+"|"+bboxString[2]+","+bboxString[3]+"]."+"<br>";
       }
       if(i[0] == "startdate"){
-        var dateString = i[1].split("T");
-        var dayString = dateString[0].split("-");
-        var hourString = dateString[1].slice(0,dateString[1].length-1);
-        resultIntroText = resultIntroText + "... from "+hourString+"h "+dayString[2]+"."+dayString[1]+"."+dayString[0]+"<br>";
+
+        resultIntroText = resultIntroText + "... from " + startdate +" <br>";
       }
       if(i[0] == "enddate"){
-        var dateString = i[1].split("T");
-        var dayString = dateString[0].split("-");
-        var hourString = dateString[1].slice(0,dateString[1].length-1);
-        resultIntroText = resultIntroText + " to "+hourString+"h "+dayString[2]+"."+dayString[1]+"."+dayString[0]+"."+"<br>";
+
+        resultIntroText = resultIntroText + enddate + "<br>";
       }
     }else{
       if(i[1] == ""){
@@ -142,6 +132,7 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
         console.log(res);
         resultIntroText = "You have found "+(res.L1C.length+res.L2A.length)+" datasets with your request."+"<br>"+resultIntroText;
         openTabInSidebar('#results');
+        console.dir(res);
         $('#resultIntroText')[0].innerHTML = resultIntroText;
         //shows paginator or not
         if(res.length == 0){
@@ -216,6 +207,20 @@ function createDate(str){
 }
 
 
+
+//2018-01-27T13:50:00.000Z -> 2018-01-27T13:50:00:00Z
+
+function processTime(str){
+
+
+    var res = str.slice(0,19)+str.slice(23,24);
+    res = res.replace('.',':');
+
+    console.log(res);
+    return res;
+
+
+}
 
 /**
  * Initialises the Paginator.
