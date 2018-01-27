@@ -14,16 +14,16 @@ html
     script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")
     script(src='https://unpkg.com/leaflet@1.0.3/dist/leaflet.js')
     script(src="https://use.fontawesome.com/releases/v5.0.3/js/all.js")
-    script(src='/javascripts/leaflet-sidebar.min.js')
-    script(src='/javascripts/jquery.bootpag.min.js')
-    script(src='/javascripts/moment.js')
-
-    script(src='/javascripts/bootstrap-datetimepicker.js')
+    script(src='/javascripts/external/leaflet-sidebar.min.js')
+    script(src='/javascripts/external/jquery.bootpag.min.js')
+    script(src='/javascripts/external/moment.js')
+    script(src='/javascripts/external/bootstrap-datetimepicker.js')
+    
     // Leaflet draw plugin
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.css')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.js')
     
-    // External Javascripts
+    // Internal Javascripts
     script(src = '/javascripts/index.js')
     script(src = '/javascripts/LayerInteractions.js')
     script(src = '/javascripts/Permalink.js')
@@ -33,7 +33,7 @@ html
     script(src = '/javascripts/map.js')
     
     // Spinner from https://github.com/fgnass/spin.js
-    script(src = '/javascripts/spin.js')
+    script(src = '/javascripts/external/spin.js')
 
     // STYLESHEETS
     link(rel='stylesheet', href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css')
@@ -68,10 +68,10 @@ html
       #scrollero.sidebar-content
         #home.sidebar-pane
           #sideName
-
             h2 Skylax
           p The Project Name: “Skylax” is chosen with reference to the german name of Scylax of Caryanda (Greek: Σκύλαξ ο Καρυανδεύς) who was a renowned Greek explorer and writer of the late 6th and early 5th centuries BCE. (source: Wikipedia).
-          img.image(src="/images/logo.png" alt="Logo")
+          #sideName
+            img.image(src="/images/logo.png" alt="Logo")
         #search.sidebar-pane
           form#searchform(method='GET')
             #sideName
@@ -101,7 +101,7 @@ html
                       #datetimepicker1.input-group.date
                         span.input-group-addon
                           span.glyphicon.glyphicon-calendar
-                        input.form-control(id='startDate',type='text' ,disabled='t')
+                        input.form-control(id='startDate',type='text' ,disabled='disabled')
                   script(type='text/javascript').
                       $(function () {
                           $('#datetimepicker1').datetimepicker({
@@ -133,7 +133,7 @@ html
             br
             #bboxForm
               a.fas.fa-question-circle(id ="tooltip_bbox" data-toggle='tooltip', data-placement='top', title='Enter the desired data Name here ')
-              | <h3><span class="fas fa-edit"></span> Bounding Box<input type="checkbox" id="addBboxToSearch" name="addBbox")></h3>
+              | <h3><span class="fas fa-edit"></span> Bounding Box <input type="checkbox" id="addBboxToSearch" name="addBbox")></h3>
               | <b>Top Right Corner:</b>
               br
               div.row
@@ -155,7 +155,7 @@ html
               button.btn.btn-info.btn-xs(type='button', name = 'drawPolygon' id='deleteDrawing', onclick='')
                 span.glyphicon.glyphicon-trash
                 |  Click to delete your bounding box
-              button.btn.btn-info.btn-xs(type='button', id='bboxbutton', onclick='')
+              button.btn.btn-info.btn-xs(type='button', id='bboxbutton' ,onclick='')
                 span.glyphicon.glyphicon-pencil
                 |  Click to draw a Bounding Box on the Map
             br

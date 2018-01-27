@@ -62,6 +62,8 @@ The skylax-client uses following external libraries:
 | fontawesome     | [multiple licenses](http://fontawesome.io/license/)                  |
 | leaflet-draw | [MIT](https://github.com/Leaflet/Leaflet.draw/blob/develop/MIT-LICENSE.md) |
 | bootstrap| [MIT](https://github.com/twbs/bootstrap/blob/master/LICENSE) |
+| moment.js|[MIT](https://github.com/moment/moment/blob/develop/LICENSE) |
+|bootstrap-datepicker|[MIT](https://github.com/Eonasdan/bootstrap-datetimepicker/blob/master/LICENSE) |
 
 
 ## skylax-api [![Go Report Card](https://goreportcard.com/badge/github.com/ling-js/skylax-api)](https://goreportcard.com/report/github.com/ling-js/skylax-api)

@@ -82,6 +82,18 @@ function initMap() {
   map.on('click', function(e) {
     var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
     console.log(coords);
+    console.log(polyLayer);
+    console.log(Object.keys(polyLayer._layers));
+    var polygonkeys = Object.keys(polyLayer._layers);
+    for(i = 0 ; i<polygonkeys.length;i++){
+        if(polyLayer._layers[polygonkeys[i]]._bounds.contains(coords)){
+
+          console.log(polyLayer._layers[polygonkeys[i]].options);
+          openAccordion(polyLayer._layers[polygonkeys[i]]);
+        }
+
+
+    }
     //console.log($('#datasetButton1'));
     //var textWidth = $('#datasetButton1')[0].clientWidth;
     //console.log($('#sidebar')[0].clientWidth);
@@ -100,7 +112,10 @@ function initMap() {
     document.getElementById('searchformbybbox_bottomLat').value = getRectangle(4)[0];
     document.getElementById('searchformbybbox_bottomLong').value = getRectangle(4)[1];
 
+  polyLayer.on('click',function(e){
 
+    console.log("Working");
+  })
 
 
   });
@@ -340,7 +355,7 @@ function drawPolygon(result, number, page, showNumber, reslength){
   var coordArray = stringToCoordArray(result[number].FOOTPRINT);
   if(coordArray != null){
     var polygon = L.polygon(coordArray, {color: 'red',number:showNumber, resultLength:reslength});
-    polygon.on('click', openAccordion);
+    //polygon.on('click', openAccordion);
     polygon.bindTooltip('<p> Dataset '+(((page-1)*8)+(showNumber+1))+'</p>').addTo(map);
     polygon.addTo(polyLayer);
   }

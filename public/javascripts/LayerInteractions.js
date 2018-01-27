@@ -161,13 +161,14 @@ function removeDatasets(){
 /**
  *open accordion. Runs after click on a polygon
 */
-function openAccordion(){
+function openAccordion(polygon){
   hash = '#results';
+  console.dir("Hey" + polygon);
   openTabInSidebar(hash);
-  for(var i = 1; i < this.options.resultLength+1; i++){
-    if(i == (this.options.number+1)){
-      $("#dataset"+(this.options.number+1)).collapse('show');
-      var scroll = $("#dataset"+(this.options.number+1))[0].parentNode.offsetTop;
+  for(var i = 1; i < polygon.options.resultLength+1; i++){
+    if(i == (polygon.options.number+1)){
+      $("#dataset"+(polygon.options.number+1)).collapse('show');
+      var scroll = $("#dataset"+(polygon.options.number+1))[0].parentNode.offsetTop;
       $('#scrollero').scrollTop(scroll);
     }else{
       $("#dataset"+i).collapse('hide');
