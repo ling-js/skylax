@@ -176,6 +176,11 @@ $(document).ready(function() {
   // Hide the delete button until the draw button is clicked once
   //Resets the input and clears layers
   $('#bboxbutton').click(function() {
+    document.getElementById("searchformbybbox_bottomLat").style.color = "";
+    document.getElementById("searchformbybbox_bottomLat").style.border = "";
+    document.getElementById("searchformbybbox_bottomLong").style.color = "";
+    document.getElementById("searchformbybbox_bottomLong").style.border = "";
+    $("#bboxerror").html("");
     drawnItems.clearLayers();
     rectangleDrawer.enable();
     resetInput();
@@ -259,10 +264,10 @@ of top right corner
 function checkForCorrectCoordinates(){
   var wrongVal = false;
 
-  if(searchformbybbox_bottomLat.value < 90 && searchformbybbox_bottomLat.value > -90){
-    if(searchformbybbox_topLat.value  < 90 && searchformbybbox_topLat.value > - 90 ){
-      if(searchformbybbox_topLong.value  < 180 && searchformbybbox_topLong.value > -180){
-        if(searchformbybbox_bottomLong.value  < 180 && searchformbybbox_bottomLong.value > -180){
+  if(searchformbybbox_bottomLat.valueAsNumber < 90 && searchformbybbox_bottomLat.valueAsNumber > -90){
+    if(searchformbybbox_topLat.valueAsNumber  < 90 && searchformbybbox_topLat.valueAsNumber > - 90 ){
+      if(searchformbybbox_topLong.valueAsNumber  < 180 && searchformbybbox_topLong.valueAsNumber > -180){
+        if(searchformbybbox_bottomLong.valueAsNumber  < 180 && searchformbybbox_bottomLong.valueAsNumber > -180){
 
           wrongVal = true;
         }
@@ -275,7 +280,7 @@ function checkForCorrectCoordinates(){
        document.getElementById('searchformbybbox_bottomLong').value != '')
   {
     var gibtesLatkoordinatendreher = false;
-    if(searchformbybbox_topLat.value < searchformbybbox_bottomLat.value){
+    if(searchformbybbox_topLat.valueAsNumber < searchformbybbox_bottomLat.valueAsNumber){
       gibtesLatkoordinatendreher= true;
       document.getElementById("bboxerror").innerHTML = "Hint: Lat of Bottom Corner should be lower Top Corner";
       document.getElementById("bboxerror").style.color = "red";
@@ -290,7 +295,8 @@ function checkForCorrectCoordinates(){
       document.getElementById("searchformbybbox_bottomLat").style.color = "";
       document.getElementById("searchformbybbox_bottomLat").style.border = "";
     }
-    if(searchformbybbox_topLong.value < searchformbybbox_bottomLong.value)
+
+    if(searchformbybbox_topLong.valueAsNumber < searchformbybbox_bottomLong.valueAsNumber)
     {
       if(gibtesLatkoordinatendreher){
         $("#bboxerror").html( "Hint: Coordinates of Bottom Corner should be lower than Top Corner");

@@ -159,7 +159,7 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 
 		//Sytling of accordion titles (color of badges and adding manual breaks)
 		var productUri = result.L1C[i-1].PRODUCT_URI;
-		var slicedUri = productUri.slice(0,42) +'<br>' + productUri.slice(42);
+		var slicedUri = productUri.slice(0,40) +'<br>' + productUri.slice(40);
 
 		var spacecraftname = result.L1C[i-1].PRODUCT_URI.slice(0, 3);
 		var spacecraftbadge;
@@ -263,7 +263,7 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 
 		//Sytling of accordion titles (color of badges and adding manual breaks)
 		var productUri = result.L2A[i-length-1].PRODUCT_URI_2A;
-		var slicedUri = productUri.slice(0,42) +'<br>' + productUri.slice(42);
+		var slicedUri = productUri.slice(0,40) +'<br>' + productUri.slice(40);
 
 		var spacecraftname = result.L2A[i-length-1].PRODUCT_URI_2A.slice(0, 3);
 		var spacecraftbadge;
@@ -281,7 +281,7 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 		
 
 		//creates accordion with name
-		$('#one').html($('#one').html() + '<div class="panel panel-default"> <a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"> <div class="panel-heading"> '+ spacecraftbadge + levelbadge +'<br/> <span style="white-space: nowrap;"> <span class="glyphicon glyphicon-open" aria-hidden="true"/>' + slicedUri + '</span></div></a><span class="panel-body panel-collapse collapse '+expanded[i-1]+'" id="dataset'+i+'"><p id="quality" style="padding: 15px; padding-bottom:0px"/><p style="line-height: 1.5;margin-left:4%" id="datasetButton'+i+'" style="padding: 15px; padding-top: 0px"></p><form class="colorform" id="showL2AData' + i + '" method="POST">'
+		$('#one').html($('#one').html() + '<div class="panel panel-default"> <a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"> <div class="panel-heading"> '+ spacecraftbadge + levelbadge +'<br/> <span style="white-space: nowrap;"> <span class="glyphicon glyphicon-open" aria-hidden="true"/>' + slicedUri + '</span></div></a><span class="panel-body panel-collapse collapse '+expanded[i-1]+'" id="dataset'+i+'"><p id="quality" style="padding: 15px; padding-bottom:0px"/><p style="line-height: 1.5;margin-left:4%;" id="datasetButton'+i+'" style="padding: 15px; padding-top: 0px"></p><form class="colorform" id="showL2AData' + i + '" method="POST">'
 										+ '  <div> <button class="btn btn-primary" style="background-color: #D3D3D3;color:#000000;border-color:#c7c7c7;" id="showTCI'+ i +'"> <span class="glyphicon glyphicon-camera" aria-hidden="true"/> Show True Color Image </button> <br/> <br/> </div> <container><input id="rgb'+i+'" type="radio" name="rgbbool" value="true" '+rgbChecked+' onclick="toggleDrop('+(i*2)+','+((i*2)+1)+')"/> RGB<br/><label for="rgb" class="dropd" id="dropd'+(i*2)+'">'
 										+'Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select name="rcn" id="rgbselect' + ((i*3)-2) + '"></select>'
 											+'<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Min-Value:&nbsp; <input type="number" name="rcmin" id="minRed'+i+'" placeholder="0" value="'+(bandValues[i-1][0][1])+'"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Max-Value: <input type="number" name="rcmax"  id="maxRed'+i+'" maxlength="5" placeholder="65536" value="'+(bandValues[i-1][1][1])+'"/><br/><br/>'
@@ -366,7 +366,7 @@ function visualizeMetadata(result, page, band, vis){
 		"<b> Product Start Time: </b>" + res[i].PRODUCT_START_TIME + "</br>" +
 		"<b> Product Stop Time: </b>" + res[i].PRODUCT_STOP_TIME + "</br>" +
 		"<b> PRODUCT_TYPE: </b>" + res[i].PRODUCT_TYPE + "</br>" +
-		"<b> PRODUCT_URI: </b>" + toString(res[i].PRODUCT_URI).slice(0,42) +"</br>"+ toString(res[i].PRODUCT_URI).slice(42) + "</br>" +
+		"<b> PRODUCT_URI: </b>" + toString(res[i].PRODUCT_URI).slice(0,40) +"</br>"+ toString(res[i].PRODUCT_URI).slice(40) + "</br>" +
 		"<b> Quantification Value: </b>" + res[i].QUANTIFICATION_VALUE + "</br>" +
 		"<b> Radiometric Quality Flag: </b>" + res[i].RADIOMETRIC_QUALITY_FLAG + "</br>"+
 		"<b> Reference Band: </b>" + res[i].REFERENCE_BAND + "</br>" +
@@ -375,13 +375,13 @@ function visualizeMetadata(result, page, band, vis){
 		"<b> Special Value Nodata: </b>" + res[i].SPECIAL_VALUE_NODATA + "</br>" +
 		"<b> Special Value Saturated: </b>" + res[i].SPECIAL_VALUE_SATURATED + "</br>" +
 		"<b> Subdataset 1 Description: </b>" + res[i].SUBDATASET_1_DESC + "</br>" +
-		"<b> Subdataset 1 Name: </b>" + toString(res[i].SUBDATASET_1_NAME).slice(0,42) +"</br>"+ toString(res[i].SUBDATASET_1_NAME).slice(42,84) +"</br>"+  toString(res[i].SUBDATASET_1_NAME).slice(84) +"</br>" +
+		"<b> Subdataset 1 Name: </b>" + toString(res[i].SUBDATASET_1_NAME).slice(0,40) +"</br>"+ toString(res[i].SUBDATASET_1_NAME).slice(40,80) +"</br>"+  toString(res[i].SUBDATASET_1_NAME).slice(80,120) +"</br>"+  toString(res[i].SUBDATASET_1_NAME).slice(120) +"</br>" +
 		"<b> Subdataset 2 Description: </b>" + res[i].SUBDATASET_2_DESC + "</br>" +
-		"<b> Subdataset 2 Name: </b>" + toString(res[i].SUBDATASET_2_NAME).slice(0,42) +"</br>"+ toString(res[i].SUBDATASET_2_NAME).slice(42,84) +"</br>"+  toString(res[i].SUBDATASET_2_NAME).slice(84) + "</br>" +
+		"<b> Subdataset 2 Name: </b>" + toString(res[i].SUBDATASET_2_NAME).slice(0,40) +"</br>"+ toString(res[i].SUBDATASET_2_NAME).slice(40,80) +"</br>"+  toString(res[i].SUBDATASET_2_NAME).slice(80,120) +"</br>"+  toString(res[i].SUBDATASET_2_NAME).slice(120)+ "</br>" +
 		"<b> Subdataset 3 Description: </b>" + res[i].SUBDATASET_3_DESC + "</br>" +
-		"<b> Subdataset 3 Name: </b>" + toString(res[i].SUBDATASET_3_NAME).slice(0,42) +"</br>"+ toString(res[i].SUBDATASET_3_NAME).slice(42,84) +"</br>"+  toString(res[i].SUBDATASET_3_NAME).slice(84) +"</br>" +
+		"<b> Subdataset 3 Name: </b>" + toString(res[i].SUBDATASET_3_NAME).slice(0,40) +"</br>"+ toString(res[i].SUBDATASET_3_NAME).slice(40,80) +"</br>"+  toString(res[i].SUBDATASET_3_NAME).slice(80,120) +"</br>"+  toString(res[i].SUBDATASET_3_NAME).slice(120)+"</br>" +
 		"<b> Subdataset 4 Description: </b>" + res[i].SUBDATASET_4_DESC + "</br>" +
-		"<b> Subdataset 4 Name: </b>" + toString(res[i].SUBDATASET_4_NAME).slice(0,42) +"</br>"+ toString(res[i].SUBDATASET_4_NAME).slice(42,84) +"</br>"+  toString(res[i].SUBDATASET_4_NAME).slice(84) +"</br>");
+		"<b> Subdataset 4 Name: </b>" + toString(res[i].SUBDATASET_4_NAME).slice(0,40) +"</br>"+ toString(res[i].SUBDATASET_4_NAME).slice(40,80) +"</br>"+  toString(res[i].SUBDATASET_4_NAME).slice(80,120) +"</br>"+  toString(res[i].SUBDATASET_4_NAME).slice(120)+"</br>");
 
 		//Use for Polygoncreation
 		drawPolygon(res, i, page, number, res.length);
@@ -433,8 +433,8 @@ function visualizeMetadata(result, page, band, vis){
 		"<b> Product Start Time: </b>" + resL2A[i].PRODUCT_START_TIME + "</br>" +
 		"<b> Product Stop Time: </b>" + resL2A[i].PRODUCT_STOP_TIME + "</br>" +
 		"<b> Product Type: </b>" + resL2A[i].PRODUCT_TYPE + "</br>" +
-		"<b> Product URI 1C: </b>" + toString(resL2A[i].PRODUCT_URI_1C).slice(0,42) +"</br>"+ toString(resL2A[i].PRODUCT_URI_1C).slice(42) + "</br>" +
-		"<b> Product URI 2A: </b>" + toString(resL2A[i].PRODUCT_URI_2A).slice(0,42) +"</br>"+ toString(resL2A[i].PRODUCT_URI_1C).slice(42) +  "</br>" +
+		"<b> Product URI 1C: </b>" + toString(resL2A[i].PRODUCT_URI_1C).slice(0,40) +"</br>"+ toString(resL2A[i].PRODUCT_URI_1C).slice(40) + "</br>" +
+		"<b> Product URI 2A: </b>" + toString(resL2A[i].PRODUCT_URI_2A).slice(0,40) +"</br>"+ toString(resL2A[i].PRODUCT_URI_1C).slice(40) +  "</br>" +
 		"<b> Radiometric Quality Flag: </b>" + resL2A[i].RADIOMETRIC_QUALITY_FLAG + "</br>"+
 		"<b> Reference Band: </b>" + resL2A[i].REFERENCE_BAND + "</br>" +
 		"<b> Reflectance Conversion U: </b>" + resL2A[i].REFLECTANCE_CONVERSION_U + "</br>" +
