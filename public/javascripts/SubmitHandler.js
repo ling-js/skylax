@@ -1,3 +1,27 @@
+/*
+
+The MIT License (MIT)
+
+Copyright (c) Sat Jan 27 2018 Benjamin Karic, Jens Seifert, Jasper Buß, Eric Thieme-Garmann, Jan Speckamp 
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORTOR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
 function createTCISubmitHandler(res, j, i){
 	spinnerShow(document.getElementById('map'));
 	$('#showTCI'+ j).click(function(e) {
@@ -19,13 +43,12 @@ function createTCISubmitHandler(res, j, i){
 			var that = "tci=true&rgbbool=false&gsc=TCI&l2a=false";
 			that += datasetName;
 		}
-		//console.dir($(this).serialize());
 		console.log(that);
 	        // submit via ajax
 	        $.ajax({
 	        	data: that,
 	        	type: "POST",
-	        	url:  'http://gis-bigdata.uni-muenster.de:14014/generate?',
+	        	url: apiurl + 'generate?',
 	        	error: function(xhr, status, err) {
 		            console.log("Error while loading Data");
 								spinnerHide(document.getElementById('map'));
@@ -40,7 +63,7 @@ function createTCISubmitHandler(res, j, i){
 
 	            	// create lyr with requested data
 	            	lyr = L.tileLayer(
-						'http://gis-bigdata.uni-muenster.de:14014/data/' + res + '/{z}/{x}/{-y}.png',
+						apiurl + '/data/' + res + '/{z}/{x}/{-y}.png',
 						{
 						  tms: true,
 						  continuousWorld: true,
@@ -117,7 +140,7 @@ function createL1CSubmitHandler(res, j, opacity){
 	        $.ajax({
 	        	data: $(that).serialize(),
 	        	type: $(that).attr('method'),
-	        	url:  'http://gis-bigdata.uni-muenster.de:14014/generate?',
+	        	url:  apiurl + '/generate?',
 	        	error: function(xhr, status, err) {
 		            console.log("Error while loading Data");
 					spinnerHide(document.getElementById('map'));
@@ -132,7 +155,7 @@ function createL1CSubmitHandler(res, j, opacity){
 
 	            	// create lyr with requested data
 	            	lyr = L.tileLayer(
-						'http://gis-bigdata.uni-muenster.de:14014/data/' + res + '/{z}/{x}/{-y}.png',
+						apiurl + '/data/' + res + '/{z}/{x}/{-y}.png',
 						{
 						  tms: true,
 						  continuousWorld: true,
@@ -230,7 +253,7 @@ function createL2ASubmitHandler(res, j, opacity, i){
 	        $.ajax({
 	          	data: $(that).serialize(),
 		        type: $(that).attr('method'),
-		        url:  'http://gis-bigdata.uni-muenster.de:14014/generate?',
+		        url:  apiurl + '/generate?',
 		        error: function(xhr, status, err) {
 	            	console.log("Error while loading Data");
 					spinnerHide(document.getElementById('map'));
@@ -245,7 +268,7 @@ function createL2ASubmitHandler(res, j, opacity, i){
 
 	                // create lyr with requested data
 		            lyr = L.tileLayer(
-						'http://gis-bigdata.uni-muenster.de:14014/data/' + res + '/{z}/{x}/{-y}.png',
+						apiurl + '/data/' + res + '/{z}/{x}/{-y}.png',
 						{
 						  tms: true,
 						  continuousWorld: true,

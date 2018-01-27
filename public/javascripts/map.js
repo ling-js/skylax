@@ -1,14 +1,28 @@
-// Global vars;
-var map, // Map Object
-  layerControl,
-  sidebar,
-  drawControl,
-  editableLayers, //Layer to draw onto
-  drawnItems,
-  rectangleDrawer,
-  spinner,
-  polyLayer,
-  target;
+/*
+
+The MIT License (MIT)
+
+Copyright (c) Sat Jan 27 2018 Benjamin Karic, Jens Seifert, Jasper Buß, Eric Thieme-Garmann, Jan Speckamp 
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORTOR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+('use strict');
 
 //SpinnerToggler
 var toggler = false;
@@ -20,16 +34,8 @@ var jsonForDatasets =[];
 var valueLookUpArray = [];
 
 /**
- * Geosoftware I, SoSe 2017, final
- * @author Jan Speckamp (428367) ,Jens Seifert ,Jasper Buß, Benjamin Karic , Eric Thieme-Garmann
- */
-
-('use strict');
-
-/**
  * Initialises Map Object
  */
-
 function initMap() {
   map = L.map('map', {
     center: [48.748945343432936, 11.733398437500002], // Europe
@@ -245,19 +251,55 @@ function checkForCorrectCoordinates(){
       }
     }
   }
-  if(searchformbybbox_topLat.value < searchformbybbox_bottomLat.value &&
-    searchformbybbox_topLong.value < searchformbybbox_bottomLong.value ||
-    searchformbybbox_topLat.val < searchformbybbox_bottomLat.value &&
-    searchformbybbox_topLong.value > searchformbybbox_bottomLong.value ||
-    searchformbybbox_topLat.value > searchformbybbox_bottomLat.value &&
-    searchformbybbox_topLong.value < searchformbybbox_bottomLong.value){
-alert("Die unteren Koordinaten dürfen nicht größer sein als die ");
-return false;
-}
-
-
+  if(document.getElementById('searchformbybbox_topLat').value != '' &&
+     document.getElementById('searchformbybbox_bottomLat').value != '' &&
+     document.getElementById('searchformbybbox_topLong').value != '' &&
+       document.getElementById('searchformbybbox_bottomLong').value != '')
+  {
+    var gibtesLatkoordinatendreher = false;
+    if(searchformbybbox_topLat.value < searchformbybbox_bottomLat.value){
+      gibtesLatkoordinatendreher= true;
+      document.getElementById("bboxerror").innerHTML = "Hint: Lat of Bottom Corner should be lower Top Corner";
+      document.getElementById("bboxerror").style.color = "red";
+      document.getElementById("bboxerror").style.display = "block";
+      document.getElementById("searchformbybbox_bottomLat").style.color = "red";
+      document.getElementById("searchformbybbox_bottomLat").style.border = "1px solid red";
+      wrongVal=false;
+    }
+    else
+    {
+      $("#bboxerror").html("");
+      document.getElementById("searchformbybbox_bottomLat").style.color = "";
+      document.getElementById("searchformbybbox_bottomLat").style.border = "";
+    }
+    if(searchformbybbox_topLong.value < searchformbybbox_bottomLong.value)
+    {
+      if(gibtesLatkoordinatendreher){
+        $("#bboxerror").html( "Hint: Coordinates of Bottom Corner should be lower than Top Corner");
+      }
+      else
+      {
+        $("#bboxerror").html("Hint: Long of Bottom Corner should be lower Top Corner")
+      }
+      document.getElementById("bboxerror").style.color = "red";
+      document.getElementById("bboxerror").style.display = "block";
+      document.getElementById("searchformbybbox_bottomLong").style.color = "red";
+      document.getElementById("searchformbybbox_bottomLong").style.border = "1px solid red";
+      wrongVal=false;
+    }
+    else
+    {
+      if(!gibtesLatkoordinatendreher)
+      {
+        $("#bboxerror").html("");
+      }
+      document.getElementById("searchformbybbox_bottomLong").style.color = "";
+      document.getElementById("searchformbybbox_bottomLong").style.border = "";
+    }
   return wrongVal;
+  }
 }
+
 
 function coordsToPolygon(load){
   if(document.getElementById('searchformbybbox_topLat').value != '' &&
@@ -301,6 +343,40 @@ function drawPolygon(result, number, page, showNumber, reslength){
 }
 
 /**
+ * Displays the value on tile click
+ */
+function initLookUp(e){
+  var x = correctCoordinates(e.latlng.lng);
+  var y = e.latlng.lat;
+  var dname = this.options.dname;
+  var bname = this.options.bname;
+  valueRequest(dname, bname, x, y);
+}
+
+/**
+ * Displays the value on tile click
+ *@param x X coordinate
+ *@param y Y coordniate
+ */
+ function showValue(x, y){
+   var popupMessage = "";
+   if(valueLookUpArray.length == 1){
+     popupMessage += "The value here is " + valueLookUpArray[0];
+   }else{
+     var colors = ["red","green","blue"]
+     for (var i = 0; i < valueLookUpArray.length; i++) {
+       if (i != 0) {
+         popupMessage += " <br> "
+       }
+       popupMessage += "Value of the "+colors[i]+" band is "+valueLookUpArray[i];
+     }
+   }
+   var popup = L.popup()
+     .setLatLng([y, x])
+     .setContent(popupMessage)
+     .openOn(map);
+ }
+/**
  * Draws an invisible polygon of the displayed dataset
  * @param resultNum Metadata of the displayed dataset
  * @param radioBtn "true" or "false" for rgb oder grey
@@ -339,3 +415,12 @@ function stringToCoordArray(coordString){
     return coordArray;
   }
 }
+/*
+function ToggleObject(i) {
+  var skillsStyle = document.getElementById("one").style;
+  if (skillsStyle.display == "block") {
+    skillsStyle.display = "none";
+  }
+  else { skillsStyle.display = "block"; }
+}
+*/
