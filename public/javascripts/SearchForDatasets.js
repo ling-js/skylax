@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) Sat Jan 27 2018 Benjamin Karic, Jens Seifert, Jasper Buß, Eric Thieme-Garmann, Jan Speckamp 
+Copyright (c) Sat Jan 27 2018 Benjamin Karic, Jens Seifert, Jasper Buß, Eric Thieme-Garmann, Jan Speckamp
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -41,12 +41,17 @@ $(document).ready(function() {
         enddate = processTime($('#datetimepicker2').data("DateTimePicker").date()._d.toISOString());
         console.log(startdate);
         console.log(enddate);
+
         var page = 0;
         var pagetoview = 1;
         var bbox="";
-        if ($(searchformbybbox_bottomLong).val() != "" && $(searchformbybbox_bottomLat).val() != "" && $(searchformbybbox_topLong).val() != "" && $(searchformbybbox_topLat).val() != ""){
-          bbox=($(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val());
+        if($('#addBboxToSearch')[0].checked == true){
+          if ($(searchformbybbox_bottomLong).val() != "" && $(searchformbybbox_bottomLat).val() != "" && $(searchformbybbox_topLong).val() != "" && $(searchformbybbox_topLat).val() != ""){
+            bbox=($(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val());
+          }
         }
+        searchVariables.bbox = bbox;
+        searchVariables.page = pagetoview-1;
         var templateurl = apiurl + "/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
         // Initializing Paginator
         pagerInit(templateurl);
@@ -98,6 +103,18 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
 
         resultIntroText = resultIntroText + enddate + "<br>";
       }
+    }else{
+      if(i[1] == ""){
+        if(i[0] == "substring"){
+          resultIntroText = resultIntroText + "... without a name."+"<br>";
+        }
+        if(i[0] == "bbox"){
+          resultIntroText = resultIntroText + "... without coordinates."+"<br>";
+        }
+        if(i[0] == "startdate"){
+          resultIntroText = resultIntroText + "... without a dates."+"<br>";
+        }
+      }
     }
   }
   $.ajax({
@@ -112,7 +129,8 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
           spinnerHide(document.getElementById('sidebar'));
       }},
       success: function (res, status, request) {
-        resultIntroText = "You have found "+res.length+" datasets with your request."+"<br>"+resultIntroText;
+        console.log(res);
+        resultIntroText = "You have found "+(res.L1C.length+res.L2A.length)+" datasets with your request."+"<br>"+resultIntroText;
         openTabInSidebar('#results');
         console.dir(res);
         $('#resultIntroText')[0].innerHTML = resultIntroText;
@@ -144,9 +162,9 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
           lastClass: 'last',
           firstClass: 'first'
         });
-        if(page == 0){
+        if(page == 0 && $("#page-selection")[0].children.length > 0){
           $("#page-selection")[0].children[0].style.display = "none";
-        }else{
+        }else if($("#page-selection")[0].children.length > 0){
           $("#page-selection")[0].children[0].style.display = "";
         }
         spinnerHide(document.getElementById('sidebar'));

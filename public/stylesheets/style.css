@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) Sat Jan 27 2018 Benjamin Karic, Jens Seifert, Jasper Buß,  Eric Thieme-Garmann, Jan Speckamp 
+Copyright (c) Sat Jan 27 2018 Benjamin Karic, Jens Seifert, Jasper Buß,  Eric Thieme-Garmann, Jan Speckamp
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -156,11 +156,6 @@ html, body, #map {
 .add-field-button{
   margin-bottom: 10px;
 }
-img {
-  width: auto;
-  height: 200px;
-  margin: auto;
-}
 
 .dropdown-menu li:hover .sub-menu {
     visibility: visible;
@@ -240,4 +235,22 @@ html,body {
     padding-right: 10px;
     border: 1px solid lightgrey;
   }
+}
+img {
+ display: block;
+}
+
+img.wrap {
+ max-width: 70%;
+ margin: 30px 0px;
+}
+
+img.align-right {
+ float: right;
+ margin-left: 30px;
+}
+
+img.align-left {
+ float: left;
+ margin-right: 30px;
 }

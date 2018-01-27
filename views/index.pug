@@ -79,11 +79,11 @@ html
               | <h2>  Search for Datasets</h2>
             #nameForm
               a.fas.fa-question-circle(id="tooltip_name" data-toggle='tooltip', data-placement='top', title='Enter the desired data Name here ')
-              div.input-group
-                span.input-group-addon
-                  i.fas.fa-database
-                input(id='searchformbyname_input' type='string' placeholder="Enter a search-string")
-            br
+
+              | <h3> Name  <input type="checkbox" id="addNameToSearch" name="addName")></h3>
+              | <b>Search by name:</b>&nbsp;&nbsp;&nbsp;
+              input(id='searchformbyname_input' type='string' placeholder="Enter a search-string")
+            br 
             #dateForm
               a.fas.fa-question-circle(id="tooltip_date" data-toggle='tooltip', data-placement='top', title='Enter the desired data Name here ')
               | <h3><span class="far fa-calendar-alt"></span> Date <input type="checkbox" id="addDateToSearch" name="addDate")> </h3>
@@ -142,6 +142,7 @@ html
               | &nbsp; Longitude:&nbsp; 
               input(id='searchformbybbox_bottomLong' type='number', placeholder="" size="28" min = '-180' max = '180' step = 'any')
               br
+              div#bboxerror(display="none")
               br
               button.btn.btn-info.btn-xs(type='button', name = 'drawPolygon' id='deleteDrawing', onclick='')
                 span.glyphicon.glyphicon-trash
@@ -158,7 +159,7 @@ html
               | Search for datasets
         #results.sidebar-pane
           #sideName
-            h2 Reults
+            h2 Results
           p#resultIntroText
             | Currently there are no results.
           p#one

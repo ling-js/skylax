@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) Sat Jan 27 2018 Benjamin Karic, Jens Seifert, Jasper Buß, Eric Thieme-Garmann, Jan Speckamp 
+Copyright (c) Sat Jan 27 2018 Benjamin Karic, Jens Seifert, Jasper Buß, Eric Thieme-Garmann, Jan Speckamp
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -162,7 +162,7 @@ function removeDatasets(){
  *Öffnet ein Akkordion. Wird ausgeführt nach Klick auf ein Polygon.
 */
 function openAccordion(){
-  hash = '#search';
+  hash = '#results';
   openTabInSidebar(hash);
   for(var i = 1; i < this.options.resultLength+1; i++){
     if(i == (this.options.number+1)){
@@ -174,4 +174,3 @@ function openAccordion(){
     }
   }
 }
-    
