@@ -1,18 +1,40 @@
-/** Alles was mit der Searchform zu tun hat!*/
+/*
 
+The MIT License (MIT)
 
+Copyright (c) Sat Jan 27 2018 Benjamin Karic, Jens Seifert, Jasper Buß, Eric Thieme-Garmann, Jan Speckamp 
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORTOR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+/** Handling of Searchform */
 $(document).ready(function() {
   /**
-   * Die Suche wird ausgeführt, Ergebnisse werde zurückgegeben und verarbeitet
+   * Search is conducted, results are returned and processed
    */
   $('#searchform').submit(function(e) {
       spinnerShow(document.getElementById('sidebar'));
       // Prevent default html form handling
       e.preventDefault();
       var that = this;
-      //Prüft, ob Enddate später ist
+      // Checks if Enddate is valid (later than startDate)
       if(compareDates() == true){
-        //Fügt Eingaben aus den Wertfeldern zusammen zu einer templateurl
+        // Manual parsing of fields to create Request-URL
         var substring = $("#searchformbyname_input").val();
         var startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
         var enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
@@ -22,14 +44,14 @@ $(document).ready(function() {
         if ($(searchformbybbox_bottomLong).val() != "" && $(searchformbybbox_bottomLat).val() != "" && $(searchformbybbox_topLong).val() != "" && $(searchformbybbox_topLat).val() != ""){
           bbox=($(searchformbybbox_bottomLong).val()+','+ $(searchformbybbox_bottomLat).val() +','+ $(searchformbybbox_topLong).val()+',' +$(searchformbybbox_topLat).val());
         }
-        var templateurl = "http://gis-bigdata.uni-muenster.de:14014/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
-        //Initalisiert den Paginator
+        var templateurl = apiurl + "/search?substring="+substring+"&bbox="+bbox+"&startdate="+startdate+"&enddate="+enddate+"&page=";
+        // Initializing Paginator
         pagerInit(templateurl);
         var expanded = [];
-        //Startet Ajax Reuqest
+        // Send Ajax Request
         ajaxrequest(templateurl, pagetoview);
     }else{
-      //Falsche Daten
+      // Invalid Input
       alert("Startdate must be before Enddate");
       spinnerHide(document.getElementById('sidebar'));
     }
