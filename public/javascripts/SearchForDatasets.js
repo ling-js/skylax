@@ -34,14 +34,20 @@ $(document).ready(function() {
       e.preventDefault();
       var that = this;
       // Checks if Enddate is valid (later than startDate)
-      if(true){
-        // Manual parsing of fields to create Request-URL
-        var substring = $("#searchformbyname_input").val();
-        startdate =processTime( $('#datetimepicker1').data("DateTimePicker").date()._d.toISOString());
-        enddate = processTime($('#datetimepicker2').data("DateTimePicker").date()._d.toISOString());
-        console.log(startdate);
-        console.log(enddate);
-
+      if(true){// Manual parsing of fields to create Request-URL
+        var substring = "";
+        if($('#addNameToSearch')[0].checked == true){
+          substring = $("#searchformbyname_input").val();
+        }
+        searchVariables.substring = substring;
+        var startdate = "";
+        var enddate = "";
+        if($('#addDateToSearch')[0].checked == true){
+          startdate = processTime( $('#datetimepicker1').data("DateTimePicker").date()._d.toISOString());;
+          enddate = processTime($('#datetimepicker2').data("DateTimePicker").date()._d.toISOString());
+        }
+        searchVariables.startdate = startdate;
+        searchVariables.enddate = enddate;
         var page = 0;
         var pagetoview = 1;
         var bbox="";
