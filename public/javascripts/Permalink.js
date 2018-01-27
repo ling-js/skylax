@@ -356,13 +356,19 @@ function loadPermaSearchParams(){
               break;
             case "ssd":
               if(i[1] != ""){
-                fillDate(i,"start");
                 $('#addDateToSearch')[0].checked = true;
+                var date = new Date(i[1]);
+                $('#datetimepicker1').datetimepicker({
+                    defaultDate: date,
+                });
               }
               break;
             case "sed":
               if(i[1] != ""){
-                fillDate(i,"end");
+                var date = new Date(i[1]);
+                $('#datetimepicker2').datetimepicker({
+                    defaultDate: date,
+                });
               }
               break;
             case "p":
@@ -391,8 +397,8 @@ function loadPermaSearchParams(){
       var startdate ="";
       var enddate = "";
       if($('#addDateToSearch')[0].checked == true){
-        startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
-        enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
+        startdate = processTime( $('#datetimepicker1').data("DateTimePicker").date()._d.toISOString());;
+        enddate = processTime($('#datetimepicker2').data("DateTimePicker").date()._d.toISOString());
       }
       var page = 0;
       var bbox = "";

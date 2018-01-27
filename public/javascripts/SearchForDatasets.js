@@ -102,12 +102,14 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
         resultIntroText = resultIntroText + "... within the coordinates ["+bboxString[0]+","+bboxString[1]+"|"+bboxString[2]+","+bboxString[3]+"]."+"<br>";
       }
       if(i[0] == "startdate"){
-
-        resultIntroText = resultIntroText + "... from " + startdate +" <br>";
+        startdate = processTime( $('#datetimepicker1').data("DateTimePicker").date()._d.toISOString());
+        var date = new Date(startdate);
+        resultIntroText = resultIntroText + "... from " + date +" <br>";
       }
       if(i[0] == "enddate"){
-
-        resultIntroText = resultIntroText + enddate + "<br>";
+        enddate = processTime($('#datetimepicker2').data("DateTimePicker").date()._d.toISOString());
+        var date = new Date(enddate);
+        resultIntroText = resultIntroText + "to "+date + "<br>";
       }
     }else{
       if(i[1] == ""){
@@ -118,7 +120,7 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
           resultIntroText = resultIntroText + "... without coordinates."+"<br>";
         }
         if(i[0] == "startdate"){
-          resultIntroText = resultIntroText + "... without a dates."+"<br>";
+          resultIntroText = resultIntroText + "... without dates."+"<br>";
         }
       }
     }
@@ -301,13 +303,16 @@ function initOptions(){
  *@return Bool value, true means startdate is before enddate
  */
 function compareDates(){
-  var startDate = createDate(1);
-  var endDate = createDate(2);
-  if(startDate < endDate){
-    return true;
-  }else{
-    return false;
+  if($('#addNameToSearch')[0].checked == true){
+    var startDate = createDate(1);
+    var endDate = createDate(2);
+    if(startDate < endDate){
+      return true;
+    }else{
+      return false;
+    }
   }
+  return true;
 }
 
 
