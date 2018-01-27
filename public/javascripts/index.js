@@ -47,7 +47,7 @@ $(document).ready(function() {
 
   initStartup();
   //Keine Ahnung ob wir das hier noch brauchen -> $('#resultpanel').hide();
-
+  $('#datetime').datetimepicker();
 });
 
 /**
