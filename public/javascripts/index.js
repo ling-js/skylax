@@ -34,7 +34,7 @@ var map, // Map Object
   polyLayer,
   target;
 // API Url
-var apiurl = "http://192.168.0.16:8080";
+var apiurl = "http://10.67.63.2:8080";
 
 /**
 * Loads all requested Stages. Overwrites all Submit Handlers that are already present,
@@ -47,7 +47,6 @@ $(document).ready(function() {
 
   initStartup();
   //Keine Ahnung ob wir das hier noch brauchen -> $('#resultpanel').hide();
-  $('#datetime').datetimepicker();
 });
 
 /**
@@ -56,7 +55,7 @@ $(document).ready(function() {
  * Load every permalink saved things.
  */
 function initStartup(){
-  initOptions();
+  //initOptions();
   $.when(loadHash()).done(loadPermaSearchParams());
 }
 

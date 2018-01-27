@@ -21,7 +21,7 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORTOR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
+var startdate,enddate;
 /** Handling of Searchform */
 $(document).ready(function() {
   /**
@@ -33,11 +33,13 @@ $(document).ready(function() {
       e.preventDefault();
       var that = this;
       // Checks if Enddate is valid (later than startDate)
-      if(compareDates() == true){
+      if(true){
         // Manual parsing of fields to create Request-URL
         var substring = $("#searchformbyname_input").val();
-        var startdate = $("#startyear").val() + "-" + $("#startmonth").val() + "-" + $("#startday").val() + "T" + $("#starthour").val() + ":" + $("#startmin").val() + ":" + $("#startsec").val()+ "Z";
-        var enddate = $("#endyear").val() + "-" + $("#endmonth").val() + "-" + $("#endday").val() + "T" + $("#endhour").val() + ":" + $("#endmin").val() + ":" + $("#endsec").val() + "Z";
+//        startdate =processTime( $('#datetimepicker1').data("DateTimePicker").date()._d.toISOString());
+//        enddate = processTime($('#datetimepicker2').data("DateTimePicker").date()._d.toISOString());
+        console.log(startdate);
+        console.log(enddate);
         var page = 0;
         var pagetoview = 1;
         var bbox="";
@@ -115,6 +117,7 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
       success: function (res, status, request) {
         resultIntroText = "You have found "+res.length+" datasets with your request."+"<br>"+resultIntroText;
         openTabInSidebar('#results');
+        console.dir(res);
         $('#resultIntroText')[0].innerHTML = resultIntroText;
         //Zeigt Paginator an oder auch nicht
         if(res.length == 0){
@@ -189,6 +192,23 @@ function createDate(str){
 }
 
 
+
+//2018-01-27T13:50:00.000Z -> 2018-01-27T13:50:00:00Z
+
+function processTime(str){
+
+  var isotime = str ;
+
+    var str = "2018-01-27T13:50:00.000Z";
+    var res = str.slice(0,19)+str.slice(23,24);
+    res = res.replace('.',':');
+
+    //2018-01-27T13:50:00.000Z
+    console.log(res);
+    return res;
+
+
+}
 
 /**
  * Initialises the Paginator.
