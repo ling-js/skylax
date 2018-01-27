@@ -4,41 +4,32 @@ html
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    meta(name='author', content='Jan Speckamp (428367),Jasper Buß,Jens Seifert,Benjamin Karic , Eric Thieme-Garmann')
+    meta(name='author', content='Benjamin Karic, Jens Seifert, Jasper Buß, Eric Thieme-Garmann, Jan Speckamp')
     link(rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico")
     title Skylax - a 'ling Project
 
-    // Page Content [parsed by Pug]
-    script.
-        if("#{objects}" !== "") {
-            var loaded_object_id = "#{objects}".split(',');
-        } else {
-            var loaded_object_id = [];
-        }
-    // JAVASCRIPTS
+    // External Javascripts
     script(src='https://code.jquery.com/jquery-3.2.1.min.js')
     script(src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js')
     script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")
     script(src='https://unpkg.com/leaflet@1.0.3/dist/leaflet.js')
     script(src="https://use.fontawesome.com/releases/v5.0.3/js/all.js")
     script(src='/javascripts/leaflet-sidebar.min.js')
-
-
+    script(src='/javascripts/jquery.bootpag.min.js')
 
     // Leaflet draw plugin
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.css')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.9/leaflet.draw.js')
-
-    script(src = '/javascripts/Load.js')
-    script(src = '/javascripts/LoadDataset.js')
-    script(src = '/javascripts/Searchform.js')  
-    script(src = '/javascripts/SubmitHandler.js')
-    script(src = '/javascripts/DynamicHTML.js')
+    
+    // External Javascripts
     script(src = '/javascripts/index.js')
+    script(src = '/javascripts/LayerInteractions.js')
+    script(src = '/javascripts/Permalink.js')
+    script(src = '/javascripts/SubmitHandler.js')
+    script(src = '/javascripts/SearchForDatasets.js')
+    script(src = '/javascripts/DynamicHTML.js')
     script(src = '/javascripts/map.js')
-    script(src = '/javascripts/jquery.bootpag.min.js')
-    script(src = '/javascripts/bootbox.min.js')
-
+    
     // Spinner from https://github.com/fgnass/spin.js
     script(src = '/javascripts/spin.js')
 
@@ -162,7 +153,7 @@ html
           | Information in accordance with section 5 TMG
           br
           br
-          | Jan Speckamp und Jens Seifert und Jasper Buß und Benjamin Karic und Eric Thieme-Garmann
+          | Benjamin Karic, Jens Seifert, Jasper Buß, Eric Thieme-Garmann, Jan Speckamp
           br
           | 127.0.0.1
           br
