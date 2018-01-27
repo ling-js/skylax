@@ -2,7 +2,7 @@
 
 The MIT License (MIT)
 
-Copyright (c) Sat Jan 27 2018 Benjamin Karic, Jens Seifert, Jasper Buß, Eric Thieme-Garmann, Jan Speckamp 
+Copyright (c) Sat Jan 27 2018 Benjamin Karic, Jens Seifert, Jasper Buß, Eric Thieme-Garmann, Jan Speckamp
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -24,15 +24,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ('use strict');
 
-//SpinnerToggler
-var toggler = false;
-
-//Speichert Ergebnisse nach Laden der Datasets
-var jsonForDatasets =[];
-
-//Save Lookup values
-var valueLookUpArray = [];
-
 /**
  * Initialises Map Object
  */
@@ -41,7 +32,7 @@ function initMap() {
     center: [48.748945343432936, 11.733398437500002], // Europe
     zoom: 5,
     minZoom: 0,
-    maxZoom: 15,
+    maxZoom: 12,
     zoomControl: false,
   });
 
@@ -346,45 +337,12 @@ function drawPolygon(result, number, page, showNumber, reslength){
 }
 
 /**
- * Displays the value on tile click
- */
-function initLookUp(e){
-  var x = correctCoordinates(e.latlng.lng);
-  var y = e.latlng.lat;
-  var dname = this.options.dname;
-  var bname = this.options.bname;
-  valueRequest(dname, bname, x, y);
-}
-
-/**
- * Displays the value on tile click
- *@param x X coordinate
- *@param y Y coordniate
- */
- function showValue(x, y){
-   var popupMessage = "";
-   if(valueLookUpArray.length == 1){
-     popupMessage += "The value here is " + valueLookUpArray[0];
-   }else{
-     var colors = ["red","green","blue"]
-     for (var i = 0; i < valueLookUpArray.length; i++) {
-       if (i != 0) {
-         popupMessage += " <br> "
-       }
-       popupMessage += "Value of the "+colors[i]+" band is "+valueLookUpArray[i];
-     }
-   }
-   var popup = L.popup()
-     .setLatLng([y, x])
-     .setContent(popupMessage)
-     .openOn(map);
- }
-/**
  * Draws an invisible polygon of the displayed dataset
  * @param resultNum Metadata of the displayed dataset
  * @param radioBtn "true" or "false" for rgb oder grey
  */
 function drawInvisPolygon(resultNum, names, bands, radioBtn){
+  map.closePopup();
   var coordArray = stringToCoordArray(jsonForDatasets[resultNum-1].FOOTPRINT);
   if(coordArray != null){
     if(radioBtn == "true"){
@@ -394,7 +352,7 @@ function drawInvisPolygon(resultNum, names, bands, radioBtn){
         names[1] = null;
         names[2] = null;
       }
-    var polygon = L.polygon(coordArray, {fillOpacity:'0', weight:'0', dname: names, bname:bands});
+    var polygon = L.polygon(coordArray, {fillOpacity:'0', weight:'0', dname: names, bname:bands, number:(resultNum-1)});
     polygon.on('click', initLookUp);
     polygon.addTo(polyLayer);
   }
