@@ -45,19 +45,24 @@ function createHTML(result, pagetoview, expanded, band, btn, bandValues, vis, op
 	//clear
 	$('#resultpanel').html("");
 	//loads all datasets, commits all values for permalink
-	createInnerHTML(result, pagetoview, expanded, band, btn, bandValues, opacity);
+	createInnerHTML(result, pagetoview, expanded, band, btn, bandValues)
 	//sets opacity and vis to default values, if not explicitly given
+	if(opacity == undefined){
+		opacity = [];
+		for(var i = 0; i<reslength;i++){
+			opacity.push(100);
+		}
+	}
 	if(vis == undefined){
 		vis = [];
 		for(var i = 0; i<reslength;i++){
 			vis.push("false");
 		}
 	}
-	/*
 	//creates sumbit buttons for every dataset
 	for(j=1; j<(L1Clength+1); j++){
 		 createL1CSubmitHandler(result.L1C, j, opacity[j-1]);
-		 createTCISubmitHandler(result.L1C, j, 0);
+		 createTCISubmitHandler(result, j, 0);
 		 if(vis[j-1] == "true"){
 			 $('#showData'+j).submit();
 		 }
@@ -65,12 +70,12 @@ function createHTML(result, pagetoview, expanded, band, btn, bandValues, vis, op
 	for(j=L1Clength+1; j<(reslength+1); j++){
 		var i = j-L1Clength;
 		createL2ASubmitHandler(result.L2A, j, opacity[j-1], i);
-		createTCISubmitHandler(result.L2A, j, i);
+		createTCISubmitHandler(result, j, i);
 		if(vis[j-1] == "true"){
 			 $('#showL2AData'+j).submit();
 		}
 
-	}*/
+	}
 }
 
 /**
@@ -84,54 +89,17 @@ function createHTML(result, pagetoview, expanded, band, btn, bandValues, vis, op
  *@param bandValues For permalink: which values are entered for the band?
  *@return HTML element with dataset accordion
  */
-function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues, opacity){
+function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 	var length = result.L1C.length;
 	var length2 = result.L2A.length;
 
-	if(opacity == undefined){
-		opacity = [];
-		for(var i = 0; i<(length+length2);i++){
-			opacity.push(100);
-		}
-	}
 
-	var k = 0;
-	var l = 0;
-
-	for(i=0; i < length+length2; i++)
-	{		
-			console.log(k + " " + l);
-			console.dir(result.L2A[k]);
-			console.dir(result.L1C);
-			console.log((result.L1C[l] != undefined));
-			if((result.L1C[l] != undefined) && (result.L2A[k] == undefined || toString(result.L1C[l].PRODUCT_URI).slice(11,26) >= toString(result.L2A[k].PRODUCT_URI_2A).slice(11,26)))
-			{
-				createL1CAccordion(result, pagetoview, expanded, band, btn, bandValues, i+1, l);
-				//createL1CSubmitHandler(result.L1C, i, opacity[i-1]);
-				createTCISubmitHandler(result.L1C, i, l, false);
-				l++;
-			}
-			else if(result.L1C[l] == undefined || toString(result.L1C[l].PRODUCT_URI).slice(11,26) < toString(result.L2A[k].PRODUCT_URI_2A).slice(11,26))
-			{
-				createL2AAccordion(result, pagetoview, expanded, band, btn, bandValues, i+1, k);
-				//createL2ASubmitHandler(result.L2A, i, opacity[i-1], k);
-				createTCISubmitHandler(result.L1C, i, k, true);
-				k++;
-			}
-		
-	}
-}
-
-function createL1CAccordion(result, pagetoview, expanded, band, btn, bandValues, i, l){
-	
-		var length = result.L1C.length;
-		var length2 = result.L2A.length;
-
+	for(i=1;i < length+1; i++){
 		//sets band to default values, if not explicitly given
-		if (band == undefined || band.length == 0 || band.length < length+length2) {
+		if (band == undefined || band.length == 0 || band.length < length) {
 			band = [];
 			zerArr = ["0","0","0","0"];
-			for (var j = 0; j < length+length2; j++) {
+			for (var j = 0; j < length; j++) {
 				band[j] = [];
 				band[j].push(zerArr);
 			}
@@ -164,7 +132,7 @@ function createL1CAccordion(result, pagetoview, expanded, band, btn, bandValues,
 			}
 		}else{
 			btn = [];
-			for (var j = 0; j < length+length2; j++) {
+			for (var j = 0; j < length; j++) {
 				btn.push(["false","false"]);
 			}
 		}
@@ -176,7 +144,7 @@ function createL1CAccordion(result, pagetoview, expanded, band, btn, bandValues,
 		//Sets bandvalues to default, if not explicitly given
 		if(bandValues == undefined || bandValues.length == 0){
 			bandValues = [];
-			for(k=0; k < length+length2; k++){
+			for(k=0; k < length; k++){
 				bandValues[k] = [];
 				bandValues[k][0] = [];
 				bandValues[k][1] = [];
@@ -185,13 +153,13 @@ function createL1CAccordion(result, pagetoview, expanded, band, btn, bandValues,
 					bandValues[k][1][j] = 65536;
 				}
 			}
-		} 
+		}
 
 		//Sytling of accordion titles (color of badges and adding manual breaks)
-		var productUri = result.L1C[l].PRODUCT_URI;
+		var productUri = result.L1C[i-1].PRODUCT_URI;
 		var slicedUri = productUri.slice(0,40) +'<br>' + productUri.slice(40);
 
-		var spacecraftname = result.L1C[l].PRODUCT_URI.slice(0, 3);
+		var spacecraftname = result.L1C[i-1].PRODUCT_URI.slice(0, 3);
 		var spacecraftbadge;
 		switch(spacecraftname){
 			case "S2A":
@@ -200,13 +168,13 @@ function createL1CAccordion(result, pagetoview, expanded, band, btn, bandValues,
 			case "S2B":
 				spacecraftbadge = ' <span class="badge" style="background-color:#3a87ad;"> Spacecraft: ' + spacecraftname + '</span>';
 				break;
-		}	
+		}
 
-		var levelname = result.L1C[l].PRODUCT_URI.slice(7, 10);
+		var levelname = result.L1C[i-1].PRODUCT_URI.slice(7, 10);
 		var levelbadge = '<span class="badge" style="background-color:#b94a48;"> Level: ' +  levelname + '</span>';
 
-		//creates accordion with a name,  Erstellst ein Akkordion mit Namen, possibly expanded
-		$('#resultpanel').append( '<div id="div'+i+'" class="panel panel-default"> <a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"><div class="panel-heading">'+ spacecraftbadge + levelbadge +'<br/> <span style="white-space: nowrap;"> <span class="glyphicon glyphicon-open" aria-hidden="true"/> '+ slicedUri +'</span></div></a><span class="panel-body panel-collapse collapse '+expanded[i-1]+'" id="dataset'+i+'" style="padding:0;border:0px;height:450px;overflow-y:auto"> <p id="quality" style="padding: 15px; padding-bottom:0px"/> <p style="line-height: 1.5;margin-left:4%" id="l1cdatasetButton'+l+'" style="padding: 15px; padding-top: 0px"></p> '
+		//creates accordion with a name, possibly expanded
+		$('#one').html($('#one').html() + '<div id="div'+i+'" class="panel panel-default"> <a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"><div class="panel-heading">'+ spacecraftbadge + levelbadge +'<br/> <span style="white-space: nowrap;"> <span class="glyphicon glyphicon-open" aria-hidden="true"/> '+ slicedUri +'</span></div></a><span class="panel-body panel-collapse collapse '+expanded[i-1]+'" id="dataset'+i+'" style="padding:0;border:0px;height:450px;overflow-y:auto"> <p id="quality" style="padding: 15px; padding-bottom:0px"/> <p style="line-height: 1.5;margin-left:4%" id="datasetButton'+i+'" style="padding: 15px; padding-top: 0px"></p> '
 										//creates radiobuttons,possibly selected, with corresponding bandvalues, one might have been chosen before
 										+ ' <form class="colorform" id="showData' + i + '" method="POST"> <div> <button id="showTCI'+ i +'"> <span class="glyphicon glyphicon-camera" aria-hidden="true"/> Show True Color Image  </button> <br/> <br/> </div> <container> <input id="rgb'+i+'" type="radio" name="rgbbool" value="true" '+rgbChecked+' onclick="toggleDrop('+(i*2)+','+((i*2)+1)+')"/> RGB<br/> <label for="rgb" class="dropd" id="dropd'+(i*2)+'"> '
 										+ ' Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <select name="rcn" id="rgbselect' + ((i*3)-2)+ '"> <option disabled="disabled" value="'+redBand[0]+'">Pick a band</option> <option value="'+redBand[1]+'">Band 1</option> <option value="'+redBand[2]+'">Band 2</option> <option value="'+redBand[3]+'">Band 3</option> <option value="'+redBand[4]+'">Band 4</option> <option value="'+redBand[5]+'">Band 5</option> <option value="'+redBand[6]+'">Band 6</option> <option value="'+redBand[7]+'">Band 7</option> <option value="'+redBand[8]+'">Band 8</option> <option value="'+redBand[9]+'">Band 8a</option> <option value="'+redBand[10]+'">Band 9</option> <option value="'+redBand[11]+'">Band 10</option> <option value="'+redBand[12]+'">Band 11</option> <option value="'+redBand[13]+'">Band 12</option> </select> <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '
@@ -239,13 +207,10 @@ function createL1CAccordion(result, pagetoview, expanded, band, btn, bandValues,
 										greenBand = constArray;
 										blueBand = constArray;
 										greyBand = constArray;
-}
+	}
 
 
-function createL2AAccordion(result, pagetoview, expanded, band, btn, bandValues, i, l){
-
-	var length = result.L1C.length;
-	var length2 = result.L2A.length;
+	for(i=length+1;i < (length+length2+1); i++){
 
 		//sets bandValues to default, if not explicitly given
 		if (band == undefined || band.length == 0 || band.length < (length+length2)) {
@@ -259,15 +224,17 @@ function createL2AAccordion(result, pagetoview, expanded, band, btn, bandValues,
 		//Sets btnvalues to default, if not explicitly given
 		var rgbChecked = "";
 		var greyChecked = "";
-		if(btn != undefined && btn.length != 0){
+		if(btn == undefined || btn.length == 0){
+				btn = [];
+		}
+		if(btn[i-1] != undefined && btn.length > length){
 			if (btn[i-1][0] =="true"){
 				rgbChecked = "checked";
 			}else if(btn[i-1][1] =="true"){
 				greyChecked = "checked";
 			}
 		}else{
-			btn = [];
-			for (var j = 0; j < length+length2; j++) {
+			for (var j = length; j < length+length2; j++) {
 				btn.push(["false","false"]);
 			}
 		}
@@ -280,10 +247,8 @@ function createL2AAccordion(result, pagetoview, expanded, band, btn, bandValues,
 		if(bandValues == undefined || bandValues.length == 0){
 			bandValues = [];
 		}
-		//Sets bandvalues to default, if not explicitly given
-		if(bandValues == undefined || bandValues.length == 0){
-			bandValues = [];
-			for(k=0; k < length+length2; k++){
+		if(bandValues[i] == undefined || bandValues.length < length+1){
+			for(k=length; k < (length+length2); k++){
 				bandValues[k] = [];
 				bandValues[k][0] = [];
 				bandValues[k][1] = [];
@@ -292,15 +257,13 @@ function createL2AAccordion(result, pagetoview, expanded, band, btn, bandValues,
 					bandValues[k][1][j] = 65536;
 				}
 			}
-		} 
+		}
 
 		//Sytling of accordion titles (color of badges and adding manual breaks)
-		console.dir(result.L2A);
-		console.log(l);
-		var productUri = result.L2A[l].PRODUCT_URI_2A;
+		var productUri = result.L2A[i-length-1].PRODUCT_URI_2A;
 		var slicedUri = productUri.slice(0,40) +'<br>' + productUri.slice(40);
 
-		var spacecraftname = result.L2A[l].PRODUCT_URI_2A.slice(0, 3);
+		var spacecraftname = result.L2A[i-length-1].PRODUCT_URI_2A.slice(0, 3);
 		var spacecraftbadge;
 		switch(spacecraftname){
 			case "S2A":
@@ -310,13 +273,13 @@ function createL2AAccordion(result, pagetoview, expanded, band, btn, bandValues,
 				spacecraftbadge = ' <span class="badge" style="background-color:#3a87ad;"> Spacecraft: ' + spacecraftname + '</span>';
 				break;
 		}
-		
-		var levelname = result.L2A[l].PRODUCT_URI_2A.slice(7, 10);
+
+		var levelname = result.L2A[i-length-1].PRODUCT_URI_2A.slice(7, 10);
 		var levelbadge = '<span class="badge" style="background-color:#468847;"> Level: ' +  levelname + '</span>';
-		
+
 
 		//creates accordion with name
-		$('#resultpanel').append('<div id="div'+i+'" class="panel panel-default"> <a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"> <div class="panel-heading"> '+ spacecraftbadge + levelbadge +'<br/> <span style="white-space: nowrap;"> <span class="glyphicon glyphicon-open" aria-hidden="true"/>' + slicedUri + '</span></div></a><span class="panel-body panel-collapse collapse '+expanded[i-1]+'" id="dataset'+i+'"><p id="quality" style="padding: 15px; padding-bottom:0px"/><p style="line-height: 1.5;margin-left:4%;" id="l2adatasetButton'+l+'" style="padding: 15px; padding-top: 0px"></p><form class="colorform" id="showL2AData' + i + '" method="POST">'
+		$('#one').html($('#one').html() + '<div id="div'+i+'" class="panel panel-default"> <a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"> <div class="panel-heading"> '+ spacecraftbadge + levelbadge +'<br/> <span style="white-space: nowrap;"> <span class="glyphicon glyphicon-open" aria-hidden="true"/>' + slicedUri + '</span></div></a><span class="panel-body panel-collapse collapse '+expanded[i-1]+'" id="dataset'+i+'"><p id="quality" style="padding: 15px; padding-bottom:0px"/><p style="line-height: 1.5;margin-left:4%;" id="datasetButton'+i+'" style="padding: 15px; padding-top: 0px"></p><form class="colorform" id="showL2AData' + i + '" method="POST">'
 										+ '  <div> <button class="btn btn-primary" style="background-color: #D3D3D3;color:#000000;border-color:#c7c7c7;" id="showTCI'+ i +'"> <span class="glyphicon glyphicon-camera" aria-hidden="true"/> Show True Color Image </button> <br/> <br/> </div> <container><input id="rgb'+i+'" type="radio" name="rgbbool" value="true" '+rgbChecked+' onclick="toggleDrop('+(i*2)+','+((i*2)+1)+')"/> RGB<br/><label for="rgb" class="dropd" id="dropd'+(i*2)+'">'
 										+'Red band:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<select name="rcn" id="rgbselect' + ((i*3)-2) + '"></select>'
 											+'<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Min-Value:&nbsp; <input type="number" name="rcmin" id="minRed'+i+'" placeholder="0" value="'+(bandValues[i-1][0][1])+'"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Max-Value: <input type="number" name="rcmax"  id="maxRed'+i+'" maxlength="5" placeholder="65536" value="'+(bandValues[i-1][1][1])+'"/><br/><br/>'
@@ -339,7 +302,19 @@ function createL2AAccordion(result, pagetoview, expanded, band, btn, bandValues,
 										blueBand = constArray;
 										greyBand = constArray;*/
 
-}
+	}
+	/*var arr [] 
+	for(i=1; i < (length+length2+1); i++){
+	productUri.slice(11,25)
+	var arr = [];
+	var
+	}*/
+
+
+
+
+	return $('#one').html();
+};
 
 
 
@@ -375,7 +350,7 @@ function visualizeMetadata(result, page, band, vis){
 		jsonForDatasets.push(res[i]);
 
 		//HTML-Element is filled with metadata
-		$('#l1cdatasetButton' + (i)  ).html(
+		$('#datasetButton' + (i+1)  ).html(
 		"<b> Cloud Coverage Assesment: </b>" + res[i].CLOUD_COVERAGE_ASSESSMENT +  "</br>" +
 		"<b> Datatake Sensing Start: </b>" + res[i].DATATAKE_1_DATATAKE_SENSING_START + "</br>" +
 		"<b> Datatkae Type: </b>" + res[i].DATATAKE_1_DATATAKE_TYPE + "</br>" +
@@ -419,11 +394,12 @@ function visualizeMetadata(result, page, band, vis){
 		number++;
 	};
 
-	for(i=0; i< resL2A.length; i++){
+	for(j=res.length; j<(res.length + resL2A.length); j++){
+		var i = j - res.length;
 
 		//fill array for permalinks
 		jsonForDatasets.push(resL2A[i]);
-		$('#l2adatasetButton' + (i)).html(
+		$('#datasetButton' + (j+1)  ).html(
 		"<b> AOT Retrieval Accuracy: </b>" + resL2A[i].AOT_RETRIEVAL_ACCURACY +  "</br>" +
 		"<b> Bare Soils Percentage: </b>" + resL2A[i].BARE_SOILS_PERCENTAGE +  "</br>" +
 		"<b> Cloud Coverage Assesment: </b>" + resL2A[i].CLOUD_COVERAGE_ASSESSMENT +  "</br>" +
@@ -480,13 +456,13 @@ function visualizeMetadata(result, page, band, vis){
 		"<b> R10M: </b> </br>" + toString(resL2A[i].R10M).replace(/,/g, "<br/>" ) +  "</br>" +
 		"<b> R20M: </b> </br>" + toString(resL2A[i].R20M).replace(/,/g, "<br/>" ) +  "</br>" +
 		"<b> R60M: </b> </br>" + toString(resL2A[i].R60M).replace(/,/g, "<br/>" ) +  "</br>");
-		
+
 		//Use for Polygoncreation
 		drawPolygon(resL2A, i, page, number, (res.length + resL2A.length));
 		number++;
 
  		//create select values for S2A datasets:
- 		var k = i + res.length +1;
+ 		var k = j+1;
  		var arr10m = ["Resolution 10 Meter:", "R10M", "Band AOT", 0, "Band 2", 1, "Band 3", 2 , "Band 4", 3,  "Band WVP", 6 , "Band 8", 4];
 		var arr20m = ["Resolution 20 Meter:", "R20M", "Band AOT", 0, "Band 2", 1, "Band 3", 2 , "Band 4", 3, "Band 5", 4, "Band 6", 5, "Band 7", 6, "Band SCL", 10, "Band 8a", 9, "Band 11", 7, "Band 12", 8, "Band VIS", 12, "Band WVP", 13];
 		var arr60m = ["Resolution 60 Meter:", "R60M", "Band AOT", 0, "Band 1", 1, "Band 2", 2, "Band 3", 3, "Band 4", 4, "Band 5", 5, "Band 6", 6, "Band 7", 7, "Band 9", 8, "Band 11", 9, "Band 12", 10, "Band 8a", 11, "Band SCL", 12, "Band WVP", 14]
