@@ -23,18 +23,19 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 function createTCISubmitHandler(res, j, i, l2a){	
-	$('#showTCI'+ j+1).click(function(e) {	
+	$('#showTCI'+ (j+1)).click(function(e) {	
 		e.preventDefault();
+
 		spinnerShow(document.getElementById('map'));
 		if(l2a){
-			var datasetName = "&gscdn="+ res.L2A[i].PRODUCT_URI_2A;
-			var bandname = "&gsc=" + res.L2A[i].R60M[13];
+			var datasetName = "&gscdn="+ res[i].PRODUCT_URI_2A;
+			var bandname = "&gsc=" + res[i].R60M[13];
 			var that = "tci=true&rgbbool=false&l2a=true";
 			that += datasetName;
 			that += bandname;
 		}
 		else {
-			var datasetName = "&gscdn="+ res.L1C[i].SUBDATASET_4_NAME;
+			var datasetName = "&gscdn="+ res[i].SUBDATASET_4_NAME;
 			var that = "tci=true&rgbbool=false&gsc=TCI&l2a=false";
 			that += datasetName;
 		}
@@ -53,8 +54,7 @@ function createTCISubmitHandler(res, j, i, l2a){
 					removeDatasets();
 					//end of Spinner visualization
 					spinnerHide(document.getElementById('map'));
-	            	console.log("Data successfully loaded.");
-
+	            	console.log("Data successfully loaded.");	
 	            	// create lyr with requested data
 	            	lyr = L.tileLayer(
 						apiurl + '/data/' + res + '/{z}/{x}/{-y}.png',
@@ -93,6 +93,7 @@ function createL1CSubmitHandler(res, j, opacity){
 	$('#showData'+ j).submit(function(e) {
 		spinnerShow(document.getElementById('map'));
 		e.preventDefault();
+		console.log("HelLo" + j);
 	    //check if input fields are not empty for the markers
 	    if((	//Check if radio button option "RGB" is checked and all 3 bands are choosen at rgb
 			((radioValue(document.getElementsByName('rgbbool'),j)) == "true") &&
@@ -336,7 +337,7 @@ function subdataL1CName(res, value, j){
  *
  *@param res Object with all Datasets user can choose from
  *@param value choosen band
- *@param j Index+1 of Dataset the band was choosen from
+ *@param j Index of Dataset the band was choosen from
  */
 function subdataL2AName(res, value, j){
 	console.log("Started subdataName.");
@@ -344,7 +345,7 @@ function subdataL2AName(res, value, j){
 		return "";
 	}
 	else{
-		return res[j-1].PRODUCT_URI_2A;
+		return res[j].PRODUCT_URI_2A;
 	}
 }
 

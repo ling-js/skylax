@@ -97,25 +97,29 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues, op
 
 	var k = 0;
 	var l = 0;
+	// Used for permalinks
+	jsonForDatasets = [];
 
 	for(i=0; i < length+length2; i++)
 	{		
-			console.log(k + " " + l);
-			console.dir(result.L2A[k]);
-			console.dir(result.L1C);
-			console.log((result.L1C[l] != undefined));
 			if((result.L1C[l] != undefined) && (result.L2A[k] == undefined || toString(result.L1C[l].PRODUCT_URI).slice(11,26) >= toString(result.L2A[k].PRODUCT_URI_2A).slice(11,26)))
 			{
 				createL1CAccordion(result, pagetoview, expanded, band, btn, bandValues, i+1, l);
-				//createL1CSubmitHandler(result.L1C, i, opacity[i-1]);
+				//fill array for permalinks
+				jsonForDatasets.push(result.L1C[i]);
+				createL1CSubmitHandler(result.L1C, i+1, opacity[i]);
 				createTCISubmitHandler(result.L1C, i, l, false);
 				l++;
 			}
 			else if(result.L1C[l] == undefined || toString(result.L1C[l].PRODUCT_URI).slice(11,26) < toString(result.L2A[k].PRODUCT_URI_2A).slice(11,26))
 			{
 				createL2AAccordion(result, pagetoview, expanded, band, btn, bandValues, i+1, k);
-				//createL2ASubmitHandler(result.L2A, i, opacity[i-1], k);
-				createTCISubmitHandler(result.L1C, i, k, true);
+				//fill array for permalinks
+				jsonForDatasets.push(result.L2A[i]);
+				createOptions(result.L2A, i+1, k, band);
+				createL2ASubmitHandler(result.L2A, i+1, opacity[i], k);
+				createTCISubmitHandler(result.L2A, i, k, true);
+
 				k++;
 			}
 		
@@ -354,9 +358,6 @@ function createL2AAccordion(result, pagetoview, expanded, band, btn, bandValues,
  */
 function visualizeMetadata(result, page, band, vis){
 
-	// Used for permalinks
-	jsonForDatasets = [];
-
 	//Number for polygon
 	var number = 0;
 
@@ -371,9 +372,7 @@ function visualizeMetadata(result, page, band, vis){
 
 	for(i=0; i < res.length; i++){
 
-		//fill array for permalinks
-		jsonForDatasets.push(res[i]);
-
+		
 		//HTML-Element is filled with metadata
 		$('#l1cdatasetButton' + (i)  ).html(
 		"<b> Cloud Coverage Assesment: </b>" + res[i].CLOUD_COVERAGE_ASSESSMENT +  "</br>" +
@@ -420,9 +419,7 @@ function visualizeMetadata(result, page, band, vis){
 	};
 
 	for(i=0; i< resL2A.length; i++){
-
-		//fill array for permalinks
-		jsonForDatasets.push(resL2A[i]);
+		
 		$('#l2adatasetButton' + (i)).html(
 		"<b> AOT Retrieval Accuracy: </b>" + resL2A[i].AOT_RETRIEVAL_ACCURACY +  "</br>" +
 		"<b> Bare Soils Percentage: </b>" + resL2A[i].BARE_SOILS_PERCENTAGE +  "</br>" +
@@ -486,30 +483,7 @@ function visualizeMetadata(result, page, band, vis){
 		number++;
 
  		//create select values for S2A datasets:
- 		var k = i + res.length +1;
- 		var arr10m = ["Resolution 10 Meter:", "R10M", "Band AOT", 0, "Band 2", 1, "Band 3", 2 , "Band 4", 3,  "Band WVP", 6 , "Band 8", 4];
-		var arr20m = ["Resolution 20 Meter:", "R20M", "Band AOT", 0, "Band 2", 1, "Band 3", 2 , "Band 4", 3, "Band 5", 4, "Band 6", 5, "Band 7", 6, "Band SCL", 10, "Band 8a", 9, "Band 11", 7, "Band 12", 8, "Band VIS", 12, "Band WVP", 13];
-		var arr60m = ["Resolution 60 Meter:", "R60M", "Band AOT", 0, "Band 1", 1, "Band 2", 2, "Band 3", 3, "Band 4", 4, "Band 5", 5, "Band 6", 6, "Band 7", 7, "Band 9", 8, "Band 11", 9, "Band 12", 10, "Band 8a", 11, "Band SCL", 12, "Band WVP", 14]
-		$("#rgbselect"+((k*3)-2))[0].options[$("#rgbselect"+((k*3)-2))[0].options.length] = new Option("Pick a Band", "");
-		$("#rgbselect"+((k*3)-2))[0].options[$("#rgbselect"+((k*3)-2))[0].options.length-1].disabled = "true";
-		addL2AOptions(resL2A, ("rgbselect"+((k*3)-2)), arr60m, i, band);
-		addL2AOptions(resL2A, ("rgbselect"+((k*3)-2)), arr20m, i,band);
-		addL2AOptions(resL2A, ("rgbselect"+((k*3)-2)), arr10m, i,band);
-		$("#rgbselect"+((k*3)-1))[0].options[$("#rgbselect"+((k*3)-1))[0].options.length] = new Option("Pick a Band", "");
-		$("#rgbselect"+((k*3)-1))[0].options[$("#rgbselect"+((k*3)-1))[0].options.length-1].disabled = "true";
-		addL2AOptions(resL2A, ("rgbselect"+((k*3)-1)), arr60m, i,band);
-		addL2AOptions(resL2A, ("rgbselect"+((k*3)-1)), arr20m, i,band);
-		addL2AOptions(resL2A, ("rgbselect"+((k*3)-1)), arr10m, i,band);
-		$("#rgbselect"+(k*3))[0].options[$("#rgbselect"+(k*3))[0].options.length] = new Option("Pick a Band", "");
-		$("#rgbselect"+(k*3))[0].options[$("#rgbselect"+(k*3))[0].options.length-1].disabled = "true";
-		addL2AOptions(resL2A, ("rgbselect"+(k*3)), arr60m, i,band);
-		addL2AOptions(resL2A, ("rgbselect"+(k*3)), arr20m, i,band);
-		addL2AOptions(resL2A, ("rgbselect"+(k*3)), arr10m, i,band);
-		$("#greyselect"+k)[0].options[$("#greyselect"+k)[0].options.length] = new Option("Pick a Band", "");
-		$("#greyselect"+k)[0].options[$("#greyselect"+k)[0].options.length-1].disabled = "true";
-		addL2AOptions(resL2A, ("greyselect"+k), arr60m, i,band);
-		addL2AOptions(resL2A, ("greyselect"+k), arr20m, i,band);
-		addL2AOptions(resL2A, ("greyselect"+k), arr10m, i,band);
+ 		var k = i + res.length +1;		
 	};
 
 	//Submit for L2A Datasets
@@ -548,6 +522,32 @@ function addL2AOptions(result, id, array, j, band){
 
 function toString(obj){
 	return ("" + obj);
+}
+
+function createOptions(resL2A, k, i, band){
+				var arr10m = ["Resolution 10 Meter:", "R10M", "Band AOT", 0, "Band 2", 1, "Band 3", 2 , "Band 4", 3,  "Band WVP", 6 , "Band 8", 4];
+				var arr20m = ["Resolution 20 Meter:", "R20M", "Band AOT", 0, "Band 2", 1, "Band 3", 2 , "Band 4", 3, "Band 5", 4, "Band 6", 5, "Band 7", 6, "Band SCL", 10, "Band 8a", 9, "Band 11", 7, "Band 12", 8, "Band VIS", 12, "Band WVP", 13];
+				var arr60m = ["Resolution 60 Meter:", "R60M", "Band AOT", 0, "Band 1", 1, "Band 2", 2, "Band 3", 3, "Band 4", 4, "Band 5", 5, "Band 6", 6, "Band 7", 7, "Band 9", 8, "Band 11", 9, "Band 12", 10, "Band 8a", 11, "Band SCL", 12, "Band WVP", 14]
+				$("#rgbselect"+((k*3)-2))[0].options[$("#rgbselect"+((k*3)-2))[0].options.length] = new Option("Pick a Band", "");
+				$("#rgbselect"+((k*3)-2))[0].options[$("#rgbselect"+((k*3)-2))[0].options.length-1].disabled = "true";
+				addL2AOptions(resL2A, ("rgbselect"+((k*3)-2)), arr60m, i, band);
+				addL2AOptions(resL2A, ("rgbselect"+((k*3)-2)), arr20m, i,band);
+				addL2AOptions(resL2A, ("rgbselect"+((k*3)-2)), arr10m, i,band);
+				$("#rgbselect"+((k*3)-1))[0].options[$("#rgbselect"+((k*3)-1))[0].options.length] = new Option("Pick a Band", "");
+				$("#rgbselect"+((k*3)-1))[0].options[$("#rgbselect"+((k*3)-1))[0].options.length-1].disabled = "true";
+				addL2AOptions(resL2A, ("rgbselect"+((k*3)-1)), arr60m, i,band);
+				addL2AOptions(resL2A, ("rgbselect"+((k*3)-1)), arr20m, i,band);
+				addL2AOptions(resL2A, ("rgbselect"+((k*3)-1)), arr10m, i,band);
+				$("#rgbselect"+(k*3))[0].options[$("#rgbselect"+(k*3))[0].options.length] = new Option("Pick a Band", "");
+				$("#rgbselect"+(k*3))[0].options[$("#rgbselect"+(k*3))[0].options.length-1].disabled = "true";
+				addL2AOptions(resL2A, ("rgbselect"+(k*3)), arr60m, i,band);
+				addL2AOptions(resL2A, ("rgbselect"+(k*3)), arr20m, i,band);
+				addL2AOptions(resL2A, ("rgbselect"+(k*3)), arr10m, i,band);
+				$("#greyselect"+k)[0].options[$("#greyselect"+k)[0].options.length] = new Option("Pick a Band", "");
+				$("#greyselect"+k)[0].options[$("#greyselect"+k)[0].options.length-1].disabled = "true";
+				addL2AOptions(resL2A, ("greyselect"+k), arr60m, i,band);
+				addL2AOptions(resL2A, ("greyselect"+k), arr20m, i,band);
+				addL2AOptions(resL2A, ("greyselect"+k), arr10m, i,band);
 }
 
 
