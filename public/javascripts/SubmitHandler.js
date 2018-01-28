@@ -23,9 +23,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 function createTCISubmitHandler(res, j, i){
-	var bands = [];
-	var names = [];
 	$('#showTCI'+ j).click(function(e) {
+		var bands = [];
+		var names = [];
 		e.preventDefault();
 		spinnerShow(document.getElementById('map'));
 		if(res.L1C[j-1] == undefined){
