@@ -165,9 +165,13 @@ html
             br
             // Commented out because of styling if something shouldnt work remove comments and go back to old
             // input.btn.btn-success(type='submit', id='searchIt', value='Search')
-            button.btn.btn-success(type='submit', id='searchIt', value='Search')
-              span.fas.fa-search
-              | Search for datasets
+            .row
+              button.btn.btn-success(type='submit', id='searchIt', value='Search')
+                span.fas.fa-search
+                | Search for datasets
+              button.btn.btn-warning(type='button' id='trashit' onclick="clearMap();")
+                span.glyphicon.glyphicon-trash
+                  | Remove datasets
         #results.sidebar-pane
           #sideName
             h2 Results
