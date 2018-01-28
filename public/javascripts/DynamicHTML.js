@@ -475,8 +475,8 @@ function visualizeMetadata(result, page, band, vis){
 		addL2AOptions(resL2A, ("rgbselect"+(k*3)), arr60m, i,band);
 		addL2AOptions(resL2A, ("rgbselect"+(k*3)), arr20m, i,band);
 		addL2AOptions(resL2A, ("rgbselect"+(k*3)), arr10m, i,band);
-		$("#rgbselect"+k)[0].options[$("#rgbselect"+k)[0].options.length] = new Option("Pick a Band", "");
-		$("#rgbselect"+k)[0].options[$("#rgbselect"+k)[0].options.length-1].disabled = "true";
+		$("#rgbselect"+k)[0].options[$("#greyselect"+k)[0].options.length] = new Option("Pick a Band", "");
+		$("#rgbselect"+k)[0].options[$("#greyselect"+k)[0].options.length-1].disabled = "true";
 		addL2AOptions(resL2A, ("greyselect"+k), arr60m, i,band);
 		addL2AOptions(resL2A, ("greyselect"+k), arr20m, i,band);
 		addL2AOptions(resL2A, ("greyselect"+k), arr10m, i,band);
