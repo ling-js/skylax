@@ -154,7 +154,7 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 					bandValues[k][1][j] = 65536;
 				}
 			}
-		} 
+		}
 
 		//Sytling of accordion titles (color of badges and adding manual breaks)
 		var productUri = result.L1C[i-1].PRODUCT_URI;
@@ -169,12 +169,12 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 			case "S2B":
 				spacecraftbadge = ' <span class="badge" style="background-color:#3a87ad;"> Spacecraft: ' + spacecraftname + '</span>';
 				break;
-		}	
+		}
 
 		var levelname = result.L1C[i-1].PRODUCT_URI.slice(7, 10);
 		var levelbadge = '<span class="badge" style="background-color:#b94a48;"> Level: ' +  levelname + '</span>';
 
-		//creates accordion with a name,  Erstellst ein Akkordion mit Namen, possibly expanded
+		//creates accordion with a name, possibly expanded
 		$('#one').html($('#one').html() + '<div id="div'+i+'" class="panel panel-default"> <a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"><div class="panel-heading">'+ spacecraftbadge + levelbadge +'<br/> <span style="white-space: nowrap;"> <span class="glyphicon glyphicon-open" aria-hidden="true"/> '+ slicedUri +'</span></div></a><span class="panel-body panel-collapse collapse '+expanded[i-1]+'" id="dataset'+i+'" style="padding:0;border:0px;height:450px;overflow-y:auto"> <p id="quality" style="padding: 15px; padding-bottom:0px"/> <p style="line-height: 1.5;margin-left:4%" id="datasetButton'+i+'" style="padding: 15px; padding-top: 0px"></p> '
 										//creates radiobuttons,possibly selected, with corresponding bandvalues, one might have been chosen before
 										+ ' <form class="colorform" id="showData' + i + '" method="POST"> <div> <button id="showTCI'+ i +'"> <span class="glyphicon glyphicon-camera" aria-hidden="true"/> Show True Color Image  </button> <br/> <br/> </div> <container> <input id="rgb'+i+'" type="radio" name="rgbbool" value="true" '+rgbChecked+' onclick="toggleDrop('+(i*2)+','+((i*2)+1)+')"/> RGB<br/> <label for="rgb" class="dropd" id="dropd'+(i*2)+'"> '
@@ -274,10 +274,10 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 				spacecraftbadge = ' <span class="badge" style="background-color:#3a87ad;"> Spacecraft: ' + spacecraftname + '</span>';
 				break;
 		}
-		
+
 		var levelname = result.L2A[i-length-1].PRODUCT_URI_2A.slice(7, 10);
 		var levelbadge = '<span class="badge" style="background-color:#468847;"> Level: ' +  levelname + '</span>';
-		
+
 
 		//creates accordion with name
 		$('#one').html($('#one').html() + '<div id="div'+i+'" class="panel panel-default"> <a class="text-muted" data-toggle="collapse" data-target="#dataset' + i + '"> <div class="panel-heading"> '+ spacecraftbadge + levelbadge +'<br/> <span style="white-space: nowrap;"> <span class="glyphicon glyphicon-open" aria-hidden="true"/>' + slicedUri + '</span></div></a><span class="panel-body panel-collapse collapse '+expanded[i-1]+'" id="dataset'+i+'"><p id="quality" style="padding: 15px; padding-bottom:0px"/><p style="line-height: 1.5;margin-left:4%;" id="datasetButton'+i+'" style="padding: 15px; padding-top: 0px"></p><form class="colorform" id="showL2AData' + i + '" method="POST">'
@@ -457,7 +457,7 @@ function visualizeMetadata(result, page, band, vis){
 		"<b> R10M: </b> </br>" + toString(resL2A[i].R10M).replace(/,/g, "<br/>" ) +  "</br>" +
 		"<b> R20M: </b> </br>" + toString(resL2A[i].R20M).replace(/,/g, "<br/>" ) +  "</br>" +
 		"<b> R60M: </b> </br>" + toString(resL2A[i].R60M).replace(/,/g, "<br/>" ) +  "</br>");
-		
+
 		//Use for Polygoncreation
 		drawPolygon(resL2A, i, page, number, (res.length + resL2A.length));
 		number++;
