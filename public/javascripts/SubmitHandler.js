@@ -22,7 +22,7 @@ IN AN ACTION OF CONTRACT, TORTOR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-function createTCISubmitHandler(res, j, i){
+function createTCISubmitHandler(res, j, i, opacity){
 	$('#showTCI'+ j).click(function(e) {
 		var bands = [];
 		var names = [];
@@ -82,8 +82,8 @@ function createTCISubmitHandler(res, j, i){
 					zoomToLayer(j);
 					//ValueLookUp
 					drawInvisPolygon(j, names, bands, (radioValue(document.getElementsByName('rgbbool'),j)));
-					//$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="'+opacity+'" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: '+opacity+'%</output> </div>');
-					//opacityChanger(j);
+					$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="'+opacity+'" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: '+opacity+'%</output> </div>');
+					opacityChanger(j);
 				}
 	        });
 	});
