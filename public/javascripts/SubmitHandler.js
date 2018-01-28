@@ -26,15 +26,15 @@ function createTCISubmitHandler(res, j, i){
 	$('#showTCI'+ j).click(function(e) {	
 		e.preventDefault();
 		spinnerShow(document.getElementById('map'));
-		if(res[j-1] == undefined){
-			var datasetName = "&gscdn="+ res[i-1].PRODUCT_URI_2A;
-			var bandname = "&gsc=" + res[i-1].R60M[13];
+		if(res.L1C[j-1] == undefined){
+			var datasetName = "&gscdn="+ res.L2A[i-1].PRODUCT_URI_2A;
+			var bandname = "&gsc=" + res.L2A[i-1].R60M[13];
 			var that = "tci=true&rgbbool=false&l2a=true";
 			that += datasetName;
 			that += bandname;
 		}
 		else {
-			var datasetName = "&gscdn="+ res[j-1].SUBDATASET_4_NAME;
+			var datasetName = "&gscdn="+ res.L1C[j-1].SUBDATASET_4_NAME;
 			var that = "tci=true&rgbbool=false&gsc=TCI&l2a=false";
 			that += datasetName;
 		}
