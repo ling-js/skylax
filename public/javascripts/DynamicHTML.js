@@ -116,6 +116,7 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues, op
 				createL2AAccordion(result, pagetoview, expanded, band, btn, bandValues, i+1, k);
 				//fill array for permalinks
 				jsonForDatasets.push(result.L2A[i]);
+                //create select values for S2A datasets:
 				createOptions(result.L2A, i+1, k, band);
 				createL2ASubmitHandler(result.L2A, i+1, opacity[i], k);
 				createTCISubmitHandler(result.L2A, i, k, true);
@@ -371,47 +372,8 @@ function visualizeMetadata(result, page, band, vis){
 
 
 	for(i=0; i < res.length; i++){
-
-		
 		//HTML-Element is filled with metadata
-		$('#l1cdatasetButton' + (i)  ).html(
-		"<b> Cloud Coverage Assesment: </b>" + res[i].CLOUD_COVERAGE_ASSESSMENT +  "</br>" +
-		"<b> Datatake Sensing Start: </b>" + res[i].DATATAKE_1_DATATAKE_SENSING_START + "</br>" +
-		"<b> Datatkae Type: </b>" + res[i].DATATAKE_1_DATATAKE_TYPE + "</br>" +
-		"<b> Datatake ID: </b>" + res[i].DATATAKE_1_ID + "</br>" +
-		"<b> Sensing Orbit Direction: </b>" + res[i].DATATAKE_1_SENSING_ORBIT_DIRECTION + "</br>" +
-		"<b> Sensing Orbit Number: </b>" + res[i].DATATAKE_1_SENSING_ORBIT_NUMBER + "</br>" +
-		"<b> Spacecraft Name: </b>" + res[i].DATATAKE_1_SPACECRAFT_NAME + "</br>" +
-		"<b> Degraded ANC Data Percentage: </b>" + res[i].DEGRADED_ANC_DATA_PERCENTAGE + "</br>" +
-		"<b> Degraded MSI Data Percentage: </b>" + res[i].DEGRADED_MSI_DATA_PERCENTAGE + "</br>" +
-		"<b> Footprint: </b>" + res[i].FOOTPRINT + "</br>" +
-		"<b> Format Correctness Flag: </b>" + res[i].FORMAT_CORRECTNESS_FLAG + "</br>" +
-		"<b> General Quality Flag: </b>" + res[i].GENERAL_QUALITY_FLAG + "</br>" +
-		"<b> Generation Time: </b>" + res[i].GENERATION_TIME + "</br>" +
-		"<b> Geometric Quality Flag: </b>" + res[i].GEOMETRIC_QUALITY_FLAG + "</br>" +
-		"<b> Preview Geo Info: </b>" + res[i].PREVIEW_GEO_INFO + "</br>" +
-		"<b> Preview Image-Url: </b>" + res[i].PREVIEW_IMAGE_URL +"</br>" +
-		"<b> Processing Baseline: </b>" + res[i].PROCESSING_BASELINE + "</br>" +
-		"<b> Processing Level: </b>" + res[i].PROCESSING_LEVEL + "</br>" +
-		"<b> Product Start Time: </b>" + res[i].PRODUCT_START_TIME + "</br>" +
-		"<b> Product Stop Time: </b>" + res[i].PRODUCT_STOP_TIME + "</br>" +
-		"<b> PRODUCT_TYPE: </b>" + res[i].PRODUCT_TYPE + "</br>" +
-		"<b> PRODUCT_URI: </b>" + toString(res[i].PRODUCT_URI).slice(0,40) +"</br>"+ toString(res[i].PRODUCT_URI).slice(40) + "</br>" +
-		"<b> Quantification Value: </b>" + res[i].QUANTIFICATION_VALUE + "</br>" +
-		"<b> Radiometric Quality Flag: </b>" + res[i].RADIOMETRIC_QUALITY_FLAG + "</br>"+
-		"<b> Reference Band: </b>" + res[i].REFERENCE_BAND + "</br>" +
-		"<b> Reflectance Conversion U: </b>" + res[i].REFLECTANCE_CONVERSION_U + "</br>" +
-		"<b> Sensor Quality Flag: </b>" + res[i].SENSOR_QUALITY_FLAG + "</br>" +
-		"<b> Special Value Nodata: </b>" + res[i].SPECIAL_VALUE_NODATA + "</br>" +
-		"<b> Special Value Saturated: </b>" + res[i].SPECIAL_VALUE_SATURATED + "</br>" +
-		"<b> Subdataset 1 Description: </b>" + res[i].SUBDATASET_1_DESC + "</br>" +
-		"<b> Subdataset 1 Name: </b>" + toString(res[i].SUBDATASET_1_NAME).slice(0,40) +"</br>"+ toString(res[i].SUBDATASET_1_NAME).slice(40,80) +"</br>"+  toString(res[i].SUBDATASET_1_NAME).slice(80,120) +"</br>"+  toString(res[i].SUBDATASET_1_NAME).slice(120) +"</br>" +
-		"<b> Subdataset 2 Description: </b>" + res[i].SUBDATASET_2_DESC + "</br>" +
-		"<b> Subdataset 2 Name: </b>" + toString(res[i].SUBDATASET_2_NAME).slice(0,40) +"</br>"+ toString(res[i].SUBDATASET_2_NAME).slice(40,80) +"</br>"+  toString(res[i].SUBDATASET_2_NAME).slice(80,120) +"</br>"+  toString(res[i].SUBDATASET_2_NAME).slice(120)+ "</br>" +
-		"<b> Subdataset 3 Description: </b>" + res[i].SUBDATASET_3_DESC + "</br>" +
-		"<b> Subdataset 3 Name: </b>" + toString(res[i].SUBDATASET_3_NAME).slice(0,40) +"</br>"+ toString(res[i].SUBDATASET_3_NAME).slice(40,80) +"</br>"+  toString(res[i].SUBDATASET_3_NAME).slice(80,120) +"</br>"+  toString(res[i].SUBDATASET_3_NAME).slice(120)+"</br>" +
-		"<b> Subdataset 4 Description: </b>" + res[i].SUBDATASET_4_DESC + "</br>" +
-		"<b> Subdataset 4 Name: </b>" + toString(res[i].SUBDATASET_4_NAME).slice(0,40) +"</br>"+ toString(res[i].SUBDATASET_4_NAME).slice(40,80) +"</br>"+  toString(res[i].SUBDATASET_4_NAME).slice(80,120) +"</br>"+  toString(res[i].SUBDATASET_4_NAME).slice(120)+"</br>");
+		$('#l1cdatasetButton' + (i)).html(formatMetadata(res[i]));
 
 		//Use for Polygoncreation
 		drawPolygon(res, i, page, number, res.length);
@@ -419,71 +381,12 @@ function visualizeMetadata(result, page, band, vis){
 	};
 
 	for(i=0; i< resL2A.length; i++){
-		
-		$('#l2adatasetButton' + (i)).html(
-		"<b> AOT Retrieval Accuracy: </b>" + resL2A[i].AOT_RETRIEVAL_ACCURACY +  "</br>" +
-		"<b> Bare Soils Percentage: </b>" + resL2A[i].BARE_SOILS_PERCENTAGE +  "</br>" +
-		"<b> Cloud Coverage Assesment: </b>" + resL2A[i].CLOUD_COVERAGE_ASSESSMENT +  "</br>" +
-		"<b> Cloud Coverage Percentage: </b>" + resL2A[i].CLOUD_COVERAGE_PERCENTAGE +  "</br>" +
-		"<b> Cloud Shadow Percentage: </b>" + resL2A[i].CLOUD_SHADOW_PERCENTAGE +  "</br>" +
-		"<b> Dark Features Percentage: </b>" + resL2A[i].DARK_FEATURES_PERCENTAGE +  "</br>" +
-		"<b> Datatake Sensing Start: </b>" + resL2A[i].DATATAKE_1_DATATAKE_SENSING_START + "</br>" +
-		"<b> Datatkae Type: </b>" + resL2A[i].DATATAKE_1_DATATAKE_TYPE + "</br>" +
-		"<b> Datatake ID: </b>" + resL2A[i].DATATAKE_1_ID + "</br>" +
-		"<b> Sensing Orbit Direction: </b>" + resL2A[i].DATATAKE_1_SENSING_ORBIT_DIRECTION + "</br>" +
-		"<b> Sensing Orbit Number: </b>" + resL2A[i].DATATAKE_1_SENSING_ORBIT_NUMBER + "</br>" +
-		"<b> Spacecraft Name: </b>" + resL2A[i].DATATAKE_1_SPACECRAFT_NAME + "</br>" +
-		"<b> Degraded ANC Data Percentage: </b>" + resL2A[i].DEGRADED_ANC_DATA_PERCENTAGE + "</br>" +
-		"<b> Degraded MSI Data Percentage: </b>" + resL2A[i].DEGRADED_MSI_DATA_PERCENTAGE + "</br>" +
-		"<b> Footprint: </b>" + resL2A[i].FOOTPRINT + "</br>" +
-		"<b> Format Correctness Flag: </b>" + resL2A[i].FORMAT_CORRECTNESS_FLAG + "</br>" +
-		"<b> General Quality Flag: </b>" + resL2A[i].GENERAL_QUALITY_FLAG + "</br>" +
-		"<b> High Proba Clouds Percentage: </b>" + resL2A[i].HIGH_PROBA_CLOUDS_PERCENTAGE +  "</br>" +
-		"<b> L1C TOA Quantification Value: </b>" + resL2A[i].L1C_TOA_QUANTIFICATION_VALUE +  "</br>" +
-		"<b> L1C TOA Quantification Value Unit: </b>" + resL2A[i].L1C_TOA_QUANTIFICATION_VALUE_UNIT +  "</br>" +
-		"<b> L2A AOT Quantification Value: </b>" + resL2A[i].L2A_AOT_QUANTIFICATION_VALUE +  "</br>" +
-		"<b> L2A AOT Quantification Value Unit: </b>" + resL2A[i].L2A_AOT_QUANTIFICATION_VALUE_UNIT +  "</br>" +
-		"<b> L2A BOA Quantification Value: </b>" + resL2A[i].L2A_BOA_QUANTIFICATION_VALUE +  "</br>" +
-		"<b> L2A BOA Quantification Value Unit: </b>" + resL2A[i].L2A_BOA_QUANTIFICATION_VALUE_UNIT +  "</br>" +
-		"<b> L2A WVP Quantification Value: </b>" + resL2A[i].L2A_WVP_QUANTIFICATION_VALUE +  "</br>" +
-		"<b> L2A WVP Quantification Value Unit: </b>" + resL2A[i].L2A_WVP_QUANTIFICATION_VALUE +  "</br>" +
-		"<b> Low Proba Clouds Percentage: </b>" + resL2A[i].LOW_PROBA_CLOUDS_PERCENTAGE +  "</br>" +
-		"<b> Medium Proba Clouds Percentage: </b>" + resL2A[i].MEDIUM_PROBA_CLOUDS_PERCENTAGE +  "</br>" +
-		"<b> Nodata Pixel Percentage: </b>" + resL2A[i].NODATA_PIXEL_PERCENTAGE +  "</br>" +
+        //HTML-Element is filled with metadata
+		$('#l2adatasetButton' + (i)).html(formatMetadata(resL2A[i]));
 
-		"<b> Generation Time: </b>" + resL2A[i].GENERATION_TIME + "</br>" +
-		"<b> Geometric Quality Flag: </b>" + resL2A[i].GEOMETRIC_QUALITY_FLAG + "</br>" +
-		"<b> Preview Geo Info: </b>" + resL2A[i].PREVIEW_GEO_INFO + "</br>" +
-		"<b> Preview Image-Url: </b>" + resL2A[i].PREVIEW_IMAGE_URL +"</br>" +
-		"<b> Processing Baseline: </b>" + resL2A[i].PROCESSING_BASELINE + "</br>" +
-		"<b> Processing Level: </b>" + resL2A[i].PROCESSING_LEVEL + "</br>" +
-		"<b> Product Start Time: </b>" + resL2A[i].PRODUCT_START_TIME + "</br>" +
-		"<b> Product Stop Time: </b>" + resL2A[i].PRODUCT_STOP_TIME + "</br>" +
-		"<b> Product Type: </b>" + resL2A[i].PRODUCT_TYPE + "</br>" +
-		"<b> Product URI 1C: </b>" + toString(resL2A[i].PRODUCT_URI_1C).slice(0,40) +"</br>"+ toString(resL2A[i].PRODUCT_URI_1C).slice(40) + "</br>" +
-		"<b> Product URI 2A: </b>" + toString(resL2A[i].PRODUCT_URI_2A).slice(0,40) +"</br>"+ toString(resL2A[i].PRODUCT_URI_1C).slice(40) +  "</br>" +
-		"<b> Radiometric Quality Flag: </b>" + resL2A[i].RADIOMETRIC_QUALITY_FLAG + "</br>"+
-		"<b> Reference Band: </b>" + resL2A[i].REFERENCE_BAND + "</br>" +
-		"<b> Reflectance Conversion U: </b>" + resL2A[i].REFLECTANCE_CONVERSION_U + "</br>" +
-		"<b> Saturated Defective Pixel Percentage: </b>" + resL2A[i].SATURATED_DEFECTIVE_PIXEL_PERCENTAGE +  "</br>" +
-		"<b> Sensor Quality Flag: </b>" + resL2A[i].SENSOR_QUALITY_FLAG + "</br>" +
-		"<b> Snow Ice Percentage: </b>" + resL2A[i].SNOW_ICE_PERCENTAGE +  "</br>" +
-		"<b> Special Value Nodata: </b>" + resL2A[i].SPECIAL_VALUE_NODATA + "</br>" +
-		"<b> Special Value Saturated: </b>" + resL2A[i].SPECIAL_VALUE_SATURATED + "</br>" +
-		"<b> Thin Cirrus Percentage: </b>" + resL2A[i].THIN_CIRRUS_PERCENTAGE +  "</br>" +
-		"<b> Vegetation Percentage: </b>" + resL2A[i].VEGETATION_PERCENTAGE +  "</br>" +
-		"<b> Water Percentage: </b>" + resL2A[i].WATER_PERCENTAGE +  "</br>" +
-		"<b> Water Vapour Retrieval Accuracy: </b>" + resL2A[i].WATER_VAPOUR_RETRIEVAL_ACCURACY +  "</br>" +
-		"<b> R10M: </b> </br>" + toString(resL2A[i].R10M).replace(/,/g, "<br/>" ) +  "</br>" +
-		"<b> R20M: </b> </br>" + toString(resL2A[i].R20M).replace(/,/g, "<br/>" ) +  "</br>" +
-		"<b> R60M: </b> </br>" + toString(resL2A[i].R60M).replace(/,/g, "<br/>" ) +  "</br>");
-		
 		//Use for Polygoncreation
 		drawPolygon(resL2A, i, page, number, (res.length + resL2A.length));
 		number++;
-
- 		//create select values for S2A datasets:
- 		var k = i + res.length +1;		
 	};
 
 	//Submit for L2A Datasets
@@ -498,6 +401,60 @@ function visualizeMetadata(result, page, band, vis){
 			$('#showL2AData'+(j+1)).submit();
 		}
 	}
+}
+
+/**
+ * formats raw metadata to be readable
+ *@param metadata Object to be formatted
+ */
+function formatMetadata(metadata){
+    var html = ""
+    Object.keys(metadata).forEach(function(key){
+        var value = metadata[key];
+        
+        // Edge case for Bandnames that are split manually
+        if (key == "R10M" || key == "R20M" || key == "R60M") {
+            html += "<b>" + key + ":</b> </br>" + toString(metadata[key]).replace(/,/g, "<br/>" ) +  "</br>"
+            return
+        }
+        // preprocess Keys to be readable
+        key = readableMetadataKey(key)
+
+        // preprocess value to be readable
+        // If Value + Key is less than 40 write in one line
+        if (value.length <= 49 || key === "Footprint") {
+                html += "<b>" + key + ": </b>" + value + "<br/>";
+        // else split
+        } else {
+            html += "<b>" + key + ": </b><br/>";
+            var leftover = value;
+            // Cut after 40 characters
+            while (leftover.length > 40){
+                html += leftover.slice(0,40) + "<br/>";
+                leftover = leftover.slice(40);
+            }
+            html += leftover + "<br/>";
+        }
+    });
+    return html;
+}
+
+/**
+ * formats and returns string to be all lowercase with first letter uppercase
+ * if string is not on blacklist
+ *@param key string to be formatted
+ */
+function readableMetadataKey(key){
+    var blacklist = ["AOT", "L1C", "L2A", "ID", "URL", "URI", "MSI", "ANC"]
+    var result = "";
+    key.split("_", 5).forEach(function(x){
+        if (blacklist.indexOf(x) == -1) {
+            result += x.charAt(0) + x.slice(1).toLowerCase() + " "
+        } else {
+            result += x + " "
+        }
+    });
+    return result.slice(0, result.length-1)
 }
 
 
