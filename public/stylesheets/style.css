@@ -269,3 +269,12 @@ img.align-left {
  float: left;
  margin-right: 30px;
 }
+.panel-body {
+	display: none;
+	position: relative;
+	border: 1px solid #eee;
+	border-top: none;
+	line-height: 1.65;
+	padding: 25px;
+	background-color: #fff;
+	font-size: .875em; }
