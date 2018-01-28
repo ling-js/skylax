@@ -63,17 +63,25 @@ function createHTML(result, pagetoview, expanded, band, btn, bandValues, vis, op
 	//creates sumbit buttons for every dataset
 	for(j=1; j<(L1Clength+1); j++){
 		 createL1CSubmitHandler(result.L1C, j, opacity[j-1]);
-		 createTCISubmitHandler(result, j, 0);
+		 createTCISubmitHandler(result, j, 0, opacity[j-1]);
 		 if(vis[j-1] == "true"){
-			 $('#showData'+j).submit();
+			 if(btn[j-1][1] == "false" && btn[j-1][0]== "false"){
+				 $('#showTCI'+j).click();
+			 }else{
+				 $('#showData'+j).submit();
+			 }
 		 }
 	}
 	for(j=L1Clength+1; j<(reslength+1); j++){
 		var i = j-L1Clength;
 		createL2ASubmitHandler(result.L2A, j, opacity[j-1], i);
-		createTCISubmitHandler(result, j, i);
+		createTCISubmitHandler(result, j, i, opacity[j-1]);
 		if(vis[j-1] == "true"){
-			 $('#showL2AData'+j).submit();
+			if(btn[j-1][1] == "false" && btn[j-1][0]== "false"){
+				$('#showTCI'+j).click();
+			}else{
+				$('#showData'+j).submit();
+			}
 		}
 
 	}
@@ -304,7 +312,7 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues){
 										greyBand = constArray;*/
 
 	}
-	/*var arr [] 
+	/*var arr []
 	for(i=1; i < (length+length2+1); i++){
 	productUri.slice(11,25)
 	var arr = [];
@@ -496,9 +504,6 @@ function visualizeMetadata(result, page, band, vis){
 			for(var k = 0; k<(res.length + resL2A.length);k++){
 				vis.push("false");
 			}
-		}
-		if(vis[j] == "true"){
-			$('#showL2AData'+(j+1)).submit();
 		}
 	}
 }

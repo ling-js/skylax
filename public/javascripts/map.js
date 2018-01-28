@@ -249,13 +249,9 @@ $(document).ready(function() {
  * @param j Dataset number
  */
 function zoomToLayer(j){
-  polyLayer.eachLayer(function(layer){
-    if(layer.options.number == (j-1)){
-      map.fitBounds(layer.getBounds());
-      polyLayer.clearLayers();
-    }
-  });
-//testen hier bug fix, 2. laden geht nicht
+  var coordArray = stringToCoordArray(jsonForDatasets[j-1].FOOTPRINT);
+  map.fitBounds(coordArray);
+  polyLayer.clearLayers();
 }
 
 /**
@@ -368,8 +364,14 @@ function drawPolygon(result, number, page, showNumber, reslength){
   if(coordArray != null){
     var polygon = L.polygon(coordArray, {color: 'red',number:showNumber, resultLength:reslength});
     //polygon.on('click', openAccordion);
-    polygon.bindTooltip('<p> Dataset '+(((page-1)*8)+(showNumber+1))+'</p>').addTo(map);
-    polygon.addTo(polyLayer);
+      if(result[number].PRODUCT_URI!=undefined){
+    polygon.bindTooltip('<p>' +  result[number].PRODUCT_URI + '</p>').addTo(map);
+      }
+      if(result[number].PRODUCT_URI_1C!=undefined) {
+          polygon.bindTooltip('<p>' + result[number].PRODUCT_URI_1C + '</p>').addTo(map);
+      }
+
+      polygon.addTo(polyLayer);
   }
 }
 

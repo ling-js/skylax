@@ -22,19 +22,26 @@ IN AN ACTION OF CONTRACT, TORTOR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-function createTCISubmitHandler(res, j, i){
+function createTCISubmitHandler(res, j, i, opacity){
 	$('#showTCI'+ j).click(function(e) {
 		e.preventDefault();
+		spinnerHide(document.getElementById('sidebar'));
 		spinnerShow(document.getElementById('map'));
+		var bands = [];
+		var names = [];
 		if(res.L1C[j-1] == undefined){
 			var datasetName = "&gscdn="+ res.L2A[i-1].PRODUCT_URI_2A;
 			var bandname = "&gsc=" + res.L2A[i-1].R60M[13];
+			bands.push(res.L2A[i-1].R60M[13]);
+			names.push(res.L2A[i-1].PRODUCT_URI_2A);
 			var that = "tci=true&rgbbool=false&l2a=true";
 			that += datasetName;
 			that += bandname;
 		}
 		else {
 			var datasetName = "&gscdn="+ res.L1C[j-1].SUBDATASET_4_NAME;
+			bands.push("TCI");
+			names.push(res.L1C[j-1].SUBDATASET_4_NAME);
 			var that = "tci=true&rgbbool=false&gsc=TCI&l2a=false";
 			that += datasetName;
 		}
@@ -68,16 +75,15 @@ function createTCISubmitHandler(res, j, i){
 						}
 
 					);
-					spinnerHide(document.getElementById('map'));
-		            // add layer to Map and name it like the Dataset it was requested from
+		      // add layer to Map and name it like the Dataset it was requested from
 					layerControl.addOverlay(lyr, "Current Dataset");
 					map.addLayer(lyr);
 					visDatasetNumber = j;
 					zoomToLayer(j);
 					//ValueLookUp
-					//drawInvisPolygon(j, names, bands, (radioValue(document.getElementsByName('rgbbool'),j)));
-					//$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="'+opacity+'" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: '+opacity+'%</output> </div>');
-					//opacityChanger(j);
+					drawInvisPolygon(j, names, bands, (radioValue(document.getElementsByName('rgbbool'),j)));
+					$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="'+opacity+'" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: '+opacity+'%</output> </div>');
+					opacityChanger(j);
 				}
 	        });
 	});
@@ -182,8 +188,8 @@ function createL1CSubmitHandler(res, j, opacity){
 		else
 		{
     		//console.log("falseeeee: " + j);
-			spinnerHide(document.getElementById('map'));
-	    	alert("Please define requested values before clicking the Show this dataset -Button");
+				spinnerHide(document.getElementById('map'));
+	    	alert("Please define requested values before clicking the Show this dataset -Button l1c");
 		}
 	});
 		//console.log("Submit overwritten.")
