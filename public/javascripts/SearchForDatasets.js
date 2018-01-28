@@ -73,7 +73,7 @@ $(document).ready(function() {
 
 
 /**
- * Die Suche wird ausgeführt, Ergebnisse werde zurückgegeben und verarbeitet
+ * The search is executed, results are being returned and processed 
  *@param templateurl URL for the search. Searchparamter was added
  *@param pagetoview pagenumber that is to view
  *@param expanded For permalink: Is a dataset expanded?

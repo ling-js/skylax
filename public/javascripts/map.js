@@ -198,6 +198,9 @@ $(document).ready(function() {
   // checks after every change on input fields
   $('#searchformbybbox_bottomLat').change(function(){
     drawnItems.clearLayers();
+    document.getElementById("searchformbybbox_bottomLat").style.color = "";
+    document.getElementById("searchformbybbox_bottomLat").style.border = "";
+    $("#bboxerror").html("");
     $('#bboxbutton').show();
     $('#deleteDrawing').hide();
     if(checkForCorrectCoordinates() == true){
@@ -230,6 +233,9 @@ $(document).ready(function() {
   // checks after every change on input fields
   $('#searchformbybbox_bottomLong').change(function(){
       drawnItems.clearLayers();
+      document.getElementById("searchformbybbox_bottomLong").style.color = "";
+      document.getElementById("searchformbybbox_bottomLong").style.border = "";
+      $("#bboxerror").html("");
       $('#bboxbutton').show();
       $('#deleteDrawing').hide();
       if(checkForCorrectCoordinates() == true){
