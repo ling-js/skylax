@@ -74,8 +74,6 @@ The skylax-api depends on the following libraries to be installed in the host op
  * [GDAL](http://www.gdal.org/) with python and OpenJPEG bindings released under [X11/MIT](https://trac.osgeo.org/gdal/wiki/FAQGeneral#WhatlicensedoesGDALOGRuse)
  * [OpenJPEG](http://www.openjpeg.org/) released under [2-Clause BSD](https://github.com/uclouvain/openjpeg/blob/master/LICENSE)
 
-The skylax-api depends on the sentinel2 image data mounted at `/opt/sentinel2/`. The Directory may only contain valid datasets in SAFE Format (denoted by `.SAFE` file extension)
-
 ### Installation
 
     1. Download the latest binary from the [Github Releases Page](https://github.com/ling-js/skylax-api/releases)
@@ -96,7 +94,13 @@ Run following commands in the install directory
 
 `./skylax-api`
 
-Verbose output can be toggle on by running with the `-v` flag.
+The following command line parameters are available. If they are not explicitly specified the default is used.
+| flag | default | description |
+| --- | --- | --- |
+| `-v` | false | toggle verbose output|
+| `-src=` | '/opt/sentinel2/' | specify data directory
+
+The source directory may only contain valid datasets in SAFE Format (denoted by `.SAFE` file extension)
 
 ### Dependencies
 The skylax-api has the following external dependencies:
@@ -108,6 +112,8 @@ The skylax-api has the following external dependencies:
 | [geos](github.com/paulsmith/gogeos/geos) | [MIT License](https://github.com/paulsmith/gogeos/blob/master/COPYING)|
 | [gorilla](github.com/gorilla/schema) | [BSD-3-Clause](https://github.com/gorilla/schema/blob/master/LICENSE)|
 | [ksuid](github.com/segmentio/ksuid) | [MIT License](https://github.com/segmentio/ksuid/blob/master/LICENSE.md)|
+| [httprouter](github.com/julienschmidt/httprouter) | [License](https://github.com/julienschmidt/httprouter/blob/master/LICENSE)|
+| [cors](https://github.com/rs/cors) | [MIT License](https://github.com/rs/cors/blob/master/LICENSE)|
 | gdal2tiles.py | (see file)
 
 ## Licenses
