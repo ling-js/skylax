@@ -40,6 +40,13 @@ function initLookUp(e){
  */
  function showValue(x, y){
    var popupMessage = "";
+   if(valueLookUpArray[0][0] == "["){
+     var temp = JSON.parse(valueLookUpArray[0]);
+     valueLookUpArray = [];
+     for(var i = 0; i<temp.length;i++){
+       valueLookUpArray.push(temp[i]);
+     }
+   }
    if(valueLookUpArray.length == 1){
      popupMessage += "The value here is " + valueLookUpArray[0];
    }else{
