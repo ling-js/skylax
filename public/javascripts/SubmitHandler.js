@@ -23,18 +23,24 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 function createTCISubmitHandler(res, j, i){
+	var bands = [];
+	var names = [];
 	$('#showTCI'+ j).click(function(e) {
 		e.preventDefault();
 		spinnerShow(document.getElementById('map'));
 		if(res.L1C[j-1] == undefined){
 			var datasetName = "&gscdn="+ res.L2A[i-1].PRODUCT_URI_2A;
 			var bandname = "&gsc=" + res.L2A[i-1].R60M[13];
+			bands.push(res.L2A[i-1].R60M[13]);
+			names.push(res.L2A[i-1].PRODUCT_URI_2A);
 			var that = "tci=true&rgbbool=false&l2a=true";
 			that += datasetName;
 			that += bandname;
 		}
 		else {
 			var datasetName = "&gscdn="+ res.L1C[j-1].SUBDATASET_4_NAME;
+			bands.push("TCI");
+			names.push(res.L1C[j-1].SUBDATASET_4_NAME);
 			var that = "tci=true&rgbbool=false&gsc=TCI&l2a=false";
 			that += datasetName;
 		}
@@ -75,7 +81,7 @@ function createTCISubmitHandler(res, j, i){
 					visDatasetNumber = j;
 					zoomToLayer(j);
 					//ValueLookUp
-					//drawInvisPolygon(j, names, bands, (radioValue(document.getElementsByName('rgbbool'),j)));
+					drawInvisPolygon(j, names, bands, (radioValue(document.getElementsByName('rgbbool'),j)));
 					//$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="'+opacity+'" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: '+opacity+'%</output> </div>');
 					//opacityChanger(j);
 				}

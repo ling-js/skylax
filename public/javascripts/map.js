@@ -249,13 +249,9 @@ $(document).ready(function() {
  * @param j Dataset number
  */
 function zoomToLayer(j){
-  polyLayer.eachLayer(function(layer){
-    if(layer.options.number == (j-1)){
-      map.fitBounds(layer.getBounds());
-      polyLayer.clearLayers();
-    }
-  });
-//testen hier bug fix, 2. laden geht nicht
+  var coordArray = stringToCoordArray(jsonForDatasets[j-1].FOOTPRINT);
+  map.fitBounds(coordArray);
+  polyLayer.clearLayers();
 }
 
 /**
