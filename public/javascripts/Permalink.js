@@ -488,11 +488,7 @@ function buttonSelected(i){
  //NEEDS TO BE CHECKED, WHEN SERVER IS UP AGAIN
 function isALayerDisplayed(number){
   if (layerControl._layers.length == 4) {
-    number ++;
-    if (number <= 9) {
-      number = " "+number;
-    }
-    if(number == layerControl._layers[3].name.slice(layerControl._layers[3].name.length -2)){
+    if(number == visDatasetNumber-1){
       return true;
     }else{
       return false;

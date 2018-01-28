@@ -43,6 +43,8 @@ var jsonForDatasets =[];
 var valueLookUpArray = [];
 //Saves search variables
 var searchVariables = {substring: "", bbox: "",startdate:"",enddate:"",page:""};
+//displey datasetnumber
+var visDatasetNumber = 0;
 
 /**
 * Loads all requested Stages. Overwrites all Submit Handlers that are already present,

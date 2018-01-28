@@ -22,8 +22,8 @@ IN AN ACTION OF CONTRACT, TORTOR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-function createTCISubmitHandler(res, j, i){	
-	$('#showTCI'+ j).click(function(e) {	
+function createTCISubmitHandler(res, j, i){
+	$('#showTCI'+ j).click(function(e) {
 		e.preventDefault();
 		spinnerShow(document.getElementById('map'));
 		if(res.L1C[j-1] == undefined){
@@ -72,6 +72,7 @@ function createTCISubmitHandler(res, j, i){
 		            // add layer to Map and name it like the Dataset it was requested from
 					layerControl.addOverlay(lyr, "Current Dataset");
 					map.addLayer(lyr);
+					visDatasetNumber = j;
 					zoomToLayer(j);
 					//ValueLookUp
 					//drawInvisPolygon(j, names, bands, (radioValue(document.getElementsByName('rgbbool'),j)));
@@ -164,6 +165,7 @@ function createL1CSubmitHandler(res, j, opacity){
 		            // add layer to Map and name it like the Dataset it was requested from
 					layerControl.addOverlay(lyr, "Current Dataset");
 					map.addLayer(lyr);
+					visDatasetNumber = j;
 					zoomToLayer(j);
 					//ValueLookUp
 					drawInvisPolygon(j, names, bands, (radioValue(document.getElementsByName('rgbbool'),j)));
@@ -279,6 +281,7 @@ function createL2ASubmitHandler(res, j, opacity, i){
 		            // add layer to Map and name it like the Dataset it was requested from
 				    layerControl.addOverlay(lyr, "Current Dataset");
 					map.addLayer(lyr);
+					visDatasetNumber = j;
 					zoomToLayer(j);
 
 					//ValueLookUp
