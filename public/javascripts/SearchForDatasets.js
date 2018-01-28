@@ -214,19 +214,16 @@ function createDate(i){
 }
 
 
-
-//2018-01-27T13:50:00.000Z -> 2018-01-27T13:50:00:00Z
-
+/**Helper function that takes a time string and covnverts it so
+ * that the server can process it, is used in the ajax request
+ * @param str the input from the user in the time input field
+ * @returns {res} time string according do RCF3393(ISO)
+ */
 function processTime(str){
-
 
     var res = str.slice(0,19)+str.slice(23,24);
     res = res.replace('.',':');
-
-    console.log(res);
     return res;
-
-
 }
 
 /**

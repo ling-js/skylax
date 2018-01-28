@@ -39,8 +39,7 @@ function initMap() {
   L.control
     .zoom({
       position: 'bottomright',
-    })
-    .addTo(map);
+    }).addTo(map);
 
   // Handler that is used in order to get rid of the draw control
   rectangleDrawer = new L.Draw.Rectangle(map);
@@ -67,6 +66,7 @@ function initMap() {
 
   layerControl = L.control.layers(basemaps, overlaymaps, { collapsed: true }).addTo(map);
 
+
   //Feature group where drawn items are saved
   drawnItems = L.featureGroup().addTo(map);
 
@@ -81,9 +81,9 @@ function initMap() {
 
   map.on('click', function(e) {
     var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
-    console.log(coords);
-    console.log(polyLayer);
-    console.log(Object.keys(polyLayer._layers));
+    /*For Loop that iterates through each bounding box and opens all accordions
+    needed when bounding boxes overlap.
+     */
     var polygonkeys = Object.keys(polyLayer._layers);
     for(i = 0 ; i<polygonkeys.length;i++){
         if(polyLayer._layers[polygonkeys[i]]._bounds.contains(coords)){
