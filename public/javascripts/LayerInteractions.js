@@ -40,6 +40,13 @@ function initLookUp(e){
  */
  function showValue(x, y){
    var popupMessage = "";
+   if(valueLookUpArray[0][0] == "["){
+     var temp = JSON.parse(valueLookUpArray[0]);
+     valueLookUpArray = [];
+     for(var i = 0; i<temp.length;i++){
+       valueLookUpArray.push(temp[i]);
+     }
+   }
    if(valueLookUpArray.length == 1){
      popupMessage += "The value here is " + valueLookUpArray[0];
    }else{
@@ -158,12 +165,21 @@ function removeDatasets(){
   }
 }
 
+function clearMap(){
+
+  if(polyLayer!=null)
+    polyLayer.clearLayers();
+
+  if(drawnItems!=null)
+    drawnItems.clearLayers();
+}
+
 /**
  *open accordion. Runs after click on a polygon
+ * @param polygon The polyogn drawn on the map that the accordion should be opened
 */
 function openAccordion(polygon){
   hash = '#results';
-  console.dir("Hey" + polygon);
   openTabInSidebar(hash);
   for(var i = 1; i < polygon.options.resultLength+1; i++){
     if(i == (polygon.options.number+1)){

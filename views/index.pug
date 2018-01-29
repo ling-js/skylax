@@ -73,6 +73,7 @@ html
           #sideName
             h2 Skylax
           p The Project Name: “Skylax” is chosen with reference to the german name of Scylax of Caryanda (Greek: Σκύλαξ ο Καρυανδεύς) who was a renowned Greek explorer and writer of the late 6th and early 5th centuries BCE. (source: Wikipedia).
+          p If you are having trouble using our website please have a look at our <a href="https://github.com/ling-js/skylax/files/1671274/Manual_Skylax.pdf">User Manual</a>
           #sideName
             img.image(src="/images/logo.png" alt="Logo")
         #search.sidebar-pane
@@ -165,9 +166,13 @@ html
             br
             // Commented out because of styling if something shouldnt work remove comments and go back to old
             // input.btn.btn-success(type='submit', id='searchIt', value='Search')
-            button.btn.btn-success(type='submit', id='searchIt', value='Search')
-              span.fas.fa-search
-              | Search for datasets
+            .row
+              button.btn.btn-success(type='submit', id='searchIt', value='Search')
+                span.fas.fa-search
+                | Search for datasets
+              button.btn.btn-warning(type='button' id='trashit' onclick="clearMap();")
+                span.glyphicon.glyphicon-trash
+                  | Remove datasets
         #results.sidebar-pane
           #sideName
             h2 Results

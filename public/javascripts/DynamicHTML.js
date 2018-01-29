@@ -38,39 +38,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
 function createHTML(result, pagetoview, expanded, band, btn, bandValues, vis, opacity){
-	var reslength = result.L1C.length + result.L2A.length;
-	var L1Clength = result.L1C.length;
-	var L2Alength = result.L2A.length;
-
 	//clear
 	$('#resultpanel').html("");
 	//loads all datasets, commits all values for permalink
-	createInnerHTML(result, pagetoview, expanded, band, btn, bandValues, opacity);
-	//sets opacity and vis to default values, if not explicitly given
-	if(vis == undefined){
-		vis = [];
-		for(var i = 0; i<reslength;i++){
-			vis.push("false");
-		}
-	}
-	/*
-	//creates sumbit buttons for every dataset
-	for(j=1; j<(L1Clength+1); j++){
-		 createL1CSubmitHandler(result.L1C, j, opacity[j-1]);
-		 createTCISubmitHandler(result.L1C, j, 0);
-		 if(vis[j-1] == "true"){
-			 $('#showData'+j).submit();
-		 }
-	}
-	for(j=L1Clength+1; j<(reslength+1); j++){
-		var i = j-L1Clength;
-		createL2ASubmitHandler(result.L2A, j, opacity[j-1], i);
-		createTCISubmitHandler(result.L2A, j, i);
-		if(vis[j-1] == "true"){
-			 $('#showL2AData'+j).submit();
-		}
-
-	}*/
+	createInnerHTML(result, pagetoview, expanded, band, btn, bandValues, vis, opacity);
 }
 
 /**
@@ -84,14 +55,21 @@ function createHTML(result, pagetoview, expanded, band, btn, bandValues, vis, op
  *@param bandValues For permalink: which values are entered for the band?
  *@return HTML element with dataset accordion
  */
-function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues, opacity){
+function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues, vis, opacity){
 	var length = result.L1C.length;
 	var length2 = result.L2A.length;
-
+    var reslength = result.L1C.length + result.L2A.length;
+	
 	if(opacity == undefined){
 		opacity = [];
 		for(var i = 0; i<(length+length2);i++){
 			opacity.push(100);
+		}
+	}
+    if(vis == undefined){
+		vis = [];
+		for(var i = 0; i<reslength;i++){
+			vis.push("false");
 		}
 	}
 
@@ -106,21 +84,34 @@ function createInnerHTML(result, pagetoview, expanded, band, btn, bandValues, op
 			{
 				createL1CAccordion(result, pagetoview, expanded, band, btn, bandValues, i+1, l);
 				//fill array for permalinks
-				jsonForDatasets.push(result.L1C[i]);
-				createL1CSubmitHandler(result.L1C, i+1, opacity[i]);
-				createTCISubmitHandler(result.L1C, i, l, false);
+				jsonForDatasets.push(result.L1C[l]);
+				createL1CSubmitHandler(result.L1C, i+1, opacity[i], l);
+				createTCISubmitHandler(result.L1C, i+1, l, false, opacity[i]);
+                if(vis[i] == "true"){
+                    if(btn[i][1] == "false" && btn[i][0]== "false"){
+                        $('#showTCI'+(i+1)).click();
+                    }else{
+                        $('#showData'+(i+1)).submit();
+                    }
+                }
 				l++;
 			}
 			else if(result.L1C[l] == undefined || toString(result.L1C[l].PRODUCT_URI).slice(11,26) < toString(result.L2A[k].PRODUCT_URI_2A).slice(11,26))
 			{
 				createL2AAccordion(result, pagetoview, expanded, band, btn, bandValues, i+1, k);
 				//fill array for permalinks
-				jsonForDatasets.push(result.L2A[i]);
+				jsonForDatasets.push(result.L2A[k]);
                 //create select values for S2A datasets:
 				createOptions(result.L2A, i+1, k, band);
 				createL2ASubmitHandler(result.L2A, i+1, opacity[i], k);
-				createTCISubmitHandler(result.L2A, i, k, true);
-
+				createTCISubmitHandler(result.L2A, i+1, k, true, opacity[i]);
+                if(vis[i] == "true"){
+                    if(btn[i][1] == "false" && btn[i][0]== "false"){
+                        $('#showTCI'+(i+1)).click();
+                    }else{
+                        $('#showL2AData'+(i+1)).submit();
+                    }
+                }
 				k++;
 			}
 		
@@ -248,7 +239,6 @@ function createL1CAccordion(result, pagetoview, expanded, band, btn, bandValues,
 
 
 function createL2AAccordion(result, pagetoview, expanded, band, btn, bandValues, i, l){
-
 	var length = result.L1C.length;
 	var length2 = result.L2A.length;
 
@@ -300,8 +290,6 @@ function createL2AAccordion(result, pagetoview, expanded, band, btn, bandValues,
 		} 
 
 		//Sytling of accordion titles (color of badges and adding manual breaks)
-		console.dir(result.L2A);
-		console.log(l);
 		var productUri = result.L2A[l].PRODUCT_URI_2A;
 		var slicedUri = productUri.slice(0,40) +'<br>' + productUri.slice(40);
 
@@ -337,19 +325,7 @@ function createL2AAccordion(result, pagetoview, expanded, band, btn, bandValues,
 										}else if(btn[i-1][1] == "true"){
 											toggleDrop(((i*2)+1),(i*2));
 										}
-										//resets band arrays
-										/*constArray = ["0","B1","B2","B3","B4","B5","B6","B7","B8","B8a","B9","B10","B11","B12"];
-										redBand = constArray;
-										greenBand = constArray;
-										blueBand = constArray;
-										greyBand = constArray;*/
-
 }
-
-
-
-
-
 
 /**
  * creates HTML-Element with metadata from each dataset for each dataset
@@ -396,9 +372,6 @@ function visualizeMetadata(result, page, band, vis){
 			for(var k = 0; k<(res.length + resL2A.length);k++){
 				vis.push("false");
 			}
-		}
-		if(vis[j] == "true"){
-			$('#showL2AData'+(j+1)).submit();
 		}
 	}
 }
@@ -458,7 +431,7 @@ function readableMetadataKey(key){
 }
 
 
-function addL2AOptions(result, id, array, j, band){
+function addL2AOptions(result, id, array, j, band, firstband){
   for(var i = 0; i < array.length; i = i + 2){
    $("#"+id)[0].options[$("#"+id)[0].options.length] = new Option(array[i],result[j][array[1]][array[i+1]]);
    if(i == 0){
@@ -466,12 +439,10 @@ function addL2AOptions(result, id, array, j, band){
    }
 	 //Selector for permalink
 	 if(band != undefined){
-		 for (var k = 0; k < band.length; k++) {
-			 for(var m = 0; m<band[k].length;m++){
-				 if(band[k][m] == result[j][array[1]][array[i+1]]){
-				    $("#"+id)[0].options[$("#"+id)[0].options.length-1].selected = "selected";
-				 }
-			 }
+		 for(var k = 0; k < band.length; k++) {
+             if(band[k][firstband] == result[j][array[1]][array[i+1]]){
+                $("#"+id)[0].options[$("#"+id)[0].options.length-1].selected = "selected";
+             }
 		 }
 	 }
   }
@@ -487,24 +458,24 @@ function createOptions(resL2A, k, i, band){
 				var arr60m = ["Resolution 60 Meter:", "R60M", "Band AOT", 0, "Band 1", 1, "Band 2", 2, "Band 3", 3, "Band 4", 4, "Band 5", 5, "Band 6", 6, "Band 7", 7, "Band 9", 8, "Band 11", 9, "Band 12", 10, "Band 8a", 11, "Band SCL", 12, "Band WVP", 14]
 				$("#rgbselect"+((k*3)-2))[0].options[$("#rgbselect"+((k*3)-2))[0].options.length] = new Option("Pick a Band", "");
 				$("#rgbselect"+((k*3)-2))[0].options[$("#rgbselect"+((k*3)-2))[0].options.length-1].disabled = "true";
-				addL2AOptions(resL2A, ("rgbselect"+((k*3)-2)), arr60m, i, band);
-				addL2AOptions(resL2A, ("rgbselect"+((k*3)-2)), arr20m, i,band);
-				addL2AOptions(resL2A, ("rgbselect"+((k*3)-2)), arr10m, i,band);
+				addL2AOptions(resL2A, ("rgbselect"+((k*3)-2)), arr60m, i,band,1);
+				addL2AOptions(resL2A, ("rgbselect"+((k*3)-2)), arr20m, i,band,1);
+				addL2AOptions(resL2A, ("rgbselect"+((k*3)-2)), arr10m, i,band,1);
 				$("#rgbselect"+((k*3)-1))[0].options[$("#rgbselect"+((k*3)-1))[0].options.length] = new Option("Pick a Band", "");
 				$("#rgbselect"+((k*3)-1))[0].options[$("#rgbselect"+((k*3)-1))[0].options.length-1].disabled = "true";
-				addL2AOptions(resL2A, ("rgbselect"+((k*3)-1)), arr60m, i,band);
-				addL2AOptions(resL2A, ("rgbselect"+((k*3)-1)), arr20m, i,band);
-				addL2AOptions(resL2A, ("rgbselect"+((k*3)-1)), arr10m, i,band);
+				addL2AOptions(resL2A, ("rgbselect"+((k*3)-1)), arr60m, i,band,2);
+				addL2AOptions(resL2A, ("rgbselect"+((k*3)-1)), arr20m, i,band,2);
+				addL2AOptions(resL2A, ("rgbselect"+((k*3)-1)), arr10m, i,band,2);
 				$("#rgbselect"+(k*3))[0].options[$("#rgbselect"+(k*3))[0].options.length] = new Option("Pick a Band", "");
 				$("#rgbselect"+(k*3))[0].options[$("#rgbselect"+(k*3))[0].options.length-1].disabled = "true";
-				addL2AOptions(resL2A, ("rgbselect"+(k*3)), arr60m, i,band);
-				addL2AOptions(resL2A, ("rgbselect"+(k*3)), arr20m, i,band);
-				addL2AOptions(resL2A, ("rgbselect"+(k*3)), arr10m, i,band);
+				addL2AOptions(resL2A, ("rgbselect"+(k*3)), arr60m, i,band,3);
+				addL2AOptions(resL2A, ("rgbselect"+(k*3)), arr20m, i,band,3);
+				addL2AOptions(resL2A, ("rgbselect"+(k*3)), arr10m, i,band,3);
 				$("#greyselect"+k)[0].options[$("#greyselect"+k)[0].options.length] = new Option("Pick a Band", "");
 				$("#greyselect"+k)[0].options[$("#greyselect"+k)[0].options.length-1].disabled = "true";
-				addL2AOptions(resL2A, ("greyselect"+k), arr60m, i,band);
-				addL2AOptions(resL2A, ("greyselect"+k), arr20m, i,band);
-				addL2AOptions(resL2A, ("greyselect"+k), arr10m, i,band);
+				addL2AOptions(resL2A, ("greyselect"+k), arr60m, i,band,0);
+				addL2AOptions(resL2A, ("greyselect"+k), arr20m, i,band,0);
+				addL2AOptions(resL2A, ("greyselect"+k), arr10m, i,band,0);
 }
 
 

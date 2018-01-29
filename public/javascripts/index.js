@@ -43,6 +43,8 @@ var jsonForDatasets =[];
 var valueLookUpArray = [];
 //Saves search variables
 var searchVariables = {substring: "", bbox: "",startdate:"",enddate:"",page:""};
+//displey datasetnumber
+var visDatasetNumber = 0;
 
 /**
 * Loads all requested Stages. Overwrites all Submit Handlers that are already present,
@@ -56,6 +58,8 @@ $(document).ready(function() {
   initStartup();
     $('#bboxbutton').hide();
     $('#deleteDrawing').hide();
+
+    //If clauses that check if the input areas need to be greyed out
   document.getElementById('addNameToSearch').onchange = function() {
         if(this.checked==true){
             document.getElementById("searchformbyname_input").disabled=false;
@@ -104,10 +108,6 @@ $(document).ready(function() {
 
         }};
 
-
-
-
-  //Keine Ahnung ob wir das hier noch brauchen -> $('#resultpanel').hide();
 });
 
 /**

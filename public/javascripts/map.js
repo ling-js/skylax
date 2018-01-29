@@ -39,8 +39,7 @@ function initMap() {
   L.control
     .zoom({
       position: 'bottomright',
-    })
-    .addTo(map);
+    }).addTo(map);
 
   // Handler that is used in order to get rid of the draw control
   rectangleDrawer = new L.Draw.Rectangle(map);
@@ -67,6 +66,7 @@ function initMap() {
 
   layerControl = L.control.layers(basemaps, overlaymaps, { collapsed: true }).addTo(map);
 
+
   //Feature group where drawn items are saved
   drawnItems = L.featureGroup().addTo(map);
 
@@ -81,43 +81,27 @@ function initMap() {
 
   map.on('click', function(e) {
     var coords = {lat: e.latlng.lat, lng:correctCoordinates(e.latlng.lng)};
-    console.log(coords);
-    console.log(polyLayer);
-    console.log(Object.keys(polyLayer._layers));
+    /*For Loop that iterates through each bounding box and opens all accordions
+    needed when bounding boxes overlap.
+     */
     var polygonkeys = Object.keys(polyLayer._layers);
     for(i = 0 ; i<polygonkeys.length;i++){
         if(polyLayer._layers[polygonkeys[i]]._bounds.contains(coords)){
-
-          console.log(polyLayer._layers[polygonkeys[i]].options);
           openAccordion(polyLayer._layers[polygonkeys[i]]);
         }
 
 
     }
-    //console.log($('#datasetButton1'));
-    //var textWidth = $('#datasetButton1')[0].clientWidth;
-    //console.log($('#sidebar')[0].clientWidth);
-    //console.log($('#sidebar')[0].offsetWidth);
-    //console.log($('#datasetButton1')[0].clientWidth);
-    //console.log($('#datasetButton1')[0].offsetWidth);
   });
 
  map.on('draw:created', function(e) {
-
-
+     
     // Each time a feaute is created, it's added to the over arching feature group
     drawnItems.addLayer(e.layer);
     document.getElementById('searchformbybbox_topLat').value = getRectangle(2)[0];
     document.getElementById('searchformbybbox_topLong').value = getRectangle(2)[1];
     document.getElementById('searchformbybbox_bottomLat').value = getRectangle(4)[0];
     document.getElementById('searchformbybbox_bottomLong').value = getRectangle(4)[1];
-
-  polyLayer.on('click',function(e){
-
-    console.log("Working");
-  })
-
-
   });
 
   // Set up Sidebar and Startpage
@@ -249,13 +233,9 @@ $(document).ready(function() {
  * @param j Dataset number
  */
 function zoomToLayer(j){
-  polyLayer.eachLayer(function(layer){
-    if(layer.options.number == (j-1)){
-      map.fitBounds(layer.getBounds());
-      polyLayer.clearLayers();
-    }
-  });
-//testen hier bug fix, 2. laden geht nicht
+  var coordArray = stringToCoordArray(jsonForDatasets[j-1].FOOTPRINT);
+  map.fitBounds(coordArray);
+  polyLayer.clearLayers();
 }
 
 /**
@@ -368,8 +348,14 @@ function drawPolygon(result, number, page, showNumber, reslength){
   if(coordArray != null){
     var polygon = L.polygon(coordArray, {color: 'red',number:showNumber, resultLength:reslength});
     //polygon.on('click', openAccordion);
-    polygon.bindTooltip('<p> Dataset '+(((page-1)*8)+(showNumber+1))+'</p>').addTo(map);
-    polygon.addTo(polyLayer);
+      if(result[number].PRODUCT_URI!=undefined){
+    polygon.bindTooltip('<p>' +  result[number].PRODUCT_URI + '</p>').addTo(map);
+      }
+      if(result[number].PRODUCT_URI_1C!=undefined) {
+          polygon.bindTooltip('<p>' + result[number].PRODUCT_URI_1C + '</p>').addTo(map);
+      }
+
+      polygon.addTo(polyLayer);
   }
 }
 

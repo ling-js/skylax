@@ -22,20 +22,27 @@ IN AN ACTION OF CONTRACT, TORTOR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-function createTCISubmitHandler(res, j, i, l2a){	
-	$('#showTCI'+ (j+1)).click(function(e) {	
-		e.preventDefault();
 
+function createTCISubmitHandler(res, j, i, l2a, opacity){
+	$('#showTCI'+ j).click(function(e) {	
+		e.preventDefault();
+		var bands = [];
+		var names = [];
+		spinnerHide(document.getElementById('sidebar'));
 		spinnerShow(document.getElementById('map'));
 		if(l2a){
 			var datasetName = "&gscdn="+ res[i].PRODUCT_URI_2A;
 			var bandname = "&gsc=" + res[i].R60M[13];
+			bands.push(res[i].R60M[13]);
+			names.push(res[i].PRODUCT_URI_2A);
 			var that = "tci=true&rgbbool=false&l2a=true";
 			that += datasetName;
 			that += bandname;
 		}
 		else {
 			var datasetName = "&gscdn="+ res[i].SUBDATASET_4_NAME;
+			bands.push("TCI");
+			names.push(res[i].SUBDATASET_4_NAME);
 			var that = "tci=true&rgbbool=false&gsc=TCI&l2a=false";
 			that += datasetName;
 		}
@@ -56,6 +63,7 @@ function createTCISubmitHandler(res, j, i, l2a){
 					spinnerHide(document.getElementById('map'));
 	            	console.log("Data successfully loaded.");	
 	            	// create lyr with requested data
+                    
 	            	lyr = L.tileLayer(
 						apiurl + '/data/' + res + '/{z}/{x}/{-y}.png',
 						{
@@ -68,15 +76,15 @@ function createTCISubmitHandler(res, j, i, l2a){
 						}
 
 					);
-					spinnerHide(document.getElementById('map'));
 		            // add layer to Map and name it like the Dataset it was requested from
 					layerControl.addOverlay(lyr, "Current Dataset");
 					map.addLayer(lyr);
+					visDatasetNumber = j;
 					zoomToLayer(j);
 					//ValueLookUp
-					//drawInvisPolygon(j, names, bands, (radioValue(document.getElementsByName('rgbbool'),j)));
-					//$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="'+opacity+'" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: '+opacity+'%</output> </div>');
-					//opacityChanger(j);
+					drawInvisPolygon(j, names, bands, (radioValue(document.getElementsByName('rgbbool'),j)));
+					$('#dataset'+j).append('<div id="opacitySlider" style="padding: 15px; padding-top: 0px"> <p>Choose your opacity:</p> <input type="range" name="opacity" id="opacityId'+j+'" value="'+opacity+'" min="0" max="100" oninput="showOpacityLevel('+j+')" onchange="opacityChanger('+j+')"/><output name="opacityOutput" id="opacityOutputId'+j+'">Opacity Level: '+opacity+'%</output> </div>');
+					opacityChanger(j);
 				}
 	        });
 	});
@@ -89,11 +97,11 @@ function createTCISubmitHandler(res, j, i, l2a){
  *@param j index of id of dataset, where the submithandler is to be created from
  *@param opacity current  opacity-value
  */
-function createL1CSubmitHandler(res, j, opacity){
+function createL1CSubmitHandler(res, j, opacity, l){
 	$('#showData'+ j).submit(function(e) {
+		spinnerHide(document.getElementById('sidebar'));
 		spinnerShow(document.getElementById('map'));
 		e.preventDefault();
-		console.log("HelLo" + j);
 	    //check if input fields are not empty for the markers
 	    if((	//Check if radio button option "RGB" is checked and all 3 bands are choosen at rgb
 			((radioValue(document.getElementsByName('rgbbool'),j)) == "true") &&
@@ -108,10 +116,10 @@ function createL1CSubmitHandler(res, j, opacity){
 		)//if true than go on with submitting
 	    {
 	    	// create some hidden inputs, to append name of Subdataset of choosen bands
-    		var redSDNInput = $('<input type="hidden" name="rcdn" value=' + subdataL1CName(res, $('#rgbselect'+ ((j*3)-2)).val(), j) + '>');
-	        var greenSDNInput = $('<input type="hidden" name="gcdn" value=' + subdataL1CName(res, $('#rgbselect'+ ((j*3)-1)).val(), j) + '>');
-	        var blueSDNInput = $('<input type="hidden" name="bcdn" value=' + subdataL1CName(res, $('#rgbselect'+ ((j*3))).val(), j) + '>');
-	        var greySDNInput = $('<input type="hidden" name="gscdn" value=' + subdataL1CName(res, $('#greyselect'+ j).val(), j) + '>');
+    		var redSDNInput = $('<input type="hidden" name="rcdn" value=' + subdataL1CName(res, $('#rgbselect'+ ((j*3)-2)).val(), l) + '>');
+	        var greenSDNInput = $('<input type="hidden" name="gcdn" value=' + subdataL1CName(res, $('#rgbselect'+ ((j*3)-1)).val(), l) + '>');
+	        var blueSDNInput = $('<input type="hidden" name="bcdn" value=' + subdataL1CName(res, $('#rgbselect'+ ((j*3))).val(), l) + '>');
+	        var greySDNInput = $('<input type="hidden" name="gscdn" value=' + subdataL1CName(res, $('#greyselect'+ j).val(), l) + '>');
 
 	        //append input values to POST-data-object
 	        $(this).append(redSDNInput);
@@ -149,7 +157,7 @@ function createL1CSubmitHandler(res, j, opacity){
 					spinnerHide(document.getElementById('map'));
 	            	console.log("Data successfully loaded.");
 
-	            	// create lyr with requested data
+                    // create lyr with requested data
 	            	lyr = L.tileLayer(
 						apiurl + '/data/' + res + '/{z}/{x}/{-y}.png',
 						{
@@ -165,6 +173,7 @@ function createL1CSubmitHandler(res, j, opacity){
 		            // add layer to Map and name it like the Dataset it was requested from
 					layerControl.addOverlay(lyr, "Current Dataset");
 					map.addLayer(lyr);
+					visDatasetNumber = j;
 					zoomToLayer(j);
 					//ValueLookUp
 					drawInvisPolygon(j, names, bands, (radioValue(document.getElementsByName('rgbbool'),j)));
@@ -180,12 +189,10 @@ function createL1CSubmitHandler(res, j, opacity){
 	    // if not all needed inputs are filled by the user, give error and do not submit anything
 		else
 		{
-    		//console.log("falseeeee: " + j);
-			spinnerHide(document.getElementById('map'));
-	    	alert("Please define requested values before clicking the Show this dataset -Button");
+            spinnerHide(document.getElementById('map'));
+	    	alert("Please define requested values before clicking the Show this dataset -Button l1c");
 		}
 	});
-		//console.log("Submit overwritten.")
 }
 
 
@@ -200,14 +207,13 @@ function createL1CSubmitHandler(res, j, opacity){
  */
 function createL2ASubmitHandler(res, j, opacity, i){
 	$('#showL2AData'+ j).submit(function(e) {
+		spinnerHide(document.getElementById('sidebar'));
 		spinnerShow(document.getElementById('map'));
 		e.preventDefault();
 	    //check if input fields are not empty for the markers
 	    if (
 	    (
-	    	console.dir(document.getElementsByName('rgbbool')) &&
 	    	//Check if radio button option "RGB" is checked and all 3 bands are choosen at rgb
-
 			((radioValue(document.getElementsByName('rgbbool'),j)) == "true") &&
 			($('#rgbselect'+ ((j*3)-2)).val()  !== null) &&
 			($('#rgbselect'+ ((j*3)-1)).val() !== null) &&
@@ -221,11 +227,10 @@ function createL2ASubmitHandler(res, j, opacity, i){
 	    {
 	    	// create some hidden inputs, to append name of Subdataset of choosen bands
     		var redSDNInput = $('<input type="hidden" name="rcdn" value=' + subdataL2AName(res, $('#rgbselect'+ ((j*3)-2)).val(), i) + '>');
-    		console.log('this is #rgbselect'+ ((j*3)-2));
 	        var greenSDNInput = $('<input type="hidden" name="gcdn" value=' + subdataL2AName(res, $('#rgbselect'+ ((j*3)-1)).val(), i) + '>');
 	        var blueSDNInput = $('<input type="hidden" name="bcdn" value=' + subdataL2AName(res, $('#rgbselect'+ (j*3)).val(), i) + '>');
 	        var greySDNInput = $('<input type="hidden" name="gscdn" value=' + subdataL2AName(res, $('#greyselect'+ j).val(), i) + '>');
-	        console.log('this is #greyselect'+ j);
+
 
 	        //append input values to POST-data-object
 	        $(this).append(redSDNInput);
@@ -280,6 +285,7 @@ function createL2ASubmitHandler(res, j, opacity, i){
 		            // add layer to Map and name it like the Dataset it was requested from
 				    layerControl.addOverlay(lyr, "Current Dataset");
 					map.addLayer(lyr);
+					visDatasetNumber = j;
 					zoomToLayer(j);
 
 					//ValueLookUp
@@ -298,12 +304,10 @@ function createL2ASubmitHandler(res, j, opacity, i){
 	   	// if not all needed inputs are filled by the user, give error and do not submit anything
 		else
 		{
-    		//console.log("falseeeee: " + j);
 			spinnerHide(document.getElementById('map'));
 	    	alert("Please define requested values before clicking the Show this dataset -Button");
 		}
 	});
-		//console.log("Submit overwritten.")
 }
 
 
@@ -316,20 +320,18 @@ function createL2ASubmitHandler(res, j, opacity, i){
  *@param j Index+1 of Dataset the band was choosen from
  */
 function subdataL1CName(res, value, j){
-	console.log("Started subdataName.");
 	var index = ["B2", "B3", "B4", "B8", "B5", "B6", "B7", "B8a", "B11", "B12", "B1", "B9", "B10"].indexOf(value);
-	console.log(index);
 	if(index < 0){
 		return "";
 	}
 	if(index < 4){
-		return res[j-1].SUBDATASET_1_NAME;
+		return res[j].SUBDATASET_1_NAME;
 	}
 	else if (index > 9) {
-		return res[j-1].SUBDATASET_3_NAME;
+		return res[j].SUBDATASET_3_NAME;
 	}
 	else
-		return res[j-1].SUBDATASET_2_NAME;
+		return res[j].SUBDATASET_2_NAME;
 }
 
 /**
@@ -340,7 +342,6 @@ function subdataL1CName(res, value, j){
  *@param j Index of Dataset the band was choosen from
  */
 function subdataL2AName(res, value, j){
-	console.log("Started subdataName.");
 	if(value == null){
 		return "";
 	}

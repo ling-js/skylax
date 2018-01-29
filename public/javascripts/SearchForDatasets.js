@@ -136,10 +136,8 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
           spinnerHide(document.getElementById('sidebar'));
       }},
       success: function (res, status, request) {
-        console.log(res);
         resultIntroText = "You have found "+(res.L1C.length+res.L2A.length)+" datasets with your request."+"<br>"+resultIntroText;
         openTabInSidebar('#results');
-        console.dir(res);
         $('#resultIntroText')[0].innerHTML = resultIntroText;
         //shows paginator or not
         if(res.length == 0){
@@ -214,19 +212,16 @@ function createDate(i){
 }
 
 
-
-//2018-01-27T13:50:00.000Z -> 2018-01-27T13:50:00:00Z
-
+/**Helper function that takes a time string and covnverts it so
+ * that the server can process it, is used in the ajax request
+ * @param str the input from the user in the time input field
+ * @returns {res} time string according do RCF3393(ISO)
+ */
 function processTime(str){
-
 
     var res = str.slice(0,19)+str.slice(23,24);
     res = res.replace('.',':');
-
-    console.log(res);
     return res;
-
-
 }
 
 /**

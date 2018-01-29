@@ -53,7 +53,12 @@ function matchTextAreaField(str){
   $('#permalinkTemp')[0].value = str;
   var height = $('#permalinkTemp')[0].scrollHeight+2+"px";
   $('#permalinkTemp')[0].parentNode.removeChild($('#permalinkTemp')[0]);
-  //$(".sidebar-content").find(".active").remove($('#permalinkTemp'));
+  if($("#results")[0].children.length > 5){
+    for (var i = 5; i < $("#results")[0].children.length; i++) {
+      $("#results")[0].children[i].remove();
+    }
+  }
+  //$(".sidebar-content").find(".active")[0].remove($('#permalinkTemp'));
   $('#save').html('<div id="sideName"><h2>Save</h2> </div><textarea id="permalink" value=str style="width: 100%"></<textarea>');
   $('#permalink')[0].style.height = height;
   $('#permalink')[0].value = str;
@@ -445,7 +450,7 @@ function findPage(){
   if($('#page-selection')["0"].children["0"] != undefined){
     for (var i = 0; i < $('#page-selection')["0"].children["0"].children.length; i++) {
       if ($('#page-selection')["0"].children["0"].children[i].className == "active") {
-        return $('#page-selection')["0"].children["0"].children[i].outerText;
+        return $('#page-selection')["0"].children["0"].children[i].innerText;
       }
     }
   }
@@ -488,11 +493,7 @@ function buttonSelected(i){
  //NEEDS TO BE CHECKED, WHEN SERVER IS UP AGAIN
 function isALayerDisplayed(number){
   if (layerControl._layers.length == 4) {
-    number ++;
-    if (number <= 9) {
-      number = " "+number;
-    }
-    if(number == layerControl._layers[3].name.slice(layerControl._layers[3].name.length -2)){
+    if(number == visDatasetNumber-1){
       return true;
     }else{
       return false;
