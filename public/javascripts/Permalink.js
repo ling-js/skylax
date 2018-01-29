@@ -53,8 +53,8 @@ function matchTextAreaField(str){
   $('#permalinkTemp')[0].value = str;
   var height = $('#permalinkTemp')[0].scrollHeight+2+"px";
   $('#permalinkTemp')[0].parentNode.removeChild($('#permalinkTemp')[0]);
-  if($("#results")[0].children.length > 5){
-    for (var i = 5; i < $("#results")[0].children.length; i++) {
+  if($("#results")[0].children.length > 6){
+    for (var i = 6; i < $("#results")[0].children.length; i++) {
       $("#results")[0].children[i].remove();
     }
   }
