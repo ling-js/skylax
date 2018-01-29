@@ -173,7 +173,7 @@ function clearMap(){
   if(drawnItems!=null)
     drawnItems.clearLayers();
   if(lyr=!null)
-    lyr.clearLayers();
+    lyr = null;
 }
 
 /**
