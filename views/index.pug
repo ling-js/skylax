@@ -169,10 +169,11 @@ html
             .row
               button.btn.btn-success(type='submit', id='searchIt', value='Search')
                 span.fas.fa-search
-                | Search for datasets
-              button.btn.btn-warning(type='button' id='trashit' onclick="clearMap();")
+                | &nbsp;Search for datasets 
+              | &nbsp;  
+              button.btn.btn-danger(type='button', id='trashit', onclick="clearMap()")
                 span.glyphicon.glyphicon-trash
-                  | Remove datasets
+                | &nbsp;Remove datasets
         #results.sidebar-pane
           #sideName
             h2 Results
