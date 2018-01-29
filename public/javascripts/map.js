@@ -87,37 +87,21 @@ function initMap() {
     var polygonkeys = Object.keys(polyLayer._layers);
     for(i = 0 ; i<polygonkeys.length;i++){
         if(polyLayer._layers[polygonkeys[i]]._bounds.contains(coords)){
-
-          console.log(polyLayer._layers[polygonkeys[i]].options);
           openAccordion(polyLayer._layers[polygonkeys[i]]);
         }
 
 
     }
-    //console.log($('#datasetButton1'));
-    //var textWidth = $('#datasetButton1')[0].clientWidth;
-    //console.log($('#sidebar')[0].clientWidth);
-    //console.log($('#sidebar')[0].offsetWidth);
-    //console.log($('#datasetButton1')[0].clientWidth);
-    //console.log($('#datasetButton1')[0].offsetWidth);
   });
 
  map.on('draw:created', function(e) {
-
-
+     
     // Each time a feaute is created, it's added to the over arching feature group
     drawnItems.addLayer(e.layer);
     document.getElementById('searchformbybbox_topLat').value = getRectangle(2)[0];
     document.getElementById('searchformbybbox_topLong').value = getRectangle(2)[1];
     document.getElementById('searchformbybbox_bottomLat').value = getRectangle(4)[0];
     document.getElementById('searchformbybbox_bottomLong').value = getRectangle(4)[1];
-
-  polyLayer.on('click',function(e){
-
-    console.log("Working");
-  })
-
-
   });
 
   // Set up Sidebar and Startpage

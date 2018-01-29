@@ -136,10 +136,8 @@ function ajaxrequest(templateurl, pagetoview, expanded, band, btn, bandValues, v
           spinnerHide(document.getElementById('sidebar'));
       }},
       success: function (res, status, request) {
-        console.log(res);
         resultIntroText = "You have found "+(res.L1C.length+res.L2A.length)+" datasets with your request."+"<br>"+resultIntroText;
         openTabInSidebar('#results');
-        console.dir(res);
         $('#resultIntroText')[0].innerHTML = resultIntroText;
         //shows paginator or not
         if(res.length == 0){

@@ -53,9 +53,19 @@ function matchTextAreaField(str){
   $('#permalinkTemp')[0].value = str;
   var height = $('#permalinkTemp')[0].scrollHeight+2+"px";
   $('#permalinkTemp')[0].parentNode.removeChild($('#permalinkTemp')[0]);
-  if($("#results")[0].children.length > 5){
-    for (var i = 5; i < $("#results")[0].children.length; i++) {
+  if($("#results")[0].children.length > 6){
+    for (var i = 6; i < $("#results")[0].children.length; i++) {
       $("#results")[0].children[i].remove();
+    }
+  }
+  if($("#Team")[0].children.length > 25){
+    for (var i = 25; i < $("#Team")[0].children.length; i++) {
+      $("#Team")[0].children[i].remove();
+    }
+  }
+  if($("#imprint")[0].children.length > 25){
+    for (var i = 25; i < $("#imprint")[0].children.length; i++) {
+      $("#imprint")[0].children[i].remove();
     }
   }
   //$(".sidebar-content").find(".active")[0].remove($('#permalinkTemp'));
@@ -450,7 +460,7 @@ function findPage(){
   if($('#page-selection')["0"].children["0"] != undefined){
     for (var i = 0; i < $('#page-selection')["0"].children["0"].children.length; i++) {
       if ($('#page-selection')["0"].children["0"].children[i].className == "active") {
-        return $('#page-selection')["0"].children["0"].children[i].outerText;
+        return $('#page-selection')["0"].children["0"].children[i].innerText;
       }
     }
   }
