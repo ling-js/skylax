@@ -34,7 +34,7 @@ var map, // Map Object
   polyLayer,
   target;
 // API Url
-var apiurl = "http://10.67.63.2:8080";
+var apiurl = "http://10.67.49.40:8080";
 //SpinnerToggler
 var toggler = false;
 //saves results after loading datasets
