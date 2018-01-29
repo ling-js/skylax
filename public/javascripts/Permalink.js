@@ -58,6 +58,16 @@ function matchTextAreaField(str){
       $("#results")[0].children[i].remove();
     }
   }
+  if($("#Team")[0].children.length > 25){
+    for (var i = 25; i < $("#Team")[0].children.length; i++) {
+      $("#Team")[0].children[i].remove();
+    }
+  }
+  if($("#imprint")[0].children.length > 25){
+    for (var i = 25; i < $("#imprint")[0].children.length; i++) {
+      $("#imprint")[0].children[i].remove();
+    }
+  }
   //$(".sidebar-content").find(".active")[0].remove($('#permalinkTemp'));
   $('#save').html('<div id="sideName"><h2>Save</h2> </div><textarea id="permalink" value=str style="width: 100%"></<textarea>');
   $('#permalink')[0].style.height = height;
